@@ -4,4 +4,5 @@
     <string name="menu_settings_text">Settings</string>
     <string name="menu_routine_text">Routine</string>
     <string name="fragment_exercise_edit_text_hint">Filter</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
