@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new WorkoutFragment()).commit();
+                    new ExerciseSelectFragment()).commit();
         }
     }
 
@@ -28,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment = null;
                     switch (item.getItemId()) {
-                        case R.id.nav_workout:
-                            selectedFragment = new WorkoutFragment();
+                        case R.id.nav_exercise_select:
+                            selectedFragment = new ExerciseSelectFragment();
                             break;
                         case R.id.nav_settings:
                             selectedFragment = new SettingsFragment();
+                            break;
+                        case R.id.nav_routine:
+                            selectedFragment = new RoutineSelectFragment();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
