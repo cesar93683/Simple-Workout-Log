@@ -3,6 +3,7 @@ package com.example.ceamaya.workoutapp;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +12,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +19,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.MainActivity.exerciseDB;
@@ -136,65 +133,41 @@ public class ExerciseSelectFragment extends Fragment {
                         exerciseDB.delete(id);
                         exercises = exerciseDB.getExercises();
                         updateFilteredExercises();
+                        Snackbar.make(fragmentView, "Exercise deleted.",
+                                Snackbar.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setNegativeButton("No", null)
                 .show();
     }
 
     private void createNewExerciseDialog() {
-        FrameLayout container = new FrameLayout(activity);
-        final EditText newExerciseEditText = new EditText(activity);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+        final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
+                null);
+        alertDialogBuilder.setView(dialogView);
+        alertDialogBuilder.setMessage("New Exercise");
+        alertDialogBuilder.setNegativeButton("Cancel", null);
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(50, 0, 50, 0);
+        final EditText newExerciseEditText = dialogView.findViewById(R.id.new_exercise_edit_text);
 
-        newExerciseEditText.setLayoutParams(layoutParams);
-        newExerciseEditText.setMaxLines(1);
-        newExerciseEditText.setSingleLine(true);
-        newExerciseEditText.setLines(1);
-
-        newExerciseEditText.setHint("Name");
-
-        InputFilter[] filterArray = new InputFilter[1];
-        filterArray[0] = new InputFilter.LengthFilter(32);
-        newExerciseEditText.setFilters(filterArray);
-
-        container.addView(newExerciseEditText);
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
-        alertDialog.setView(container)
-                .setMessage("New Exercise")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String newExercise = newExerciseEditText.getText().toString().trim();
-                        if (newExercise.length() > 0 && exercises.containsKey(newExercise)) {
-                            Snackbar.make(fragmentView, "Exercise already exists.",
-                                    Snackbar.LENGTH_LONG).show();
-                        } else if (newExercise.length() > 0) {
-                            exerciseDB.insert(newExercise);
-                            exercises = exerciseDB.getExercises();
-                            updateFilteredExercises();
-                            Snackbar.make(fragmentView, "New exercise created.",
-                                    Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                })
-                .show();
+        alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String newExercise = newExerciseEditText.getText().toString().trim();
+                if (newExercise.length() > 0 && exercises.containsKey(newExercise)) {
+                    Snackbar.make(fragmentView, "Exercise already exists.",
+                            Snackbar.LENGTH_LONG).show();
+                } else if (newExercise.length() > 0) {
+                    exerciseDB.insert(newExercise);
+                    exercises = exerciseDB.getExercises();
+                    updateFilteredExercises();
+                    Snackbar.make(fragmentView, "New exercise created.",
+                            Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+        alertDialogBuilder.create().show();
     }
 
     @NonNull
