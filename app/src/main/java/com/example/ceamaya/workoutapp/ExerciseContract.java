@@ -2,7 +2,7 @@ package com.example.ceamaya.workoutapp;
 
 import android.provider.BaseColumns;
 
-public class ExerciseContract {
+class ExerciseContract {
     private ExerciseContract() {}
 
     public static final class ExerciseEntry implements BaseColumns {

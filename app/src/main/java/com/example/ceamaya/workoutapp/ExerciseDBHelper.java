@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.ExerciseContract.ExerciseEntry.*;
@@ -17,7 +16,7 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "exerciseList.db";
     private static final int DATABASE_VERSION = 1;
 
-    public ExerciseDBHelper(Context context) {
+    ExerciseDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -54,12 +53,19 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
             long id = c.getLong(c.getColumnIndex(_ID));
             exercises.put(exercise, id);
         }
+        c.close();
         return exercises;
     }
 
-    public int delete(long id) {
+    public void delete(long id) {
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete(TABLE_NAME, _ID + "=?",
-                new String[]{String.valueOf(id)});
+        db.delete(TABLE_NAME, _ID + "=?", new String[]{String.valueOf(id)});
+    }
+
+    public void update(long id, String newExercise) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME, newExercise);
+        db.update(TABLE_NAME, cv, _ID + "=?", new String[]{String.valueOf(id)});
     }
 }

@@ -8,11 +8,10 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/fragment_exercise_edit_text_hint"
+        android:hint="@string/fragment_exercise_filter_edit_text_hint"
         android:id="@+id/filter_edit_text"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:lines="1"/>
+        android:textSize="20sp"
+        android:inputType="text"/>
 
     <ListView
         android:layout_width="wrap_content"
@@ -21,7 +20,7 @@
         android:id="@+id/exercise_list_view"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/new_exercise_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

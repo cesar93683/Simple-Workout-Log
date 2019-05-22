@@ -3,12 +3,12 @@ package com.example.ceamaya.workoutapp;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -18,10 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.MainActivity.exerciseDB;
@@ -49,11 +51,13 @@ public class ExerciseSelectFragment extends Fragment {
         filteredExercises = new ArrayList<>();
         filteredExercises.addAll(exercises.keySet());
 
+        Collections.sort(filteredExercises);
+
         fragmentView = inflater.inflate(R.layout.fragment_exercise_select, container,
                 false);
 
-        FloatingActionButton fab = fragmentView.findViewById(R.id.fab);
-        fab.setOnClickListener(fabListener());
+        FloatingActionButton newExerciseFab = fragmentView.findViewById(R.id.new_exercise_fab);
+        newExerciseFab.setOnClickListener(newExerciseFabClickListener());
 
         EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);
         filterEditText.addTextChangedListener(filterEditTextListener());
@@ -68,22 +72,89 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     @NonNull
+    private TextWatcher filterEditTextListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                exerciseFilter = s.toString();
+                updateFilteredExercises();
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener newExerciseFabClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                createNewExerciseDialog();
+            }
+        };
+    }
+
+    private void createNewExerciseDialog() {
+        final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
+                null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                .setView(dialogView)
+                .setMessage("New Exercise")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Save", null)
+                .create();
+
+        final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
+                R.id.new_exercise_text_input_layout);
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        String newExercise = newExerciseTextInputLayout.
+                                getEditText().getText().toString().trim();
+                        if (newExercise.isEmpty()) {
+                            newExerciseTextInputLayout.setError("Please enter a name.");
+                        } else if (exercises.containsKey(newExercise)) {
+                            newExerciseTextInputLayout.setError("Exercise already exists.");
+                        } else {
+                            exerciseDB.insert(newExercise);
+                            exercises = exerciseDB.getExercises();
+                            updateFilteredExercises();
+                            Snackbar.make(fragmentView, "New exercise created.",
+                                    Snackbar.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+
+
+        alertDialog.show();
+    }
+
+    @NonNull
     private AdapterView.OnItemLongClickListener exerciseListViewLongClickListener() {
         return new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 createRenameOrDeleteDialog(position);
                 return true;
-            }
-        };
-    }
-
-    @NonNull
-    private View.OnClickListener fabListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                createNewExerciseDialog();
             }
         };
     }
@@ -119,7 +190,54 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     private void createRenameExerciseDialog(final int exerciseIndex) {
+        final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
+                null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                .setView(dialogView)
+                .setMessage("New Exercise")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Save", null)
+                .create();
 
+        final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
+                R.id.new_exercise_text_input_layout);
+        final String oldExercise = filteredExercises.get(exerciseIndex);
+        newExerciseTextInputLayout.getEditText().setText(oldExercise);
+        final long id = exercises.get(oldExercise);
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        String newExercise = newExerciseTextInputLayout.
+                                getEditText().getText().toString().trim();
+                        if (oldExercise.equals(newExercise)) {
+                            newExerciseTextInputLayout.setError("Same name.");
+                        } else if (newExercise.isEmpty()) {
+                            newExerciseTextInputLayout.setError("Please enter a name.");
+                        } else if (exercises.containsKey(newExercise)) {
+                            newExerciseTextInputLayout.setError("Exercise already exists.");
+                        } else {
+                            exerciseDB.update(id, newExercise);
+                            exercises = exerciseDB.getExercises();
+                            updateFilteredExercises();
+                            Snackbar.make(fragmentView, "Rename successful",
+                                    Snackbar.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+
+
+        alertDialog.show();
     }
 
     private void createDeleteExerciseDialog(final int exerciseIndex) {
@@ -134,61 +252,11 @@ public class ExerciseSelectFragment extends Fragment {
                         exercises = exerciseDB.getExercises();
                         updateFilteredExercises();
                         Snackbar.make(fragmentView, "Exercise deleted.",
-                                Snackbar.LENGTH_LONG).show();
+                                Snackbar.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    private void createNewExerciseDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-        final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
-                null);
-        alertDialogBuilder.setView(dialogView);
-        alertDialogBuilder.setMessage("New Exercise");
-        alertDialogBuilder.setNegativeButton("Cancel", null);
-
-        final EditText newExerciseEditText = dialogView.findViewById(R.id.new_exercise_edit_text);
-
-        alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String newExercise = newExerciseEditText.getText().toString().trim();
-                if (newExercise.length() > 0 && exercises.containsKey(newExercise)) {
-                    Snackbar.make(fragmentView, "Exercise already exists.",
-                            Snackbar.LENGTH_LONG).show();
-                } else if (newExercise.length() > 0) {
-                    exerciseDB.insert(newExercise);
-                    exercises = exerciseDB.getExercises();
-                    updateFilteredExercises();
-                    Snackbar.make(fragmentView, "New exercise created.",
-                            Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
-        alertDialogBuilder.create().show();
-    }
-
-    @NonNull
-    private TextWatcher filterEditTextListener() {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                exerciseFilter = s.toString();
-                updateFilteredExercises();
-            }
-        };
     }
 
     private void updateFilteredExercises() {
@@ -198,6 +266,7 @@ public class ExerciseSelectFragment extends Fragment {
                 filteredExercises.add(exercise);
             }
         }
+        Collections.sort(filteredExercises);
         exerciseAdapter.notifyDataSetChanged();
     }
 

@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">WorkoutApp</string>
-    <string name="menu_exercise_text">Exercise</string>
-    <string name="menu_settings_text">Settings</string>
-    <string name="menu_routine_text">Routine</string>
-    <string name="fragment_exercise_edit_text_hint">Filter</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="menu_button_nav_exercise_text">Exercise</string>
+    <string name="menu_button_nav_settings_text">Settings</string>
+    <string name="menu_button_nav_routine_text">Routine</string>
+    <string name="fragment_exercise_filter_edit_text_hint">Filter</string>
+    <string name="activity_exercise_reps_hint">REPS</string>
+    <string name="activity_exercise_weight_hint">WEIGHT (LB)</string>
+    <string name="activity_exercise_add_set_button_text">+</string>
+    <string name="activity_exercise_completed_text">COMPLETED</string>
+    <string name="exercise_set_adapter_text">Set %d - %s</string>
+    <string name="activity_exercise_decrease_button_text">Down</string>
+    <string name="activity_exercise_increase_button_text">Up</string>
 </resources>
