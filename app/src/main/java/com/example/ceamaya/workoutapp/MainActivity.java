@@ -9,10 +9,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static ExerciseDBHelper exerciseDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        exerciseDB = new ExerciseDBHelper(this);
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
