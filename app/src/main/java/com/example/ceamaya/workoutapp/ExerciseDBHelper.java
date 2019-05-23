@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.ExerciseContract.ExerciseEntry;
@@ -82,12 +83,37 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
     void insertSet(ExerciseSet exerciseSet) {
         int weight = exerciseSet.getWeight();
         int reps = exerciseSet.getReps();
-        int id = exerciseSet.getId();
+        int exerciseId = exerciseSet.getId();
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(SetEntry.COLUMN_WEIGHT, weight);
         cv.put(SetEntry.COLUMN_REPS, reps);
-        cv.put(SetEntry.COLUMN_EXERCISEID, id);
+        cv.put(SetEntry.COLUMN_WEIGHT, weight);
+        cv.put(SetEntry.COLUMN_EXERCISEID, exerciseId);
         db.insert(SetEntry.SET_TABLE_NAME, null, cv);
+    }
+
+    HashMap<String, ArrayList<ExerciseSet>> getSets(int exerciseId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?;",
+                SetEntry.COLUMN_WEIGHT, SetEntry.COLUMN_REPS, SetEntry.COLUMN_TIMESTAMP,
+                SetEntry.SET_TABLE_NAME, SetEntry.COLUMN_EXERCISEID),
+                new String[]{String.valueOf(exerciseId)});
+        HashMap<String, ArrayList<ExerciseSet>> exerciseSetsMap = new HashMap<>();
+        while (c.moveToNext()) {
+            int reps = c.getInt(c.getColumnIndex(SetEntry.COLUMN_REPS));
+            int weight = c.getInt(c.getColumnIndex(SetEntry.COLUMN_WEIGHT));
+            String timestamp = c.getString(c.getColumnIndex(SetEntry.COLUMN_TIMESTAMP));
+            ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId);
+            ArrayList<ExerciseSet> exerciseSets;
+            if (exerciseSetsMap.containsKey(timestamp)) {
+                exerciseSets = exerciseSetsMap.get(timestamp);
+            } else {
+                exerciseSets = new ArrayList<>();
+            }
+            exerciseSets.add(exerciseSet);
+            exerciseSetsMap.put(timestamp, exerciseSets);
+        }
+        c.close();
+        return exerciseSetsMap;
     }
 }

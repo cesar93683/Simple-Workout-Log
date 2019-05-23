@@ -14,16 +14,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.MainActivity.exerciseDB;
 
 public class ExerciseActivity extends AppCompatActivity {
 
+    int exerciseId;
     private TextInputLayout repsTextInputLayout;
     private TextInputLayout weightTextInputLayout;
     private ArrayList<ExerciseSet> exerciseSets;
     private ExerciseSetAdapter exerciseSetAdapter;
-    int exerciseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,11 @@ public class ExerciseActivity extends AppCompatActivity {
         Button increaseRepButton = findViewById(R.id.increase_rep_button);
         increaseRepButton.setOnClickListener(increaseRepButtonClickListener());
 
-        Button increaseWeightButton = findViewById(R.id.increase_weight_button);
-        increaseWeightButton.setOnClickListener(increaseWeightButtonClickListener());
-
         Button decreaseWeightButton = findViewById(R.id.decrease_weight_button);
         decreaseWeightButton.setOnClickListener(decreaseWeightButtonClickListener());
+
+        Button increaseWeightButton = findViewById(R.id.increase_weight_button);
+        increaseWeightButton.setOnClickListener(increaseWeightButtonClickListener());
 
         Button addSetButton = findViewById(R.id.add_set_button);
         addSetButton.setOnClickListener(addSetButtonClickListener());
@@ -59,6 +60,13 @@ public class ExerciseActivity extends AppCompatActivity {
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
         exerciseSets = new ArrayList<>();
+
+        HashMap<String, ArrayList<ExerciseSet>> exerciseSetMap = exerciseDB.getSets(exerciseId);
+        for (String timeStamp : exerciseSetMap.keySet()) {
+            System.out.println(timeStamp);
+            exerciseSets.addAll(exerciseSetMap.get(timeStamp));
+        }
+
         exerciseSetAdapter = new ExerciseSetAdapter(this, exerciseSets);
         ListView completedSetsListView = findViewById(R.id.completed_sets_list_view);
         completedSetsListView.setAdapter(exerciseSetAdapter);
@@ -100,22 +108,6 @@ public class ExerciseActivity extends AppCompatActivity {
         };
     }
 
-    private View.OnClickListener increaseWeightButtonClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String repsString = weightTextInputLayout.getEditText().getText().toString();
-                if (repsString.isEmpty()) {
-                    weightTextInputLayout.getEditText().setText("1");
-                } else {
-                    int weight = Integer.parseInt(repsString);
-                    weight++;
-                    weightTextInputLayout.getEditText().setText(String.valueOf(weight));
-                }
-            }
-        };
-    }
-
     private View.OnClickListener decreaseWeightButtonClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -128,6 +120,22 @@ public class ExerciseActivity extends AppCompatActivity {
                     if (weight > 0) {
                         weight--;
                     }
+                    weightTextInputLayout.getEditText().setText(String.valueOf(weight));
+                }
+            }
+        };
+    }
+
+    private View.OnClickListener increaseWeightButtonClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String repsString = weightTextInputLayout.getEditText().getText().toString();
+                if (repsString.isEmpty()) {
+                    weightTextInputLayout.getEditText().setText("1");
+                } else {
+                    int weight = Integer.parseInt(repsString);
+                    weight++;
                     weightTextInputLayout.getEditText().setText(String.valueOf(weight));
                 }
             }
