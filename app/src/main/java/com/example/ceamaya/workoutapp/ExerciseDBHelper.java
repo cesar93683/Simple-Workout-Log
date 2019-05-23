@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.HashMap;
 
-import static com.example.ceamaya.workoutapp.ExerciseContract.*;
+import static com.example.ceamaya.workoutapp.ExerciseContract.ExerciseEntry;
 
 
 public class ExerciseDBHelper extends SQLiteOpenHelper {
@@ -21,17 +21,17 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", ExerciseEntry.EXERCISE_TABLE_NAME));
+        onCreate(db);
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_EXERCISELIST_TABLE = String.format(
                 "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL);",
                 ExerciseEntry.EXERCISE_TABLE_NAME, ExerciseEntry._ID, ExerciseEntry.COLUMN_NAME);
         db.execSQL(SQL_CREATE_EXERCISELIST_TABLE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(String.format("DROP TABLE IF EXISTS %s", ExerciseEntry.EXERCISE_TABLE_NAME));
-        onCreate(db);
     }
 
     void insertExercise(String exercise) {

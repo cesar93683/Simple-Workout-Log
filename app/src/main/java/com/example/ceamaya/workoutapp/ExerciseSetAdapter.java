@@ -30,7 +30,9 @@ class ExerciseSetAdapter extends ArrayAdapter<ExerciseSet> {
                     false);
         }
         TextView exerciseTextView = convertView.findViewById(R.id.exercise_text_view);
-        exerciseTextView.setText(String.format(context.getString(R.string.exercise_set_adapter_text), position + 1, exercises.get(position).toString()));
+        exerciseTextView.setText(String.format(
+                context.getString(R.string.exercise_set_adapter_text), position + 1,
+                exercises.get(position).toString()));
         return convertView;
     }
 }
