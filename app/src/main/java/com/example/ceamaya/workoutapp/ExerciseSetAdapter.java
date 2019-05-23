@@ -29,8 +29,7 @@ class ExerciseSetAdapter extends ArrayAdapter<ExerciseSet> {
             convertView = LayoutInflater.from(context).inflate(R.layout.simple_list_item, parent,
                     false);
         }
-        TextView exerciseTextView = convertView.findViewById(R.id.exercise_text_view);
-        exerciseTextView.setText(String.format(
+        ((TextView) convertView).setText(String.format(
                 context.getString(R.string.exercise_set_adapter_text), position + 1,
                 exercises.get(position).toString()));
         return convertView;

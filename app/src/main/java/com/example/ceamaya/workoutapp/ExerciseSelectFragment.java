@@ -32,9 +32,10 @@ import static com.example.ceamaya.workoutapp.MainActivity.exerciseDB;
 public class ExerciseSelectFragment extends Fragment {
 
     public static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
+    public static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
     private Activity activity;
     private ArrayList<String> filteredExercises;
-    private HashMap<String, Long> exercisesMap;
+    private HashMap<String, Integer> exercisesMap;
     private ArrayAdapter<String> exerciseAdapter;
     private String exerciseFilter;
     private View fragmentView;
@@ -111,7 +112,9 @@ public class ExerciseSelectFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(activity, ExerciseActivity.class);
                 String exercise = filteredExercises.get(position);
+                int exerciseId = exercisesMap.get(exercise);
                 intent.putExtra(EXTRA_EXERCISE_NAME, exercise);
+                intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
                 startActivity(intent);
             }
         };

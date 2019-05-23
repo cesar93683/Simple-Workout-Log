@@ -15,20 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class ExerciseSet {
-    private final int reps;
-    private final int weight;
-
-    ExerciseSet(int reps, int weight) {
-        this.reps = reps;
-        this.weight = weight;
-    }
-
-    @Override
-    public String toString() {
-        return reps + " Reps @ " + (weight > 0 ? weight : "-") + " LB";
-    }
-}
+import static com.example.ceamaya.workoutapp.MainActivity.exerciseDB;
 
 public class ExerciseActivity extends AppCompatActivity {
 
@@ -36,11 +23,14 @@ public class ExerciseActivity extends AppCompatActivity {
     private TextInputLayout weightTextInputLayout;
     private ArrayList<ExerciseSet> exerciseSets;
     private ExerciseSetAdapter exerciseSetAdapter;
+    int exerciseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
+
+        exerciseId = getIntent().getIntExtra(ExerciseSelectFragment.EXTRA_EXERCISE_ID, 0);
 
         repsTextInputLayout = findViewById(R.id.reps_text_input_layout);
         weightTextInputLayout = findViewById(R.id.weight_text_input_layout);
@@ -161,7 +151,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
                 repsTextInputLayout.setError("");
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
-                ExerciseSet exerciseSet = new ExerciseSet(reps, weight);
+                ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId);
                 exerciseSets.add(exerciseSet);
                 exerciseSetAdapter.notifyDataSetChanged();
                 Snackbar.make(findViewById(android.R.id.content), "Set added.",
@@ -175,12 +165,15 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 saveSets();
+                finish();
             }
         };
     }
 
     private void saveSets() {
-        // add to database exerciseSets
+        for (ExerciseSet exerciseSet : exerciseSets) {
+            exerciseDB.insertSet(exerciseSet);
+        }
     }
 
     @Override
