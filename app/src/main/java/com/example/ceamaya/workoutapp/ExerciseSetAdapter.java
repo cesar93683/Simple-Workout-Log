@@ -26,7 +26,7 @@ class ExerciseSetAdapter extends ArrayAdapter<ExerciseSet> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.exercise_list_item, parent,
+            convertView = LayoutInflater.from(context).inflate(R.layout.simple_list_item, parent,
                     false);
         }
         TextView exerciseTextView = convertView.findViewById(R.id.exercise_text_view);

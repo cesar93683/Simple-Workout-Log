@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.HashMap;
 
-import static com.example.ceamaya.workoutapp.ExerciseContract.ExerciseEntry.*;
+import static com.example.ceamaya.workoutapp.ExerciseContract.*;
 
 
 public class ExerciseDBHelper extends SQLiteOpenHelper {
@@ -22,50 +22,51 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_EXERCISELIST_TABLE = "CREATE TABLE " +
-                TABLE_NAME + " (" +
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT NOT NULL" +
-                ");";
+        final String SQL_CREATE_EXERCISELIST_TABLE = String.format(
+                "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL);",
+                ExerciseEntry.EXERCISE_TABLE_NAME, ExerciseEntry._ID, ExerciseEntry.COLUMN_NAME);
         db.execSQL(SQL_CREATE_EXERCISELIST_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + ExerciseContract.ExerciseEntry.TABLE_NAME);
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", ExerciseEntry.EXERCISE_TABLE_NAME));
         onCreate(db);
     }
 
-    public void insert(String exercise) {
+    void insertExercise(String exercise) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_NAME, exercise);
-        db.insert(TABLE_NAME, null, cv);
+        cv.put(ExerciseEntry.COLUMN_NAME, exercise);
+        db.insert(ExerciseEntry.EXERCISE_TABLE_NAME, null, cv);
     }
 
-    public HashMap<String, Long> getExercises() {
+    HashMap<String, Long> getExercises() {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT " + _ID + ", " + COLUMN_NAME +
-                " FROM " + TABLE_NAME + ";", null);
+        Cursor c = db.rawQuery(String.format("SELECT %s, %s FROM %s;",
+                ExerciseEntry._ID, ExerciseEntry.COLUMN_NAME, ExerciseEntry.EXERCISE_TABLE_NAME),
+                null);
         HashMap<String, Long> exercises = new HashMap<>();
         while (c.moveToNext()) {
-            String exercise = c.getString(c.getColumnIndex(COLUMN_NAME));
-            long id = c.getLong(c.getColumnIndex(_ID));
+            String exercise = c.getString(c.getColumnIndex(ExerciseEntry.COLUMN_NAME));
+            long id = c.getLong(c.getColumnIndex(ExerciseEntry._ID));
             exercises.put(exercise, id);
         }
         c.close();
         return exercises;
     }
 
-    public void delete(long id) {
+    void deleteExercise(long id) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_NAME, _ID + "=?", new String[]{String.valueOf(id)});
+        db.delete(ExerciseEntry.EXERCISE_TABLE_NAME, ExerciseEntry._ID + "=?",
+                new String[]{String.valueOf(id)});
     }
 
-    public void update(long id, String newExercise) {
+    void updateExercise(long id, String newExercise) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_NAME, newExercise);
-        db.update(TABLE_NAME, cv, _ID + "=?", new String[]{String.valueOf(id)});
+        cv.put(ExerciseEntry.COLUMN_NAME, newExercise);
+        db.update(ExerciseEntry.EXERCISE_TABLE_NAME, cv, ExerciseEntry._ID + "=?",
+                new String[]{String.valueOf(id)});
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ceamaya.workoutapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +35,7 @@ public class ExerciseSelectFragment extends Fragment {
     private Activity activity;
     private ArrayList<String> filteredExercises;
     private HashMap<String, Long> exercises;
-    private ExerciseAdapter exerciseAdapter;
+    private ArrayAdapter<String> exerciseAdapter;
     private String exerciseFilter;
     private View fragmentView;
 
@@ -63,7 +64,7 @@ public class ExerciseSelectFragment extends Fragment {
         filterEditText.addTextChangedListener(filterEditTextListener());
 
         ListView exerciseListView = fragmentView.findViewById(R.id.exercise_list_view);
-        exerciseAdapter = new ExerciseAdapter(activity, filteredExercises);
+        exerciseAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item, filteredExercises);
         exerciseListView.setAdapter(exerciseAdapter);
         exerciseListView.setOnItemClickListener(exerciseListViewClickListener());
         exerciseListView.setOnItemLongClickListener(exerciseListViewLongClickListener());
@@ -103,7 +104,7 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     private void createNewExerciseDialog() {
-        final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
+        @SuppressLint("InflateParams") final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
                 null);
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(dialogView)
@@ -113,7 +114,7 @@ public class ExerciseSelectFragment extends Fragment {
                 .create();
 
         final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
-                R.id.new_exercise_text_input_layout);
+                R.id.text_input_layout);
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
@@ -132,7 +133,7 @@ public class ExerciseSelectFragment extends Fragment {
                         } else if (exercises.containsKey(newExercise)) {
                             newExerciseTextInputLayout.setError("Exercise already exists.");
                         } else {
-                            exerciseDB.insert(newExercise);
+                            exerciseDB.insertExercise(newExercise);
                             exercises = exerciseDB.getExercises();
                             updateFilteredExercises();
                             Snackbar.make(fragmentView, "New exercise created.",
@@ -143,7 +144,6 @@ public class ExerciseSelectFragment extends Fragment {
                 });
             }
         });
-
 
         alertDialog.show();
     }
@@ -190,17 +190,17 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     private void createRenameExerciseDialog(final int exerciseIndex) {
-        final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
+        @SuppressLint("InflateParams") final View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise,
                 null);
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(dialogView)
-                .setMessage("New Exercise")
+                .setMessage("Edit Exercise")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", null)
                 .create();
 
         final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
-                R.id.new_exercise_text_input_layout);
+                R.id.text_input_layout);
         final String oldExercise = filteredExercises.get(exerciseIndex);
         newExerciseTextInputLayout.getEditText().setText(oldExercise);
         final long id = exercises.get(oldExercise);
@@ -224,7 +224,7 @@ public class ExerciseSelectFragment extends Fragment {
                         } else if (exercises.containsKey(newExercise)) {
                             newExerciseTextInputLayout.setError("Exercise already exists.");
                         } else {
-                            exerciseDB.update(id, newExercise);
+                            exerciseDB.updateExercise(id, newExercise);
                             exercises = exerciseDB.getExercises();
                             updateFilteredExercises();
                             Snackbar.make(fragmentView, "Rename successful",
@@ -235,7 +235,6 @@ public class ExerciseSelectFragment extends Fragment {
                 });
             }
         });
-
 
         alertDialog.show();
     }
@@ -248,7 +247,7 @@ public class ExerciseSelectFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String exerciseToRemove = filteredExercises.get(exerciseIndex);
                         long id = exercises.get(exerciseToRemove);
-                        exerciseDB.delete(id);
+                        exerciseDB.deleteExercise(id);
                         exercises = exerciseDB.getExercises();
                         updateFilteredExercises();
                         Snackbar.make(fragmentView, "Exercise deleted.",
