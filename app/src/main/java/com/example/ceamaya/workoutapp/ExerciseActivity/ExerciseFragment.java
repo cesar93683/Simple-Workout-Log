@@ -220,6 +220,7 @@ public class ExerciseFragment extends Fragment {
 
     public void onBackPressed() {
         if (exerciseSets.size() == 0) {
+            activity.finish();
             return;
         }
         createDiscardChangesDialog();
