@@ -73,16 +73,18 @@ public class ExerciseFragment extends Fragment {
         TextView exerciseTextView = fragmentView.findViewById(R.id.exercise_text_view);
         exerciseTextView.setText(exerciseName);
 
-        Button decreaseRepButton = fragmentView.findViewById(R.id.decrease_rep_button);
+        View exerciseSetEditorView = fragmentView.findViewById(R.id.exercise_set_editor);
+
+        Button decreaseRepButton = exerciseSetEditorView.findViewById(R.id.decrease_rep_button);
         decreaseRepButton.setOnClickListener(decreaseRepButtonClickListener());
 
-        Button increaseRepButton = fragmentView.findViewById(R.id.increase_rep_button);
+        Button increaseRepButton = exerciseSetEditorView.findViewById(R.id.increase_rep_button);
         increaseRepButton.setOnClickListener(increaseRepButtonClickListener());
 
-        Button decreaseWeightButton = fragmentView.findViewById(R.id.decrease_weight_button);
+        Button decreaseWeightButton = exerciseSetEditorView.findViewById(R.id.decrease_weight_button);
         decreaseWeightButton.setOnClickListener(decreaseWeightButtonClickListener());
 
-        Button increaseWeightButton = fragmentView.findViewById(R.id.increase_weight_button);
+        Button increaseWeightButton = exerciseSetEditorView.findViewById(R.id.increase_weight_button);
         increaseWeightButton.setOnClickListener(increaseWeightButtonClickListener());
 
         Button addSetButton = fragmentView.findViewById(R.id.add_set_button);
