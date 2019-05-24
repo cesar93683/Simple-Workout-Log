@@ -40,6 +40,14 @@ public class ExerciseSelectFragment extends Fragment {
     private String exerciseFilter;
     private View fragmentView;
 
+    public ExerciseSelectFragment() {
+        // Required empty public constructor
+    }
+
+    public static Fragment newInstance() {
+        return new ExerciseSelectFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

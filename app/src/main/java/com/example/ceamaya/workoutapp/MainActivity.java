@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
                     switch (item.getItemId()) {
                         case R.id.nav_exercise_select:
-                            selectedFragment = new ExerciseSelectFragment();
+                            selectedFragment = ExerciseSelectFragment.newInstance();
                             break;
                         case R.id.nav_settings:
-                            selectedFragment = new SettingsFragment();
+                            selectedFragment = SettingsFragment.newInstance();
                             break;
                         case R.id.nav_routine:
-                            selectedFragment = new RoutineSelectFragment();
+                            selectedFragment = RoutineSelectFragment.newInstance();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

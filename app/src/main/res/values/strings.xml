@@ -11,4 +11,13 @@
     <string name="exercise_set_adapter_text">Set %d - %s</string>
     <string name="activity_exercise_decrease_button_text">Down</string>
     <string name="activity_exercise_increase_button_text">Up</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

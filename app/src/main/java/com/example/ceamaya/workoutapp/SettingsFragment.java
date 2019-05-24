@@ -16,4 +16,12 @@ public class SettingsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
+
+    public SettingsFragment() {
+        // Required empty public constructor
+    }
+
+    public static Fragment newInstance() {
+        return new SettingsFragment();
+    }
 }
