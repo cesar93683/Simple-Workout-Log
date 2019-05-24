@@ -8,7 +8,6 @@
     <string name="activity_exercise_weight_hint">WEIGHT (LB)</string>
     <string name="activity_exercise_add_set_button_text">+</string>
     <string name="activity_exercise_completed_text">COMPLETED</string>
-    <string name="exercise_set_adapter_text">Set %d - %s</string>
     <string name="activity_exercise_decrease_button_text">Down</string>
     <string name="activity_exercise_increase_button_text">Up</string>
     <string name="title_activity_main2">Main2Activity</string>

@@ -1,6 +1,7 @@
 package com.example.ceamaya.workoutapp.ExerciseActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,15 +9,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
-import com.example.ceamaya.workoutapp.ExerciseSetAdapter;
 import com.example.ceamaya.workoutapp.R;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class ExerciseFragment extends Fragment {
     private TextInputLayout repsTextInputLayout;
     private TextInputLayout weightTextInputLayout;
     private ArrayList<ExerciseSet> exerciseSets;
-    private ExerciseSetAdapter exerciseSetAdapter;
+    private ArrayAdapter<ExerciseSet> exerciseSetAdapter;
     private int exerciseId;
     private String exerciseName;
 
@@ -41,10 +43,10 @@ public class ExerciseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(int id, String exerciseName) {
+    public static Fragment newInstance(int exerciseId, String exerciseName) {
         ExerciseFragment fragment = new ExerciseFragment();
         Bundle args = new Bundle();
-        args.putInt(ARGS_EXERCISE_ID, id);
+        args.putInt(ARGS_EXERCISE_ID, exerciseId);
         args.putString(ARGS_EXERCISE_NAME, exerciseName);
         fragment.setArguments(args);
         return fragment;
@@ -65,8 +67,7 @@ public class ExerciseFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         activity = getActivity();
 
-        fragmentView = inflater.inflate(R.layout.fragment_exercise, container,
-                false);
+        fragmentView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         repsTextInputLayout = fragmentView.findViewById(R.id.reps_text_input_layout);
         weightTextInputLayout = fragmentView.findViewById(R.id.weight_text_input_layout);
@@ -96,14 +97,17 @@ public class ExerciseFragment extends Fragment {
         exerciseSets = new ArrayList<>();
 
         HashMap<String, ArrayList<ExerciseSet>> exerciseSetMap = exerciseDB.getSets(exerciseId);
-        for (String timeStamp : exerciseSetMap.keySet()) {
-            System.out.println(timeStamp);
-            exerciseSets.addAll(exerciseSetMap.get(timeStamp));
+        for(String timestamp : exerciseSetMap.keySet()) {
+            exerciseSets.addAll(exerciseSetMap.get(timestamp));
         }
 
-        exerciseSetAdapter = new ExerciseSetAdapter(activity, exerciseSets);
-        ListView completedSetsListView = fragmentView.findViewById(R.id.completed_sets_list_view);
-        completedSetsListView.setAdapter(exerciseSetAdapter);
+        exerciseSetAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
+                exerciseSets);
+        ListView exerciseListView = fragmentView.findViewById(R.id.completed_sets_list_view);
+        exerciseListView.setAdapter(exerciseSetAdapter);
+
+
+
         return fragmentView;
     }
 
@@ -194,7 +198,8 @@ public class ExerciseFragment extends Fragment {
                 }
                 repsTextInputLayout.setError("");
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
-                ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId);
+                int setNumber = exerciseSets.size() + 1;
+                ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
                 exerciseSets.add(exerciseSet);
                 exerciseSetAdapter.notifyDataSetChanged();
                 Snackbar.make(activity.findViewById(android.R.id.content), "Set added.",
@@ -219,34 +224,32 @@ public class ExerciseFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (exerciseSets.size() == 0) {
-//            activity.finish();
-//            return;
-//        }
-//        createDiscardChangesDialog();
-//    }
-//
-//    private void createDiscardChangesDialog() {
-//        new AlertDialog.Builder(activity)
-//                .setTitle("Discard changes?")
-//                .setMessage("Are you sure you want to close this exercise? Any unsaved changes " +
-//                        "will be lost.")
-//                .setNeutralButton("Cancel", null)
-//                .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        activity.finish();
-//                    }
-//                })
-//                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        saveSets();
-//                        activity.finish();
-//                    }
-//                })
-//                .show();
-//    }
+    public void onBackPressed() {
+        if (exerciseSets.size() == 0) {
+            return;
+        }
+        createDiscardChangesDialog();
+    }
+
+    private void createDiscardChangesDialog() {
+        new AlertDialog.Builder(activity)
+                .setTitle("Discard changes?")
+                .setMessage("Are you sure you want to close this exercise? Any unsaved changes " +
+                        "will be lost.")
+                .setNeutralButton("Cancel", null)
+                .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+                })
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveSets();
+                        activity.finish();
+                    }
+                })
+                .show();
+    }
 }

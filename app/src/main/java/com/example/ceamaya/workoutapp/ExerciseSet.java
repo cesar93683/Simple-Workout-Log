@@ -3,12 +3,14 @@ package com.example.ceamaya.workoutapp;
 public class ExerciseSet {
     private final int reps;
     private final int weight;
-    private final int id;
+    private final int exerciseId;
+    private int setNumber;
 
-    public ExerciseSet(int reps, int weight, int id) {
+    public ExerciseSet(int reps, int weight, int exerciseId, int setNumber) {
         this.reps = reps;
         this.weight = weight;
-        this.id = id;
+        this.exerciseId = exerciseId;
+        this.setNumber = setNumber;
     }
 
     public int getReps() {
@@ -19,12 +21,20 @@ public class ExerciseSet {
         return weight;
     }
 
-    public int getId() {
-        return id;
+    public int getExerciseId() {
+        return exerciseId;
+    }
+
+    public int getSetNumber() {
+        return setNumber;
+    }
+
+    public void setSetNumber(int setNumber) {
+        this.setNumber = setNumber;
     }
 
     @Override
     public String toString() {
-        return reps + " Reps @ " + (weight > 0 ? weight : "-") + " LB";
+        return "Set " + setNumber + " - " + reps + " Reps @ " + (weight > 0 ? weight : "-") + " LB";
     }
 }

@@ -75,9 +75,9 @@ public class ExerciseSelectFragment extends Fragment {
         EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);
         filterEditText.addTextChangedListener(filterEditTextListener());
 
-        ListView exerciseListView = fragmentView.findViewById(R.id.exercise_list_view);
         exerciseAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
                 filteredExercises);
+        ListView exerciseListView = fragmentView.findViewById(R.id.exercise_list_view);
         exerciseListView.setAdapter(exerciseAdapter);
         exerciseListView.setOnItemClickListener(exerciseListViewClickListener());
         exerciseListView.setOnItemLongClickListener(exerciseListViewLongClickListener());
