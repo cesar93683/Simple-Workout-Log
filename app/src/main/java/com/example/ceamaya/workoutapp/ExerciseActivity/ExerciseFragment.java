@@ -22,7 +22,6 @@ import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
@@ -31,7 +30,6 @@ public class ExerciseFragment extends Fragment {
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
     private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
     private Activity activity;
-    private View fragmentView;
     private TextInputLayout repsTextInputLayout;
     private TextInputLayout weightTextInputLayout;
     private ArrayList<ExerciseSet> exerciseSets;
@@ -67,7 +65,7 @@ public class ExerciseFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         activity = getActivity();
 
-        fragmentView = inflater.inflate(R.layout.fragment_exercise, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         repsTextInputLayout = fragmentView.findViewById(R.id.reps_text_input_layout);
         weightTextInputLayout = fragmentView.findViewById(R.id.weight_text_input_layout);
@@ -95,18 +93,11 @@ public class ExerciseFragment extends Fragment {
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
         exerciseSets = new ArrayList<>();
-
-        HashMap<String, ArrayList<ExerciseSet>> exerciseSetMap = exerciseDB.getSets(exerciseId);
-        for(String timestamp : exerciseSetMap.keySet()) {
-            exerciseSets.addAll(exerciseSetMap.get(timestamp));
-        }
-
         exerciseSetAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
                 exerciseSets);
+
         ListView exerciseListView = fragmentView.findViewById(R.id.completed_sets_list_view);
         exerciseListView.setAdapter(exerciseSetAdapter);
-
-
 
         return fragmentView;
     }
@@ -186,7 +177,6 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String repsString = repsTextInputLayout.getEditText().getText().toString();
-                String weightString = weightTextInputLayout.getEditText().getText().toString();
                 if (repsString.isEmpty()) {
                     repsTextInputLayout.setError("Please enter reps");
                     return;
@@ -197,11 +187,15 @@ public class ExerciseFragment extends Fragment {
                     return;
                 }
                 repsTextInputLayout.setError("");
+
+                String weightString = weightTextInputLayout.getEditText().getText().toString();
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 int setNumber = exerciseSets.size() + 1;
+
                 ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
                 exerciseSets.add(exerciseSet);
                 exerciseSetAdapter.notifyDataSetChanged();
+
                 Snackbar.make(activity.findViewById(android.R.id.content), "Set added.",
                         Snackbar.LENGTH_SHORT).show();
             }
