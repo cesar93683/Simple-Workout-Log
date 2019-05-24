@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp;
+package com.example.ceamaya.workoutapp.MainActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,11 +23,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.ceamaya.workoutapp.ExerciseActivity.ExerciseActivity;
+import com.example.ceamaya.workoutapp.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import static com.example.ceamaya.workoutapp.MainActivity.exerciseDB;
+import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
 public class ExerciseSelectFragment extends Fragment {
 

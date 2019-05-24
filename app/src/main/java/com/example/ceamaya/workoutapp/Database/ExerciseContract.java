@@ -1,8 +1,8 @@
-package com.example.ceamaya.workoutapp;
+package com.example.ceamaya.workoutapp.Database;
 
 import android.provider.BaseColumns;
 
-class ExerciseContract {
+public class ExerciseContract {
     private ExerciseContract() {
     }
 
