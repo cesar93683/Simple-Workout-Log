@@ -2,7 +2,6 @@ package com.example.ceamaya.workoutapp.ExerciseActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,9 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
@@ -34,23 +31,20 @@ import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseD
 public class ExerciseFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
-    private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
-    View fragmentView;
+    private View fragmentView;
     private Activity activity;
     private ArrayList<ExerciseSet> exerciseSets;
     private ArrayAdapter<ExerciseSet> exerciseSetAdapter;
     private int exerciseId;
-    private String exerciseName;
 
     public ExerciseFragment() {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(int exerciseId, String exerciseName) {
+    public static Fragment newInstance(int exerciseId) {
         ExerciseFragment fragment = new ExerciseFragment();
         Bundle args = new Bundle();
         args.putInt(ARGS_EXERCISE_ID, exerciseId);
-        args.putString(ARGS_EXERCISE_NAME, exerciseName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,7 +53,6 @@ public class ExerciseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         if (getArguments() != null) {
             exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
-            exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
         }
         super.onCreate(savedInstanceState);
     }
@@ -76,9 +69,6 @@ public class ExerciseFragment extends Fragment {
                 .reps_text_input_layout);
         TextInputLayout weightTextInputLayout = fragmentView.findViewById(R.id
                 .weight_text_input_layout);
-
-        TextView exerciseTextView = fragmentView.findViewById(R.id.exercise_text_view);
-        exerciseTextView.setText(exerciseName);
 
         Button decreaseRepButton = fragmentView.findViewById(R.id.decrease_rep_button);
         decreaseRepButton.setOnClickListener(decreaseButtonClickListener(repsTextInputLayout));
@@ -137,7 +127,7 @@ public class ExerciseFragment extends Fragment {
 
     @NonNull
     private View.OnClickListener increaseButtonClickListener(final TextInputLayout
-                                                                        textInputLayout) {
+                                                                     textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,18 +150,11 @@ public class ExerciseFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String repsString = repsTextInputLayout.getEditText().getText().toString();
-                if (repsString.isEmpty()) {
-                    repsTextInputLayout.setError("Please enter at least 1 rep");
+                if (!validateReps(repsTextInputLayout)) {
                     return;
                 }
-                int reps = Integer.parseInt(repsString);
-                if (reps == 0) {
-                    repsTextInputLayout.setError("Please enter at least 1 rep");
-                    return;
-                }
-                repsTextInputLayout.setErrorEnabled(false);
 
+                int reps = Integer.parseInt(repsTextInputLayout.getEditText().getText().toString());
                 String weightString = weightTextInputLayout.getEditText().getText().toString();
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 int setNumber = exerciseSets.size() + 1;
@@ -205,6 +188,20 @@ public class ExerciseFragment extends Fragment {
                 return true;
             }
         };
+    }
+
+    private boolean validateReps(TextInputLayout repsTextInputLayout) {
+        String repsString = repsTextInputLayout.getEditText().getText().toString();
+        if (repsString.isEmpty()) {
+            repsTextInputLayout.setError("Please enter at least 1 rep");
+            return false;
+        }
+        if (Integer.parseInt(repsString) == 0) {
+            repsTextInputLayout.setError("Please enter at least 1 rep");
+            return false;
+        }
+        repsTextInputLayout.setErrorEnabled(false);
+        return true;
     }
 
     private void saveSets() {
@@ -242,23 +239,18 @@ public class ExerciseFragment extends Fragment {
         alertDialog.setView(listView);
         alertDialog.show();
     }
-    public static void centerDialogContent(Dialog dialog) {
-        ViewGroup decorView = (ViewGroup) dialog.getWindow().getDecorView();
-        View content = decorView.getChildAt(0);
-        FrameLayout.LayoutParams contentParams = (FrameLayout.LayoutParams)content.getLayoutParams();
-        contentParams.gravity = Gravity.CENTER;
-        content.setLayoutParams(contentParams);
-    }
 
     private void createEditSetDialog(final int setIndex) {
         @SuppressLint("InflateParams") View exerciseSetEditorView =
                 activity.getLayoutInflater().inflate(R.layout.exercise_set_editor, null);
+
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-                .setView(exerciseSetEditorView)
                 .setMessage("Edit Set")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", null)
                 .create();
+
+        setViewToCenterInDialog(exerciseSetEditorView, alertDialog);
 
         final TextInputLayout repsTextInputLayout = exerciseSetEditorView.findViewById(R.id
                 .reps_text_input_layout);
@@ -297,7 +289,6 @@ public class ExerciseFragment extends Fragment {
                 });
             }
         });
-centerDialogContent(alertDialog);
         alertDialog.show();
     }
 
@@ -316,20 +307,24 @@ centerDialogContent(alertDialog);
                 .show();
     }
 
+    private void setViewToCenterInDialog(View exerciseSetEditorView, AlertDialog alertDialog) {
+        FrameLayout container = new FrameLayout(activity);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams
+                .WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        exerciseSetEditorView.setLayoutParams(params);
+        container.addView(exerciseSetEditorView);
+        alertDialog.setView(container);
+    }
+
     private void editSet(
             final TextInputLayout repsTextInputLayout,
             final TextInputLayout weightTextInputLayout, AlertDialog alertDialog, int setIndex) {
-        String repsString = repsTextInputLayout.getEditText().getText().toString();
-        if (repsString.isEmpty()) {
-            repsTextInputLayout.setError("Please enter at least 1 rep");
-            return;
-        }
-        int reps = Integer.parseInt(repsString);
-        if (reps == 0) {
-            repsTextInputLayout.setError("Please enter at least 1 rep");
+        if (!validateReps(repsTextInputLayout)) {
             return;
         }
 
+        int reps = Integer.parseInt(repsTextInputLayout.getEditText().getText().toString());
         String weightString = weightTextInputLayout.getEditText().getText().toString();
         int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
 

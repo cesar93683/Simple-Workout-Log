@@ -37,19 +37,18 @@ public class ExerciseActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private int exerciseId;
-    private String exerciseName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-
         exerciseId = getIntent().getIntExtra(ExerciseSelectFragment.EXTRA_EXERCISE_ID, 0);
-        exerciseName =
-                getIntent().getStringExtra(ExerciseSelectFragment.EXTRA_EXERCISE_NAME);
+        String exerciseName = getIntent().getStringExtra(ExerciseSelectFragment
+                .EXTRA_EXERCISE_NAME);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(exerciseName);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -59,7 +58,6 @@ public class ExerciseActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
-
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setupWithViewPager(mViewPager);
@@ -153,7 +151,7 @@ public class ExerciseActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = ExerciseFragment.newInstance(exerciseId, exerciseName);
+                    fragment = ExerciseFragment.newInstance(exerciseId);
                     break;
                 case 1:
                     fragment = ExerciseHistoryFragment.newInstance(exerciseId);
