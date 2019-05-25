@@ -25,6 +25,7 @@ import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
@@ -97,7 +98,7 @@ public class ExerciseFragment extends Fragment {
         exerciseSetAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
                 exerciseSets);
 
-        ListView completedSetsListView = fragmentView.findViewById(R.id.completed_sets_list_view);
+        ListView completedSetsListView = fragmentView.findViewById(R.id.completed_exercise_sets_list_view);
         completedSetsListView.setAdapter(exerciseSetAdapter);
         completedSetsListView.setOnItemLongClickListener(completedSetsListViewLongClickListener());
 
@@ -205,8 +206,9 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void saveSets() {
+        long timeStamp = new Date().getTime();
         for (ExerciseSet exerciseSet : exerciseSets) {
-            exerciseDB.insertSet(exerciseSet);
+            exerciseDB.insertSet(exerciseSet, timeStamp);
         }
     }
 
