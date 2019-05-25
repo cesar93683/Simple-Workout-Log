@@ -22,9 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -144,8 +147,12 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     private void createNewExerciseDialog() {
-        @SuppressLint("InflateParams") final View dialogView =
+        @SuppressLint("InflateParams") View dialogView =
                 activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise, null);
+
+        final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
+                R.id.text_input_layout);
+
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(dialogView)
                 .setMessage("New Exercise")
@@ -153,35 +160,29 @@ public class ExerciseSelectFragment extends Fragment {
                 .setPositiveButton("Save", null)
                 .create();
 
-        final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
-                R.id.text_input_layout);
-
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
             @Override
             public void onShow(DialogInterface dialogInterface) {
-
-                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        String newExercise = newExerciseTextInputLayout.
-                                getEditText().getText().toString().trim();
-                        if (newExercise.isEmpty()) {
-                            newExerciseTextInputLayout.setError("Please enter a name.");
-                        } else if (exercisesMap.containsKey(newExercise)) {
-                            newExerciseTextInputLayout.setError("Exercise already exists.");
-                        } else {
-                            exerciseDB.insertExercise(newExercise);
-                            exercisesMap = exerciseDB.getExercises();
-                            updateFilteredExercises();
-                            Snackbar.make(fragmentView, "New exercise created.",
-                                    Snackbar.LENGTH_SHORT).show();
-                            alertDialog.dismiss();
-                        }
-                    }
-                });
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String newExercise = newExerciseTextInputLayout.
+                                        getEditText().getText().toString().trim();
+                                if (newExercise.isEmpty()) {
+                                    newExerciseTextInputLayout.setError("Please enter a name.");
+                                } else if (exercisesMap.containsKey(newExercise)) {
+                                    newExerciseTextInputLayout.setError("Exercise already exists.");
+                                } else {
+                                    exerciseDB.insertExercise(newExercise);
+                                    exercisesMap = exerciseDB.getExercises();
+                                    updateFilteredExercises();
+                                    Snackbar.make(fragmentView, "New exercise created.",
+                                            Snackbar.LENGTH_SHORT).show();
+                                    alertDialog.dismiss();
+                                }
+                            }
+                        });
             }
         });
 
@@ -200,32 +201,28 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     private void createRenameOrDeleteDialog(final int exerciseIndex) {
-        ListView listView = new ListView(activity);
-
-        final ArrayList<String> renameOrDelete = new ArrayList<>();
-        final String rename = "Rename";
-        final String delete = "Delete";
-        renameOrDelete.add(rename);
-        renameOrDelete.add(delete);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(activity,
-                android.R.layout.simple_list_item_1, renameOrDelete);
-        listView.setAdapter(arrayAdapter);
-
         final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String action = renameOrDelete.get(position);
-                if (action.equals(rename)) {
-                    createRenameExerciseDialog(exerciseIndex);
-                } else if (action.equals(delete)) {
-                    createDeleteExerciseDialog(exerciseIndex);
-                }
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.setView(listView);
+        @SuppressLint("InflateParams") final View dialogView =
+                activity.getLayoutInflater().inflate(R.layout.dialog_edit_or_delete, null);
+        TextView editTextView = dialogView.findViewById(R.id.edit_text_view);
+        editTextView.setText(R.string.dialog_rename_text);
+        dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createDeleteExerciseDialog(exerciseIndex);
+                        alertDialog.dismiss();
+                    }
+                });
+        dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createRenameExerciseDialog(exerciseIndex);
+                        alertDialog.dismiss();
+                    }
+                });
+        alertDialog.setView(dialogView);
         alertDialog.show();
     }
 
