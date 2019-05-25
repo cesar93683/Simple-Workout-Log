@@ -31,14 +31,12 @@ public class ExerciseFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
     private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
+    View fragmentView;
     private Activity activity;
-    private TextInputLayout repsTextInputLayout;
-    private TextInputLayout weightTextInputLayout;
     private ArrayList<ExerciseSet> exerciseSets;
     private ArrayAdapter<ExerciseSet> exerciseSetAdapter;
     private int exerciseId;
     private String exerciseName;
-    View fragmentView;
 
     public ExerciseFragment() {
         // Required empty public constructor
@@ -70,8 +68,10 @@ public class ExerciseFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
-        repsTextInputLayout = fragmentView.findViewById(R.id.reps_text_input_layout);
-        weightTextInputLayout = fragmentView.findViewById(R.id.weight_text_input_layout);
+        TextInputLayout repsTextInputLayout = fragmentView.findViewById(R.id
+                .reps_text_input_layout);
+        TextInputLayout weightTextInputLayout = fragmentView.findViewById(R.id
+                .weight_text_input_layout);
 
         TextView exerciseTextView = fragmentView.findViewById(R.id.exercise_text_view);
         exerciseTextView.setText(exerciseName);
@@ -79,19 +79,23 @@ public class ExerciseFragment extends Fragment {
         View exerciseSetEditorView = fragmentView.findViewById(R.id.exercise_set_editor);
 
         Button decreaseRepButton = exerciseSetEditorView.findViewById(R.id.decrease_rep_button);
-        decreaseRepButton.setOnClickListener(decreaseRepButtonClickListener());
+        decreaseRepButton.setOnClickListener(decreaseButtonClickListener(repsTextInputLayout));
 
         Button increaseRepButton = exerciseSetEditorView.findViewById(R.id.increase_rep_button);
-        increaseRepButton.setOnClickListener(increaseRepButtonClickListener());
+        increaseRepButton.setOnClickListener(increaseRepButtonClickListener(repsTextInputLayout));
 
-        Button decreaseWeightButton = exerciseSetEditorView.findViewById(R.id.decrease_weight_button);
-        decreaseWeightButton.setOnClickListener(decreaseWeightButtonClickListener());
+        Button decreaseWeightButton = exerciseSetEditorView.findViewById(R.id
+                .decrease_weight_button);
+        decreaseWeightButton.setOnClickListener(decreaseButtonClickListener(weightTextInputLayout));
 
-        Button increaseWeightButton = exerciseSetEditorView.findViewById(R.id.increase_weight_button);
-        increaseWeightButton.setOnClickListener(increaseWeightButtonClickListener());
+        Button increaseWeightButton = exerciseSetEditorView.findViewById(R.id
+                .increase_weight_button);
+        increaseWeightButton.setOnClickListener(increaseRepButtonClickListener
+                (weightTextInputLayout));
 
         Button addSetButton = fragmentView.findViewById(R.id.add_set_button);
-        addSetButton.setOnClickListener(addSetButtonClickListener());
+        addSetButton.setOnClickListener(addSetButtonClickListener(repsTextInputLayout,
+                weightTextInputLayout));
 
         FloatingActionButton finishExerciseFab = fragmentView.findViewById(R.id
                 .finish_exercise_fab);
@@ -108,163 +112,47 @@ public class ExerciseFragment extends Fragment {
         return fragmentView;
     }
 
-    private AdapterView.OnItemLongClickListener completedSetsListViewLongClickListener() {
-        return new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
-                                           long id) {
-                createEditOrDeleteDialog(position);
-                return true;
-            }
-        };
-    }
-
-    private void createEditOrDeleteDialog(final int setIndex) {
-        ListView listView = new ListView(activity);
-
-        final ArrayList<String> renameOrDelete = new ArrayList<>();
-        final String edit = "Edit";
-        final String delete = "Delete";
-        renameOrDelete.add(edit);
-        renameOrDelete.add(delete);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(activity,
-                android.R.layout.simple_list_item_1, renameOrDelete);
-        listView.setAdapter(arrayAdapter);
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String action = renameOrDelete.get(position);
-                if (action.equals(edit)) {
-                    createEditSetDialog(setIndex);
-                } else if (action.equals(delete)) {
-                    createDeleteSetDialog(setIndex);
-                }
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.setView(listView);
-        alertDialog.show();
-    }
-
-    private void createEditSetDialog(final int setIndex) {
-        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-                .setMessage("Edit Set")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Save", null)
-                .create();
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button= alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-            }
-        });
-
-        alertDialog.show();
-    }
-
-    private void createDeleteSetDialog(final int exerciseIndex) {
-        new AlertDialog.Builder(activity)
-                .setMessage("Are you sure you want to delete this set?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteExerciseSet(exerciseIndex);
-                        Snackbar.make(fragmentView, "Set deleted.",
-                                Snackbar.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
-
-    private void deleteExerciseSet(int exerciseIndex) {
-        exerciseSets.remove(exerciseIndex);
-        for(int i = exerciseIndex; i < exerciseSets.size(); i++) {
-            exerciseSets.get(i).setSetNumber(i + 1);
-        }
-        exerciseSetAdapter.notifyDataSetChanged();
-    }
-
     @NonNull
-    private View.OnClickListener decreaseRepButtonClickListener() {
+    private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
+                                                                     textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String repsString = repsTextInputLayout.getEditText().getText().toString();
-                if (repsString.isEmpty()) {
-                    repsTextInputLayout.getEditText().setText("0");
+                String text = textInputLayout.getEditText().getText().toString();
+                if (text.isEmpty()) {
+                    textInputLayout.getEditText().setText("0");
                 } else {
-                    int reps = Integer.parseInt(repsString);
-                    if (reps > 0) {
-                        reps--;
+                    int val = Integer.parseInt(text);
+                    if (val > 0) {
+                        val--;
                     }
-                    repsTextInputLayout.getEditText().setText(String.valueOf(reps));
+                    textInputLayout.getEditText().setText(String.valueOf(val));
                 }
             }
         };
     }
 
     @NonNull
-    private View.OnClickListener increaseRepButtonClickListener() {
+    private View.OnClickListener increaseRepButtonClickListener(final TextInputLayout
+                                                                        textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String repsString = repsTextInputLayout.getEditText().getText().toString();
-                if (repsString.isEmpty()) {
-                    repsTextInputLayout.getEditText().setText("1");
+                String text = textInputLayout.getEditText().getText().toString();
+                if (text.isEmpty()) {
+                    textInputLayout.getEditText().setText("1");
                 } else {
-                    int reps = Integer.parseInt(repsString);
-                    reps++;
-                    repsTextInputLayout.getEditText().setText(String.valueOf(reps));
+                    int val = Integer.parseInt(text);
+                    val++;
+                    textInputLayout.getEditText().setText(String.valueOf(val));
                 }
             }
         };
     }
 
-    private View.OnClickListener decreaseWeightButtonClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String weightString = weightTextInputLayout.getEditText().getText().toString();
-                if (weightString.isEmpty()) {
-                    weightTextInputLayout.getEditText().setText("0");
-                } else {
-                    int weight = Integer.parseInt(weightString);
-                    if (weight > 0) {
-                        weight--;
-                    }
-                    weightTextInputLayout.getEditText().setText(String.valueOf(weight));
-                }
-            }
-        };
-    }
-
-    private View.OnClickListener increaseWeightButtonClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String repsString = weightTextInputLayout.getEditText().getText().toString();
-                if (repsString.isEmpty()) {
-                    weightTextInputLayout.getEditText().setText("1");
-                } else {
-                    int weight = Integer.parseInt(repsString);
-                    weight++;
-                    weightTextInputLayout.getEditText().setText(String.valueOf(weight));
-                }
-            }
-        };
-    }
-
-    private View.OnClickListener addSetButtonClickListener() {
+    private View.OnClickListener addSetButtonClickListener(
+            final TextInputLayout repsTextInputLayout,
+            final TextInputLayout weightTextInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,10 +192,102 @@ public class ExerciseFragment extends Fragment {
         };
     }
 
+    private AdapterView.OnItemLongClickListener completedSetsListViewLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+                                           long id) {
+                createEditOrDeleteDialog(position);
+                return true;
+            }
+        };
+    }
+
     private void saveSets() {
         for (ExerciseSet exerciseSet : exerciseSets) {
             exerciseDB.insertSet(exerciseSet);
         }
+    }
+
+    private void createEditOrDeleteDialog(final int setIndex) {
+        ListView listView = new ListView(activity);
+
+        final ArrayList<String> renameOrDelete = new ArrayList<>();
+        final String edit = "Edit";
+        final String delete = "Delete";
+        renameOrDelete.add(edit);
+        renameOrDelete.add(delete);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(activity,
+                android.R.layout.simple_list_item_1, renameOrDelete);
+        listView.setAdapter(arrayAdapter);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String action = renameOrDelete.get(position);
+                if (action.equals(edit)) {
+                    createEditSetDialog(setIndex);
+                } else if (action.equals(delete)) {
+                    createDeleteSetDialog(setIndex);
+                }
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.setView(listView);
+        alertDialog.show();
+    }
+
+    private void createEditSetDialog(final int setIndex) {
+        @SuppressLint("InflateParams") final View exerciseSetEditorView =
+                activity.getLayoutInflater().inflate(R.layout.exercise_set_editor, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                .setView(exerciseSetEditorView)
+                .setMessage("Edit Set")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Save", null)
+                .create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void createDeleteSetDialog(final int exerciseIndex) {
+        new AlertDialog.Builder(activity)
+                .setMessage("Are you sure you want to delete this set?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteExerciseSet(exerciseIndex);
+                        Snackbar.make(fragmentView, "Set deleted.",
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void deleteExerciseSet(int exerciseIndex) {
+        exerciseSets.remove(exerciseIndex);
+        for (int i = exerciseIndex; i < exerciseSets.size(); i++) {
+            exerciseSets.get(i).setSetNumber(i + 1);
+        }
+        exerciseSetAdapter.notifyDataSetChanged();
     }
 
     public void onBackPressed() {
