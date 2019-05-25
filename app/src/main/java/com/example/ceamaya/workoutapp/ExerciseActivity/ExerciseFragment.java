@@ -76,19 +76,17 @@ public class ExerciseFragment extends Fragment {
         TextView exerciseTextView = fragmentView.findViewById(R.id.exercise_text_view);
         exerciseTextView.setText(exerciseName);
 
-        View exerciseSetEditorView = fragmentView.findViewById(R.id.exercise_set_editor);
-
-        Button decreaseRepButton = exerciseSetEditorView.findViewById(R.id.decrease_rep_button);
+        Button decreaseRepButton = fragmentView.findViewById(R.id.decrease_rep_button);
         decreaseRepButton.setOnClickListener(decreaseButtonClickListener(repsTextInputLayout));
 
-        Button increaseRepButton = exerciseSetEditorView.findViewById(R.id.increase_rep_button);
+        Button increaseRepButton = fragmentView.findViewById(R.id.increase_rep_button);
         increaseRepButton.setOnClickListener(increaseRepButtonClickListener(repsTextInputLayout));
 
-        Button decreaseWeightButton = exerciseSetEditorView.findViewById(R.id
+        Button decreaseWeightButton = fragmentView.findViewById(R.id
                 .decrease_weight_button);
         decreaseWeightButton.setOnClickListener(decreaseButtonClickListener(weightTextInputLayout));
 
-        Button increaseWeightButton = exerciseSetEditorView.findViewById(R.id
+        Button increaseWeightButton = fragmentView.findViewById(R.id
                 .increase_weight_button);
         increaseWeightButton.setOnClickListener(increaseRepButtonClickListener
                 (weightTextInputLayout));
@@ -240,7 +238,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void createEditSetDialog(final int setIndex) {
-        @SuppressLint("InflateParams") final View exerciseSetEditorView =
+        @SuppressLint("InflateParams") View exerciseSetEditorView =
                 activity.getLayoutInflater().inflate(R.layout.exercise_set_editor, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(exerciseSetEditorView)
@@ -249,6 +247,31 @@ public class ExerciseFragment extends Fragment {
                 .setPositiveButton("Save", null)
                 .create();
 
+        final TextInputLayout repsTextInputLayout = exerciseSetEditorView.findViewById(R.id
+                .reps_text_input_layout);
+        int reps = exerciseSets.get(setIndex).getReps();
+        repsTextInputLayout.getEditText().setText(String.valueOf(reps));
+
+        final TextInputLayout weightTextInputLayout = exerciseSetEditorView.findViewById(R.id
+                .weight_text_input_layout);
+        int weight = exerciseSets.get(setIndex).getWeight();
+        weightTextInputLayout.getEditText().setText(String.valueOf(weight));
+
+        Button decreaseRepButton = exerciseSetEditorView.findViewById(R.id.decrease_rep_button);
+        decreaseRepButton.setOnClickListener(decreaseButtonClickListener(repsTextInputLayout));
+
+        Button increaseRepButton = exerciseSetEditorView.findViewById(R.id.increase_rep_button);
+        increaseRepButton.setOnClickListener(increaseRepButtonClickListener(repsTextInputLayout));
+
+        Button decreaseWeightButton = exerciseSetEditorView.findViewById(R.id
+                .decrease_weight_button);
+        decreaseWeightButton.setOnClickListener(decreaseButtonClickListener(weightTextInputLayout));
+
+        Button increaseWeightButton = exerciseSetEditorView.findViewById(R.id
+                .increase_weight_button);
+        increaseWeightButton.setOnClickListener(increaseRepButtonClickListener
+                (weightTextInputLayout));
+
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -256,9 +279,7 @@ public class ExerciseFragment extends Fragment {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-
-                        alertDialog.dismiss();
+                        editSet(repsTextInputLayout, weightTextInputLayout, alertDialog, setIndex);
                     }
                 });
             }
@@ -288,6 +309,34 @@ public class ExerciseFragment extends Fragment {
             exerciseSets.get(i).setSetNumber(i + 1);
         }
         exerciseSetAdapter.notifyDataSetChanged();
+    }
+
+    private void editSet(
+            final TextInputLayout repsTextInputLayout,
+            final TextInputLayout weightTextInputLayout, AlertDialog alertDialog, int setIndex) {
+        String repsString = repsTextInputLayout.getEditText().getText().toString();
+        if (repsString.isEmpty()) {
+            repsTextInputLayout.setError("Please enter reps");
+            return;
+        }
+        int reps = Integer.parseInt(repsString);
+        if (reps == 0) {
+            repsTextInputLayout.setError("Please enter at least 1 rep");
+            return;
+        }
+
+        String weightString = weightTextInputLayout.getEditText().getText().toString();
+        int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
+
+        ExerciseSet exerciseSet = exerciseSets.get(setIndex);
+        exerciseSet.setWeight(weight);
+        exerciseSet.setReps(reps);
+        exerciseSetAdapter.notifyDataSetChanged();
+
+        alertDialog.dismiss();
+        Snackbar.make(activity.findViewById(android.R.id.content), "Set modified.",
+                Snackbar.LENGTH_SHORT).show();
+
     }
 
     public void onBackPressed() {

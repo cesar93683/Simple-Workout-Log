@@ -1,8 +1,8 @@
 package com.example.ceamaya.workoutapp;
 
 public class ExerciseSet {
-    private final int reps;
-    private final int weight;
+    private int reps;
+    private int weight;
     private final int exerciseId;
     private int setNumber;
 
@@ -17,8 +17,16 @@ public class ExerciseSet {
         return reps;
     }
 
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
     public int getWeight() {
         return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public int getExerciseId() {
