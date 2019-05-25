@@ -6,10 +6,7 @@
     <string name="fragment_exercise_filter_edit_text_hint">Filter</string>
     <string name="activity_exercise_reps_hint">REPS</string>
     <string name="activity_exercise_weight_hint">WEIGHT (LB)</string>
-    <string name="activity_exercise_add_set_button_text">+</string>
     <string name="activity_exercise_completed_text">COMPLETED</string>
-    <string name="activity_exercise_decrease_button_text">Down</string>
-    <string name="activity_exercise_increase_button_text">Up</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
