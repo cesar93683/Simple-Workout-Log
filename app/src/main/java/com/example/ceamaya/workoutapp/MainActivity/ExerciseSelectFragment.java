@@ -27,8 +27,6 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.ExerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -148,7 +146,7 @@ public class ExerciseSelectFragment extends Fragment {
 
     private void createNewExerciseDialog() {
         @SuppressLint("InflateParams") View dialogView =
-                activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise, null);
+                activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
 
         final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
                 R.id.text_input_layout);
@@ -201,11 +199,15 @@ public class ExerciseSelectFragment extends Fragment {
     }
 
     private void createRenameOrDeleteDialog(final int exerciseIndex) {
-        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
         @SuppressLint("InflateParams") final View dialogView =
                 activity.getLayoutInflater().inflate(R.layout.dialog_edit_or_delete, null);
+
         TextView editTextView = dialogView.findViewById(R.id.edit_text_view);
         editTextView.setText(R.string.dialog_rename_text);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+        alertDialog.setView(dialogView);
+
         dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -222,13 +224,12 @@ public class ExerciseSelectFragment extends Fragment {
                         alertDialog.dismiss();
                     }
                 });
-        alertDialog.setView(dialogView);
         alertDialog.show();
     }
 
     private void createRenameExerciseDialog(final int exerciseIndex) {
         @SuppressLint("InflateParams") final View dialogView =
-                activity.getLayoutInflater().inflate(R.layout.dialog_new_exercise, null);
+                activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(dialogView)
                 .setMessage("Edit Exercise")
@@ -279,6 +280,7 @@ public class ExerciseSelectFragment extends Fragment {
     private void createDeleteExerciseDialog(final int exerciseIndex) {
         new AlertDialog.Builder(activity)
                 .setMessage("Are you sure you want to delete this exercise?")
+                .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -291,7 +293,6 @@ public class ExerciseSelectFragment extends Fragment {
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("No", null)
                 .show();
     }
 }

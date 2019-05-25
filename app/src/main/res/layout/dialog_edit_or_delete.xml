@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_mode_edit_black_24dp" />
+            android:background="@drawable/ic_mode_edit_black_24dp"
+            android:contentDescription="@string/dialog_edit_content_description"/>
         <TextView
             android:id="@+id/edit_text_view"
             android:text="@string/dialog_edit_text"
@@ -43,10 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_delete_black_24dp" />
+            android:background="@drawable/ic_delete_black_24dp"
+            android:contentDescription="@string/dialog_delete_content_description"/>
         <TextView
             android:id="@+id/delete_text_view"
-            android:text="dialog_delete_text"
+            android:text="@string/dialog_delete_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.Workout;
@@ -44,7 +43,8 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
                 ExerciseTable.NAME, ExerciseTable._ID, ExerciseTable.Cols.NAME);
         final String SQL_CREATE_SET_LIST_TABLE = String.format(
                 "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER NOT NULL, %s " +
-                        "INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL, %s LONG NOT NULL);",
+                        "INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL, %s LONG NOT " +
+                        "NULL);",
                 ExerciseSetTable.NAME, ExerciseSetTable._ID, ExerciseSetTable.Cols.EXERCISE_ID,
                 ExerciseSetTable.Cols.SET_NUMBER, ExerciseSetTable.Cols.REPS, ExerciseSetTable
                         .Cols.WEIGHT,
@@ -76,8 +76,9 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
 
     public void deleteExercise(long id) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(ExerciseTable.NAME, ExerciseTable._ID + "=?",
-                new String[]{String.valueOf(id)});
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        db.delete(ExerciseTable.NAME, ExerciseTable._ID + "=?", whereArgs);
+        db.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.EXERCISE_ID + "=?", whereArgs);
     }
 
     public void updateExercise(long id, String newExercise) {
@@ -107,7 +108,8 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(ExerciseSetTable.NAME, null,
-                ExerciseSetTable.Cols.EXERCISE_ID +" = ?", new String[]{String.valueOf(exerciseId)},
+                ExerciseSetTable.Cols.EXERCISE_ID + " = ?", new String[]{String.valueOf
+                        (exerciseId)},
                 null, null, null);
 
         HashMap<Long, ArrayList<ExerciseSet>> exerciseSetsMap = new HashMap<>();
