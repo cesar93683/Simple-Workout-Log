@@ -2,6 +2,7 @@ package com.example.ceamaya.workoutapp.ExerciseActivity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,8 +25,12 @@ import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseD
 public class WorkoutHistoryFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
+    private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
     private static final String TAG = "WorkoutHistoryFragment";
+    public static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
+    public static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private int exerciseId;
+    private String exerciseName;
     private View fragmentView;
     private ArrayList<Workout> workouts;
     private WorkoutHistoryAdapter workoutHistoryAdapter;
@@ -34,10 +39,11 @@ public class WorkoutHistoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(int exerciseId) {
+    public static Fragment newInstance(int exerciseId, String exerciseName) {
         WorkoutHistoryFragment fragment = new WorkoutHistoryFragment();
         Bundle args = new Bundle();
         args.putInt(ARGS_EXERCISE_ID, exerciseId);
+        args.putString(ARGS_EXERCISE_NAME, exerciseName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +52,7 @@ public class WorkoutHistoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         if (getArguments() != null) {
             exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
+            exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
         }
         super.onCreate(savedInstanceState);
     }
@@ -95,8 +102,11 @@ public class WorkoutHistoryFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // edit
+                        Intent intent = new Intent(getActivity(), EditExerciseActivity.class);
+                        intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
+                        intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
                         alertDialog.dismiss();
+                        startActivity(intent);
                     }
                 });
         dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(

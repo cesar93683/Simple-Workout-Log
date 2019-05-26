@@ -17,10 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.MainActivity.ExerciseSelectFragment;
 import com.example.ceamaya.workoutapp.R;
 
-public class ExerciseActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Date;
+
+import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
+
+interface SaveSets {
+    void saveSets(ArrayList<ExerciseSet> exerciseSets);
+}
+
+public class ExerciseActivity extends AppCompatActivity implements SaveSets{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,14 +47,14 @@ public class ExerciseActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private int exerciseId;
+private String exerciseName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         exerciseId = getIntent().getIntExtra(ExerciseSelectFragment.EXTRA_EXERCISE_ID, 0);
-        String exerciseName = getIntent().getStringExtra(ExerciseSelectFragment
-                .EXTRA_EXERCISE_NAME);
+        exerciseName = getIntent().getStringExtra(ExerciseSelectFragment.EXTRA_EXERCISE_NAME);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,6 +73,14 @@ public class ExerciseActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener
                 (mViewPager));
+    }
+
+    public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
+        long timeStamp = new Date().getTime();
+        for (ExerciseSet exerciseSet : exerciseSets) {
+            exerciseDB.insertSet(exerciseSet, timeStamp);
+        }
+        finish();
     }
 
 
@@ -154,7 +172,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     fragment = ExerciseFragment.newInstance(exerciseId);
                     break;
                 case 1:
-                    fragment = WorkoutHistoryFragment.newInstance(exerciseId);
+                    fragment = WorkoutHistoryFragment.newInstance(exerciseId, exerciseName);
                     break;
             }
             return fragment;

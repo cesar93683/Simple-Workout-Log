@@ -20,15 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 
 import java.util.ArrayList;
-import java.util.Date;
-
-import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
 public class ExerciseFragment extends Fragment {
 
@@ -99,7 +95,8 @@ public class ExerciseFragment extends Fragment {
         exerciseSetAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
                 exerciseSets);
 
-        ListView completedSetsListView = fragmentView.findViewById(R.id.completed_exercise_sets_list_view);
+        ListView completedSetsListView = fragmentView.findViewById(R.id
+                .completed_exercise_sets_list_view);
         completedSetsListView.setAdapter(exerciseSetAdapter);
         completedSetsListView.setOnItemLongClickListener(completedSetsListViewLongClickListener());
 
@@ -175,8 +172,7 @@ public class ExerciseFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                saveSets();
-                activity.finish();
+                ((SaveSets) activity).saveSets(exerciseSets);
             }
         };
     }
@@ -204,13 +200,6 @@ public class ExerciseFragment extends Fragment {
         }
         repsTextInputLayout.setErrorEnabled(false);
         return true;
-    }
-
-    private void saveSets() {
-        long timeStamp = new Date().getTime();
-        for (ExerciseSet exerciseSet : exerciseSets) {
-            exerciseDB.insertSet(exerciseSet, timeStamp);
-        }
     }
 
     private void createEditOrDeleteDialog(final int setIndex) {
@@ -369,8 +358,7 @@ public class ExerciseFragment extends Fragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        saveSets();
-                        activity.finish();
+                        ((SaveSets) activity).saveSets(exerciseSets);
                     }
                 })
                 .show();
