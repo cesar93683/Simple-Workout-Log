@@ -85,8 +85,8 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(ExerciseTable.Cols.NAME, newExercise);
-        db.update(ExerciseTable.NAME, cv, ExerciseTable._ID + "=?",
-                new String[]{String.valueOf(id)});
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        db.update(ExerciseTable.NAME, cv, ExerciseTable._ID + "=?",whereArgs);
     }
 
     public void insertSet(ExerciseSet exerciseSet, long timeStamp) {
@@ -108,7 +108,7 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(ExerciseSetTable.NAME, null,
-                ExerciseSetTable.Cols.EXERCISE_ID + " = ?", new String[]{String.valueOf
+                ExerciseSetTable.Cols.EXERCISE_ID + "=?", new String[]{String.valueOf
                         (exerciseId)},
                 null, null, null);
 
@@ -146,5 +146,11 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
         });
 
         return workouts;
+    }
+
+    public void deleteWorkout(long time) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] whereArgs = new String[]{String.valueOf(time)};
+        db.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.DATE + "=?", whereArgs);
     }
 }

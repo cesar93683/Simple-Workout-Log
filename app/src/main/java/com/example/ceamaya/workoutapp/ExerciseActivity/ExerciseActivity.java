@@ -154,7 +154,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     fragment = ExerciseFragment.newInstance(exerciseId);
                     break;
                 case 1:
-                    fragment = ExerciseHistoryFragment.newInstance(exerciseId);
+                    fragment = WorkoutHistoryFragment.newInstance(exerciseId);
                     break;
             }
             return fragment;

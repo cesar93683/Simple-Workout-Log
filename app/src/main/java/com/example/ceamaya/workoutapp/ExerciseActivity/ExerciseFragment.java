@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
@@ -213,32 +214,28 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void createEditOrDeleteDialog(final int setIndex) {
-        ListView listView = new ListView(activity);
-
-        final ArrayList<String> renameOrDelete = new ArrayList<>();
-        final String edit = "Edit";
-        final String delete = "Delete";
-        renameOrDelete.add(edit);
-        renameOrDelete.add(delete);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(activity,
-                android.R.layout.simple_list_item_1, renameOrDelete);
-        listView.setAdapter(arrayAdapter);
+        @SuppressLint("InflateParams") final View dialogView =
+                activity.getLayoutInflater().inflate(R.layout.dialog_edit_or_delete, null);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String action = renameOrDelete.get(position);
-                if (action.equals(edit)) {
-                    createEditSetDialog(setIndex);
-                } else if (action.equals(delete)) {
-                    createDeleteSetDialog(setIndex);
-                }
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.setView(listView);
+        alertDialog.setView(dialogView);
+
+        dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createEditSetDialog(setIndex);
+                        alertDialog.dismiss();
+                    }
+                });
+        dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createDeleteSetDialog(setIndex);
+                        alertDialog.dismiss();
+                    }
+                });
         alertDialog.show();
     }
 

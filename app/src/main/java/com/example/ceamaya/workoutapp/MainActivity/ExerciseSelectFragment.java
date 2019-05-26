@@ -208,19 +208,19 @@ public class ExerciseSelectFragment extends Fragment {
         final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
         alertDialog.setView(dialogView);
 
-        dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        createDeleteExerciseDialog(exerciseIndex);
-                        alertDialog.dismiss();
-                    }
-                });
         dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         createRenameExerciseDialog(exerciseIndex);
+                        alertDialog.dismiss();
+                    }
+                });
+        dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createDeleteExerciseDialog(exerciseIndex);
                         alertDialog.dismiss();
                     }
                 });
