@@ -18,11 +18,11 @@ import com.example.ceamaya.workoutapp.Workout;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
-public class WorkoutHistoryAdapter extends ArrayAdapter {
+class WorkoutHistoryAdapter extends ArrayAdapter {
 
     private static final String TAG = "WorkoutHistoryAdapter";
-    private Context context;
-    private ArrayList<Workout> workouts;
+    private final Context context;
+    private final ArrayList<Workout> workouts;
 
     WorkoutHistoryAdapter(@NonNull Context context, ArrayList<Workout> workouts) {
         super(context, 0, workouts);

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Workout {
-    private Date date;
-    private ArrayList<ExerciseSet> exerciseSets;
+    private final Date date;
+    private final ArrayList<ExerciseSet> exerciseSets;
 
     public Workout(Date date, ArrayList<ExerciseSet> exerciseSets) {
         this.date = date;

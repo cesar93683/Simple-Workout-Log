@@ -68,8 +68,7 @@ public class WorkoutHistoryFragment extends Fragment {
                 container, false);
         workouts = exerciseDB.getWorkouts(exerciseId);
 
-        workoutHistoryAdapter = new WorkoutHistoryAdapter
-                (getActivity(), workouts);
+        workoutHistoryAdapter = new WorkoutHistoryAdapter(getActivity(), workouts);
 
         ListView workoutHistoryListView = fragmentView.findViewById(R.id
                 .workout_history_list_view);

@@ -31,7 +31,7 @@ public class ExerciseFragment extends Fragment {
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
     private View fragmentView;
     private Activity activity;
-    private ArrayList<ExerciseSet> exerciseSets;
+    private final ArrayList<ExerciseSet> exerciseSets;
     private ArrayAdapter<ExerciseSet> exerciseSetAdapter;
     private int exerciseId;
 
