@@ -20,15 +20,18 @@ import com.example.ceamaya.workoutapp.Workout;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
 public class WorkoutHistoryFragment extends Fragment {
 
+    public static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
+    public static final String EXTRA_TIME = "EXTRA_TIME";
+    public static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
     private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
     private static final String TAG = "WorkoutHistoryFragment";
-    public static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-    public static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
+    private static final int REQUEST_CODE_EDIT_WORKOUT = 1;
     private int exerciseId;
     private String exerciseName;
     private View fragmentView;
@@ -105,8 +108,9 @@ public class WorkoutHistoryFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), EditExerciseActivity.class);
                         intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
                         intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
+                        intent.putExtra(EXTRA_TIME, workouts.get(position).getDate().getTime());
                         alertDialog.dismiss();
-                        startActivity(intent);
+                        startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
                     }
                 });
         dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
@@ -136,5 +140,16 @@ public class WorkoutHistoryFragment extends Fragment {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
+            workouts.clear();
+            workouts.addAll(exerciseDB.getWorkouts(exerciseId));
+            workoutHistoryAdapter.notifyDataSetChanged();
+            Snackbar.make(fragmentView, "Workout updated.", Snackbar.LENGTH_SHORT).show();
+        }
     }
 }

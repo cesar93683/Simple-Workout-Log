@@ -86,7 +86,7 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(ExerciseTable.Cols.NAME, newExercise);
         String[] whereArgs = new String[]{String.valueOf(id)};
-        db.update(ExerciseTable.NAME, cv, ExerciseTable._ID + "=?",whereArgs);
+        db.update(ExerciseTable.NAME, cv, ExerciseTable._ID + "=?", whereArgs);
     }
 
     public void insertSet(ExerciseSet exerciseSet, long timeStamp) {
@@ -146,6 +146,28 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
         });
 
         return workouts;
+    }
+
+    public ArrayList<ExerciseSet> getExerciseSets(int exerciseId, long time) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(time)};
+
+        Cursor cursor = db.query(ExerciseSetTable.NAME, null,
+                ExerciseSetTable.Cols.EXERCISE_ID + "=? AND " + ExerciseSetTable.Cols.DATE
+                        + "=?", whereArgs, null, null, null);
+
+        ArrayList<ExerciseSet> exerciseSets = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int reps = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.REPS));
+            int weight = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.WEIGHT));
+            int setNumber = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.SET_NUMBER));
+            ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
+            exerciseSets.add(exerciseSet);
+        }
+        cursor.close();
+
+        return exerciseSets;
     }
 
     public void deleteWorkout(long time) {

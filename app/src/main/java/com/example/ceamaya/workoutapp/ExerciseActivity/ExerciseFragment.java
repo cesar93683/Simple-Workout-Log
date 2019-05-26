@@ -36,7 +36,7 @@ public class ExerciseFragment extends Fragment {
     private int exerciseId;
 
     public ExerciseFragment() {
-        // Required empty public constructor
+        exerciseSets = new ArrayList<>();
     }
 
     public static Fragment newInstance(int exerciseId) {
@@ -91,7 +91,6 @@ public class ExerciseFragment extends Fragment {
                 .finish_exercise_fab);
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
-        exerciseSets = new ArrayList<>();
         exerciseSetAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
                 exerciseSets);
 
@@ -101,6 +100,10 @@ public class ExerciseFragment extends Fragment {
         completedSetsListView.setOnItemLongClickListener(completedSetsListViewLongClickListener());
 
         return fragmentView;
+    }
+
+    public void addExerciseSets(ArrayList<ExerciseSet> exerciseSetsToAdd) {
+        exerciseSets.addAll(exerciseSetsToAdd);
     }
 
     @NonNull
