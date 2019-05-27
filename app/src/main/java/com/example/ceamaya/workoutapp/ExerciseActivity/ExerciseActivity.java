@@ -1,5 +1,7 @@
 package com.example.ceamaya.workoutapp.ExerciseActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
-import com.example.ceamaya.workoutapp.MainActivity.ExerciseSelectFragment;
 import com.example.ceamaya.workoutapp.R;
 
 import java.util.ArrayList;
@@ -30,21 +31,30 @@ interface SaveSets {
     void saveSets(ArrayList<ExerciseSet> exerciseSets);
 }
 
-public class ExerciseActivity extends AppCompatActivity implements SaveSets{
+public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
+    private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
+    private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
     private int exerciseId;
-private String exerciseName;
+    private String exerciseName;
+
+    public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId) {
+        Intent intent = new Intent(packageContext, ExerciseActivity.class);
+        intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
+        intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-        exerciseId = getIntent().getIntExtra(ExerciseSelectFragment.EXTRA_EXERCISE_ID, 0);
-        exerciseName = getIntent().getStringExtra(ExerciseSelectFragment.EXTRA_EXERCISE_NAME);
+        exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, 0);
+        exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,14 +62,15 @@ private String exerciseName;
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         /*
-      The {@link android.support.v4.view.PagerAdapter} that will provide
-      fragments for each of the sections. We use a
-      {@link FragmentPagerAdapter} derivative, which will keep every
-      loaded fragment in memory. If this becomes too memory intensive, it
-      may be best to switch to a
-      {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+          The {@link android.support.v4.view.PagerAdapter} that will provide
+          fragments for each of the sections. We use a
+          {@link FragmentPagerAdapter} derivative, which will keep every
+          loaded fragment in memory. If this becomes too memory intensive, it
+          may be best to switch to a
+          {@link android.support.v4.app.FragmentStatePagerAdapter}.
+        */
+        SectionsPagerAdapter mSectionsPagerAdapter =
+                new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
