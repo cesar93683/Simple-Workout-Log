@@ -39,7 +39,6 @@ public class ExerciseSelectFragment extends Fragment {
     private HashMap<String, Integer> exercisesMap;
     private String exerciseFilter;
     private View fragmentView;
-    private RecyclerView exerciseRecyclerView;
     private ExerciseAdapter exerciseAdapter;
 
     public ExerciseSelectFragment() {
@@ -72,7 +71,7 @@ public class ExerciseSelectFragment extends Fragment {
         EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);
         filterEditText.addTextChangedListener(filterEditTextListener());
 
-        exerciseRecyclerView = fragmentView.findViewById(R.id.exercise_recycler_view);
+        RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.exercise_recycler_view);
         exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         exerciseAdapter = new ExerciseAdapter(filteredExercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
@@ -264,13 +263,13 @@ public class ExerciseSelectFragment extends Fragment {
 
         private String exercise;
 
-        public ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
+        ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.simple_list_item, parent, false));
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
 
-        public void bind(String exercise) {
+        void bind(String exercise) {
             this.exercise = exercise;
             ((TextView) itemView).setText(exercise);
         }
@@ -293,18 +292,19 @@ public class ExerciseSelectFragment extends Fragment {
 
         private List<String> exercises;
 
-        public ExerciseAdapter(List<String> exercises) {
+        ExerciseAdapter(List<String> exercises) {
             this.exercises = exercises;
         }
 
+        @NonNull
         @Override
-        public ExerciseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             return new ExerciseHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(ExerciseHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
             String exercise = exercises.get(position);
             holder.bind(exercise);
         }

@@ -29,9 +29,9 @@ import java.util.ArrayList;
 public class ExerciseFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
+    private final ArrayList<ExerciseSet> exerciseSets;
     private View fragmentView;
     private Activity activity;
-    private final ArrayList<ExerciseSet> exerciseSets;
     private ArrayAdapter<ExerciseSet> exerciseSetAdapter;
     private int exerciseId;
 
@@ -74,12 +74,10 @@ public class ExerciseFragment extends Fragment {
         Button increaseRepButton = fragmentView.findViewById(R.id.increase_rep_button);
         increaseRepButton.setOnClickListener(increaseButtonClickListener(repsTextInputLayout));
 
-        Button decreaseWeightButton = fragmentView.findViewById(R.id
-                .decrease_weight_button);
+        Button decreaseWeightButton = fragmentView.findViewById(R.id.decrease_weight_button);
         decreaseWeightButton.setOnClickListener(decreaseButtonClickListener(weightTextInputLayout));
 
-        Button increaseWeightButton = fragmentView.findViewById(R.id
-                .increase_weight_button);
+        Button increaseWeightButton = fragmentView.findViewById(R.id.increase_weight_button);
         increaseWeightButton.setOnClickListener(increaseButtonClickListener
                 (weightTextInputLayout));
 
@@ -100,10 +98,6 @@ public class ExerciseFragment extends Fragment {
         completedSetsListView.setOnItemLongClickListener(completedSetsListViewLongClickListener());
 
         return fragmentView;
-    }
-
-    public void addExerciseSets(ArrayList<ExerciseSet> exerciseSetsToAdd) {
-        exerciseSets.addAll(exerciseSetsToAdd);
     }
 
     @NonNull
@@ -193,11 +187,7 @@ public class ExerciseFragment extends Fragment {
 
     private boolean validateReps(TextInputLayout repsTextInputLayout) {
         String repsString = repsTextInputLayout.getEditText().getText().toString();
-        if (repsString.isEmpty()) {
-            repsTextInputLayout.setError("Please enter at least 1 rep");
-            return false;
-        }
-        if (Integer.parseInt(repsString) == 0) {
+        if (repsString.isEmpty() || Integer.parseInt(repsString) == 0) {
             repsTextInputLayout.setError("Please enter at least 1 rep");
             return false;
         }
@@ -259,12 +249,12 @@ public class ExerciseFragment extends Fragment {
         Button increaseRepButton = exerciseSetEditorView.findViewById(R.id.increase_rep_button);
         increaseRepButton.setOnClickListener(increaseButtonClickListener(repsTextInputLayout));
 
-        Button decreaseWeightButton = exerciseSetEditorView.findViewById(R.id
-                .decrease_weight_button);
+        Button decreaseWeightButton =
+                exerciseSetEditorView.findViewById(R.id.decrease_weight_button);
         decreaseWeightButton.setOnClickListener(decreaseButtonClickListener(weightTextInputLayout));
 
-        Button increaseWeightButton = exerciseSetEditorView.findViewById(R.id
-                .increase_weight_button);
+        Button increaseWeightButton =
+                exerciseSetEditorView.findViewById(R.id.increase_weight_button);
         increaseWeightButton.setOnClickListener(increaseButtonClickListener
                 (weightTextInputLayout));
 
@@ -327,7 +317,6 @@ public class ExerciseFragment extends Fragment {
         alertDialog.dismiss();
         Snackbar.make(activity.findViewById(android.R.id.content), "Set modified.",
                 Snackbar.LENGTH_SHORT).show();
-
     }
 
     private void deleteExerciseSet(int exerciseIndex) {
@@ -336,6 +325,10 @@ public class ExerciseFragment extends Fragment {
             exerciseSets.get(i).setSetNumber(i + 1);
         }
         exerciseSetAdapter.notifyDataSetChanged();
+    }
+
+    public void addExerciseSets(ArrayList<ExerciseSet> exerciseSetsToAdd) {
+        exerciseSets.addAll(exerciseSetsToAdd);
     }
 
     public void onBackPressed() {
