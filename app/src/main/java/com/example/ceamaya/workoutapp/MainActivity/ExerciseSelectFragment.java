@@ -258,7 +258,7 @@ public class ExerciseSelectFragment extends Fragment {
                 .show();
     }
 
-    private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+    public class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnLongClickListener {
 
         private String exercise;
@@ -288,7 +288,7 @@ public class ExerciseSelectFragment extends Fragment {
         }
     }
 
-    private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
+    public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
 
         private List<String> exercises;
 

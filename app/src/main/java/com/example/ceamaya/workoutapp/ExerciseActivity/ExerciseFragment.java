@@ -11,20 +11,22 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseFragment extends Fragment {
 
@@ -32,8 +34,8 @@ public class ExerciseFragment extends Fragment {
     private final ArrayList<ExerciseSet> exerciseSets;
     private View fragmentView;
     private Activity activity;
-    private ArrayAdapter<ExerciseSet> exerciseSetAdapter;
     private int exerciseId;
+    private ExerciseAdapter exerciseSetsAdapter;
 
     public ExerciseFragment() {
         exerciseSets = new ArrayList<>();
@@ -89,13 +91,11 @@ public class ExerciseFragment extends Fragment {
                 .finish_exercise_fab);
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
-        exerciseSetAdapter = new ArrayAdapter<>(activity, R.layout.simple_list_item,
-                exerciseSets);
-
-        ListView completedSetsListView = fragmentView.findViewById(R.id
-                .completed_exercise_sets_list_view);
-        completedSetsListView.setAdapter(exerciseSetAdapter);
-        completedSetsListView.setOnItemLongClickListener(completedSetsListViewLongClickListener());
+        RecyclerView completedExerciseSetsRecyclerView =
+                fragmentView.findViewById(R.id.completed_exercise_sets_recycler_view);
+        completedExerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
+        completedExerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
 
         return fragmentView;
     }
@@ -157,8 +157,7 @@ public class ExerciseFragment extends Fragment {
 
                 ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
                 exerciseSets.add(exerciseSet);
-                exerciseSetAdapter.notifyDataSetChanged();
-
+                exerciseSetsAdapter.notifyDataSetChanged();
                 Snackbar.make(activity.findViewById(android.R.id.content), "Set added.",
                         Snackbar.LENGTH_SHORT).show();
             }
@@ -174,17 +173,6 @@ public class ExerciseFragment extends Fragment {
         };
     }
 
-    private AdapterView.OnItemLongClickListener completedSetsListViewLongClickListener() {
-        return new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
-                                           long id) {
-                createEditOrDeleteDialog(position);
-                return true;
-            }
-        };
-    }
-
     private boolean validateReps(TextInputLayout repsTextInputLayout) {
         String repsString = repsTextInputLayout.getEditText().getText().toString();
         if (repsString.isEmpty() || Integer.parseInt(repsString) == 0) {
@@ -195,7 +183,7 @@ public class ExerciseFragment extends Fragment {
         return true;
     }
 
-    private void createEditOrDeleteDialog(final int setIndex) {
+    private void createEditOrDeleteDialog(final int position) {
         @SuppressLint("InflateParams") final View dialogView =
                 activity.getLayoutInflater().inflate(R.layout.dialog_edit_or_delete, null);
 
@@ -206,7 +194,7 @@ public class ExerciseFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        createEditSetDialog(setIndex);
+                        createEditSetDialog(position);
                         alertDialog.dismiss();
                     }
                 });
@@ -214,14 +202,14 @@ public class ExerciseFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        createDeleteSetDialog(setIndex);
+                        createDeleteSetDialog(position);
                         alertDialog.dismiss();
                     }
                 });
         alertDialog.show();
     }
 
-    private void createEditSetDialog(final int setIndex) {
+    private void createEditSetDialog(final int position) {
         @SuppressLint("InflateParams") View exerciseSetEditorView =
                 activity.getLayoutInflater().inflate(R.layout.exercise_set_editor, null);
 
@@ -235,12 +223,12 @@ public class ExerciseFragment extends Fragment {
 
         final TextInputLayout repsTextInputLayout = exerciseSetEditorView.findViewById(R.id
                 .reps_text_input_layout);
-        int reps = exerciseSets.get(setIndex).getReps();
+        int reps = exerciseSets.get(position).getReps();
         repsTextInputLayout.getEditText().setText(String.valueOf(reps));
 
         final TextInputLayout weightTextInputLayout = exerciseSetEditorView.findViewById(R.id
                 .weight_text_input_layout);
-        int weight = exerciseSets.get(setIndex).getWeight();
+        int weight = exerciseSets.get(position).getWeight();
         weightTextInputLayout.getEditText().setText(String.valueOf(weight));
 
         Button decreaseRepButton = exerciseSetEditorView.findViewById(R.id.decrease_rep_button);
@@ -265,7 +253,7 @@ public class ExerciseFragment extends Fragment {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        editSet(repsTextInputLayout, weightTextInputLayout, alertDialog, setIndex);
+                        editSet(repsTextInputLayout, weightTextInputLayout, alertDialog, position);
                     }
                 });
             }
@@ -273,13 +261,13 @@ public class ExerciseFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void createDeleteSetDialog(final int exerciseIndex) {
+    private void createDeleteSetDialog(final int position) {
         new AlertDialog.Builder(activity)
                 .setMessage("Are you sure you want to delete this set?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteExerciseSet(exerciseIndex);
+                        deleteExerciseSet(position);
                         Snackbar.make(fragmentView, "Set deleted.",
                                 Snackbar.LENGTH_SHORT).show();
                     }
@@ -312,7 +300,7 @@ public class ExerciseFragment extends Fragment {
         ExerciseSet exerciseSet = exerciseSets.get(setIndex);
         exerciseSet.setWeight(weight);
         exerciseSet.setReps(reps);
-        exerciseSetAdapter.notifyDataSetChanged();
+        exerciseSetsAdapter.notifyDataSetChanged();
 
         alertDialog.dismiss();
         Snackbar.make(activity.findViewById(android.R.id.content), "Set modified.",
@@ -324,7 +312,8 @@ public class ExerciseFragment extends Fragment {
         for (int i = exerciseIndex; i < exerciseSets.size(); i++) {
             exerciseSets.get(i).setSetNumber(i + 1);
         }
-        exerciseSetAdapter.notifyDataSetChanged();
+        exerciseSetsAdapter.notifyDataSetChanged();
+
     }
 
     public void addExerciseSets(ArrayList<ExerciseSet> exerciseSetsToAdd) {
@@ -358,5 +347,54 @@ public class ExerciseFragment extends Fragment {
                     }
                 })
                 .show();
+    }
+
+
+    public class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+
+        private ExerciseSet exerciseSet;
+
+        ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.simple_list_item, parent, false));
+            itemView.setOnLongClickListener(this);
+        }
+
+        void bind(ExerciseSet exerciseSet) {
+            this.exerciseSet = exerciseSet;
+            ((TextView) itemView).setText(exerciseSet.toString());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            createEditOrDeleteDialog(exerciseSet.getSetNumber() - 1);
+            return true;
+        }
+    }
+
+    public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
+
+        private List<ExerciseSet> exerciseSets;
+
+        ExerciseAdapter(List<ExerciseSet> exerciseSets) {
+            this.exerciseSets = exerciseSets;
+        }
+
+        @NonNull
+        @Override
+        public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new ExerciseHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
+            ExerciseSet exerciseSet = exerciseSets.get(position);
+            holder.bind(exerciseSet);
+        }
+
+        @Override
+        public int getItemCount() {
+            return exerciseSets.size();
+        }
     }
 }
