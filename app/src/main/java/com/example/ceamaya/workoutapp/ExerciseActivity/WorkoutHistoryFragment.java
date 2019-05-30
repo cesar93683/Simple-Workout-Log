@@ -9,16 +9,22 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.Workout;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
@@ -68,30 +74,15 @@ public class WorkoutHistoryFragment extends Fragment {
                 container, false);
         workouts = exerciseDB.getWorkouts(exerciseId);
 
-        workoutHistoryAdapter = new WorkoutHistoryAdapter(getActivity(), workouts);
-
-        ListView workoutHistoryListView = fragmentView.findViewById(R.id
-                .workout_history_list_view);
-
-        workoutHistoryListView.setAdapter(workoutHistoryAdapter);
-
-        workoutHistoryListView.setOnItemLongClickListener(workoutHistoryListViewLongClickListener
-                ());
+        RecyclerView workoutHistoryRecyclerView =
+                fragmentView.findViewById(R.id.workout_history_recycler_view);
+        workoutHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
+        workoutHistoryRecyclerView.setAdapter(workoutHistoryAdapter);
 
         return fragmentView;
     }
 
-    @NonNull
-    private AdapterView.OnItemLongClickListener workoutHistoryListViewLongClickListener() {
-        return new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
-                    id) {
-                createEditOrDeleteDialog(position);
-                return true;
-            }
-        };
-    }
 
     private void createEditOrDeleteDialog(final int position) {
         @SuppressLint("InflateParams") final View dialogView =
@@ -123,13 +114,13 @@ public class WorkoutHistoryFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void createDeleteDialog(final int exerciseIndex) {
+    private void createDeleteDialog(final int position) {
         new AlertDialog.Builder(getActivity())
                 .setMessage("Are you sure you want to delete this workout?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        exerciseDB.deleteWorkout(workouts.get(exerciseIndex).getDate().getTime());
+                        exerciseDB.deleteWorkout(workouts.get(position).getDate().getTime());
                         workouts.clear();
                         workouts.addAll(exerciseDB.getWorkouts(exerciseId));
                         workoutHistoryAdapter.notifyDataSetChanged();
@@ -149,6 +140,75 @@ public class WorkoutHistoryFragment extends Fragment {
             workouts.addAll(exerciseDB.getWorkouts(exerciseId));
             workoutHistoryAdapter.notifyDataSetChanged();
             Snackbar.make(fragmentView, "Workout updated.", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private class WorkoutHistoryHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+
+        private TextView timeTextView;
+        private LinearLayout exerciseSetsContainer;
+        private int position;
+        private TextView dateTextView;
+
+        WorkoutHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.history_list_item, parent, false));
+            itemView.setOnLongClickListener(this);
+            dateTextView = itemView.findViewById(R.id.date_text_view);
+            timeTextView = itemView.findViewById(R.id.time_text_view);
+            exerciseSetsContainer = itemView.findViewById(R.id.exercise_sets_container);
+        }
+
+        void bind(Workout workout, int position) {
+            this.position = position;
+
+            String dateText = DateFormat.getDateInstance().format(workout.getDate().getTime());
+            dateTextView.setText(dateText);
+
+            String timeText = DateFormat.getTimeInstance().format(workout.getDate().getTime());
+            timeTextView.setText(timeText);
+
+            exerciseSetsContainer.removeAllViews();
+
+            for (ExerciseSet exerciseSet : workout.getExerciseSets()) {
+                @SuppressLint("InflateParams") TextView textView = (TextView) LayoutInflater.from
+                        (getActivity()).inflate(R.layout.simple_list_item, null);
+                textView.setText(exerciseSet.toString());
+                textView.setBackground(null);
+                exerciseSetsContainer.addView(textView);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            createEditOrDeleteDialog(position);
+            return true;
+        }
+    }
+
+    private class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryHolder> {
+
+        private List<Workout> workouts;
+
+        WorkoutHistoryAdapter(List<Workout> workouts) {
+            this.workouts = workouts;
+        }
+
+        @NonNull
+        @Override
+        public WorkoutHistoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new WorkoutHistoryHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull WorkoutHistoryHolder holder, int position) {
+            Workout workout = workouts.get(position);
+            holder.bind(workout, position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return workouts.size();
         }
     }
 }
