@@ -17,7 +17,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -67,14 +66,15 @@ public class ExerciseFragment extends Fragment {
 
         TextInputLayout repsTextInputLayout = fragmentView.findViewById(R.id
                 .reps_text_input_layout);
-        TextInputLayout weightTextInputLayout = fragmentView.findViewById(R.id
-                .weight_text_input_layout);
 
         Button decreaseRepButton = fragmentView.findViewById(R.id.decrease_rep_button);
         decreaseRepButton.setOnClickListener(decreaseButtonClickListener(repsTextInputLayout));
 
         Button increaseRepButton = fragmentView.findViewById(R.id.increase_rep_button);
         increaseRepButton.setOnClickListener(increaseButtonClickListener(repsTextInputLayout));
+
+        TextInputLayout weightTextInputLayout = fragmentView.findViewById(R.id
+                .weight_text_input_layout);
 
         Button decreaseWeightButton = fragmentView.findViewById(R.id.decrease_weight_button);
         decreaseWeightButton.setOnClickListener(decreaseButtonClickListener(weightTextInputLayout));
@@ -91,11 +91,11 @@ public class ExerciseFragment extends Fragment {
                 .finish_exercise_fab);
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
-        RecyclerView completedExerciseSetsRecyclerView =
-                fragmentView.findViewById(R.id.completed_exercise_sets_recycler_view);
-        completedExerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView exerciseSetsRecyclerView =
+                fragmentView.findViewById(R.id.exercise_sets_recycler_view);
+        exerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
-        completedExerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
+        exerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
 
         return fragmentView;
     }
@@ -288,7 +288,7 @@ public class ExerciseFragment extends Fragment {
 
     private void editSet(
             final TextInputLayout repsTextInputLayout,
-            final TextInputLayout weightTextInputLayout, AlertDialog alertDialog, int setIndex) {
+            final TextInputLayout weightTextInputLayout, AlertDialog alertDialog, int position) {
         if (!validateReps(repsTextInputLayout)) {
             return;
         }
@@ -297,7 +297,7 @@ public class ExerciseFragment extends Fragment {
         String weightString = weightTextInputLayout.getEditText().getText().toString();
         int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
 
-        ExerciseSet exerciseSet = exerciseSets.get(setIndex);
+        ExerciseSet exerciseSet = exerciseSets.get(position);
         exerciseSet.setWeight(weight);
         exerciseSet.setReps(reps);
         exerciseSetsAdapter.notifyDataSetChanged();
@@ -307,9 +307,9 @@ public class ExerciseFragment extends Fragment {
                 Snackbar.LENGTH_SHORT).show();
     }
 
-    private void deleteExerciseSet(int exerciseIndex) {
-        exerciseSets.remove(exerciseIndex);
-        for (int i = exerciseIndex; i < exerciseSets.size(); i++) {
+    private void deleteExerciseSet(int position) {
+        exerciseSets.remove(position);
+        for (int i = position; i < exerciseSets.size(); i++) {
             exerciseSets.get(i).setSetNumber(i + 1);
         }
         exerciseSetsAdapter.notifyDataSetChanged();
