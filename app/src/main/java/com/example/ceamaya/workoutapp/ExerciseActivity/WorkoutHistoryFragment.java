@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +31,6 @@ import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseD
 
 public class WorkoutHistoryFragment extends Fragment {
 
-    public static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-    public static final String EXTRA_TIME = "EXTRA_TIME";
-    public static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
     private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
     private static final String TAG = "WorkoutHistoryFragment";
@@ -100,10 +96,8 @@ public class WorkoutHistoryFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), EditExerciseActivity.class);
-                        intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
-                        intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
-                        intent.putExtra(EXTRA_TIME, workouts.get(position).getDate().getTime());
+                        Intent intent = EditExerciseActivity.newIntent(getActivity(), exerciseName,
+                                exerciseId, workouts.get(position).getDate().getTime());
                         alertDialog.dismiss();
                         startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
                     }

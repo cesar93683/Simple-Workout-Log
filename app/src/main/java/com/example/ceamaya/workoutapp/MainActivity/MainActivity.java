@@ -7,12 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.ceamaya.workoutapp.Database.ExerciseDBHelper;
+import com.example.ceamaya.workoutapp.Database.ExerciseBaseHelper;
 import com.example.ceamaya.workoutapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ExerciseDBHelper exerciseDB;
+    public static ExerciseBaseHelper exerciseDB;
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        exerciseDB = new ExerciseDBHelper(this);
+        exerciseDB = new ExerciseBaseHelper(this);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);

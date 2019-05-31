@@ -1,5 +1,7 @@
 package com.example.ceamaya.workoutapp.ExerciseActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,19 +17,32 @@ import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseD
 public class EditExerciseActivity extends AppCompatActivity implements SaveSets {
     private static final String TAG = "EditExerciseActivity";
     private long time;
+    private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
+    private static final String EXTRA_TIME = "EXTRA_TIME";
+    private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
+
+    public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
+                                   long time) {
+        Intent intent = new Intent(packageContext, EditExerciseActivity.class);
+        intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
+        intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
+        intent.putExtra(EXTRA_TIME, time);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int exerciseId = getIntent().getIntExtra(WorkoutHistoryFragment.EXTRA_EXERCISE_ID, -1);
-        String exerciseName = getIntent().getStringExtra(
-                WorkoutHistoryFragment.EXTRA_EXERCISE_NAME);
-        time = getIntent().getLongExtra(WorkoutHistoryFragment.EXTRA_TIME, -1);
+        String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
+        int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
+        time = getIntent().getLongExtra(EXTRA_TIME, -1);
+
         if (exerciseId == -1 || time == -1) {
             finish();
         }
         setTitle(exerciseName);
         setContentView(R.layout.activity_edit_exercise);
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {

@@ -19,13 +19,13 @@ import static com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseS
 import static com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
 
 
-public class ExerciseDBHelper extends SQLiteOpenHelper {
+public class ExerciseBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "exerciseList.db";
     private static final int VERSION = 1;
-    private static final String TAG = "ExerciseDBHelper";
+    private static final String TAG = "ExerciseBaseHelper";
 
-    public ExerciseDBHelper(Context context) {
+    public ExerciseBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
