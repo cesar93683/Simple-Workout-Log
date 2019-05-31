@@ -43,14 +43,7 @@ public class ExerciseSelectFragment extends Fragment {
     private ExerciseAdapter exerciseAdapter;
 
     public ExerciseSelectFragment() {
-        exercisesMap = exerciseDB.getExercises();
-
-        exerciseFilter = "";
-
-        filteredExercises = new ArrayList<>();
-        filteredExercises.addAll(exercisesMap.keySet());
-
-        Collections.sort(filteredExercises);
+        // empty
     }
 
     public static Fragment newInstance() {
@@ -61,6 +54,15 @@ public class ExerciseSelectFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        exercisesMap = exerciseDB.getExercises();
+
+        exerciseFilter = "";
+
+        filteredExercises = new ArrayList<>();
+        filteredExercises.addAll(exercisesMap.keySet());
+
+        Collections.sort(filteredExercises);
+
         activity = getActivity();
 
         fragmentView = inflater.inflate(R.layout.fragment_select, container,
