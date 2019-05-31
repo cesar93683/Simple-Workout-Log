@@ -8,19 +8,19 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/fragment_exercise_filter_edit_text_hint"
+        android:hint="@string/filter_edit_text_hint"
         android:id="@+id/filter_edit_text"
         android:textSize="20sp"
         android:inputType="text"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/exercise_recycler_view"
+        android:id="@+id/recycler_view"
         android:layout_below="@+id/filter_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/new_exercise_fab"
+        android:id="@+id/new_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

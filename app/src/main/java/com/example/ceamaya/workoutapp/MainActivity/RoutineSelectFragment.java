@@ -16,7 +16,7 @@ public class RoutineSelectFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_routine_select, container, false);
+        return inflater.inflate(R.layout.fragment_select, container, false);
     }
 
     public RoutineSelectFragment() {

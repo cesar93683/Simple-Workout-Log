@@ -63,16 +63,16 @@ public class ExerciseSelectFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         activity = getActivity();
 
-        fragmentView = inflater.inflate(R.layout.fragment_exercise_select, container,
+        fragmentView = inflater.inflate(R.layout.fragment_select, container,
                 false);
 
-        FloatingActionButton newExerciseFab = fragmentView.findViewById(R.id.new_exercise_fab);
+        FloatingActionButton newExerciseFab = fragmentView.findViewById(R.id.new_fab);
         newExerciseFab.setOnClickListener(newExerciseFabClickListener());
 
         EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);
         filterEditText.addTextChangedListener(filterEditTextListener());
 
-        RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.exercise_recycler_view);
+        RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         exerciseRecyclerView.setLayoutManager(linearLayoutManager);
         exerciseAdapter = new ExerciseAdapter(filteredExercises);

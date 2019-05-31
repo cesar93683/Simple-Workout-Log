@@ -117,8 +117,7 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
             int reps = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.REPS));
             int weight = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.WEIGHT));
             int setNumber = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.SET_NUMBER));
-            long timestamp = cursor.getLong(cursor.getColumnIndex(ExerciseSetTable.Cols
-                    .DATE));
+            long timestamp = cursor.getLong(cursor.getColumnIndex(ExerciseSetTable.Cols.DATE));
             ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
 
             ArrayList<ExerciseSet> exerciseSets;

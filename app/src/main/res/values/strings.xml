@@ -3,7 +3,7 @@
     <string name="menu_button_nav_exercise_text">Exercise</string>
     <string name="menu_button_nav_settings_text">Settings</string>
     <string name="menu_button_nav_routine_text">Routine</string>
-    <string name="fragment_exercise_filter_edit_text_hint">Filter</string>
+    <string name="filter_edit_text_hint">Filter</string>
     <string name="activity_exercise_reps_hint">REPS</string>
     <string name="activity_exercise_weight_hint">WEIGHT (LB)</string>
     <string name="activity_exercise_completed_text">COMPLETED</string>
