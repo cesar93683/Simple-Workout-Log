@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -93,9 +94,14 @@ public class ExerciseFragment extends Fragment {
 
         RecyclerView exerciseSetsRecyclerView =
                 fragmentView.findViewById(R.id.exercise_sets_recycler_view);
-        exerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        exerciseSetsRecyclerView.setLayoutManager(linearLayoutManager);
         exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
         exerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                exerciseSetsRecyclerView.getContext(), linearLayoutManager.getOrientation());
+        exerciseSetsRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return fragmentView;
     }

@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -72,9 +73,14 @@ public class ExerciseSelectFragment extends Fragment {
         filterEditText.addTextChangedListener(filterEditTextListener());
 
         RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.exercise_recycler_view);
-        exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        exerciseRecyclerView.setLayoutManager(linearLayoutManager);
         exerciseAdapter = new ExerciseAdapter(filteredExercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
+        exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return fragmentView;
     }
@@ -286,6 +292,7 @@ public class ExerciseSelectFragment extends Fragment {
             createRenameOrDeleteDialog(exercise);
             return true;
         }
+
     }
 
     private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
