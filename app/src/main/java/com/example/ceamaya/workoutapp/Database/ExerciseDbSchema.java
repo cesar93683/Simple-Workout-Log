@@ -2,22 +2,24 @@ package com.example.ceamaya.workoutapp.Database;
 
 import android.provider.BaseColumns;
 
-class ExerciseDbSchema {
-    static final class ExerciseTable implements BaseColumns {
-        static final String NAME = "exercises";
-        static final class Cols {
-            static final String NAME = "name";
+public class ExerciseDbSchema {
+    public static final class ExerciseTable implements BaseColumns {
+        public static final String NAME = "exercises";
+
+        public static final class Cols {
+            public static final String NAME = "name";
         }
     }
 
-    static final class ExerciseSetTable implements BaseColumns {
-        static final String NAME = "exercise_sets";
-        static final class Cols {
-            static final String EXERCISE_ID = "exercise_id";
-            static final String SET_NUMBER = "set_number";
-            static final String REPS = "reps";
-            static final String WEIGHT = "weight";
-            static final String DATE = "date";
+    public static final class ExerciseSetTable implements BaseColumns {
+        public static final String NAME = "exercise_sets";
+
+        public static final class Cols {
+            public static final String EXERCISE_ID = "exercise_id";
+            public static final String SET_NUMBER = "set_number";
+            public static final String REPS = "reps";
+            public static final String WEIGHT = "weight";
+            public static final String DATE = "date";
         }
     }
 }

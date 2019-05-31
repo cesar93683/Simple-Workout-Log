@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
+import com.example.ceamaya.workoutapp.MainActivity.Exercise;
 import com.example.ceamaya.workoutapp.Workout;
 
 import java.util.ArrayList;
@@ -51,42 +52,6 @@ public class ExerciseBaseHelper extends SQLiteOpenHelper {
                 ExerciseSetTable.Cols.DATE);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
-    }
-
-    public void insertExercise(String exercise) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(ExerciseTable.Cols.NAME, exercise);
-        db.insert(ExerciseTable.NAME, null, cv);
-    }
-
-    public HashMap<String, Integer> getExercises() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(ExerciseTable.NAME,
-                null, null, null, null, null, null);
-        HashMap<String, Integer> exercises = new HashMap<>();
-        while (cursor.moveToNext()) {
-            String exercise = cursor.getString(cursor.getColumnIndex(ExerciseTable.Cols.NAME));
-            int id = cursor.getInt(cursor.getColumnIndex(ExerciseTable._ID));
-            exercises.put(exercise, id);
-        }
-        cursor.close();
-        return exercises;
-    }
-
-    public void deleteExercise(long id) {
-        SQLiteDatabase db = getWritableDatabase();
-        String[] whereArgs = new String[]{String.valueOf(id)};
-        db.delete(ExerciseTable.NAME, ExerciseTable._ID + "=?", whereArgs);
-        db.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.EXERCISE_ID + "=?", whereArgs);
-    }
-
-    public void updateExercise(long id, String newExercise) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(ExerciseTable.Cols.NAME, newExercise);
-        String[] whereArgs = new String[]{String.valueOf(id)};
-        db.update(ExerciseTable.NAME, cv, ExerciseTable._ID + "=?", whereArgs);
     }
 
     public void insertSet(ExerciseSet exerciseSet, long timeStamp) {
