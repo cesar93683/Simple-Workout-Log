@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ceamaya.workoutapp.Database.ExerciseBaseHelper;
-import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema;
+import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
+import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseSetTable;
+import com.example.ceamaya.workoutapp.Exercise;
 
 import java.util.ArrayList;
 
@@ -17,8 +19,7 @@ class ExerciseLab {
     private ArrayList<Exercise> exercises;
 
     private ExerciseLab(Context context) {
-        database = new ExerciseBaseHelper(context.getApplicationContext())
-                .getWritableDatabase();
+        database = new ExerciseBaseHelper(context.getApplicationContext()).getWritableDatabase();
         exercises = new ArrayList<>();
         updateExercises();
     }
@@ -33,14 +34,12 @@ class ExerciseLab {
 
     private void updateExercises() {
         exercises.clear();
-        Cursor cursor = database.query(ExerciseDbSchema.ExerciseTable.NAME,
-                null, null, null, null, null, null);
+        Cursor cursor = database.query(ExerciseTable.NAME,null, null,
+                null, null, null, null);
         exercises = new ArrayList<>();
         while (cursor.moveToNext()) {
-            String exercise =
-                    cursor.getString(cursor.getColumnIndex(ExerciseDbSchema.ExerciseTable.Cols.NAME));
-            int exerciseId =
-                    cursor.getInt(cursor.getColumnIndex(ExerciseDbSchema.ExerciseTable._ID));
+            String exercise = cursor.getString(cursor.getColumnIndex(ExerciseTable.Cols.NAME));
+            int exerciseId = cursor.getInt(cursor.getColumnIndex(ExerciseTable._ID));
             exercises.add(new Exercise(exercise, exerciseId));
         }
         cursor.close();
@@ -48,26 +47,24 @@ class ExerciseLab {
 
     void insertExercise(String exercise) {
         ContentValues cv = new ContentValues();
-        cv.put(ExerciseDbSchema.ExerciseTable.Cols.NAME, exercise);
-        database.insert(ExerciseDbSchema.ExerciseTable.NAME, null, cv);
+        cv.put(ExerciseTable.Cols.NAME, exercise);
+        database.insert(ExerciseTable.NAME, null, cv);
         updateExercises();
     }
 
     void deleteExercise(long id) {
         String[] whereArgs = new String[]{String.valueOf(id)};
-        database.delete(ExerciseDbSchema.ExerciseTable.NAME,
-                ExerciseDbSchema.ExerciseTable._ID + "=?", whereArgs);
-        database.delete(ExerciseDbSchema.ExerciseSetTable.NAME,
-                ExerciseDbSchema.ExerciseSetTable.Cols.EXERCISE_ID + "=?", whereArgs);
+        database.delete(ExerciseTable.NAME,ExerciseTable._ID + "=?", whereArgs);
+        database.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.EXERCISE_ID + "=?",
+                whereArgs);
         updateExercises();
     }
 
     void updateExercise(long id, String newExercise) {
         ContentValues cv = new ContentValues();
-        cv.put(ExerciseDbSchema.ExerciseTable.Cols.NAME, newExercise);
+        cv.put(ExerciseTable.Cols.NAME, newExercise);
         String[] whereArgs = new String[]{String.valueOf(id)};
-        database.update(ExerciseDbSchema.ExerciseTable.NAME, cv,
-                ExerciseDbSchema.ExerciseTable._ID + "=?", whereArgs);
+        database.update(ExerciseTable.NAME, cv,ExerciseTable._ID + "=?", whereArgs);
         updateExercises();
     }
 

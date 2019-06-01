@@ -35,6 +35,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         workoutLab = WorkoutLab.get(this);
+
         String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
         int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
         time = getIntent().getLongExtra(EXTRA_TIME, -1);
@@ -53,13 +54,15 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        ArrayList<ExerciseSet> exerciseSets = workoutLab.getExerciseSets(exerciseId, time);
+        ArrayList<ExerciseSet> exerciseSets =
+                workoutLab.getWorkout(exerciseId, time).getExerciseSets();
         ((ExerciseFragment) fragment).addExerciseSets(exerciseSets);
     }
 
     @Override
     public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-        Date date = new Date();
+        workoutLab.deleteWorkout(time);
+        Date date = new Date(time);
         Workout workout = new Workout(date, exerciseSets);
         workoutLab.insertWorkout(workout);
         setResult(RESULT_OK);

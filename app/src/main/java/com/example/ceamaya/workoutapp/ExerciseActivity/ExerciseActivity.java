@@ -26,10 +26,6 @@ import com.example.ceamaya.workoutapp.Workout;
 import java.util.ArrayList;
 import java.util.Date;
 
-interface SaveSets {
-    void saveSets(ArrayList<ExerciseSet> exerciseSets);
-}
-
 public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";

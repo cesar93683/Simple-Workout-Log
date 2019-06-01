@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.MainActivity;
+package com.example.ceamaya.workoutapp;
 
 import android.support.annotation.NonNull;
 

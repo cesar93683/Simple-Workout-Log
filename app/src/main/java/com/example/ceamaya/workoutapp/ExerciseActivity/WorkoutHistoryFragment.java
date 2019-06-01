@@ -143,7 +143,8 @@ public class WorkoutHistoryFragment extends Fragment {
         }
     }
 
-    private class WorkoutHistoryHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    private class WorkoutHistoryHolder extends RecyclerView.ViewHolder implements
+            View.OnLongClickListener {
 
         private TextView timeTextView;
         private LinearLayout exerciseSetsContainer;

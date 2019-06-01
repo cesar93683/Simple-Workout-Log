@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.ExerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.R;
 
