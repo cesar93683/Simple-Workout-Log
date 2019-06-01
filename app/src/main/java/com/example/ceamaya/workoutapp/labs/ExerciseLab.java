@@ -74,23 +74,24 @@ public class ExerciseLab {
         updateExercises();
     }
 
-    private static ContentValues getContentValues(String exerciseName) {
+    private ContentValues getContentValues(String exerciseName) {
         ContentValues values = new ContentValues();
         values.put(ExerciseTable.Cols.NAME, exerciseName);
         return values;
     }
 
     public void deleteExercise(int exerciseId) {
+        String whereClause = ExerciseTable._ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-        database.delete(ExerciseTable.NAME, ExerciseTable._ID + "=?", whereArgs);
+        database.delete(ExerciseTable.NAME, whereClause, whereArgs);
         workoutLab.deleteExercise(exerciseId);
         updateExercises();
     }
 
-    public void updateExercise(long id, String newExerciseName) {
+    public void updateExercise(long exerciseId, String newExerciseName) {
         ContentValues values = getContentValues(newExerciseName);
         String whereClause = ExerciseTable._ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(id)};
+        String[] whereArgs = new String[]{String.valueOf(exerciseId)};
         database.update(ExerciseTable.NAME, values, whereClause, whereArgs);
         updateExercises();
     }

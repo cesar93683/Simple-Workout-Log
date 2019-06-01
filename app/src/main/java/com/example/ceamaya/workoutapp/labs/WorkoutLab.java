@@ -80,6 +80,18 @@ public class WorkoutLab {
         return new Workout(timeStamp, exerciseSets);
     }
 
+    public void deleteExercise(int exerciseId) {
+        String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(exerciseId)};
+        database.delete(ExerciseSetTable.NAME, whereClause, whereArgs);
+    }
+
+    public void updateWorkout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
+        deleteWorkout(timeStamp);
+        Workout workout = new Workout(timeStamp, exerciseSets);
+        insertWorkout(workout);
+    }
+
     public void deleteWorkout(long time) {
         String whereClause = ExerciseSetTable.Cols.TIME_STAMP + "=?";
         String[] whereArgs = new String[]{String.valueOf(time)};
@@ -92,18 +104,12 @@ public class WorkoutLab {
         }
     }
 
-    public void deleteExercise(int exerciseId) {
-        String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-        database.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.EXERCISE_ID + "=?",
-                whereArgs);
-    }
-
     private void insertExerciseSet(ExerciseSet exerciseSet, long timeStamp) {
         ContentValues values = getContentValues(exerciseSet, timeStamp);
         database.insert(ExerciseSetTable.NAME, null, values);
     }
 
-    private static ContentValues getContentValues(ExerciseSet exerciseSet, long timeStamp) {
+    private ContentValues getContentValues(ExerciseSet exerciseSet, long timeStamp) {
         ContentValues values = new ContentValues();
         values.put(ExerciseSetTable.Cols.REPS, exerciseSet.getReps());
         values.put(ExerciseSetTable.Cols.WEIGHT, exerciseSet.getWeight());
@@ -111,12 +117,6 @@ public class WorkoutLab {
         values.put(ExerciseSetTable.Cols.EXERCISE_ID, exerciseSet.getExerciseId());
         values.put(ExerciseSetTable.Cols.TIME_STAMP, timeStamp);
         return values;
-    }
-
-    public void updateWorkout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
-        deleteWorkout(timeStamp);
-        Workout workout = new Workout(timeStamp, exerciseSets);
-        insertWorkout(workout);
     }
 }
 

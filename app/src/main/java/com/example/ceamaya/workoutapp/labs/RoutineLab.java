@@ -64,15 +64,16 @@ public class RoutineLab {
         updateRoutines();
     }
 
-    private static ContentValues getContentValues(String routineName) {
+    private ContentValues getContentValues(String routineName) {
         ContentValues values = new ContentValues();
         values.put(RoutineTable.Cols.NAME, routineName);
         return values;
     }
 
     public void deleteRoutine(int routineId) {
+        String whereClause = RoutineTable._ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(routineId)};
-        database.delete(RoutineTable.NAME, RoutineTable._ID + "=?", whereArgs);
+        database.delete(RoutineTable.NAME, whereClause, whereArgs);
         routineExerciseLab.deleteRoutineExercise(routineId);
         updateRoutines();
     }

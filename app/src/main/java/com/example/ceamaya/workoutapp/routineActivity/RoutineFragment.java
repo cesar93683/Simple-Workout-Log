@@ -41,7 +41,6 @@ public class RoutineFragment extends Fragment {
     }
 
     public static RoutineFragment newInstance(int routineId) {
-        Log.d(TAG, "newInstance: routineId" + routineId);
         RoutineFragment fragment = new RoutineFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_ROUTINE_ID, routineId);
@@ -64,7 +63,6 @@ public class RoutineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
-
 
         RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -127,7 +125,7 @@ public class RoutineFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            // set multiple exercises to remove from routine
+            // set multiple exercises to remove from routine or reorder
             return true;
         }
 
