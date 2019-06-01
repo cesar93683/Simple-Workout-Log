@@ -4,17 +4,13 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public class Workout implements Comparable<Workout>{
+public class Workout implements Comparable<Workout> {
     private final ArrayList<ExerciseSet> exerciseSets;
-    private long timeStamp;
+    private final long timeStamp;
 
     public Workout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
         this.timeStamp = timeStamp;
         this.exerciseSets = exerciseSets;
-    }
-
-    public long getTimeStamp() {
-        return timeStamp;
     }
 
     public ArrayList<ExerciseSet> getExerciseSets() {
@@ -24,5 +20,9 @@ public class Workout implements Comparable<Workout>{
     @Override
     public int compareTo(@NonNull Workout o) {
         return (int) (o.getTimeStamp() - getTimeStamp());
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
     }
 }

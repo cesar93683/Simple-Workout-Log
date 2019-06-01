@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.ExerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,19 +14,18 @@ import com.example.ceamaya.workoutapp.Workout;
 import java.util.ArrayList;
 
 public class EditExerciseActivity extends AppCompatActivity implements SaveSets {
-    private static final String TAG = "EditExerciseActivity";
     private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-    private static final String EXTRA_TIME = "EXTRA_TIME";
+    private static final String EXTRA_TIME_STAMP = "EXTRA_TIME_STAMP";
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private long timeStamp;
     private WorkoutLab workoutLab;
 
     public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
-                                   long time) {
+                                   long timeStamp) {
         Intent intent = new Intent(packageContext, EditExerciseActivity.class);
         intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
         intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
-        intent.putExtra(EXTRA_TIME, time);
+        intent.putExtra(EXTRA_TIME_STAMP, timeStamp);
         return intent;
     }
 
@@ -37,7 +36,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
 
         String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
         int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
-        timeStamp = getIntent().getLongExtra(EXTRA_TIME, -1);
+        timeStamp = getIntent().getLongExtra(EXTRA_TIME_STAMP, -1);
 
         if (exerciseId == -1 || timeStamp == -1) {
             finish();
@@ -48,14 +47,11 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
-            fragment = ExerciseFragment.newInstance(exerciseId);
+            fragment = ExerciseFragment.newInstance(exerciseId, timeStamp);
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        ArrayList<ExerciseSet> exerciseSets =
-                workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets();
-        ((ExerciseFragment) fragment).addExerciseSets(exerciseSets);
     }
 
     @Override

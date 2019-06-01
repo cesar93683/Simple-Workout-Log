@@ -1,15 +1,15 @@
-package com.example.ceamaya.workoutapp.ExerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.ceamaya.workoutapp.Database.ExerciseBaseHelper;
-import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseSetTable;
-import com.example.ceamaya.workoutapp.Database.ExerciseSetCursorWrapper;
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.Workout;
+import com.example.ceamaya.workoutapp.database.ExerciseBaseHelper;
+import com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseSetTable;
+import com.example.ceamaya.workoutapp.database.ExerciseSetCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 class WorkoutLab {
 
     private static WorkoutLab workoutLab;
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
     private WorkoutLab(Context context) {
         database = new ExerciseBaseHelper(context.getApplicationContext()).getWritableDatabase();
@@ -80,9 +80,9 @@ class WorkoutLab {
     }
 
     void deleteWorkout(long time) {
+        String whereClause = ExerciseSetTable.Cols.TIME_STAMP + "=?";
         String[] whereArgs = new String[]{String.valueOf(time)};
-        database.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.TIME_STAMP + "=?",
-                whereArgs);
+        database.delete(ExerciseSetTable.NAME, whereClause, whereArgs);
     }
 
     void insertWorkout(Workout workout) {

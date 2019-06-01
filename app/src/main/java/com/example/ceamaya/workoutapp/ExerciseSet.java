@@ -1,19 +1,10 @@
 package com.example.ceamaya.workoutapp;
 
 public class ExerciseSet {
+    private final int exerciseId;
     private int reps;
     private int weight;
-    private final int exerciseId;
     private int setNumber;
-
-    public long getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
     private long timeStamp;
 
     public ExerciseSet(int reps, int weight, int exerciseId, int setNumber) {
@@ -21,6 +12,14 @@ public class ExerciseSet {
         this.weight = weight;
         this.exerciseId = exerciseId;
         this.setNumber = setNumber;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public int getReps() {

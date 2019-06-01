@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.Database;
+package com.example.ceamaya.workoutapp.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;

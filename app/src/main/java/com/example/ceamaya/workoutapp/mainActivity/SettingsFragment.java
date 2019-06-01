@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.MainActivity;
+package com.example.ceamaya.workoutapp.mainActivity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,20 +10,25 @@ import android.view.ViewGroup;
 
 import com.example.ceamaya.workoutapp.R;
 
-public class RoutineSelectFragment extends Fragment {
+public class SettingsFragment extends Fragment {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_select, container, false);
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    public RoutineSelectFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
     public static Fragment newInstance() {
-        return new RoutineSelectFragment();
+        return new SettingsFragment();
     }
 }

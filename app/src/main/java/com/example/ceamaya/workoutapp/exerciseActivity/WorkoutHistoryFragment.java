@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.ExerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -32,7 +32,6 @@ public class WorkoutHistoryFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
     private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
-    private static final String TAG = "WorkoutHistoryFragment";
     private static final int REQUEST_CODE_EDIT_WORKOUT = 1;
     private int exerciseId;
     private String exerciseName;
@@ -68,8 +67,8 @@ public class WorkoutHistoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        fragmentView = getLayoutInflater().inflate(R.layout.fragment_exercise_history,
-                container, false);
+        fragmentView = getLayoutInflater().inflate(R.layout.fragment_exercise_history, container,
+                false);
         workouts = workoutLab.getWorkouts(exerciseId);
 
         RecyclerView workoutHistoryRecyclerView =
@@ -121,9 +120,7 @@ public class WorkoutHistoryFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         workoutLab.deleteWorkout(workouts.get(position).getTimeStamp());
-                        workouts.clear();
-                        workouts.addAll(workoutLab.getWorkouts(exerciseId));
-                        workoutHistoryAdapter.notifyDataSetChanged();
+                        updateWorkouts();
                         Snackbar.make(fragmentView, "Workout deleted.",
                                 Snackbar.LENGTH_SHORT).show();
                     }
@@ -132,13 +129,17 @@ public class WorkoutHistoryFragment extends Fragment {
                 .show();
     }
 
+    private void updateWorkouts() {
+        workouts.clear();
+        workouts.addAll(workoutLab.getWorkouts(exerciseId));
+        workoutHistoryAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
-            workouts.clear();
-            workouts.addAll(workoutLab.getWorkouts(exerciseId));
-            workoutHistoryAdapter.notifyDataSetChanged();
+            updateWorkouts();
             Snackbar.make(fragmentView, "Workout updated.", Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -146,10 +147,10 @@ public class WorkoutHistoryFragment extends Fragment {
     private class WorkoutHistoryHolder extends RecyclerView.ViewHolder implements
             View.OnLongClickListener {
 
-        private TextView timeTextView;
-        private LinearLayout exerciseSetsContainer;
+        private final TextView timeTextView;
+        private final LinearLayout exerciseSetsContainer;
+        private final TextView dateTextView;
         private int position;
-        private TextView dateTextView;
 
         WorkoutHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.history_list_item, parent, false));
@@ -188,7 +189,7 @@ public class WorkoutHistoryFragment extends Fragment {
 
     private class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryHolder> {
 
-        private List<Workout> workouts;
+        private final List<Workout> workouts;
 
         WorkoutHistoryAdapter(List<Workout> workouts) {
             this.workouts = workouts;

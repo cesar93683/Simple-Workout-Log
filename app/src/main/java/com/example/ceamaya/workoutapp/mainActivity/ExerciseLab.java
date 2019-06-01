@@ -1,21 +1,22 @@
-package com.example.ceamaya.workoutapp.MainActivity;
+package com.example.ceamaya.workoutapp.mainActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.ceamaya.workoutapp.Database.ExerciseBaseHelper;
-import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseSetTable;
-import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
 import com.example.ceamaya.workoutapp.Exercise;
+import com.example.ceamaya.workoutapp.database.ExerciseBaseHelper;
+import com.example.ceamaya.workoutapp.database.ExerciseCursorWrapper;
+import com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseSetTable;
+import com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseTable;
 
 import java.util.ArrayList;
 
 class ExerciseLab {
 
     private static ExerciseLab exerciseLab;
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
     private ArrayList<Exercise> exercises;
 
     private ExerciseLab(Context context) {
@@ -26,15 +27,25 @@ class ExerciseLab {
 
     private void updateExercises() {
         exercises.clear();
-        Cursor cursor = database.query(ExerciseTable.NAME, null, null,
-                null, null, null, null);
+        ExerciseCursorWrapper cursor = queryExercises(null, null);
         exercises = new ArrayList<>();
         while (cursor.moveToNext()) {
-            String exercise = cursor.getString(cursor.getColumnIndex(ExerciseTable.Cols.NAME));
-            int exerciseId = cursor.getInt(cursor.getColumnIndex(ExerciseTable._ID));
-            exercises.add(new Exercise(exercise, exerciseId));
+            exercises.add(cursor.getExercise());
         }
         cursor.close();
+    }
+
+    private ExerciseCursorWrapper queryExercises(String whereClause, String[] whereArgs) {
+        Cursor cursor = database.query(
+                ExerciseTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new ExerciseCursorWrapper(cursor);
     }
 
     static ExerciseLab get(Context context) {
@@ -45,11 +56,16 @@ class ExerciseLab {
         return exerciseLab;
     }
 
-    void insertExercise(String exercise) {
-        ContentValues cv = new ContentValues();
-        cv.put(ExerciseTable.Cols.NAME, exercise);
-        database.insert(ExerciseTable.NAME, null, cv);
+    void insertExercise(String exerciseName) {
+        ContentValues values = getContentValues(exerciseName);
+        database.insert(ExerciseTable.NAME, null, values);
         updateExercises();
+    }
+
+    private static ContentValues getContentValues(String exerciseName) {
+        ContentValues values = new ContentValues();
+        values.put(ExerciseTable.Cols.NAME, exerciseName);
+        return values;
     }
 
     void deleteExercise(long id) {
@@ -60,18 +76,17 @@ class ExerciseLab {
         updateExercises();
     }
 
-    void updateExercise(long id, String newExercise) {
-        ContentValues cv = new ContentValues();
-        cv.put(ExerciseTable.Cols.NAME, newExercise);
+    void updateExercise(long id, String newExerciseName) {
+        ContentValues values = getContentValues(newExerciseName);
         String whereClause = ExerciseTable._ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(id)};
-        database.update(ExerciseTable.NAME, cv, whereClause, whereArgs);
+        database.update(ExerciseTable.NAME, values, whereClause, whereArgs);
         updateExercises();
     }
 
     boolean contains(String newExercise) {
         for (Exercise exercise : exercises) {
-            if (exercise.getExercise().equals(newExercise)) {
+            if (exercise.getExerciseName().equals(newExercise)) {
                 return true;
             }
         }
@@ -81,7 +96,7 @@ class ExerciseLab {
     ArrayList<Exercise> getFilteredExercise(String filter) {
         ArrayList<Exercise> filteredExercises = new ArrayList<>();
         for (Exercise exercise : exercises) {
-            if (exercise.getExercise().contains(filter)) {
+            if (exercise.getExerciseName().contains(filter)) {
                 filteredExercises.add(exercise);
             }
         }

@@ -3,11 +3,11 @@ package com.example.ceamaya.workoutapp;
 import android.support.annotation.NonNull;
 
 public class Exercise implements Comparable<Exercise> {
-    private String exercise;
-    private int exerciseId;
+    private final String exerciseName;
+    private final int exerciseId;
 
-    public Exercise(String exercise, int exerciseId) {
-        this.exercise = exercise;
+    public Exercise(String exerciseName, int exerciseId) {
+        this.exerciseName = exerciseName;
         this.exerciseId = exerciseId;
     }
 
@@ -15,12 +15,12 @@ public class Exercise implements Comparable<Exercise> {
         return exerciseId;
     }
 
-    public String getExercise() {
-        return exercise;
-    }
-
     @Override
     public int compareTo(@NonNull Exercise o) {
-        return getExercise().compareTo(o.getExercise());
+        return getExerciseName().compareTo(o.getExerciseName());
+    }
+
+    public String getExerciseName() {
+        return exerciseName;
     }
 }

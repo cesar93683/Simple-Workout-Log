@@ -1,18 +1,17 @@
-package com.example.ceamaya.workoutapp.Database;
+package com.example.ceamaya.workoutapp.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseSetTable;
-import static com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
+import static com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseSetTable;
+import static com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseTable;
 
 
 public class ExerciseBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "exerciseList.db";
     private static final int VERSION = 1;
-    private static final String TAG = "ExerciseBaseHelper";
 
     public ExerciseBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -36,8 +35,7 @@ public class ExerciseBaseHelper extends SQLiteOpenHelper {
                         "NULL);",
                 ExerciseSetTable.NAME, ExerciseSetTable._ID, ExerciseSetTable.Cols.EXERCISE_ID,
                 ExerciseSetTable.Cols.SET_NUMBER, ExerciseSetTable.Cols.REPS, ExerciseSetTable
-                        .Cols.WEIGHT,
-                ExerciseSetTable.Cols.TIME_STAMP);
+                        .Cols.WEIGHT, ExerciseSetTable.Cols.TIME_STAMP);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
     }

@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.ExerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity;
 
 import android.content.Context;
 import android.content.Intent;

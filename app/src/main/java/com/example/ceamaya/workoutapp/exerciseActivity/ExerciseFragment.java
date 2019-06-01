@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.ExerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,38 +31,58 @@ import java.util.List;
 public class ExerciseFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
-    private final ArrayList<ExerciseSet> exerciseSets;
+    private static final String ARGS_TIME_STAMP = "ARGS_TIME_STAMP";
+    private static final long NO_TIME_STAMP = -1;
+    private ArrayList<ExerciseSet> exerciseSets;
     private View fragmentView;
     private Activity activity;
     private int exerciseId;
+    private long timeStamp;
     private ExerciseAdapter exerciseSetsAdapter;
 
     public ExerciseFragment() {
-        exerciseSets = new ArrayList<>();
+        // Required empty public constructor
     }
 
     public static Fragment newInstance(int exerciseId) {
         ExerciseFragment fragment = new ExerciseFragment();
         Bundle args = new Bundle();
         args.putInt(ARGS_EXERCISE_ID, exerciseId);
+        args.putLong(ARGS_TIME_STAMP, NO_TIME_STAMP);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    public static Fragment newInstance(int exerciseId, long timeStamp) {
+        ExerciseFragment fragment = new ExerciseFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARGS_EXERCISE_ID, exerciseId);
+        args.putLong(ARGS_TIME_STAMP, timeStamp);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
+            timeStamp = getArguments().getLong(ARGS_TIME_STAMP);
         }
-        super.onCreate(savedInstanceState);
+        activity = getActivity();
+
+        exerciseSets = new ArrayList<>();
+        if (timeStamp != NO_TIME_STAMP) {
+            WorkoutLab workoutLab = WorkoutLab.get(activity);
+            exerciseSets.addAll(workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets());
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        activity = getActivity();
-
         fragmentView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         TextInputLayout repsTextInputLayout = fragmentView.findViewById(R.id
@@ -107,8 +127,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     @NonNull
-    private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
-                                                                     textInputLayout) {
+    private View.OnClickListener decreaseButtonClickListener(final TextInputLayout textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,8 +147,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     @NonNull
-    private View.OnClickListener increaseButtonClickListener(final TextInputLayout
-                                                                     textInputLayout) {
+    private View.OnClickListener increaseButtonClickListener(final TextInputLayout textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,9 +164,8 @@ public class ExerciseFragment extends Fragment {
         };
     }
 
-    private View.OnClickListener addSetButtonClickListener(
-            final TextInputLayout repsTextInputLayout,
-            final TextInputLayout weightTextInputLayout) {
+    private View.OnClickListener addSetButtonClickListener(final TextInputLayout repsTextInputLayout,
+                                                           final TextInputLayout weightTextInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,9 +309,9 @@ public class ExerciseFragment extends Fragment {
         alertDialog.setView(container);
     }
 
-    private void editSet(
-            final TextInputLayout repsTextInputLayout,
-            final TextInputLayout weightTextInputLayout, AlertDialog alertDialog, int position) {
+    private void editSet(final TextInputLayout repsTextInputLayout,
+                         final TextInputLayout weightTextInputLayout, AlertDialog alertDialog,
+                         int position) {
         if (!validateReps(repsTextInputLayout)) {
             return;
         }
@@ -320,10 +337,6 @@ public class ExerciseFragment extends Fragment {
         }
         exerciseSetsAdapter.notifyDataSetChanged();
 
-    }
-
-    public void addExerciseSets(ArrayList<ExerciseSet> exerciseSetsToAdd) {
-        exerciseSets.addAll(exerciseSetsToAdd);
     }
 
     public void onBackPressed() {
@@ -377,9 +390,9 @@ public class ExerciseFragment extends Fragment {
         }
     }
 
-    public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
+    class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
 
-        private List<ExerciseSet> exerciseSets;
+        private final List<ExerciseSet> exerciseSets;
 
         ExerciseAdapter(List<ExerciseSet> exerciseSets) {
             this.exerciseSets = exerciseSets;

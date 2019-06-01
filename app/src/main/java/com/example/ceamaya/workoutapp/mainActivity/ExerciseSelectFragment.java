@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.MainActivity;
+package com.example.ceamaya.workoutapp.mainActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,8 +25,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.Exercise;
-import com.example.ceamaya.workoutapp.ExerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.R;
+import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +35,7 @@ import java.util.List;
 public class ExerciseSelectFragment extends Fragment {
     private Activity activity;
     private ArrayList<Exercise> filteredExercises;
-    private String exerciseFilter;
+    private String filter;
     private View fragmentView;
     private ExerciseAdapter exerciseAdapter;
     private ExerciseLab exerciseLab;
@@ -48,18 +48,22 @@ public class ExerciseSelectFragment extends Fragment {
         return new ExerciseSelectFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = getActivity();
+        exerciseLab = ExerciseLab.get(getActivity());
+
+        filter = "";
+        filteredExercises = new ArrayList<>();
+        filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
+        Collections.sort(filteredExercises);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        activity = getActivity();
-        exerciseLab = ExerciseLab.get(getActivity());
-
-        exerciseFilter = "";
-        filteredExercises = new ArrayList<>();
-        filteredExercises.addAll(exerciseLab.getFilteredExercise(exerciseFilter));
-        Collections.sort(filteredExercises);
-
         fragmentView = inflater.inflate(R.layout.fragment_select, container,
                 false);
 
@@ -107,7 +111,7 @@ public class ExerciseSelectFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                exerciseFilter = s.toString();
+                filter = s.toString();
                 updateFilteredExercises();
             }
         };
@@ -157,7 +161,7 @@ public class ExerciseSelectFragment extends Fragment {
 
     private void updateFilteredExercises() {
         filteredExercises.clear();
-        filteredExercises.addAll(exerciseLab.getFilteredExercise(exerciseFilter));
+        filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
         Collections.sort(filteredExercises);
         exerciseAdapter.notifyDataSetChanged();
     }
@@ -203,7 +207,7 @@ public class ExerciseSelectFragment extends Fragment {
 
         final TextInputLayout newExerciseTextInputLayout = dialogView.findViewById(
                 R.id.text_input_layout);
-        newExerciseTextInputLayout.getEditText().setText(oldExercise.getExercise());
+        newExerciseTextInputLayout.getEditText().setText(oldExercise.getExerciseName());
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -214,7 +218,7 @@ public class ExerciseSelectFragment extends Fragment {
                     public void onClick(View view) {
                         String newExercise = newExerciseTextInputLayout.
                                 getEditText().getText().toString().trim();
-                        if (oldExercise.getExercise().equals(newExercise)) {
+                        if (oldExercise.getExerciseName().equals(newExercise)) {
                             newExerciseTextInputLayout.setError("Same name.");
                         } else if (newExercise.isEmpty()) {
                             newExerciseTextInputLayout.setError("Please enter a name.");
@@ -264,12 +268,12 @@ public class ExerciseSelectFragment extends Fragment {
 
         void bind(Exercise exercise) {
             this.exercise = exercise;
-            ((TextView) itemView).setText(exercise.getExercise());
+            ((TextView) itemView).setText(exercise.getExerciseName());
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = ExerciseActivity.newIntent(activity, exercise.getExercise(),
+            Intent intent = ExerciseActivity.newIntent(activity, exercise.getExerciseName(),
                     exercise.getExerciseId());
             startActivity(intent);
         }
@@ -284,7 +288,7 @@ public class ExerciseSelectFragment extends Fragment {
 
     private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
 
-        private List<Exercise> exercises;
+        private final List<Exercise> exercises;
 
         ExerciseAdapter(List<Exercise> exercises) {
             this.exercises = exercises;
