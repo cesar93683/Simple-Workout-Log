@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
+import com.example.ceamaya.workoutapp.labs.WorkoutLab;
 
 import java.util.ArrayList;
 import java.util.List;

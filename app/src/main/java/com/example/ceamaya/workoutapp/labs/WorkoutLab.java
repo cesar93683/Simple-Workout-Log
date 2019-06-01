@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.exerciseActivity;
+package com.example.ceamaya.workoutapp.labs;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-class WorkoutLab {
+public class WorkoutLab {
 
     private static WorkoutLab workoutLab;
     private final SQLiteDatabase database;
@@ -24,14 +24,14 @@ class WorkoutLab {
         database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
     }
 
-    static WorkoutLab get(Context context) {
+    public static WorkoutLab get(Context context) {
         if (workoutLab == null) {
             workoutLab = new WorkoutLab(context);
         }
         return workoutLab;
     }
 
-    ArrayList<Workout> getWorkouts(int exerciseId) {
+    public ArrayList<Workout> getWorkouts(int exerciseId) {
         String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(exerciseId)};
         ExerciseSetCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
@@ -64,7 +64,7 @@ class WorkoutLab {
         return new ExerciseSetCursorWrapper(cursor);
     }
 
-    Workout getWorkout(int exerciseId, long timeStamp) {
+    public Workout getWorkout(int exerciseId, long timeStamp) {
         String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=? AND " +
                 ExerciseSetTable.Cols.TIME_STAMP + "=?";
         String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(timeStamp)};
@@ -79,16 +79,22 @@ class WorkoutLab {
         return new Workout(timeStamp, exerciseSets);
     }
 
-    void deleteWorkout(long time) {
+    public void deleteWorkout(long time) {
         String whereClause = ExerciseSetTable.Cols.TIME_STAMP + "=?";
         String[] whereArgs = new String[]{String.valueOf(time)};
         database.delete(ExerciseSetTable.NAME, whereClause, whereArgs);
     }
 
-    void insertWorkout(Workout workout) {
+    public void insertWorkout(Workout workout) {
         for (ExerciseSet exerciseSet : workout.getExerciseSets()) {
             workoutLab.insertExerciseSet(exerciseSet, workout.getTimeStamp());
         }
+    }
+
+    public void deleteExercise(int exerciseId) {
+        String[] whereArgs = new String[]{String.valueOf(exerciseId)};
+        database.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.EXERCISE_ID + "=?",
+                whereArgs);
     }
 
     private void insertExerciseSet(ExerciseSet exerciseSet, long timeStamp) {

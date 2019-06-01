@@ -5,8 +5,17 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/filter_edit_text_hint"
+        android:id="@+id/filter_edit_text"
+        android:textSize="20sp"
+        android:inputType="text"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:layout_below="@+id/filter_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

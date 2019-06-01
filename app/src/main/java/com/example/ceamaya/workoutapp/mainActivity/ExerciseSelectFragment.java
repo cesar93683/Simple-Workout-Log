@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseActivity;
+import com.example.ceamaya.workoutapp.labs.ExerciseLab;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,7 +65,7 @@ public class ExerciseSelectFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_select, container,
+        fragmentView = inflater.inflate(R.layout.fragment_select_with_filter, container,
                 false);
 
         FloatingActionButton newExerciseFab = fragmentView.findViewById(R.id.new_fab);

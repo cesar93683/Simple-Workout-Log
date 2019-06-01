@@ -3,6 +3,7 @@ package com.example.ceamaya.workoutapp.mainActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,9 +24,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.Routine;
+import com.example.ceamaya.workoutapp.labs.RoutineLab;
+import com.example.ceamaya.workoutapp.routineActivity.RoutineActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,7 +65,7 @@ public class RoutineSelectFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_select, container,
+        fragmentView = inflater.inflate(R.layout.fragment_select_with_filter, container,
                 false);
 
         FloatingActionButton newRoutineFab = fragmentView.findViewById(R.id.new_fab);
@@ -272,9 +274,9 @@ public class RoutineSelectFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-//            Intent intent = ExerciseActivity.newIntent(activity, exercise.getExerciseName(),
-//                    exercise.getExerciseId());
-//            startActivity(intent);
+            Intent intent = RoutineActivity.newIntent(activity, routine.getRoutineName(),
+                    routine.getRoutineId());
+            startActivity(intent);
         }
 
         @Override

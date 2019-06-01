@@ -9,6 +9,7 @@ import com.example.ceamaya.workoutapp.Routine;
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineTable;
+import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineExerciseTable;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -43,8 +44,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_ROUTINE_LIST_TABLE = String.format(
                 "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL);",
                 RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME);
+        final String SQL_CREATE_ROUTINE_EXERCISE_TABLE = String.format(
+                "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER NOT NULL," +
+                        " %s INTEGER NOT NULL);",
+                RoutineExerciseTable.NAME, RoutineExerciseTable._ID,
+                RoutineExerciseTable.Cols.ROUTINE_ID, RoutineExerciseTable.Cols.EXERCISE_ID);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
         db.execSQL(SQL_CREATE_ROUTINE_LIST_TABLE);
+        db.execSQL(SQL_CREATE_ROUTINE_EXERCISE_TABLE);
     }
 }

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.Workout;
+import com.example.ceamaya.workoutapp.labs.WorkoutLab;
 
 import java.util.ArrayList;
 
