@@ -21,7 +21,8 @@
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".exerciseActivity.EditExerciseActivity" />
-        <activity android:name=".routineActivity.RoutineActivity"></activity>
+        <activity android:name=".routineActivity.RoutineActivity" />
+        <activity android:name=".routineActivity.AddExercisesActivity"></activity>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ import java.util.List;
 public class RoutineFragment extends Fragment {
     private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
     private static final String TAG = "RoutineFragment";
+    private static final int REQ_ADD_EXERCISE = 1;
 
     private int routineId;
     private Activity activity;
@@ -76,9 +77,18 @@ public class RoutineFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-//                routineExerciseLab.insertRoutineExercise(routineId, 1);
+                Intent intent = AddExercisesActivity.newIntent(activity, routineId);
+                startActivityForResult(intent, REQ_ADD_EXERCISE);
             }
         };
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE) {
+            // update list
+        }
     }
 
     private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
@@ -106,7 +116,7 @@ public class RoutineFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            //
+            // set multiple exercises to remove from routine
             return true;
         }
 
