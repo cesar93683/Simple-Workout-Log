@@ -34,7 +34,6 @@ import java.util.List;
 public class ExerciseSelectFragment extends Fragment {
     private Activity activity;
     private ArrayList<Exercise> filteredExercises;
-    private ArrayList<Exercise> exercises;
     private String exerciseFilter;
     private View fragmentView;
     private ExerciseAdapter exerciseAdapter;
@@ -52,17 +51,13 @@ public class ExerciseSelectFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        activity = getActivity();
         exerciseLab = ExerciseLab.get(getActivity());
-        exercises = exerciseLab.getExercises();
 
         exerciseFilter = "";
-
         filteredExercises = new ArrayList<>();
-        filteredExercises.addAll(exercises);
-
+        filteredExercises.addAll(exerciseLab.getFilteredExercise(exerciseFilter));
         Collections.sort(filteredExercises);
-
-        activity = getActivity();
 
         fragmentView = inflater.inflate(R.layout.fragment_select, container,
                 false);
@@ -161,11 +156,7 @@ public class ExerciseSelectFragment extends Fragment {
 
     private void updateFilteredExercises() {
         filteredExercises.clear();
-        for (Exercise exercise : exercises) {
-            if (exercise.getExercise().contains(exerciseFilter)) {
-                filteredExercises.add(exercise);
-            }
-        }
+        filteredExercises.addAll(exerciseLab.getFilteredExercise(exerciseFilter));
         Collections.sort(filteredExercises);
         exerciseAdapter.notifyDataSetChanged();
     }

@@ -21,11 +21,10 @@ import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
+import com.example.ceamaya.workoutapp.Workout;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
 interface SaveSets {
     void saveSets(ArrayList<ExerciseSet> exerciseSets);
@@ -41,6 +40,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     private ViewPager mViewPager;
     private int exerciseId;
     private String exerciseName;
+    private WorkoutLab workoutLab;
 
     public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId) {
         Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -53,6 +53,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
+        workoutLab = WorkoutLab.get(this);
         exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, 0);
         exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
@@ -85,10 +86,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     }
 
     public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-        long timeStamp = new Date().getTime();
-        for (ExerciseSet exerciseSet : exerciseSets) {
-            exerciseDB.insertSet(exerciseSet, timeStamp);
-        }
+        Date date = new Date();
+        Workout workout = new Workout(date, exerciseSets);
+        workoutLab.insertWorkout(workout);
         finish();
     }
 

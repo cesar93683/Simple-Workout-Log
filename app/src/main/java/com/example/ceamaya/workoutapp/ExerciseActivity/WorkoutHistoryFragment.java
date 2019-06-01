@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
 
 public class WorkoutHistoryFragment extends Fragment {
 
@@ -40,6 +39,7 @@ public class WorkoutHistoryFragment extends Fragment {
     private View fragmentView;
     private ArrayList<Workout> workouts;
     private WorkoutHistoryAdapter workoutHistoryAdapter;
+    private WorkoutLab workoutLab;
 
     public WorkoutHistoryFragment() {
         // Required empty public constructor
@@ -56,11 +56,12 @@ public class WorkoutHistoryFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
             exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
         }
-        super.onCreate(savedInstanceState);
+        workoutLab = WorkoutLab.get(getActivity());
     }
 
     @Nullable
@@ -69,7 +70,7 @@ public class WorkoutHistoryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         fragmentView = getLayoutInflater().inflate(R.layout.fragment_exercise_history,
                 container, false);
-        workouts = exerciseDB.getWorkouts(exerciseId);
+        workouts = workoutLab.getWorkouts(exerciseId);
 
         RecyclerView workoutHistoryRecyclerView =
                 fragmentView.findViewById(R.id.workout_history_recycler_view);
@@ -119,9 +120,9 @@ public class WorkoutHistoryFragment extends Fragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        exerciseDB.deleteWorkout(workouts.get(position).getDate().getTime());
+                        workoutLab.deleteWorkout(workouts.get(position).getDate().getTime());
                         workouts.clear();
-                        workouts.addAll(exerciseDB.getWorkouts(exerciseId));
+                        workouts.addAll(workoutLab.getWorkouts(exerciseId));
                         workoutHistoryAdapter.notifyDataSetChanged();
                         Snackbar.make(fragmentView, "Workout deleted.",
                                 Snackbar.LENGTH_SHORT).show();
@@ -136,7 +137,7 @@ public class WorkoutHistoryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
             workouts.clear();
-            workouts.addAll(exerciseDB.getWorkouts(exerciseId));
+            workouts.addAll(workoutLab.getWorkouts(exerciseId));
             workoutHistoryAdapter.notifyDataSetChanged();
             Snackbar.make(fragmentView, "Workout updated.", Snackbar.LENGTH_SHORT).show();
         }

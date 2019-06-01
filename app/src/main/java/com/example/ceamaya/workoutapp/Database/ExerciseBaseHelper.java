@@ -1,20 +1,8 @@
 package com.example.ceamaya.workoutapp.Database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.ceamaya.workoutapp.ExerciseSet;
-import com.example.ceamaya.workoutapp.MainActivity.Exercise;
-import com.example.ceamaya.workoutapp.Workout;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
 
 import static com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseSetTable;
 import static com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
@@ -52,91 +40,5 @@ public class ExerciseBaseHelper extends SQLiteOpenHelper {
                 ExerciseSetTable.Cols.DATE);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
-    }
-
-    public void insertSet(ExerciseSet exerciseSet, long timeStamp) {
-        int weight = exerciseSet.getWeight();
-        int reps = exerciseSet.getReps();
-        int exerciseId = exerciseSet.getExerciseId();
-        int setNumber = exerciseSet.getSetNumber();
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(ExerciseSetTable.Cols.SET_NUMBER, setNumber);
-        cv.put(ExerciseSetTable.Cols.REPS, reps);
-        cv.put(ExerciseSetTable.Cols.WEIGHT, weight);
-        cv.put(ExerciseSetTable.Cols.EXERCISE_ID, exerciseId);
-        cv.put(ExerciseSetTable.Cols.DATE, timeStamp);
-        db.insert(ExerciseSetTable.NAME, null, cv);
-    }
-
-    public ArrayList<Workout> getWorkouts(int exerciseId) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        Cursor cursor = db.query(ExerciseSetTable.NAME, null,
-                ExerciseSetTable.Cols.EXERCISE_ID + "=?", new String[]{String.valueOf
-                        (exerciseId)},
-                null, null, null);
-
-        HashMap<Long, ArrayList<ExerciseSet>> exerciseSetsMap = new HashMap<>();
-        while (cursor.moveToNext()) {
-            int reps = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.REPS));
-            int weight = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.WEIGHT));
-            int setNumber = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.SET_NUMBER));
-            long timestamp = cursor.getLong(cursor.getColumnIndex(ExerciseSetTable.Cols.DATE));
-            ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
-
-            ArrayList<ExerciseSet> exerciseSets;
-            if (exerciseSetsMap.containsKey(timestamp)) {
-                exerciseSets = exerciseSetsMap.get(timestamp);
-            } else {
-                exerciseSets = new ArrayList<>();
-            }
-            exerciseSets.add(exerciseSet);
-            exerciseSetsMap.put(timestamp, exerciseSets);
-        }
-        cursor.close();
-
-        ArrayList<Workout> workouts = new ArrayList<>();
-
-        for (long timestamp : exerciseSetsMap.keySet()) {
-            workouts.add(new Workout(new Date(timestamp), exerciseSetsMap.get(timestamp)));
-        }
-
-        Collections.sort(workouts, new Comparator<Workout>() {
-            @Override
-            public int compare(Workout o1, Workout o2) {
-                return (int) (o2.getDate().getTime() - o1.getDate().getTime());
-            }
-        });
-
-        return workouts;
-    }
-
-    public ArrayList<ExerciseSet> getExerciseSets(int exerciseId, long time) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(time)};
-
-        Cursor cursor = db.query(ExerciseSetTable.NAME, null,
-                ExerciseSetTable.Cols.EXERCISE_ID + "=? AND " + ExerciseSetTable.Cols.DATE
-                        + "=?", whereArgs, null, null, null);
-
-        ArrayList<ExerciseSet> exerciseSets = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            int reps = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.REPS));
-            int weight = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.WEIGHT));
-            int setNumber = cursor.getInt(cursor.getColumnIndex(ExerciseSetTable.Cols.SET_NUMBER));
-            ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
-            exerciseSets.add(exerciseSet);
-        }
-        cursor.close();
-
-        return exerciseSets;
-    }
-
-    public void deleteWorkout(long time) {
-        SQLiteDatabase db = getWritableDatabase();
-        String[] whereArgs = new String[]{String.valueOf(time)};
-        db.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.DATE + "=?", whereArgs);
     }
 }

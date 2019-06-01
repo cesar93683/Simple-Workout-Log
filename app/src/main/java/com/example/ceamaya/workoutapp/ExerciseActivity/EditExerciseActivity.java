@@ -9,17 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
+import com.example.ceamaya.workoutapp.Workout;
 
 import java.util.ArrayList;
-
-import static com.example.ceamaya.workoutapp.MainActivity.MainActivity.exerciseDB;
+import java.util.Date;
 
 public class EditExerciseActivity extends AppCompatActivity implements SaveSets {
     private static final String TAG = "EditExerciseActivity";
-    private long time;
     private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
     private static final String EXTRA_TIME = "EXTRA_TIME";
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
+    private long time;
+    private WorkoutLab workoutLab;
 
     public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
                                    long time) {
@@ -33,6 +34,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        workoutLab = WorkoutLab.get(this);
         String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
         int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
         time = getIntent().getLongExtra(EXTRA_TIME, -1);
@@ -51,16 +53,15 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        ArrayList<ExerciseSet> exerciseSets = exerciseDB.getExerciseSets(exerciseId, time);
-        ((ExerciseFragment)fragment).addExerciseSets(exerciseSets);
+        ArrayList<ExerciseSet> exerciseSets = workoutLab.getExerciseSets(exerciseId, time);
+        ((ExerciseFragment) fragment).addExerciseSets(exerciseSets);
     }
 
     @Override
     public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-        exerciseDB.deleteWorkout(time);
-        for(ExerciseSet exerciseSet : exerciseSets) {
-            exerciseDB.insertSet(exerciseSet, time);
-        }
+        Date date = new Date();
+        Workout workout = new Workout(date, exerciseSets);
+        workoutLab.insertWorkout(workout);
         setResult(RESULT_OK);
         finish();
     }
