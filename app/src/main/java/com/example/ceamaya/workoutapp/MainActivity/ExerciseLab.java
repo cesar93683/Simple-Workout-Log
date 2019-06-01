@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ceamaya.workoutapp.Database.ExerciseBaseHelper;
-import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
 import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseSetTable;
+import com.example.ceamaya.workoutapp.Database.ExerciseDbSchema.ExerciseTable;
 import com.example.ceamaya.workoutapp.Exercise;
 
 import java.util.ArrayList;
@@ -24,17 +24,9 @@ class ExerciseLab {
         updateExercises();
     }
 
-    static ExerciseLab get(Context context) {
-        if (exerciseLab == null) {
-            exerciseLab = new ExerciseLab(context);
-        }
-        exerciseLab.updateExercises();
-        return exerciseLab;
-    }
-
     private void updateExercises() {
         exercises.clear();
-        Cursor cursor = database.query(ExerciseTable.NAME,null, null,
+        Cursor cursor = database.query(ExerciseTable.NAME, null, null,
                 null, null, null, null);
         exercises = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -43,6 +35,14 @@ class ExerciseLab {
             exercises.add(new Exercise(exercise, exerciseId));
         }
         cursor.close();
+    }
+
+    static ExerciseLab get(Context context) {
+        if (exerciseLab == null) {
+            exerciseLab = new ExerciseLab(context);
+        }
+        exerciseLab.updateExercises();
+        return exerciseLab;
     }
 
     void insertExercise(String exercise) {
@@ -54,7 +54,7 @@ class ExerciseLab {
 
     void deleteExercise(long id) {
         String[] whereArgs = new String[]{String.valueOf(id)};
-        database.delete(ExerciseTable.NAME,ExerciseTable._ID + "=?", whereArgs);
+        database.delete(ExerciseTable.NAME, ExerciseTable._ID + "=?", whereArgs);
         database.delete(ExerciseSetTable.NAME, ExerciseSetTable.Cols.EXERCISE_ID + "=?",
                 whereArgs);
         updateExercises();
@@ -63,8 +63,9 @@ class ExerciseLab {
     void updateExercise(long id, String newExercise) {
         ContentValues cv = new ContentValues();
         cv.put(ExerciseTable.Cols.NAME, newExercise);
+        String whereClause = ExerciseTable._ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(id)};
-        database.update(ExerciseTable.NAME, cv,ExerciseTable._ID + "=?", whereArgs);
+        database.update(ExerciseTable.NAME, cv, whereClause, whereArgs);
         updateExercises();
     }
 

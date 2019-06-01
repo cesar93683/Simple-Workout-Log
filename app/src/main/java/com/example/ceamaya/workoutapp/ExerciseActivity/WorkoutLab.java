@@ -13,7 +13,7 @@ import com.example.ceamaya.workoutapp.Workout;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 
 class WorkoutLab {
 
@@ -34,44 +34,32 @@ class WorkoutLab {
     ArrayList<Workout> getWorkouts(int exerciseId) {
         String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-        ExerciseSetCursorWrapper cursor = queryExerciseSet(whereClause, whereArgs);
+        ExerciseSetCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
 
-        HashMap<Long, ArrayList<ExerciseSet>> exerciseSetsMap = new HashMap<>();
+        HashSet<Long> uniqueTimeStamps = new HashSet<>();
         while (cursor.moveToNext()) {
-            ExerciseSet exerciseSet = cursor.getExerciseSet();
-            long timestamp = exerciseSet.getTimeStamp();
-
-            ArrayList<ExerciseSet> exerciseSets;
-            if (exerciseSetsMap.containsKey(timestamp)) {
-                exerciseSets = exerciseSetsMap.get(timestamp);
-            } else {
-                exerciseSets = new ArrayList<>();
-            }
-            exerciseSets.add(exerciseSet);
-            exerciseSetsMap.put(timestamp, exerciseSets);
+            uniqueTimeStamps.add(cursor.getExerciseSet().getTimeStamp());
         }
         cursor.close();
 
         ArrayList<Workout> workouts = new ArrayList<>();
-
-        for (long timestamp : exerciseSetsMap.keySet()) {
-            workouts.add(new Workout(timestamp, exerciseSetsMap.get(timestamp)));
+        for (long timestamp : uniqueTimeStamps) {
+            workouts.add(getWorkout(exerciseId, timestamp));
         }
-
         Collections.sort(workouts);
 
         return workouts;
     }
 
-    private ExerciseSetCursorWrapper queryExerciseSet(String whereClause, String[] whereArgs) {
+    private ExerciseSetCursorWrapper queryExerciseSets(String whereClause, String[] whereArgs) {
         Cursor cursor = database.query(
                 ExerciseSetTable.NAME,
-                null, // Columns - null selects all columns
+                null,
                 whereClause,
                 whereArgs,
-                null, // groupBy
-                null, // having
-                null  // orderBy
+                null,
+                null,
+                null
         );
         return new ExerciseSetCursorWrapper(cursor);
     }
@@ -80,7 +68,7 @@ class WorkoutLab {
         String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=? AND " +
                 ExerciseSetTable.Cols.TIME_STAMP + "=?";
         String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(timeStamp)};
-        ExerciseSetCursorWrapper cursor = queryExerciseSet(whereClause, whereArgs);
+        ExerciseSetCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
 
         ArrayList<ExerciseSet> exerciseSets = new ArrayList<>();
         while (cursor.moveToNext()) {
