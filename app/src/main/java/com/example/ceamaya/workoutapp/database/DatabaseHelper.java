@@ -4,16 +4,19 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseSetTable;
-import static com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseTable;
+import com.example.ceamaya.workoutapp.Routine;
+
+import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
+import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseTable;
+import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineTable;
 
 
-public class ExerciseBaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "exerciseList.db";
     private static final int VERSION = 1;
 
-    public ExerciseBaseHelper(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
@@ -21,6 +24,7 @@ public class ExerciseBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(String.format("DROP TABLE IF EXISTS %s", ExerciseTable.NAME));
         db.execSQL(String.format("DROP TABLE IF EXISTS %s", ExerciseSetTable.NAME));
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", RoutineTable.NAME));
         onCreate(db);
     }
 
@@ -36,7 +40,11 @@ public class ExerciseBaseHelper extends SQLiteOpenHelper {
                 ExerciseSetTable.NAME, ExerciseSetTable._ID, ExerciseSetTable.Cols.EXERCISE_ID,
                 ExerciseSetTable.Cols.SET_NUMBER, ExerciseSetTable.Cols.REPS, ExerciseSetTable
                         .Cols.WEIGHT, ExerciseSetTable.Cols.TIME_STAMP);
+        final String SQL_CREATE_ROUTINE_LIST_TABLE = String.format(
+                "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL);",
+                RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
+        db.execSQL(SQL_CREATE_ROUTINE_LIST_TABLE);
     }
 }

@@ -2,9 +2,16 @@ package com.example.ceamaya.workoutapp.database;
 
 import android.provider.BaseColumns;
 
-public class ExerciseDbSchema {
+public class DbSchema {
     public static final class ExerciseTable implements BaseColumns {
         public static final String NAME = "exercises";
+
+        public static final class Cols {
+            public static final String NAME = "name";
+        }
+    }
+    public static final class RoutineTable implements BaseColumns {
+        public static final String NAME = "routines";
 
         public static final class Cols {
             public static final String NAME = "name";

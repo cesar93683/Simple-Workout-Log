@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.Workout;
-import com.example.ceamaya.workoutapp.database.ExerciseBaseHelper;
-import com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseSetTable;
+import com.example.ceamaya.workoutapp.database.DatabaseHelper;
+import com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
 import com.example.ceamaya.workoutapp.database.ExerciseSetCursorWrapper;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ class WorkoutLab {
     private final SQLiteDatabase database;
 
     private WorkoutLab(Context context) {
-        database = new ExerciseBaseHelper(context.getApplicationContext()).getWritableDatabase();
+        database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
     }
 
     static WorkoutLab get(Context context) {

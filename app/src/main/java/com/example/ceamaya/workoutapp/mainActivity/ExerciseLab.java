@@ -6,10 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ceamaya.workoutapp.Exercise;
-import com.example.ceamaya.workoutapp.database.ExerciseBaseHelper;
+import com.example.ceamaya.workoutapp.database.DatabaseHelper;
 import com.example.ceamaya.workoutapp.database.ExerciseCursorWrapper;
-import com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseSetTable;
-import com.example.ceamaya.workoutapp.database.ExerciseDbSchema.ExerciseTable;
+import com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
+import com.example.ceamaya.workoutapp.database.DbSchema.ExerciseTable;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ class ExerciseLab {
     private ArrayList<Exercise> exercises;
 
     private ExerciseLab(Context context) {
-        database = new ExerciseBaseHelper(context.getApplicationContext()).getWritableDatabase();
+        database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
         exercises = new ArrayList<>();
         updateExercises();
     }
@@ -84,9 +84,9 @@ class ExerciseLab {
         updateExercises();
     }
 
-    boolean contains(String newExercise) {
+    boolean contains(String exerciseName) {
         for (Exercise exercise : exercises) {
-            if (exercise.getExerciseName().equals(newExercise)) {
+            if (exercise.getExerciseName().equals(exerciseName)) {
                 return true;
             }
         }

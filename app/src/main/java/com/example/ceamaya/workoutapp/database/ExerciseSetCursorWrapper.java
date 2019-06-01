@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
+import com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
 
 public class ExerciseSetCursorWrapper extends CursorWrapper {
 
@@ -12,11 +13,11 @@ public class ExerciseSetCursorWrapper extends CursorWrapper {
     }
 
     public ExerciseSet getExerciseSet() {
-        int reps = getInt(getColumnIndex(ExerciseDbSchema.ExerciseSetTable.Cols.REPS));
-        int weight = getInt(getColumnIndex(ExerciseDbSchema.ExerciseSetTable.Cols.WEIGHT));
-        int exerciseId = getInt(getColumnIndex(ExerciseDbSchema.ExerciseSetTable.Cols.EXERCISE_ID));
-        int setNumber = getInt(getColumnIndex(ExerciseDbSchema.ExerciseSetTable.Cols.SET_NUMBER));
-        long timestamp = getLong(getColumnIndex(ExerciseDbSchema.ExerciseSetTable.Cols.TIME_STAMP));
+        int reps = getInt(getColumnIndex(ExerciseSetTable.Cols.REPS));
+        int weight = getInt(getColumnIndex(ExerciseSetTable.Cols.WEIGHT));
+        int exerciseId = getInt(getColumnIndex(ExerciseSetTable.Cols.EXERCISE_ID));
+        int setNumber = getInt(getColumnIndex(ExerciseSetTable.Cols.SET_NUMBER));
+        long timestamp = getLong(getColumnIndex(ExerciseSetTable.Cols.TIME_STAMP));
 
         ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
         exerciseSet.setTimeStamp(timestamp);
