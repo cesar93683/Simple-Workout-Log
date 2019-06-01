@@ -19,7 +19,7 @@ public class ExerciseDbSchema {
             public static final String SET_NUMBER = "set_number";
             public static final String REPS = "reps";
             public static final String WEIGHT = "weight";
-            public static final String DATE = "date";
+            public static final String TIME_STAMP = "time_stamp";
         }
     }
 }

@@ -12,14 +12,13 @@ import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.Workout;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class EditExerciseActivity extends AppCompatActivity implements SaveSets {
     private static final String TAG = "EditExerciseActivity";
     private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
     private static final String EXTRA_TIME = "EXTRA_TIME";
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
-    private long time;
+    private long timeStamp;
     private WorkoutLab workoutLab;
 
     public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
@@ -38,9 +37,9 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
 
         String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
         int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
-        time = getIntent().getLongExtra(EXTRA_TIME, -1);
+        timeStamp = getIntent().getLongExtra(EXTRA_TIME, -1);
 
-        if (exerciseId == -1 || time == -1) {
+        if (exerciseId == -1 || timeStamp == -1) {
             finish();
         }
         setTitle(exerciseName);
@@ -55,15 +54,14 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
                     .commit();
         }
         ArrayList<ExerciseSet> exerciseSets =
-                workoutLab.getWorkout(exerciseId, time).getExerciseSets();
+                workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets();
         ((ExerciseFragment) fragment).addExerciseSets(exerciseSets);
     }
 
     @Override
     public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-        workoutLab.deleteWorkout(time);
-        Date date = new Date(time);
-        Workout workout = new Workout(date, exerciseSets);
+        workoutLab.deleteWorkout(timeStamp);
+        Workout workout = new Workout(timeStamp, exerciseSets);
         workoutLab.insertWorkout(workout);
         setResult(RESULT_OK);
         finish();

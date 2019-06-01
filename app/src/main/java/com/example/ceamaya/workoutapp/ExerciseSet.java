@@ -6,6 +6,16 @@ public class ExerciseSet {
     private final int exerciseId;
     private int setNumber;
 
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    private long timeStamp;
+
     public ExerciseSet(int reps, int weight, int exerciseId, int setNumber) {
         this.reps = reps;
         this.weight = weight;

@@ -37,7 +37,7 @@ public class ExerciseBaseHelper extends SQLiteOpenHelper {
                 ExerciseSetTable.NAME, ExerciseSetTable._ID, ExerciseSetTable.Cols.EXERCISE_ID,
                 ExerciseSetTable.Cols.SET_NUMBER, ExerciseSetTable.Cols.REPS, ExerciseSetTable
                         .Cols.WEIGHT,
-                ExerciseSetTable.Cols.DATE);
+                ExerciseSetTable.Cols.TIME_STAMP);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
     }

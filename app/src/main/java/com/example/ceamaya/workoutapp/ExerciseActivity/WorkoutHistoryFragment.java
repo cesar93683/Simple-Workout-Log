@@ -98,7 +98,7 @@ public class WorkoutHistoryFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = EditExerciseActivity.newIntent(getActivity(), exerciseName,
-                                exerciseId, workouts.get(position).getDate().getTime());
+                                exerciseId, workouts.get(position).getTimeStamp());
                         alertDialog.dismiss();
                         startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
                     }
@@ -120,7 +120,7 @@ public class WorkoutHistoryFragment extends Fragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        workoutLab.deleteWorkout(workouts.get(position).getDate().getTime());
+                        workoutLab.deleteWorkout(workouts.get(position).getTimeStamp());
                         workouts.clear();
                         workouts.addAll(workoutLab.getWorkouts(exerciseId));
                         workoutHistoryAdapter.notifyDataSetChanged();
@@ -162,10 +162,10 @@ public class WorkoutHistoryFragment extends Fragment {
         void bind(Workout workout, int position) {
             this.position = position;
 
-            String dateText = DateFormat.getDateInstance().format(workout.getDate().getTime());
+            String dateText = DateFormat.getDateInstance().format(workout.getTimeStamp());
             dateTextView.setText(dateText);
 
-            String timeText = DateFormat.getTimeInstance().format(workout.getDate().getTime());
+            String timeText = DateFormat.getTimeInstance().format(workout.getTimeStamp());
             timeTextView.setText(timeText);
 
             exerciseSetsContainer.removeAllViews();
