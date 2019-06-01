@@ -1,5 +1,6 @@
 package com.example.ceamaya.workoutapp.labs;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -39,7 +40,7 @@ public class ExerciseLab {
     }
 
     private ExerciseCursorWrapper queryExercises(String whereClause, String[] whereArgs) {
-        Cursor cursor = database.query(
+        @SuppressLint("Recycle") Cursor cursor = database.query(
                 ExerciseTable.NAME,
                 null,
                 whereClause,

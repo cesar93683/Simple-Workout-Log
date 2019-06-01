@@ -16,7 +16,7 @@ public class RoutineExerciseLab {
     private static final String TAG = "RoutineExerciseLab";
     private static RoutineExerciseLab routineExerciseLab;
     private final SQLiteDatabase database;
-    private ExerciseLab exerciseLab;
+    private final ExerciseLab exerciseLab;
 
     private RoutineExerciseLab(Context context) {
         database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
@@ -64,7 +64,7 @@ public class RoutineExerciseLab {
         database.insert(RoutineExerciseTable.NAME, null, values);
     }
 
-    private void deleteRoutineExercise(int routineId) {
+    public void deleteRoutineExercise(int routineId) {
         String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(routineId)};
         database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);

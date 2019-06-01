@@ -51,7 +51,6 @@
             android:contentDescription="@string/dialog_delete_content_description" />
 
         <TextView
-            android:id="@+id/text_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"

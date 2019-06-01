@@ -18,9 +18,7 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/exercise_set_editor"
-                layout="@layout/exercise_set_editor" />
+            <include layout="@layout/exercise_set_editor" />
 
             <Button
                 android:id="@+id/add_set_button"

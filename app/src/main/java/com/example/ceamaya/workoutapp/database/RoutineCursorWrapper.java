@@ -12,7 +12,7 @@ public class RoutineCursorWrapper extends CursorWrapper {
         super(cursor);
     }
 
-    public Routine getRoutines() {
+    public Routine getRoutine() {
         String routineName = getString(getColumnIndex(RoutineTable.Cols.NAME));
         int routineId = getInt(getColumnIndex(RoutineTable._ID));
 

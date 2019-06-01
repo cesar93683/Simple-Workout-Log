@@ -31,9 +31,9 @@ import java.util.List;
 public class AddExercisesActivity extends AppCompatActivity {
 
     private static final String EXTRA_ROUTINE_ID = "EXTRA_ROUTINE_ID";
-    ArrayList<Exercise> includedExercises;
-    ArrayList<Exercise> filteredExercises;
-    ExerciseLab exerciseLab;
+    private ArrayList<Exercise> includedExercises;
+    private ArrayList<Exercise> filteredExercises;
+    private ExerciseLab exerciseLab;
     private int routineId;
     private String filter;
     private Activity activity;
@@ -50,18 +50,20 @@ public class AddExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_select_with_filter);
+
         activity = this;
         routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
         if (routineId == -1) {
             finish();
         }
+
         exerciseLab = ExerciseLab.get(this);
         routineExerciseLab = RoutineExerciseLab.get(this);
 
+        includedExercises = routineExerciseLab.getExercises(routineId);
+
         filter = "";
-        filteredExercises = new ArrayList<>();
-        includedExercises = new ArrayList<>();
-        filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
+        filteredExercises = exerciseLab.getFilteredExercise(filter);
         Collections.sort(filteredExercises);
 
         EditText filterEditText = findViewById(R.id.filter_edit_text);

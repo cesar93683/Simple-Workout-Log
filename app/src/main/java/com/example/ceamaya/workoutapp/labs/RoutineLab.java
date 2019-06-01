@@ -1,5 +1,6 @@
 package com.example.ceamaya.workoutapp.labs;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,11 +17,13 @@ public class RoutineLab {
 
     private static RoutineLab routineLab;
     private final SQLiteDatabase database;
+    private final RoutineExerciseLab routineExerciseLab;
     private ArrayList<Routine> routines;
 
     private RoutineLab(Context context) {
         database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
         routines = new ArrayList<>();
+        routineExerciseLab = RoutineExerciseLab.get(context);
         updateRoutines();
     }
 
@@ -29,13 +32,13 @@ public class RoutineLab {
         RoutineCursorWrapper cursor = queryRoutines(null, null);
         routines = new ArrayList<>();
         while (cursor.moveToNext()) {
-            routines.add(cursor.getRoutines());
+            routines.add(cursor.getRoutine());
         }
         cursor.close();
     }
 
     private RoutineCursorWrapper queryRoutines(String whereClause, String[] whereArgs) {
-        Cursor cursor = database.query(
+        @SuppressLint("Recycle") Cursor cursor = database.query(
                 RoutineTable.NAME,
                 null,
                 whereClause,
@@ -67,16 +70,17 @@ public class RoutineLab {
         return values;
     }
 
-    public void deleteRoutine(long id) {
-        String[] whereArgs = new String[]{String.valueOf(id)};
+    public void deleteRoutine(int routineId) {
+        String[] whereArgs = new String[]{String.valueOf(routineId)};
         database.delete(RoutineTable.NAME, RoutineTable._ID + "=?", whereArgs);
+        routineExerciseLab.deleteRoutineExercise(routineId);
         updateRoutines();
     }
 
-    public void updateRoutine(long id, String newRoutineName) {
+    public void updateRoutine(int routineId, String newRoutineName) {
         ContentValues values = getContentValues(newRoutineName);
         String whereClause = RoutineTable._ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(id)};
+        String[] whereArgs = new String[]{String.valueOf(routineId)};
         database.update(RoutineTable.NAME, values, whereClause, whereArgs);
         updateRoutines();
     }

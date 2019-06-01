@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".exerciseActivity.EditExerciseActivity" />
         <activity android:name=".routineActivity.RoutineActivity" />
-        <activity android:name=".routineActivity.AddExercisesActivity"></activity>
+        <activity android:name=".routineActivity.AddExercisesActivity"/>
     </application>
 
 </manifest>
