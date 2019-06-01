@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,8 @@ public class RoutineFragment extends Fragment {
     private Activity activity;
     private RoutineExerciseLab routineExerciseLab;
     private ArrayList<Exercise> exercises;
+    private ExerciseAdapter exerciseAdapter;
+    private View fragmentView;
 
     public RoutineFragment() {
         // Required empty public constructor
@@ -59,16 +62,16 @@ public class RoutineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
 
 
         RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         exerciseRecyclerView.setLayoutManager(linearLayoutManager);
-        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(exercises);
+        exerciseAdapter = new ExerciseAdapter(exercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
 
-        FloatingActionButton addExerciseFab = fragmentView.findViewById(R.id.new_fab);
+        FloatingActionButton addExerciseFab = fragmentView.findViewById(R.id.fab);
         addExerciseFab.setOnClickListener(addExerciseFabClickListener());
         return fragmentView;
     }
@@ -86,8 +89,11 @@ public class RoutineFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE) {
-            // update list
+        if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE) {
+            exercises.clear();
+            exercises.addAll(routineExerciseLab.getExercises(routineId));
+            exerciseAdapter.notifyDataSetChanged();
+            Snackbar.make(fragmentView, "Routine modified.", Snackbar.LENGTH_SHORT).show();
         }
     }
 

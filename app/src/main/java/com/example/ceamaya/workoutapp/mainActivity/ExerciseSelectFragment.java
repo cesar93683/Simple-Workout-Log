@@ -68,7 +68,7 @@ public class ExerciseSelectFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_select_with_filter, container,
                 false);
 
-        FloatingActionButton newExerciseFab = fragmentView.findViewById(R.id.new_fab);
+        FloatingActionButton newExerciseFab = fragmentView.findViewById(R.id.fab);
         newExerciseFab.setOnClickListener(newExerciseFabClickListener());
 
         EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);

@@ -57,9 +57,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
 
     @Override
     public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-        workoutLab.deleteWorkout(timeStamp);
-        Workout workout = new Workout(timeStamp, exerciseSets);
-        workoutLab.insertWorkout(workout);
+        workoutLab.updateWorkout(timeStamp, exerciseSets);
         setResult(RESULT_OK);
         finish();
     }

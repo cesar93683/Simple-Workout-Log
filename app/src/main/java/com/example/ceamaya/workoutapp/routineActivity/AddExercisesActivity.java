@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.labs.ExerciseLab;
+import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +38,7 @@ public class AddExercisesActivity extends AppCompatActivity {
     private String filter;
     private Activity activity;
     private ExerciseAdapter exerciseAdapter;
+    private RoutineExerciseLab routineExerciseLab;
 
     public static Intent newIntent(Context packageContext, int routineId) {
         Intent intent = new Intent(packageContext, AddExercisesActivity.class);
@@ -53,6 +56,7 @@ public class AddExercisesActivity extends AppCompatActivity {
             finish();
         }
         exerciseLab = ExerciseLab.get(this);
+        routineExerciseLab = RoutineExerciseLab.get(this);
 
         filter = "";
         filteredExercises = new ArrayList<>();
@@ -72,6 +76,9 @@ public class AddExercisesActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
         exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        FloatingActionButton saveFab = findViewById(R.id.fab);
+        saveFab.setOnClickListener(saveFab());
     }
 
     @NonNull
@@ -91,6 +98,18 @@ public class AddExercisesActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 filter = s.toString();
                 updateFilteredExercises();
+            }
+        };
+    }
+
+    private View.OnClickListener saveFab() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                routineExerciseLab.updateRoutineExercises(routineId, includedExercises);
+                Intent intent = new Intent();
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
         };
     }

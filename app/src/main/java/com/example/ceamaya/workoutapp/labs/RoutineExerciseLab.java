@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.database.DatabaseHelper;
@@ -14,10 +13,10 @@ import java.util.ArrayList;
 
 public class RoutineExerciseLab {
 
+    private static final String TAG = "RoutineExerciseLab";
     private static RoutineExerciseLab routineExerciseLab;
     private final SQLiteDatabase database;
     private ExerciseLab exerciseLab;
-    private static final String TAG = "RoutineExerciseLab";
 
     private RoutineExerciseLab(Context context) {
         database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
@@ -58,11 +57,23 @@ public class RoutineExerciseLab {
         );
     }
 
-    public void insertRoutineExercise(int routineId, int exerciseId) {
+    private void insertRoutineExercise(int routineId, int exerciseId) {
         ContentValues values = new ContentValues();
         values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
         values.put(RoutineExerciseTable.Cols.EXERCISE_ID, exerciseId);
         database.insert(RoutineExerciseTable.NAME, null, values);
     }
 
+    private void deleteRoutineExercise(int routineId) {
+        String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(routineId)};
+        database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
+    }
+
+    public void updateRoutineExercises(int routineId, ArrayList<Exercise> includedExercises) {
+        deleteRoutineExercise(routineId);
+        for(Exercise exercise : includedExercises) {
+            insertRoutineExercise(routineId, exercise.getExerciseId());
+        }
+    }
 }

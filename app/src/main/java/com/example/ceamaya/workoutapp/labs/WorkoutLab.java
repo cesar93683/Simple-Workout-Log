@@ -111,5 +111,11 @@ public class WorkoutLab {
         values.put(ExerciseSetTable.Cols.TIME_STAMP, timeStamp);
         return values;
     }
+
+    public void updateWorkout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
+        deleteWorkout(timeStamp);
+        Workout workout = new Workout(timeStamp, exerciseSets);
+        insertWorkout(workout);
+    }
 }
 
