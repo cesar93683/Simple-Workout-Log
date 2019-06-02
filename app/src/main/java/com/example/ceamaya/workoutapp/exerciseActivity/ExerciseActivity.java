@@ -115,9 +115,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Exercise";
+                    return getString(R.string.exercise);
                 case 1:
-                    return "History";
+                    return getString(R.string.history);
             }
             return null;
         }

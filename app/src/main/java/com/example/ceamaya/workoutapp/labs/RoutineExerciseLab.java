@@ -96,8 +96,8 @@ public class RoutineExerciseLab {
     }
 
     public void deleteExerciseFromRoutine(int routineId, int exerciseId) {
-        String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=? AND " +
-                RoutineExerciseTable.Cols.EXERCISE_ID + "=?";
+        String whereClause = String.format("%s=? AND %s=?", RoutineExerciseTable.Cols.ROUTINE_ID,
+                RoutineExerciseTable.Cols.EXERCISE_ID);
         String[] whereArgs = new String[]{String.valueOf(routineId), String.valueOf(exerciseId)};
         database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
     }

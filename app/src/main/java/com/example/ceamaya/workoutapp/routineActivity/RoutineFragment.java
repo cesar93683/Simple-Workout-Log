@@ -104,22 +104,22 @@ public class RoutineFragment extends Fragment {
             exercises.clear();
             exercises.addAll(routineExerciseLab.getExercises(routineId));
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(fragmentView, "Routine modified.", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(fragmentView, R.string.routine_updated, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     private void createDeleteExerciseDialog(final int exerciseId) {
         new AlertDialog.Builder(activity)
-                .setMessage("Are you sure you want to delete this exercise?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setMessage(R.string.are_you_sure_delete_exercise)
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         routineExerciseLab.deleteExerciseFromRoutine(routineId, exerciseId);
                         exercises.clear();
                         exercises.addAll(routineExerciseLab.getExercises(routineId));
                         exerciseAdapter.notifyDataSetChanged();
-                        Snackbar.make(fragmentView, "Exercise deleted.",
+                        Snackbar.make(fragmentView, R.string.exercise_deleted,
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 })

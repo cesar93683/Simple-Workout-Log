@@ -127,9 +127,9 @@ public class RoutineSelectFragment extends Fragment {
 
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(dialogView)
-                .setMessage("New Routine")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Save", null)
+                .setMessage(R.string.new_routine)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.save, null)
                 .create();
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -142,13 +142,13 @@ public class RoutineSelectFragment extends Fragment {
                                 String newRoutine = newRoutineTextInputLayout.
                                         getEditText().getText().toString().trim();
                                 if (newRoutine.isEmpty()) {
-                                    newRoutineTextInputLayout.setError("Please enter a name.");
+                                    newRoutineTextInputLayout.setError(getString(R.string.error_no_name));
                                 } else if (routineLab.contains(newRoutine)) {
-                                    newRoutineTextInputLayout.setError("Routine already exists.");
+                                    newRoutineTextInputLayout.setError(getString(R.string.error_routine_already_exists));
                                 } else {
                                     routineLab.insertRoutine(newRoutine);
                                     updateFilteredRoutines();
-                                    Snackbar.make(fragmentView, "New routine created.",
+                                    Snackbar.make(fragmentView, R.string.new_routine_created,
                                             Snackbar.LENGTH_SHORT).show();
                                     alertDialog.dismiss();
                                 }
@@ -201,9 +201,9 @@ public class RoutineSelectFragment extends Fragment {
                 activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(dialogView)
-                .setMessage("Edit Routine")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Save", null)
+                .setMessage(R.string.edit_routine)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.save, null)
                 .create();
 
         final TextInputLayout newRoutineTextInputLayout = dialogView.findViewById(
@@ -220,15 +220,15 @@ public class RoutineSelectFragment extends Fragment {
                         String newRoutine = newRoutineTextInputLayout.
                                 getEditText().getText().toString().trim();
                         if (oldRoutine.getRoutineName().equals(newRoutine)) {
-                            newRoutineTextInputLayout.setError("Same name.");
+                            newRoutineTextInputLayout.setError(getString(R.string.error_same_name));
                         } else if (newRoutine.isEmpty()) {
-                            newRoutineTextInputLayout.setError("Please enter a name.");
+                            newRoutineTextInputLayout.setError(getString(R.string.error_no_name));
                         } else if (routineLab.contains(newRoutine)) {
-                            newRoutineTextInputLayout.setError("Routine already exists.");
+                            newRoutineTextInputLayout.setError(getString(R.string.error_routine_already_exists));
                         } else {
                             routineLab.updateRoutine(oldRoutine.getRoutineId(), newRoutine);
                             updateFilteredRoutines();
-                            Snackbar.make(fragmentView, "Rename successful",
+                            Snackbar.make(fragmentView, R.string.rename_successful,
                                     Snackbar.LENGTH_SHORT).show();
                             alertDialog.dismiss();
                         }
@@ -242,14 +242,14 @@ public class RoutineSelectFragment extends Fragment {
 
     private void createDeleteRoutineDialog(final Routine routineToRemove) {
         new AlertDialog.Builder(activity)
-                .setMessage("Are you sure you want to delete this routine?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setMessage(R.string.are_you_sure_delete_routine)
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         routineLab.deleteRoutine(routineToRemove.getRoutineId());
                         updateFilteredRoutines();
-                        Snackbar.make(fragmentView, "Routine deleted.",
+                        Snackbar.make(fragmentView, R.string.routine_deleted,
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 })

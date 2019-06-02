@@ -178,7 +178,7 @@ public class EditRoutineFragment extends Fragment {
             }
             exerciseAdapter.notifyDataSetChanged();
             hasBeenModified = true;
-            Snackbar.make(activity.findViewById(android.R.id.content), "Exercises modified.",
+            Snackbar.make(activity.findViewById(android.R.id.content), R.string.exercise_updated,
                     Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -193,16 +193,16 @@ public class EditRoutineFragment extends Fragment {
 
     private void createSaveChangesDialog() {
         new AlertDialog.Builder(activity)
-                .setTitle("Save changes?")
-                .setMessage("Would you like to save changes made to the routine?")
-                .setNeutralButton("Cancel", null)
-                .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.save_changes)
+                .setMessage(R.string.would_save_changes_routine)
+                .setNeutralButton(R.string.cancel, null)
+                .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         activity.finish();
                     }
                 })
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         saveExercisesToRoutine();
@@ -213,9 +213,9 @@ public class EditRoutineFragment extends Fragment {
 
     private void createDeleteExerciseDialog(final int exerciseId) {
         new AlertDialog.Builder(activity)
-                .setMessage("Are you sure you want to delete this exercise?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setMessage(R.string.are_you_sure_delete_exercise)
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         for (int j = 0; j < exercises.size(); j++) {
@@ -225,7 +225,7 @@ public class EditRoutineFragment extends Fragment {
                         }
                         hasBeenModified = true;
                         exerciseAdapter.notifyDataSetChanged();
-                        Snackbar.make(fragmentView, "Exercise deleted.",
+                        Snackbar.make(fragmentView, R.string.exercise_deleted,
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 })
@@ -234,7 +234,7 @@ public class EditRoutineFragment extends Fragment {
 
     private class ExerciseHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        final TextView textView;
         Exercise exercise;
 
         @SuppressLint("ClickableViewAccessibility")

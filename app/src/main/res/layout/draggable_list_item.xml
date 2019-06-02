@@ -10,6 +10,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/drag_image_view"
+        android:contentDescription="@string/drag_icon"
         app:srcCompat="@drawable/ic_drag_handle_black_24dp"/>
 
     <TextView
