@@ -1,12 +1,11 @@
-package com.example.ceamaya.workoutapp.routineActivity;
+package com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,41 +18,60 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
+import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EditRoutineActivity extends AppCompatActivity {
+public class EditRoutineFragment extends Fragment {
+    private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
+    private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
+
     private static final int REQ_ADD_EXERCISE = 1;
-    private static final String EXTRA_ROUTINE_ID = "EXTRA_ROUTINE_ID";
-    private Activity activity;
+
     private int routineId;
+    private Activity activity;
     private RoutineExerciseLab routineExerciseLab;
     private ArrayList<Exercise> exercises;
     private ExerciseAdapter exerciseAdapter;
+    private String routineName;
 
-    public static Intent newIntent(Context packageContext, int routineId) {
-        Intent intent = new Intent(packageContext, EditRoutineActivity.class);
-        intent.putExtra(EXTRA_ROUTINE_ID, routineId);
-        return intent;
+    public EditRoutineFragment() {
+        // Required empty public constructor
+    }
+
+    public static EditRoutineFragment newInstance(int routineId, String routineName) {
+        EditRoutineFragment fragment = new EditRoutineFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_ROUTINE_ID, routineId);
+        args.putString(ARG_ROUTINE_NAME, routineName);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_select_multiple_fab);
-        activity = this;
-        routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
-        if (routineId == -1) {
-            finish();
+        if (getArguments() != null) {
+            routineId = getArguments().getInt(ARG_ROUTINE_ID);
+            routineName = getArguments().getString(ARG_ROUTINE_NAME);
         }
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View fragmentView = inflater.inflate(R.layout.fragment_select_multiple_fab, container,
+                false);
+        activity = getActivity();
+
         routineExerciseLab = RoutineExerciseLab.get(activity);
         exercises = routineExerciseLab.getExercises(routineId);
 
-        RecyclerView exerciseRecyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         exerciseRecyclerView.setLayoutManager(linearLayoutManager);
         exerciseAdapter = new ExerciseAdapter(exercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
@@ -81,13 +99,25 @@ public class EditRoutineActivity extends AppCompatActivity {
                 exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
         exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        FloatingActionButton addExercisesFab = findViewById(R.id.fab_action1);
+        FloatingActionButton addExercisesFab = fragmentView.findViewById(R.id.fab_action1);
         addExercisesFab.setTitle("Add Exercises");
         addExercisesFab.setOnClickListener(addExerciseFabClickListener());
 
-        FloatingActionButton saveFab = findViewById(R.id.fab_action2);
+        FloatingActionButton saveFab = fragmentView.findViewById(R.id.fab_action2);
         saveFab.setTitle("Save");
         saveFab.setOnClickListener(saveFabClickListener());
+        return fragmentView;
+    }
+
+    @NonNull
+    private View.OnClickListener addExerciseFabClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AddExercisesActivity.newIntent(activity, routineId, routineName);
+                startActivityForResult(intent, REQ_ADD_EXERCISE);
+            }
+        };
     }
 
     @NonNull
@@ -96,33 +126,23 @@ public class EditRoutineActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                setResult(Activity.RESULT_OK, intent);
+                activity.setResult(Activity.RESULT_OK, intent);
                 routineExerciseLab.updateRoutineExercises(routineId, exercises);
-                finish();
+                activity.finish();
             }
         };
     }
 
-    @NonNull
-    private View.OnClickListener addExerciseFabClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = AddExercisesActivity.newIntent(activity, routineId);
-                startActivityForResult(intent, REQ_ADD_EXERCISE);
-            }
-        };
-    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE) {
             exercises.clear();
             exercises.addAll(routineExerciseLab.getExercises(routineId));
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(activity.findViewById(android.R.id.content),
-                    "Exercises modified.", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(activity.findViewById(android.R.id.content),"Exercises modified.",
+                    Snackbar.LENGTH_SHORT).show();
         }
     }
 

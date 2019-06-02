@@ -7,9 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +21,19 @@ import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
+import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoutineFragment extends Fragment {
     private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
+    private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
     private static final String TAG = "RoutineFragment";
     private static final int REQ_EDIT_ROUTINE = 1;
 
     private int routineId;
+    private String routineName;
     private Activity activity;
     private RoutineExerciseLab routineExerciseLab;
     private ArrayList<Exercise> exercises;
@@ -39,10 +44,11 @@ public class RoutineFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RoutineFragment newInstance(int routineId) {
+    public static RoutineFragment newInstance(int routineId, String routineName) {
         RoutineFragment fragment = new RoutineFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_ROUTINE_ID, routineId);
+        args.putString(ARG_ROUTINE_NAME, routineName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +58,7 @@ public class RoutineFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             routineId = getArguments().getInt(ARG_ROUTINE_ID);
+            routineName = getArguments().getString(ARG_ROUTINE_NAME);
         }
         activity = getActivity();
         routineExerciseLab = RoutineExerciseLab.get(activity);
@@ -74,6 +81,8 @@ public class RoutineFragment extends Fragment {
         exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
         FloatingActionButton editRoutineFab = fragmentView.findViewById(R.id.fab);
+        editRoutineFab.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                R.drawable.ic_mode_edit_black_24dp));
         editRoutineFab.setOnClickListener(editRoutineFabClickListener());
         return fragmentView;
     }
@@ -82,7 +91,7 @@ public class RoutineFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Intent intent = EditRoutineActivity.newIntent(activity, routineId);
+                Intent intent = EditRoutineActivity.newIntent(activity, routineId, routineName);
                 startActivityForResult(intent, REQ_EDIT_ROUTINE);
             }
         };

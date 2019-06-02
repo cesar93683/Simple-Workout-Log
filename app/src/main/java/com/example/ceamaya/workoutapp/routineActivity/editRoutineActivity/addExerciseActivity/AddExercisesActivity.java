@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.routineActivity;
+package com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,6 +31,7 @@ import java.util.List;
 public class AddExercisesActivity extends AppCompatActivity {
 
     private static final String EXTRA_ROUTINE_ID = "EXTRA_ROUTINE_ID";
+    private static final String EXTRA_ROUTINE_NAME = "EXTRA_ROUTINE_NAME";
     private ArrayList<Exercise> includedExercises;
     private ArrayList<Exercise> filteredExercises;
     private ExerciseLab exerciseLab;
@@ -41,9 +42,10 @@ public class AddExercisesActivity extends AppCompatActivity {
     private RoutineExerciseLab routineExerciseLab;
     private int position;
 
-    public static Intent newIntent(Context packageContext, int routineId) {
+    public static Intent newIntent(Context packageContext, int routineId, String routineName) {
         Intent intent = new Intent(packageContext, AddExercisesActivity.class);
         intent.putExtra(EXTRA_ROUTINE_ID, routineId);
+        intent.putExtra(EXTRA_ROUTINE_NAME, routineName);
         return intent;
     }
 
@@ -51,12 +53,13 @@ public class AddExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_select_with_filter);
-
         activity = this;
         routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
+        String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
         if (routineId == -1) {
             finish();
         }
+        setTitle(routineName);
 
         exerciseLab = ExerciseLab.get(this);
         routineExerciseLab = RoutineExerciseLab.get(this);
