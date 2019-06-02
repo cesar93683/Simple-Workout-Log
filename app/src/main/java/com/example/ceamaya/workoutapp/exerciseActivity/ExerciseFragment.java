@@ -119,13 +119,6 @@ public class ExerciseFragment extends Fragment {
                 .finish_exercise_fab);
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
-        if (!isEditing) {
-            RelativeLayout.LayoutParams fabParams = (RelativeLayout.LayoutParams) finishExerciseFab.getLayoutParams();
-            final float scale = getContext().getResources().getDisplayMetrics().density;
-            fabParams.bottomMargin = (int) (70 * scale + 0.5f);
-            finishExerciseFab.setLayoutParams(fabParams);
-        }
-
         RecyclerView exerciseSetsRecyclerView =
                 fragmentView.findViewById(R.id.exercise_sets_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
