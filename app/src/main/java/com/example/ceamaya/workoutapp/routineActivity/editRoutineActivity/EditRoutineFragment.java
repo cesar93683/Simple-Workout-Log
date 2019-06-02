@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class EditRoutineFragment extends Fragment {
     private ExerciseAdapter exerciseAdapter;
     private ExerciseLab exerciseLab;
     private boolean hasBeenModified;
+    private ItemTouchHelper itemTouchHelper;
 
     public EditRoutineFragment() {
         // Required empty public constructor
@@ -89,7 +91,7 @@ public class EditRoutineFragment extends Fragment {
         exerciseAdapter = new ExerciseAdapter(exercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+        itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
@@ -177,12 +179,22 @@ public class EditRoutineFragment extends Fragment {
 
     private class ExerciseHolder extends RecyclerView.ViewHolder {
 
+        TextView textView;
+
         ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.simple_list_item, parent, false));
+            super(inflater.inflate(R.layout.draggable_list_item, parent, false));
+            textView = itemView.findViewById(R.id.text_view);
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    itemTouchHelper.startDrag(ExerciseHolder.this);
+                    return false;
+                }
+            });
         }
 
         void bind(Exercise exercise) {
-            ((TextView) itemView).setText(exercise.getExerciseName());
+            textView.setText(exercise.getExerciseName());
         }
     }
 
