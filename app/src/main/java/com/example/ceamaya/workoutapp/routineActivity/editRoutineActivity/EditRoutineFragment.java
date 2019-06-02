@@ -41,6 +41,7 @@ public class EditRoutineFragment extends Fragment {
     private ArrayList<Exercise> exercises;
     private ExerciseAdapter exerciseAdapter;
     private ExerciseLab exerciseLab;
+    private boolean hasBeenModified;
 
     public EditRoutineFragment() {
         // Required empty public constructor
@@ -70,6 +71,7 @@ public class EditRoutineFragment extends Fragment {
         }
         activity = getActivity();
         exerciseLab = ExerciseLab.get(activity);
+        hasBeenModified = false;
     }
 
     @Override
@@ -96,6 +98,7 @@ public class EditRoutineFragment extends Fragment {
                 int targetPosition = target.getAdapterPosition();
                 Collections.swap(exercises, viewHolderPosition, targetPosition);
                 exerciseAdapter.notifyItemMoved(viewHolderPosition, targetPosition);
+                hasBeenModified = true;
                 return false;
             }
 
@@ -158,8 +161,17 @@ public class EditRoutineFragment extends Fragment {
                 exercises.add(exerciseLab.getExerciseById(exerciseId));
             }
             exerciseAdapter.notifyDataSetChanged();
+            hasBeenModified = true;
             Snackbar.make(activity.findViewById(android.R.id.content), "Exercises modified.",
                     Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onBackPressed() {
+        if(hasBeenModified) {
+
+        } else {
+            activity.finish();
         }
     }
 

@@ -12,6 +12,7 @@ import com.example.ceamaya.workoutapp.R;
 public class EditRoutineActivity extends AppCompatActivity {
     private static final String EXTRA_ROUTINE_ID = "EXTRA_ROUTINE_ID";
     private static final String EXTRA_ROUTINE_NAME = "EXTRA_ROUTINE_NAME";
+    private Fragment fragment;
 
     public static Intent newIntent(Context packageContext, int routineId, String routineName) {
         Intent intent = new Intent(packageContext, EditRoutineActivity.class);
@@ -32,12 +33,18 @@ public class EditRoutineActivity extends AppCompatActivity {
         setTitle(routineName);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
             fragment = EditRoutineFragment.newInstance(routineId, routineName);
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        ((EditRoutineFragment) fragment).onBackPressed();
+
     }
 }

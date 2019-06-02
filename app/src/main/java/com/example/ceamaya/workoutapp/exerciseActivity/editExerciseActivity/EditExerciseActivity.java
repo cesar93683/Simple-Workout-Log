@@ -21,6 +21,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private long timeStamp;
     private WorkoutLab workoutLab;
+    private Fragment fragment;
 
     public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
                                    long timeStamp) {
@@ -47,7 +48,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
         setTitle(exerciseName);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
             fragment = ExerciseFragment.newInstance(exerciseId, timeStamp);
             fm.beginTransaction()
@@ -61,5 +62,10 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
         workoutLab.updateWorkout(timeStamp, exerciseSets);
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        ((ExerciseFragment) fragment).onBackPressed();
     }
 }
