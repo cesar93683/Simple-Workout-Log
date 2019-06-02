@@ -75,11 +75,10 @@ public class RoutineExerciseLab {
         };
     }
 
-    public void updateRoutineExercises(int routineId, ArrayList<Exercise> includedExercises) {
+    public void updateRoutineExercises(int routineId, ArrayList<Exercise> exercises) {
         deleteRoutineExercise(routineId);
-        Collections.sort(includedExercises, sortByPosition());
-        for (int i = 0; i < includedExercises.size(); i++) {
-            insertRoutineExercise(routineId, includedExercises.get(i).getExerciseId(), i);
+        for(int i = 0; i < exercises.size(); i++) {
+            insertRoutineExercise(routineId, exercises.get(i).getExerciseId(), i);
         }
     }
 

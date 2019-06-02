@@ -10,8 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +21,12 @@ import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RoutineFragment extends Fragment {
     private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
     private static final String TAG = "RoutineFragment";
-    private static final int REQ_ADD_EXERCISE = 1;
+    private static final int REQ_EDIT_ROUTINE = 1;
 
     private int routineId;
     private Activity activity;
@@ -76,36 +73,17 @@ public class RoutineFragment extends Fragment {
                 exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
         exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-//                ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-//                                  RecyclerView.ViewHolder target) {
-//                int viewHolderPosition = target.getAdapterPosition();
-//                int targetPosition = target.getAdapterPosition();
-//                Collections.swap();
-//                .notifyItemMoved(viewHolderPosition, targetPosition);
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//
-//            }
-//        });
-//        itemTouchHelper.attachToRecyclerView(exerciseRecyclerView);
-
-        FloatingActionButton addExerciseFab = fragmentView.findViewById(R.id.fab);
-        addExerciseFab.setOnClickListener(addExerciseFabClickListener());
+        FloatingActionButton editRoutineFab = fragmentView.findViewById(R.id.fab);
+        editRoutineFab.setOnClickListener(editRoutineFabClickListener());
         return fragmentView;
     }
 
-    private View.OnClickListener addExerciseFabClickListener() {
+    private View.OnClickListener editRoutineFabClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Intent intent = AddExercisesActivity.newIntent(activity, routineId);
-                startActivityForResult(intent, REQ_ADD_EXERCISE);
+                Intent intent = EditRoutineActivity.newIntent(activity, routineId);
+                startActivityForResult(intent, REQ_EDIT_ROUTINE);
             }
         };
     }
@@ -113,7 +91,7 @@ public class RoutineFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQ_EDIT_ROUTINE) {
             exercises.clear();
             exercises.addAll(routineExerciseLab.getExercises(routineId));
             exerciseAdapter.notifyDataSetChanged();

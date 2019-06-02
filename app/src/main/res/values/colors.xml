@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="darkGray">#545b62</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_dark">#ec407a</color>
+    <color name="very_light_gray">#f1f1f1</color>
+    <color name="black_semi_transparent">#B1000000</color>
 </resources>
