@@ -1,5 +1,6 @@
 package com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.Exercise;
@@ -46,6 +48,7 @@ public class EditRoutineFragment extends Fragment {
     private ExerciseLab exerciseLab;
     private boolean hasBeenModified;
     private ItemTouchHelper itemTouchHelper;
+    private View fragmentView;
 
     public EditRoutineFragment() {
         // Required empty public constructor
@@ -81,7 +84,7 @@ public class EditRoutineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_select_multiple_fab, container,
+        fragmentView = inflater.inflate(R.layout.fragment_select_multiple_fab, container,
                 false);
 
         routineExerciseLab = RoutineExerciseLab.get(activity);
@@ -109,6 +112,11 @@ public class EditRoutineFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
+            }
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return false;
             }
         });
         itemTouchHelper.attachToRecyclerView(exerciseRecyclerView);
@@ -176,14 +184,14 @@ public class EditRoutineFragment extends Fragment {
     }
 
     public void onBackPressed() {
-        if(hasBeenModified) {
-            creatSaveChangesDialog();
+        if (hasBeenModified) {
+            createSaveChangesDialog();
         } else {
             activity.finish();
         }
     }
 
-    private void creatSaveChangesDialog() {
+    private void createSaveChangesDialog() {
         new AlertDialog.Builder(activity)
                 .setTitle("Save changes?")
                 .setMessage("Would you like to save changes made to the routine?")
@@ -203,23 +211,55 @@ public class EditRoutineFragment extends Fragment {
                 .show();
     }
 
+    private void createDeleteExerciseDialog(final int exerciseId) {
+        new AlertDialog.Builder(activity)
+                .setMessage("Are you sure you want to delete this exercise?")
+                .setNegativeButton("No", null)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for (int j = 0; j < exercises.size(); j++) {
+                            if (exercises.get(j).getExerciseId() == exerciseId) {
+                                exercises.remove(j);
+                            }
+                        }
+                        hasBeenModified = true;
+                        exerciseAdapter.notifyDataSetChanged();
+                        Snackbar.make(fragmentView, "Exercise deleted.",
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
     private class ExerciseHolder extends RecyclerView.ViewHolder {
 
         TextView textView;
+        Exercise exercise;
 
+        @SuppressLint("ClickableViewAccessibility")
         ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.draggable_list_item, parent, false));
             textView = itemView.findViewById(R.id.text_view);
-            itemView.setOnTouchListener(new View.OnTouchListener() {
+            ImageView imageView = itemView.findViewById(R.id.drag_image_view);
+            imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     itemTouchHelper.startDrag(ExerciseHolder.this);
+                    return true;
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    createDeleteExerciseDialog(exercise.getExerciseId());
                     return false;
                 }
             });
         }
 
         void bind(Exercise exercise) {
+            this.exercise = exercise;
             textView.setText(exercise.getExerciseName());
         }
     }
