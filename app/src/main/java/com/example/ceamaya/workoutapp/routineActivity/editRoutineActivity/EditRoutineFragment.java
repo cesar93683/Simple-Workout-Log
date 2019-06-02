@@ -1,11 +1,13 @@
 package com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -146,12 +148,16 @@ public class EditRoutineFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                activity.setResult(Activity.RESULT_OK, intent);
-                routineExerciseLab.updateRoutineExercises(routineId, exercises);
-                activity.finish();
+                saveExercisesToRoutine();
             }
         };
+    }
+
+    private void saveExercisesToRoutine() {
+        Intent intent = new Intent();
+        activity.setResult(Activity.RESULT_OK, intent);
+        routineExerciseLab.updateRoutineExercises(routineId, exercises);
+        activity.finish();
     }
 
     @Override
@@ -171,10 +177,30 @@ public class EditRoutineFragment extends Fragment {
 
     public void onBackPressed() {
         if(hasBeenModified) {
-
+            creatSaveChangesDialog();
         } else {
             activity.finish();
         }
+    }
+
+    private void creatSaveChangesDialog() {
+        new AlertDialog.Builder(activity)
+                .setTitle("Save changes?")
+                .setMessage("Would you like to save changes made to the routine?")
+                .setNeutralButton("Cancel", null)
+                .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+                })
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveExercisesToRoutine();
+                    }
+                })
+                .show();
     }
 
     private class ExerciseHolder extends RecyclerView.ViewHolder {
