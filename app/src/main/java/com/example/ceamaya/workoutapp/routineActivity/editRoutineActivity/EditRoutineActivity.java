@@ -26,7 +26,6 @@ public class EditRoutineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_routine);
-        Log.d(TAG, "onCreate: ");
         int routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
         String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
         if (routineId == -1) {

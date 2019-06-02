@@ -22,29 +22,28 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.labs.ExerciseLab;
-import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
+import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.EditRoutineFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class AddExercisesActivity extends AppCompatActivity {
 
-    private static final String EXTRA_ROUTINE_ID = "EXTRA_ROUTINE_ID";
+    private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
     private static final String EXTRA_ROUTINE_NAME = "EXTRA_ROUTINE_NAME";
-    private ArrayList<Exercise> includedExercises;
     private ArrayList<Exercise> filteredExercises;
     private ExerciseLab exerciseLab;
-    private int routineId;
     private String filter;
     private Activity activity;
     private ExerciseAdapter exerciseAdapter;
-    private RoutineExerciseLab routineExerciseLab;
-    private int position;
+    private HashSet<Integer> includedExerciseIds;
+    private HashSet<Integer> exercisesIdsToAdd;
 
-    public static Intent newIntent(Context packageContext, int routineId, String routineName) {
+    public static Intent newIntent(Context packageContext, int[] exerciseIds, String routineName) {
         Intent intent = new Intent(packageContext, AddExercisesActivity.class);
-        intent.putExtra(EXTRA_ROUTINE_ID, routineId);
+        intent.putExtra(EXTRA_EXERCISE_IDS, exerciseIds);
         intent.putExtra(EXTRA_ROUTINE_NAME, routineName);
         return intent;
     }
@@ -54,22 +53,27 @@ public class AddExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_select_with_filter);
         activity = this;
-        routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
+        int[] exerciseIds = getIntent().getIntArrayExtra(EXTRA_EXERCISE_IDS);
         String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
-        if (routineId == -1) {
-            finish();
-        }
         setTitle(routineName);
 
         exerciseLab = ExerciseLab.get(this);
-        routineExerciseLab = RoutineExerciseLab.get(this);
 
-        includedExercises = routineExerciseLab.getExercises(routineId);
-        position = includedExercises.size();
+        exercisesIdsToAdd = new HashSet<>();
+
+        includedExerciseIds = new HashSet<>();
+        for (int exerciseId : exerciseIds) {
+            includedExerciseIds.add(exerciseId);
+        }
 
         filter = "";
         filteredExercises = exerciseLab.getFilteredExercise(filter);
         Collections.sort(filteredExercises);
+        for (int i = filteredExercises.size() - 1; i >= 0; i--) {
+            if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
+                filteredExercises.remove(i);
+            }
+        }
 
         EditText filterEditText = findViewById(R.id.filter_edit_text);
         filterEditText.addTextChangedListener(filterEditTextListener());
@@ -113,8 +117,12 @@ public class AddExercisesActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                routineExerciseLab.updateRoutineExercises(routineId, includedExercises);
-                Intent intent = new Intent();
+                int[] exerciseIds = new int[exercisesIdsToAdd.size()];
+                int i = 0;
+                for (Integer val : exercisesIdsToAdd) {
+                    exerciseIds[i++] = val;
+                }
+                Intent intent = EditRoutineFragment.returnNewExercisesIntent(exerciseIds);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -125,25 +133,12 @@ public class AddExercisesActivity extends AppCompatActivity {
         filteredExercises.clear();
         filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
         Collections.sort(filteredExercises);
+        for (int i = filteredExercises.size() - 1; i >= 0; i--) {
+            if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
+                filteredExercises.remove(i);
+            }
+        }
         exerciseAdapter.notifyDataSetChanged();
-    }
-
-    private boolean isExerciseIncluded(int exerciseId) {
-        for (Exercise exercise : includedExercises) {
-            if (exercise.getExerciseId() == exerciseId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void removeIncludedExercise(int exerciseId) {
-        for (int i = 0; i < includedExercises.size(); i++) {
-            if (includedExercises.get(i).getExerciseId() == exerciseId) {
-                includedExercises.remove(i);
-                break;
-            }
-        }
     }
 
     private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -161,20 +156,17 @@ public class AddExercisesActivity extends AppCompatActivity {
 
         void bind(Exercise exercise) {
             this.exercise = exercise;
-            checkBox.setChecked(isExerciseIncluded(exercise.getExerciseId()));
+            checkBox.setChecked(exercisesIdsToAdd.contains(exercise.getExerciseId()));
             textView.setText(exercise.getExerciseName());
         }
 
         @Override
         public void onClick(View v) {
             if (checkBox.isChecked()) {
-                removeIncludedExercise(exercise.getExerciseId());
+                exercisesIdsToAdd.remove(exercise.getExerciseId());
                 checkBox.setChecked(false);
             } else {
-                Exercise newExercise = new Exercise(exercise.getExerciseName(),
-                        exercise.getExerciseId());
-                newExercise.setPosition(position++);
-                includedExercises.add(newExercise);
+                exercisesIdsToAdd.add(exercise.getExerciseId());
                 checkBox.setChecked(true);
             }
         }

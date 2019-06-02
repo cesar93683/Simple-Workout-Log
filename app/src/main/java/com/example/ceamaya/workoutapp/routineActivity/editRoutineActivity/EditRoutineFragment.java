@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
+import com.example.ceamaya.workoutapp.labs.ExerciseLab;
 import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
 import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -30,6 +31,7 @@ public class EditRoutineFragment extends Fragment {
     private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
 
     private static final int REQ_ADD_EXERCISE = 1;
+    private static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
 
     private int routineId;
     private Activity activity;
@@ -37,6 +39,7 @@ public class EditRoutineFragment extends Fragment {
     private ArrayList<Exercise> exercises;
     private ExerciseAdapter exerciseAdapter;
     private String routineName;
+    private ExerciseLab exerciseLab;
 
     public EditRoutineFragment() {
         // Required empty public constructor
@@ -58,6 +61,8 @@ public class EditRoutineFragment extends Fragment {
             routineId = getArguments().getInt(ARG_ROUTINE_ID);
             routineName = getArguments().getString(ARG_ROUTINE_NAME);
         }
+        activity = getActivity();
+        exerciseLab = ExerciseLab.get(activity);
     }
 
     @Override
@@ -65,7 +70,6 @@ public class EditRoutineFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_select_multiple_fab, container,
                 false);
-        activity = getActivity();
 
         routineExerciseLab = RoutineExerciseLab.get(activity);
         exercises = routineExerciseLab.getExercises(routineId);
@@ -114,7 +118,12 @@ public class EditRoutineFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = AddExercisesActivity.newIntent(activity, routineId, routineName);
+                int[] exerciseIds = new int[exercises.size()];
+                int i = 0;
+                for(Exercise exercise : exercises) {
+                    exerciseIds[i++] = exercise.getExerciseId();
+                }
+                Intent intent = AddExercisesActivity.newIntent(activity, exerciseIds, routineName);
                 startActivityForResult(intent, REQ_ADD_EXERCISE);
             }
         };
@@ -133,13 +142,21 @@ public class EditRoutineFragment extends Fragment {
         };
     }
 
+    public static Intent returnNewExercisesIntent(int[] exercisesToAdd) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_NEW_EXERCISES, exercisesToAdd);
+        return intent;
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE) {
-            exercises.clear();
-            exercises.addAll(routineExerciseLab.getExercises(routineId));
+        if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
+            int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
+            for(int exerciseId : newExerciseIds) {
+                exercises.add(exerciseLab.getExerciseById(exerciseId));
+            }
             exerciseAdapter.notifyDataSetChanged();
             Snackbar.make(activity.findViewById(android.R.id.content),"Exercises modified.",
                     Snackbar.LENGTH_SHORT).show();
