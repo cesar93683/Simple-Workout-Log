@@ -4,12 +4,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.database.DatabaseHelper;
 import com.example.ceamaya.workoutapp.database.DbSchema.RoutineExerciseTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class RoutineExerciseLab {
 
@@ -39,9 +42,14 @@ public class RoutineExerciseLab {
         while (cursor.moveToNext()) {
             int exerciseId = cursor.getInt(cursor.getColumnIndex(
                     RoutineExerciseTable.Cols.EXERCISE_ID));
-            exercises.add(exerciseLab.getExerciseById(exerciseId));
+            int position = cursor.getInt(cursor.getColumnIndex(
+                    RoutineExerciseTable.Cols.EXERCISE_POSITION));
+            Exercise exercise = exerciseLab.getExerciseById(exerciseId);
+            exercise.setPosition(position);
+            exercises.add(exercise);
         }
         cursor.close();
+        Collections.sort(exercises, sortByPosition());
         return exercises;
     }
 
@@ -57,11 +65,22 @@ public class RoutineExerciseLab {
         );
     }
 
-    private void insertRoutineExercise(int routineId, int exerciseId) {
-        ContentValues values = new ContentValues();
-        values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
-        values.put(RoutineExerciseTable.Cols.EXERCISE_ID, exerciseId);
-        database.insert(RoutineExerciseTable.NAME, null, values);
+    @NonNull
+    private Comparator<Exercise> sortByPosition() {
+        return new Comparator<Exercise>() {
+            @Override
+            public int compare(Exercise o1, Exercise o2) {
+                return o1.getPosition() - o2.getPosition();
+            }
+        };
+    }
+
+    public void updateRoutineExercises(int routineId, ArrayList<Exercise> includedExercises) {
+        deleteRoutineExercise(routineId);
+        Collections.sort(includedExercises, sortByPosition());
+        for (int i = 0; i < includedExercises.size(); i++) {
+            insertRoutineExercise(routineId, includedExercises.get(i).getExerciseId(), i);
+        }
     }
 
     public void deleteRoutineExercise(int routineId) {
@@ -70,10 +89,11 @@ public class RoutineExerciseLab {
         database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
     }
 
-    public void updateRoutineExercises(int routineId, ArrayList<Exercise> includedExercises) {
-        deleteRoutineExercise(routineId);
-        for(Exercise exercise : includedExercises) {
-            insertRoutineExercise(routineId, exercise.getExerciseId());
-        }
+    private void insertRoutineExercise(int routineId, int exerciseId, int position) {
+        ContentValues values = new ContentValues();
+        values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
+        values.put(RoutineExerciseTable.Cols.EXERCISE_ID, exerciseId);
+        values.put(RoutineExerciseTable.Cols.EXERCISE_POSITION, position);
+        database.insert(RoutineExerciseTable.NAME, null, values);
     }
 }

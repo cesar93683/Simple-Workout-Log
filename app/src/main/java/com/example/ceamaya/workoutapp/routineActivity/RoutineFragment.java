@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseActivity;
 import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RoutineFragment extends Fragment {
@@ -73,6 +75,25 @@ public class RoutineFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
         exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
+
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+//                ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+//            @Override
+//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+//                                  RecyclerView.ViewHolder target) {
+//                int viewHolderPosition = target.getAdapterPosition();
+//                int targetPosition = target.getAdapterPosition();
+//                Collections.swap();
+//                .notifyItemMoved(viewHolderPosition, targetPosition);
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+//
+//            }
+//        });
+//        itemTouchHelper.attachToRecyclerView(exerciseRecyclerView);
 
         FloatingActionButton addExerciseFab = fragmentView.findViewById(R.id.fab);
         addExerciseFab.setOnClickListener(addExerciseFabClickListener());

@@ -39,6 +39,7 @@ public class AddExercisesActivity extends AppCompatActivity {
     private Activity activity;
     private ExerciseAdapter exerciseAdapter;
     private RoutineExerciseLab routineExerciseLab;
+    private int position;
 
     public static Intent newIntent(Context packageContext, int routineId) {
         Intent intent = new Intent(packageContext, AddExercisesActivity.class);
@@ -61,6 +62,7 @@ public class AddExercisesActivity extends AppCompatActivity {
         routineExerciseLab = RoutineExerciseLab.get(this);
 
         includedExercises = routineExerciseLab.getExercises(routineId);
+        position = includedExercises.size();
 
         filter = "";
         filteredExercises = exerciseLab.getFilteredExercise(filter);
@@ -166,7 +168,10 @@ public class AddExercisesActivity extends AppCompatActivity {
                 removeIncludedExercise(exercise.getExerciseId());
                 checkBox.setChecked(false);
             } else {
-                includedExercises.add(exercise);
+                Exercise newExercise = new Exercise(exercise.getExerciseName(),
+                        exercise.getExerciseId());
+                newExercise.setPosition(position++);
+                includedExercises.add(newExercise);
                 checkBox.setChecked(true);
             }
         }

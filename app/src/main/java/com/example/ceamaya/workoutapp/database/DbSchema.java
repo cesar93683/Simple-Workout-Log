@@ -35,8 +35,9 @@ public class DbSchema {
         public static final String NAME = "routine_exercise";
 
         public static final class Cols {
-            public static final String ROUTINE_ID = "ROUTINE_ID";
-            public static final String EXERCISE_ID = "EXERCISE_ID";
+            public static final String ROUTINE_ID = "routine_id";
+            public static final String EXERCISE_ID = "exercise_id";
+            public static final String EXERCISE_POSITION = "exercise_position";
         }
     }
 }

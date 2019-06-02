@@ -46,9 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME);
         final String SQL_CREATE_ROUTINE_EXERCISE_TABLE = String.format(
                 "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER NOT NULL," +
-                        " %s INTEGER NOT NULL);",
+                        " %s INTEGER NOT NULL, %s INTEGER NOT NULL);",
                 RoutineExerciseTable.NAME, RoutineExerciseTable._ID,
-                RoutineExerciseTable.Cols.ROUTINE_ID, RoutineExerciseTable.Cols.EXERCISE_ID);
+                RoutineExerciseTable.Cols.ROUTINE_ID, RoutineExerciseTable.Cols.EXERCISE_ID,
+                RoutineExerciseTable.Cols.EXERCISE_POSITION);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
         db.execSQL(SQL_CREATE_ROUTINE_LIST_TABLE);
