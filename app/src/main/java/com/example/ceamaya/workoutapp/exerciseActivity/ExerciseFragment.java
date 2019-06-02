@@ -14,13 +14,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
@@ -119,6 +119,13 @@ public class ExerciseFragment extends Fragment {
                 .finish_exercise_fab);
         finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
 
+        if (!isEditing) {
+            RelativeLayout.LayoutParams fabParams = (RelativeLayout.LayoutParams) finishExerciseFab.getLayoutParams();
+            final float scale = getContext().getResources().getDisplayMetrics().density;
+            fabParams.bottomMargin = (int) (70 * scale + 0.5f);
+            finishExerciseFab.setLayoutParams(fabParams);
+        }
+
         RecyclerView exerciseSetsRecyclerView =
                 fragmentView.findViewById(R.id.exercise_sets_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -135,7 +142,7 @@ public class ExerciseFragment extends Fragment {
 
     @NonNull
     private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
-                                                                         textInputLayout) {
+                                                                     textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +163,7 @@ public class ExerciseFragment extends Fragment {
 
     @NonNull
     private View.OnClickListener increaseButtonClickListener(final TextInputLayout
-                                                                         textInputLayout) {
+                                                                     textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -352,14 +359,12 @@ public class ExerciseFragment extends Fragment {
                 Snackbar.LENGTH_SHORT).show();
     }
 
-    private static final String TAG = "ExerciseFragment";
     public void onBackPressed() {
-        Log.d(TAG, "onBackPressed: isEditing:" + isEditing + "  hasBeenModifed:" + hasBeenModified);
         if (!isEditing && exerciseSets.size() == 0) {
             activity.finish();
-        } else if(isEditing && !hasBeenModified) {
+        } else if (isEditing && !hasBeenModified) {
             activity.finish();
-        } else{
+        } else {
             createDiscardChangesDialog();
         }
     }
