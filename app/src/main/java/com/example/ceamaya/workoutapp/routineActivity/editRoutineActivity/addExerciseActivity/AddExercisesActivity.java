@@ -69,11 +69,7 @@ public class AddExercisesActivity extends AppCompatActivity {
         filter = "";
         filteredExercises = exerciseLab.getFilteredExercise(filter);
         Collections.sort(filteredExercises);
-        for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-            if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
-                filteredExercises.remove(i);
-            }
-        }
+        removeIncludedExercises();
 
         EditText filterEditText = findViewById(R.id.filter_edit_text);
         filterEditText.addTextChangedListener(filterEditTextListener());
@@ -90,6 +86,14 @@ public class AddExercisesActivity extends AppCompatActivity {
 
         FloatingActionButton saveFab = findViewById(R.id.fab);
         saveFab.setOnClickListener(saveFab());
+    }
+
+    private void removeIncludedExercises() {
+        for (int i = filteredExercises.size() - 1; i >= 0; i--) {
+            if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
+                filteredExercises.remove(i);
+            }
+        }
     }
 
     @NonNull
@@ -133,11 +137,7 @@ public class AddExercisesActivity extends AppCompatActivity {
         filteredExercises.clear();
         filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
         Collections.sort(filteredExercises);
-        for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-            if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
-                filteredExercises.remove(i);
-            }
-        }
+        removeIncludedExercises();
         exerciseAdapter.notifyDataSetChanged();
     }
 
