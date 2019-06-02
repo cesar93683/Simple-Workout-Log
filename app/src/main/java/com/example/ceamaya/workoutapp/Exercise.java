@@ -5,11 +5,6 @@ import android.support.annotation.NonNull;
 public class Exercise implements Comparable<Exercise> {
     private final String exerciseName;
     private final int exerciseId;
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     private int position;
 
     public Exercise(String exerciseName, int exerciseId) {
@@ -32,5 +27,9 @@ public class Exercise implements Comparable<Exercise> {
 
     public int getPosition() {
         return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

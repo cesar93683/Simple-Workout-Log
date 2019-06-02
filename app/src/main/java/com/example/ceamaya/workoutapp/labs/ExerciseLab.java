@@ -61,11 +61,12 @@ public class ExerciseLab {
     }
 
     public Exercise getExerciseById(int exerciseId) {
-        String whereClause = ExerciseTable._ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-        ExerciseCursorWrapper cursor = queryExercises(whereClause, whereArgs);
-        cursor.moveToNext();
-        return cursor.getExercise();
+        for(Exercise exercise : exercises) {
+            if(exercise.getExerciseId() == exerciseId) {
+                return exercise;
+            }
+        }
+        throw new RuntimeException("ERROR: exercise id does not exist");
     }
 
     public void insertExercise(String exerciseName) {
