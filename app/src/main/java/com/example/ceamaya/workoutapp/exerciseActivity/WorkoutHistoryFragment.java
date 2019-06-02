@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.Workout;
+import com.example.ceamaya.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity;
 import com.example.ceamaya.workoutapp.labs.WorkoutLab;
 
 import java.text.DateFormat;

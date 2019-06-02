@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.ceamaya.workoutapp.R;
 
 public class EditRoutineActivity extends AppCompatActivity {
     private static final String EXTRA_ROUTINE_ID = "EXTRA_ROUTINE_ID";
     private static final String EXTRA_ROUTINE_NAME = "EXTRA_ROUTINE_NAME";
-    private static final String TAG = "EditRoutineActivity";
 
     public static Intent newIntent(Context packageContext, int routineId, String routineName) {
         Intent intent = new Intent(packageContext, EditRoutineActivity.class);

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.ceamaya.workoutapp.Routine;
-
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineTable;

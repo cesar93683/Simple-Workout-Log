@@ -4,6 +4,6 @@ import com.example.ceamaya.workoutapp.ExerciseSet;
 
 import java.util.ArrayList;
 
-interface SaveSets {
+public interface SaveSets {
     void saveSets(ArrayList<ExerciseSet> exerciseSets);
 }

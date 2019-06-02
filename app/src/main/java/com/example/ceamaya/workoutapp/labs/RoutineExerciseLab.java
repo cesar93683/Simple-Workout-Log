@@ -16,7 +16,6 @@ import java.util.Comparator;
 
 public class RoutineExerciseLab {
 
-    private static final String TAG = "RoutineExerciseLab";
     private static RoutineExerciseLab routineExerciseLab;
     private final SQLiteDatabase database;
     private final ExerciseLab exerciseLab;

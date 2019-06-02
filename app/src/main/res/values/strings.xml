@@ -18,7 +18,7 @@
     <string name="dialog_delete_text">Delete</string>
     <string name="dialog_edit_content_description">Edit Icon</string>
     <string name="dialog_delete_content_description">Delete Icon</string>
-    <string name="add_exercies">Add Exercises</string>
+    <string name="add_exercises">Add Exercises</string>
     <string name="save_text">Save</string>
 
 </resources>

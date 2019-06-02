@@ -111,7 +111,7 @@ public class EditRoutineFragment extends Fragment {
         exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
         FloatingActionButton addExercisesFab = fragmentView.findViewById(R.id.fab_action1);
-        addExercisesFab.setTitle(getString(R.string.add_exercies));
+        addExercisesFab.setTitle(getString(R.string.add_exercises));
         addExercisesFab.setOnClickListener(addExerciseFabClickListener());
 
         FloatingActionButton saveFab = fragmentView.findViewById(R.id.fab_action2);
@@ -200,5 +200,4 @@ public class EditRoutineFragment extends Fragment {
             return exercises.size();
         }
     }
-
 }

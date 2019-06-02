@@ -30,7 +30,6 @@ import java.util.List;
 public class RoutineFragment extends Fragment {
     private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
     private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
-    private static final String TAG = "RoutineFragment";
     private static final int REQ_EDIT_ROUTINE = 1;
 
     private int routineId;

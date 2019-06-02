@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.exerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity.editExerciseActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
-import com.example.ceamaya.workoutapp.Workout;
+import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseFragment;
+import com.example.ceamaya.workoutapp.exerciseActivity.SaveSets;
 import com.example.ceamaya.workoutapp.labs.WorkoutLab;
 
 import java.util.ArrayList;

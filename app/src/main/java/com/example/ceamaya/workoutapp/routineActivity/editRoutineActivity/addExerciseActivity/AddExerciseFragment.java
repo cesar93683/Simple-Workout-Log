@@ -31,7 +31,7 @@ import java.util.List;
 public class AddExerciseFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
-    int[] exerciseIds;
+    private int[] exerciseIds;
     private Activity activity;
     private ExerciseLab exerciseLab;
     private HashSet<Integer> exercisesIdsToAdd;
