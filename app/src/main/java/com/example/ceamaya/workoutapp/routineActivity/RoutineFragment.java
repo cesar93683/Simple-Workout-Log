@@ -1,6 +1,7 @@
 package com.example.ceamaya.workoutapp.routineActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -107,13 +109,33 @@ public class RoutineFragment extends Fragment {
         }
     }
 
-    private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private void createDeleteExerciseDialog(final int exerciseId) {
+        new AlertDialog.Builder(activity)
+                .setMessage("Are you sure you want to delete this exercise?")
+                .setNegativeButton("No", null)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        routineExerciseLab.deleteExerciseFromRoutine(routineId, exerciseId);
+                        exercises.clear();
+                        exercises.addAll(routineExerciseLab.getExercises(routineId));
+                        exerciseAdapter.notifyDataSetChanged();
+                        Snackbar.make(fragmentView, "Exercise deleted.",
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
+    private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            View.OnLongClickListener {
 
         private Exercise exercise;
 
         ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.simple_list_item, parent, false));
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         void bind(Exercise exercise) {
@@ -126,6 +148,12 @@ public class RoutineFragment extends Fragment {
             Intent intent = ExerciseActivity.newIntent(activity, exercise.getExerciseName(),
                     exercise.getExerciseId());
             startActivity(intent);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            createDeleteExerciseDialog(exercise.getExerciseId());
+            return true;
         }
 
     }

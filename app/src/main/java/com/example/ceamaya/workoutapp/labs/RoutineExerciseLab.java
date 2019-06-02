@@ -77,7 +77,7 @@ public class RoutineExerciseLab {
 
     public void updateRoutineExercises(int routineId, ArrayList<Exercise> exercises) {
         deleteRoutineExercise(routineId);
-        for(int i = 0; i < exercises.size(); i++) {
+        for (int i = 0; i < exercises.size(); i++) {
             insertRoutineExercise(routineId, exercises.get(i).getExerciseId(), i);
         }
     }
@@ -94,5 +94,12 @@ public class RoutineExerciseLab {
         values.put(RoutineExerciseTable.Cols.EXERCISE_ID, exerciseId);
         values.put(RoutineExerciseTable.Cols.EXERCISE_POSITION, position);
         database.insert(RoutineExerciseTable.NAME, null, values);
+    }
+
+    public void deleteExerciseFromRoutine(int routineId, int exerciseId) {
+        String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=? AND " +
+                RoutineExerciseTable.Cols.EXERCISE_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(routineId), String.valueOf(exerciseId)};
+        database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
     }
 }
