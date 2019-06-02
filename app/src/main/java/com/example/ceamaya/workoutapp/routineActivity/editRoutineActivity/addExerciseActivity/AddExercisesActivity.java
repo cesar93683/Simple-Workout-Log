@@ -25,9 +25,10 @@ public class AddExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
-        int[] exerciseIds = getIntent().getIntArrayExtra(EXTRA_EXERCISE_IDS);
         String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
         setTitle(routineName);
+
+        int[] exerciseIds = getIntent().getIntArrayExtra(EXTRA_EXERCISE_IDS);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);

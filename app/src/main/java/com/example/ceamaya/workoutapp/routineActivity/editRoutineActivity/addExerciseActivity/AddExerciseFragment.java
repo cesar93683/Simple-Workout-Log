@@ -55,19 +55,21 @@ public class AddExerciseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = getActivity();
+
         if (getArguments() != null) {
             exerciseIds = getArguments().getIntArray(ARGS_EXERCISE_IDS);
         }
-        activity = getActivity();
-
-        exerciseLab = ExerciseLab.get(activity);
-
-        exercisesIdsToAdd = new HashSet<>();
 
         includedExerciseIds = new HashSet<>();
         for (int exerciseId : exerciseIds) {
             includedExerciseIds.add(exerciseId);
         }
+
+
+        exercisesIdsToAdd = new HashSet<>();
+
+        exerciseLab = ExerciseLab.get(activity);
 
         filter = "";
         filteredExercises = exerciseLab.getFilteredExercise(filter);
