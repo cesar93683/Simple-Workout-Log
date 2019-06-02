@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,7 @@ public class RoutineFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
 
         RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         exerciseRecyclerView.setLayoutManager(linearLayoutManager);
         exerciseAdapter = new ExerciseAdapter(exercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
@@ -108,15 +107,13 @@ public class RoutineFragment extends Fragment {
         }
     }
 
-    private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-            View.OnLongClickListener {
+    private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Exercise exercise;
 
         ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.simple_list_item, parent, false));
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
 
         void bind(Exercise exercise) {
@@ -129,12 +126,6 @@ public class RoutineFragment extends Fragment {
             Intent intent = ExerciseActivity.newIntent(activity, exercise.getExerciseName(),
                     exercise.getExerciseId());
             startActivity(intent);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            // set multiple exercises to remove from routine or reorder
-            return true;
         }
 
     }
@@ -150,7 +141,7 @@ public class RoutineFragment extends Fragment {
         @NonNull
         @Override
         public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            LayoutInflater layoutInflater = LayoutInflater.from(activity);
             return new ExerciseHolder(layoutInflater, parent);
         }
 
