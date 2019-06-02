@@ -33,6 +33,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fragment);
         workoutLab = WorkoutLab.get(this);
 
         String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
@@ -43,7 +44,6 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
             finish();
         }
         setTitle(exerciseName);
-        setContentView(R.layout.activity_edit_exercise);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);

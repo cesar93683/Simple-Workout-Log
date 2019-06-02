@@ -25,14 +25,13 @@ public class EditRoutineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_routine);
+        setContentView(R.layout.activity_fragment);
         int routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
         String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
         if (routineId == -1) {
             finish();
         }
         setTitle(routineName);
-        setContentView(R.layout.activity_edit_exercise);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
