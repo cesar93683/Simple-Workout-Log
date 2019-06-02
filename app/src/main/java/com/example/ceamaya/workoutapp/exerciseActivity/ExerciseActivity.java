@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
@@ -47,7 +45,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, INVALID_ID);
         exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
-        if(exerciseId == INVALID_ID) {
+        if (exerciseId == INVALID_ID) {
             finish();
         }
 
