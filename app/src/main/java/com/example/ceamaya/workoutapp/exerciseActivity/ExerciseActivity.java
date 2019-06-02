@@ -26,7 +26,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-    private final int INVALID_ID = -1;
     private ViewPager mViewPager;
     private int exerciseId;
     private String exerciseName;
@@ -44,6 +43,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         workoutLab = WorkoutLab.get(this);
+        int INVALID_ID = -1;
         exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, INVALID_ID);
         exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
@@ -74,24 +74,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         Workout workout = new Workout(timeStamp, exerciseSets);
         workoutLab.insertWorkout(workout);
         finish();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main2, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
