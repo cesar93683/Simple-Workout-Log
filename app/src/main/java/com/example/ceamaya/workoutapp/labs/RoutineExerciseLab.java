@@ -76,6 +76,9 @@ public class RoutineExerciseLab {
                 comma = ",";
             }
         }
+        if(sb.length() == 0) {
+            return;
+        }
         ContentValues values = new ContentValues();
         values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
         values.put(RoutineExerciseTable.Cols.EXERCISE_ID, sb.toString());

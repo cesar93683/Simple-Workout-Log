@@ -11,11 +11,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -66,7 +66,6 @@ public class AddExerciseFragment extends Fragment {
         for (int exerciseId : exerciseIds) {
             includedExerciseIds.add(exerciseId);
         }
-
 
         exercisesIdsToAdd = new HashSet<>();
 
@@ -165,6 +164,12 @@ public class AddExerciseFragment extends Fragment {
             super(inflater.inflate(R.layout.checkable_list_item, parent, false));
             textView = itemView.findViewById(R.id.text_view);
             checkBox = itemView.findViewById(R.id.check_box);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    checkChanged(isChecked);
+                }
+            });
             itemView.setOnClickListener(this);
         }
 
@@ -176,12 +181,15 @@ public class AddExerciseFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            if (checkBox.isChecked()) {
-                exercisesIdsToAdd.remove(exercise.getExerciseId());
-                checkBox.setChecked(false);
-            } else {
+            checkBox.setChecked(!checkBox.isChecked());
+            checkChanged(checkBox.isChecked());
+        }
+
+        private void checkChanged(boolean isChecked) {
+            if (isChecked) {
                 exercisesIdsToAdd.add(exercise.getExerciseId());
-                checkBox.setChecked(true);
+            } else {
+                exercisesIdsToAdd.remove(exercise.getExerciseId());
             }
         }
     }
