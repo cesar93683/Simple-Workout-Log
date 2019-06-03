@@ -37,7 +37,6 @@ public class DbSchema {
         public static final class Cols {
             public static final String ROUTINE_ID = "routine_id";
             public static final String EXERCISE_ID = "exercise_id";
-            public static final String EXERCISE_POSITION = "exercise_position";
         }
     }
 }
