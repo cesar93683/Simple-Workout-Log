@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.ceamaya.workoutapp.Routine;
-
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineTable;
@@ -46,10 +44,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME);
         final String SQL_CREATE_ROUTINE_EXERCISE_TABLE = String.format(
                 "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER NOT NULL," +
-                        " %s INTEGER NOT NULL, %s INTEGER NOT NULL);",
+                        " %s STRING NOT NULL);",
                 RoutineExerciseTable.NAME, RoutineExerciseTable._ID,
-                RoutineExerciseTable.Cols.ROUTINE_ID, RoutineExerciseTable.Cols.EXERCISE_ID,
-                RoutineExerciseTable.Cols.EXERCISE_POSITION);
+                RoutineExerciseTable.Cols.ROUTINE_ID, RoutineExerciseTable.Cols.EXERCISE_ID);
         db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
         db.execSQL(SQL_CREATE_SET_LIST_TABLE);
         db.execSQL(SQL_CREATE_ROUTINE_LIST_TABLE);

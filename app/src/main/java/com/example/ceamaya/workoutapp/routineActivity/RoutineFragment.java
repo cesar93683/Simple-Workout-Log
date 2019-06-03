@@ -1,6 +1,7 @@
 package com.example.ceamaya.workoutapp.routineActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ import java.util.List;
 public class RoutineFragment extends Fragment {
     private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
     private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
-    private static final String TAG = "RoutineFragment";
     private static final int REQ_EDIT_ROUTINE = 1;
 
     private int routineId;
@@ -71,7 +71,7 @@ public class RoutineFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
 
         RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         exerciseRecyclerView.setLayoutManager(linearLayoutManager);
         exerciseAdapter = new ExerciseAdapter(exercises);
         exerciseRecyclerView.setAdapter(exerciseAdapter);
@@ -104,8 +104,26 @@ public class RoutineFragment extends Fragment {
             exercises.clear();
             exercises.addAll(routineExerciseLab.getExercises(routineId));
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(fragmentView, "Routine modified.", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(fragmentView, R.string.routine_updated, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private void createDeleteExerciseDialog(final int exerciseId) {
+        new AlertDialog.Builder(activity)
+                .setMessage(R.string.are_you_sure_delete_exercise)
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        routineExerciseLab.deleteExerciseFromRoutine(routineId, exerciseId);
+                        exercises.clear();
+                        exercises.addAll(routineExerciseLab.getExercises(routineId));
+                        exerciseAdapter.notifyDataSetChanged();
+                        Snackbar.make(fragmentView, R.string.exercise_deleted,
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
     }
 
     private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
@@ -133,7 +151,7 @@ public class RoutineFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            // set multiple exercises to remove from routine or reorder
+            createDeleteExerciseDialog(exercise.getExerciseId());
             return true;
         }
 
@@ -150,7 +168,7 @@ public class RoutineFragment extends Fragment {
         @NonNull
         @Override
         public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            LayoutInflater layoutInflater = LayoutInflater.from(activity);
             return new ExerciseHolder(layoutInflater, parent);
         }
 

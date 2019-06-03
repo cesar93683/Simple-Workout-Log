@@ -66,8 +66,8 @@ public class WorkoutLab {
     }
 
     public Workout getWorkout(int exerciseId, long timeStamp) {
-        String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=? AND " +
-                ExerciseSetTable.Cols.TIME_STAMP + "=?";
+        String whereClause = String.format("%s=? AND %s=?", ExerciseSetTable.Cols.EXERCISE_ID,
+                ExerciseSetTable.Cols.TIME_STAMP);
         String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(timeStamp)};
         ExerciseSetCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
 

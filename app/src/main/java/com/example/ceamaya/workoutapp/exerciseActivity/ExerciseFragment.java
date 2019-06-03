@@ -40,6 +40,8 @@ public class ExerciseFragment extends Fragment {
     private int exerciseId;
     private long timeStamp;
     private ExerciseAdapter exerciseSetsAdapter;
+    private boolean isEditing;
+    private boolean hasBeenModified;
 
     public ExerciseFragment() {
         // Required empty public constructor
@@ -53,7 +55,6 @@ public class ExerciseFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     public static Fragment newInstance(int exerciseId, long timeStamp) {
         ExerciseFragment fragment = new ExerciseFragment();
@@ -72,11 +73,15 @@ public class ExerciseFragment extends Fragment {
             timeStamp = getArguments().getLong(ARGS_TIME_STAMP);
         }
         activity = getActivity();
+        hasBeenModified = false;
 
         exerciseSets = new ArrayList<>();
-        if (timeStamp != NO_TIME_STAMP) {
+        if (timeStamp == NO_TIME_STAMP) {
+            isEditing = false;
+        } else {
             WorkoutLab workoutLab = WorkoutLab.get(activity);
             exerciseSets.addAll(workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets());
+            isEditing = true;
         }
     }
 
@@ -128,7 +133,8 @@ public class ExerciseFragment extends Fragment {
     }
 
     @NonNull
-    private View.OnClickListener decreaseButtonClickListener(final TextInputLayout textInputLayout) {
+    private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
+                                                                     textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +154,8 @@ public class ExerciseFragment extends Fragment {
     }
 
     @NonNull
-    private View.OnClickListener increaseButtonClickListener(final TextInputLayout textInputLayout) {
+    private View.OnClickListener increaseButtonClickListener(final TextInputLayout
+                                                                     textInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,8 +172,10 @@ public class ExerciseFragment extends Fragment {
         };
     }
 
-    private View.OnClickListener addSetButtonClickListener(final TextInputLayout repsTextInputLayout,
-                                                           final TextInputLayout weightTextInputLayout) {
+    private View.OnClickListener addSetButtonClickListener(final TextInputLayout
+                                                                   repsTextInputLayout,
+                                                           final TextInputLayout
+                                                                   weightTextInputLayout) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +191,8 @@ public class ExerciseFragment extends Fragment {
                 ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
                 exerciseSets.add(exerciseSet);
                 exerciseSetsAdapter.notifyDataSetChanged();
-                Snackbar.make(activity.findViewById(android.R.id.content), "Set added.",
+                hasBeenModified = true;
+                Snackbar.make(activity.findViewById(android.R.id.content), R.string.set_added,
                         Snackbar.LENGTH_SHORT).show();
             }
         };
@@ -200,7 +210,7 @@ public class ExerciseFragment extends Fragment {
     private boolean validateReps(TextInputLayout repsTextInputLayout) {
         String repsString = repsTextInputLayout.getEditText().getText().toString();
         if (repsString.isEmpty() || Integer.parseInt(repsString) == 0) {
-            repsTextInputLayout.setError("Please enter at least 1 rep");
+            repsTextInputLayout.setError(getString(R.string.error_no_reps));
             return false;
         }
         repsTextInputLayout.setErrorEnabled(false);
@@ -238,9 +248,9 @@ public class ExerciseFragment extends Fragment {
                 activity.getLayoutInflater().inflate(R.layout.exercise_set_editor, null);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-                .setMessage("Edit Set")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Save", null)
+                .setMessage(R.string.edit_set)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.save, null)
                 .create();
 
         setViewToCenterInDialog(exerciseSetEditorView, alertDialog);
@@ -287,16 +297,14 @@ public class ExerciseFragment extends Fragment {
 
     private void createDeleteSetDialog(final int position) {
         new AlertDialog.Builder(activity)
-                .setMessage("Are you sure you want to delete this set?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setMessage(R.string.are_you_sure_delete_set)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteExerciseSet(position);
-                        Snackbar.make(fragmentView, "Set deleted.",
-                                Snackbar.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(R.string.no, null)
                 .show();
     }
 
@@ -327,7 +335,8 @@ public class ExerciseFragment extends Fragment {
         exerciseSetsAdapter.notifyDataSetChanged();
 
         alertDialog.dismiss();
-        Snackbar.make(activity.findViewById(android.R.id.content), "Set modified.",
+        hasBeenModified = true;
+        Snackbar.make(activity.findViewById(android.R.id.content), R.string.set_updated,
                 Snackbar.LENGTH_SHORT).show();
     }
 
@@ -337,30 +346,33 @@ public class ExerciseFragment extends Fragment {
             exerciseSets.get(i).setSetNumber(i + 1);
         }
         exerciseSetsAdapter.notifyDataSetChanged();
-
+        hasBeenModified = true;
+        Snackbar.make(fragmentView, R.string.set_deleted,
+                Snackbar.LENGTH_SHORT).show();
     }
 
     public void onBackPressed() {
-        if (exerciseSets.size() == 0) {
+        if (!isEditing && exerciseSets.size() == 0) {
             activity.finish();
-            return;
+        } else if (isEditing && !hasBeenModified) {
+            activity.finish();
+        } else {
+            createDiscardChangesDialog();
         }
-        createDiscardChangesDialog();
     }
 
     private void createDiscardChangesDialog() {
         new AlertDialog.Builder(activity)
-                .setTitle("Discard changes?")
-                .setMessage("Are you sure you want to close this exercise? Any unsaved changes " +
-                        "will be lost.")
-                .setNeutralButton("Cancel", null)
-                .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.discard_changes)
+                .setMessage(R.string.are_you_sure_close_exercise)
+                .setNeutralButton(R.string.cancel, null)
+                .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         activity.finish();
                     }
                 })
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ((SaveSets) activity).saveSets(exerciseSets);
@@ -369,8 +381,8 @@ public class ExerciseFragment extends Fragment {
                 .show();
     }
 
-
-    public class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public class ExerciseHolder extends RecyclerView.ViewHolder implements View
+            .OnLongClickListener {
 
         private ExerciseSet exerciseSet;
 

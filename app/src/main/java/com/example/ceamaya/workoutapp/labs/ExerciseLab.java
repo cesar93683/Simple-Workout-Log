@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.database.DatabaseHelper;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 
 public class ExerciseLab {
 
-    private static final String TAG = "ExerciseLab";
     private static ExerciseLab exerciseLab;
     private final SQLiteDatabase database;
     private final WorkoutLab workoutLab;

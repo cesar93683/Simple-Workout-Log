@@ -1,4 +1,4 @@
-package com.example.ceamaya.workoutapp.exerciseActivity;
+package com.example.ceamaya.workoutapp.exerciseActivity.editExerciseActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
-import com.example.ceamaya.workoutapp.Workout;
+import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseFragment;
+import com.example.ceamaya.workoutapp.exerciseActivity.SaveSets;
 import com.example.ceamaya.workoutapp.labs.WorkoutLab;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
     private long timeStamp;
     private WorkoutLab workoutLab;
+    private Fragment fragment;
 
     public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
                                    long timeStamp) {
@@ -33,6 +35,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fragment);
         workoutLab = WorkoutLab.get(this);
 
         String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
@@ -43,10 +46,9 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
             finish();
         }
         setTitle(exerciseName);
-        setContentView(R.layout.activity_edit_exercise);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
             fragment = ExerciseFragment.newInstance(exerciseId, timeStamp);
             fm.beginTransaction()
@@ -60,5 +62,10 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
         workoutLab.updateWorkout(timeStamp, exerciseSets);
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        ((ExerciseFragment) fragment).onBackPressed();
     }
 }

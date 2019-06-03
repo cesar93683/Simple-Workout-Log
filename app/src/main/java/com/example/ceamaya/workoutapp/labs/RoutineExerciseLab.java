@@ -16,7 +16,6 @@ import java.util.Comparator;
 
 public class RoutineExerciseLab {
 
-    private static final String TAG = "RoutineExerciseLab";
     private static RoutineExerciseLab routineExerciseLab;
     private final SQLiteDatabase database;
     private final ExerciseLab exerciseLab;
@@ -39,17 +38,18 @@ public class RoutineExerciseLab {
         Cursor cursor = queryRoutine(whereClause, whereArgs);
 
         ArrayList<Exercise> exercises = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            int exerciseId = cursor.getInt(cursor.getColumnIndex(
+        if(cursor.moveToNext()){
+            String exerciseIds = cursor.getString(cursor.getColumnIndex(
                     RoutineExerciseTable.Cols.EXERCISE_ID));
-            int position = cursor.getInt(cursor.getColumnIndex(
-                    RoutineExerciseTable.Cols.EXERCISE_POSITION));
-            Exercise exercise = exerciseLab.getExerciseById(exerciseId);
-            exercise.setPosition(position);
-            exercises.add(exercise);
+            String[] exerciseIdStringArr = exerciseIds.split(",");
+            for (String exerciseIdString : exerciseIdStringArr) {
+                int exerciseId = Integer.parseInt(exerciseIdString);
+                Exercise exercise = exerciseLab.getExerciseById(exerciseId);
+                exercises.add(exercise);
+            }
         }
         cursor.close();
-        Collections.sort(exercises, sortByPosition());
+
         return exercises;
     }
 
@@ -65,21 +65,21 @@ public class RoutineExerciseLab {
         );
     }
 
-    @NonNull
-    private Comparator<Exercise> sortByPosition() {
-        return new Comparator<Exercise>() {
-            @Override
-            public int compare(Exercise o1, Exercise o2) {
-                return o1.getPosition() - o2.getPosition();
-            }
-        };
-    }
-
     public void updateRoutineExercises(int routineId, ArrayList<Exercise> exercises) {
         deleteRoutineExercise(routineId);
-        for(int i = 0; i < exercises.size(); i++) {
-            insertRoutineExercise(routineId, exercises.get(i).getExerciseId(), i);
+        StringBuilder sb = new StringBuilder();
+        String comma = "";
+        for (Exercise exercise : exercises) {
+            sb.append(comma);
+            sb.append(exercise.getExerciseId());
+            if (comma.equals("")) {
+                comma = ",";
+            }
         }
+        ContentValues values = new ContentValues();
+        values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
+        values.put(RoutineExerciseTable.Cols.EXERCISE_ID, sb.toString());
+        database.insert(RoutineExerciseTable.NAME, null, values);
     }
 
     public void deleteRoutineExercise(int routineId) {
@@ -88,11 +88,10 @@ public class RoutineExerciseLab {
         database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
     }
 
-    private void insertRoutineExercise(int routineId, int exerciseId, int position) {
-        ContentValues values = new ContentValues();
-        values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
-        values.put(RoutineExerciseTable.Cols.EXERCISE_ID, exerciseId);
-        values.put(RoutineExerciseTable.Cols.EXERCISE_POSITION, position);
-        database.insert(RoutineExerciseTable.NAME, null, values);
+    public void deleteExerciseFromRoutine(int routineId, int exerciseId) {
+//        String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=? AND " +
+//                RoutineExerciseTable.Cols.EXERCISE_ID + "=?";
+//        String[] whereArgs = new String[]{String.valueOf(routineId), String.valueOf(exerciseId)};
+//        database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
     }
 }

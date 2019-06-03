@@ -1,5 +1,7 @@
 package com.example.ceamaya.workoutapp;
 
+import android.annotation.SuppressLint;
+
 public class ExerciseSet {
     private final int exerciseId;
     private int reps;
@@ -50,8 +52,9 @@ public class ExerciseSet {
         this.setNumber = setNumber;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public String toString() {
-        return "Set " + setNumber + " - " + reps + " Reps @ " + (weight > 0 ? weight : "-") + " LB";
+        return String.format("Set %d - %d Reps @ %s LB", setNumber, reps, weight > 0 ? weight : "-");
     }
 }

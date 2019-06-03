@@ -25,7 +25,7 @@ public class RoutineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routine);
+        setContentView(R.layout.activity_fragment);
 
         String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
         int routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, -1);
@@ -33,7 +33,6 @@ public class RoutineActivity extends AppCompatActivity {
             finish();
         }
         setTitle(routineName);
-        setContentView(R.layout.activity_edit_exercise);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
