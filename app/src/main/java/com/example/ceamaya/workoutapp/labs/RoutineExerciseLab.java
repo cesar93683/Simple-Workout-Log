@@ -38,7 +38,7 @@ public class RoutineExerciseLab {
         Cursor cursor = queryRoutine(whereClause, whereArgs);
 
         ArrayList<Exercise> exercises = new ArrayList<>();
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             String exerciseIds = cursor.getString(cursor.getColumnIndex(
                     RoutineExerciseTable.Cols.EXERCISE_ID));
             String[] exerciseIdStringArr = exerciseIds.split(",");
@@ -82,16 +82,20 @@ public class RoutineExerciseLab {
         database.insert(RoutineExerciseTable.NAME, null, values);
     }
 
-    public void deleteRoutineExercise(int routineId) {
+    void deleteRoutineExercise(int routineId) {
         String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(routineId)};
         database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
     }
 
     public void deleteExerciseFromRoutine(int routineId, int exerciseId) {
-//        String whereClause = RoutineExerciseTable.Cols.ROUTINE_ID + "=? AND " +
-//                RoutineExerciseTable.Cols.EXERCISE_ID + "=?";
-//        String[] whereArgs = new String[]{String.valueOf(routineId), String.valueOf(exerciseId)};
-//        database.delete(RoutineExerciseTable.NAME, whereClause, whereArgs);
+        ArrayList<Exercise> exercises = getExercises(routineId);
+        for (int i = 0; i < exercises.size(); i++) {
+            if (exercises.get(i).getExerciseId() == exerciseId) {
+                exercises.remove(i);
+                break;
+            }
+        }
+        updateRoutineExercises(routineId, exercises);
     }
 }
