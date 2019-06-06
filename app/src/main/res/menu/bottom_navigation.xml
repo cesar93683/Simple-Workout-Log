@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/nav_exercise_select"
-        android:icon="@drawable/ic_fitness_center_black_24dp"
-        android:title="@string/menu_button_nav_exercise_text" />
-    <item
-        android:id="@+id/nav_routine"
-        android:icon="@drawable/ic_format_list_numbered_black_24dp"
-        android:title="@string/menu_button_nav_routine_text" />
-    <item
-        android:id="@+id/nav_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/menu_button_nav_settings_text" />
+  <item
+    android:id="@+id/nav_exercise_select"
+    android:icon="@drawable/ic_fitness_center_black_24dp"
+    android:title="@string/menu_button_nav_exercise_text"/>
+  <item
+    android:id="@+id/nav_routine"
+    android:icon="@drawable/ic_format_list_numbered_black_24dp"
+    android:title="@string/menu_button_nav_routine_text"/>
+  <item
+    android:id="@+id/nav_settings"
+    android:icon="@drawable/ic_settings_black_24dp"
+    android:title="@string/menu_button_nav_settings_text"/>
 </menu>

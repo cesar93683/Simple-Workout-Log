@@ -3,24 +3,25 @@ package com.example.ceamaya.workoutapp;
 import android.support.annotation.NonNull;
 
 public class Exercise implements Comparable<Exercise> {
-    private final String exerciseName;
-    private final int exerciseId;
 
-    public Exercise(String exerciseName, int exerciseId) {
-        this.exerciseName = exerciseName;
-        this.exerciseId = exerciseId;
-    }
+  private final String exerciseName;
+  private final int exerciseId;
 
-    public int getExerciseId() {
-        return exerciseId;
-    }
+  public Exercise(String exerciseName, int exerciseId) {
+    this.exerciseName = exerciseName;
+    this.exerciseId = exerciseId;
+  }
 
-    @Override
-    public int compareTo(@NonNull Exercise o) {
-        return getExerciseName().compareTo(o.getExerciseName());
-    }
+  public int getExerciseId() {
+    return exerciseId;
+  }
 
-    public String getExerciseName() {
-        return exerciseName;
-    }
+  @Override
+  public int compareTo(@NonNull Exercise o) {
+    return getExerciseName().compareTo(o.getExerciseName());
+  }
+
+  public String getExerciseName() {
+    return exerciseName;
+  }
 }

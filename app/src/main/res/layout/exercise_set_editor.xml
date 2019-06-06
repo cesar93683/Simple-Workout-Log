@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+      android:id="@+id/decrease_rep_button"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_gravity="center_vertical"
+      android:background="@drawable/ic_remove_circle_black_24dp"/>
+
+    <android.support.design.widget.TextInputLayout
+      android:id="@+id/reps_text_input_layout"
+      android:layout_width="125dp"
+      android:layout_height="wrap_content"
+      android:hint="@string/activity_exercise_reps_hint">
+
+      <android.support.design.widget.TextInputEditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:inputType="number"
+        android:maxLength="5"/>
+    </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/decrease_rep_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_remove_circle_black_24dp" />
+    <Button
+      android:id="@+id/increase_rep_button"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_gravity="center_vertical"
+      android:background="@drawable/ic_add_circle_black_24dp"/>
+  </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/reps_text_input_layout"
-            android:hint="@string/activity_exercise_reps_hint"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content">
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="5" />
-        </android.support.design.widget.TextInputLayout>
+    <Button
+      android:id="@+id/decrease_weight_button"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_gravity="center_vertical"
+      android:background="@drawable/ic_remove_circle_black_24dp"/>
 
-        <Button
-            android:id="@+id/increase_rep_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_add_circle_black_24dp" />
-    </LinearLayout>
+    <android.support.design.widget.TextInputLayout
+      android:id="@+id/weight_text_input_layout"
+      android:layout_width="125dp"
+      android:layout_height="wrap_content"
+      android:hint="@string/activity_exercise_weight_hint">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+      <android.support.design.widget.TextInputEditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:inputType="number"
+        android:maxLength="5"/>
+    </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/decrease_weight_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_remove_circle_black_24dp" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/weight_text_input_layout"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/activity_exercise_weight_hint">
-
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="5" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/increase_weight_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_add_circle_black_24dp" />
-    </LinearLayout>
+    <Button
+      android:id="@+id/increase_weight_button"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_gravity="center_vertical"
+      android:background="@drawable/ic_add_circle_black_24dp"/>
+  </LinearLayout>
 </LinearLayout>
 

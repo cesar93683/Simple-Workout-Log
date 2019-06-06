@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ceamaya.workoutapp">
+  package="com.example.ceamaya.workoutapp">
 
-    <application
-        android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".routineActivity.editRoutineActivity.EditRoutineActivity"/>
-        <activity android:name=".mainActivity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:allowBackup="false"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name=".routineActivity.editRoutineActivity.EditRoutineActivity"/>
+    <activity android:name=".mainActivity.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".exerciseActivity.ExerciseActivity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".exerciseActivity.editExerciseActivity.EditExerciseActivity" />
-        <activity android:name=".routineActivity.RoutineActivity" />
-        <activity android:name=".routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity" />
-    </application>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+      android:label="@string/title_activity_main2"
+      android:name=".exerciseActivity.ExerciseActivity"
+      android:theme="@style/AppTheme.NoActionBar"/>
+    <activity android:name=".exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
+    <activity android:name=".routineActivity.RoutineActivity"/>
+    <activity android:name=".routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity"/>
+  </application>
 
 </manifest>
