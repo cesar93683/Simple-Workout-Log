@@ -4,15 +4,13 @@ import android.annotation.SuppressLint;
 
 public class ExerciseSet {
 
-  private final int exerciseId;
   private int reps;
   private int weight;
   private int setNumber;
 
-  public ExerciseSet(int reps, int weight, int exerciseId, int setNumber) {
+  public ExerciseSet(int reps, int weight, int setNumber) {
     this.reps = reps;
     this.weight = weight;
-    this.exerciseId = exerciseId;
     this.setNumber = setNumber;
   }
 
@@ -30,10 +28,6 @@ public class ExerciseSet {
 
   public void setWeight(int weight) {
     this.weight = weight;
-  }
-
-  public int getExerciseId() {
-    return exerciseId;
   }
 
   public int getSetNumber() {

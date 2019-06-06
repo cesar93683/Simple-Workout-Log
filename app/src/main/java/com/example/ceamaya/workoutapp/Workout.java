@@ -9,7 +9,7 @@ public class Workout implements Comparable<Workout> {
   private final long timeStamp;
   private final int exerciseId;
 
-  public Workout(long timeStamp, ArrayList<ExerciseSet> exerciseSets, int exerciseId) {
+  public Workout(int exerciseId, ArrayList<ExerciseSet> exerciseSets, long timeStamp) {
     this.timeStamp = timeStamp;
     this.exerciseSets = exerciseSets;
     this.exerciseId = exerciseId;

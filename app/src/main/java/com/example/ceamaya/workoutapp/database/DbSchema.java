@@ -21,9 +21,6 @@ public class DbSchema {
     public static final class Cols {
 
       public static final String EXERCISE_ID = "exercise_id";
-      public static final String SET_NUMBER = "set_number";
-      public static final String REPS = "reps";
-      public static final String WEIGHT = "weight";
       public static final String TIME_STAMP = "time_stamp";
       public static final String EXERCISE_SETS = "exercise_sets";
     }

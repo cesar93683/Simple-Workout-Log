@@ -81,7 +81,7 @@ public class ExerciseLab {
     String whereClause = ExerciseTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(exerciseId)};
     database.delete(ExerciseTable.NAME, whereClause, whereArgs);
-    workoutLab.deleteExercise(exerciseId);
+    workoutLab.deleteWorkouts(exerciseId);
     updateExercises();
   }
 

@@ -181,7 +181,7 @@ public class ExerciseFragment extends Fragment {
         int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
         int setNumber = exerciseSets.size() + 1;
 
-        ExerciseSet exerciseSet = new ExerciseSet(reps, weight, exerciseId, setNumber);
+        ExerciseSet exerciseSet = new ExerciseSet(reps, weight, setNumber);
         exerciseSets.add(exerciseSet);
         exerciseSetsAdapter.notifyDataSetChanged();
         hasBeenModified = true;

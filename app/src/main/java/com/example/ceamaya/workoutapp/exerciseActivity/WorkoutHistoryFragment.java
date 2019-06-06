@@ -119,7 +119,8 @@ public class WorkoutHistoryFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            workoutLab.deleteWorkout(workouts.get(position).getTimeStamp());
+            Workout workout = workouts.get(position);
+            workoutLab.deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
             updateWorkouts();
             Snackbar.make(fragmentView, R.string.workout_deleted, Snackbar.LENGTH_SHORT).show();
           }

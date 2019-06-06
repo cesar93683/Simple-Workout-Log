@@ -67,7 +67,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   @Override
   public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
     long timeStamp = new Date().getTime();
-    Workout workout = new Workout(timeStamp, exerciseSets, exerciseId);
+    Workout workout = new Workout(exerciseId, exerciseSets, timeStamp);
     workoutLab.insertWorkout(workout);
     finish();
   }

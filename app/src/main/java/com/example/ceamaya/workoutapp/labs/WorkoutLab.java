@@ -14,7 +14,6 @@ import com.example.ceamaya.workoutapp.database.WorkoutCursorWrapper;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 
 public class WorkoutLab {
 
@@ -35,25 +34,19 @@ public class WorkoutLab {
   public ArrayList<Workout> getWorkouts(int exerciseId) {
     String whereClause = WorkoutTable.Cols.EXERCISE_ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-    WorkoutCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
-
-    HashSet<Long> uniqueTimeStamps = new HashSet<>();
-    while (cursor.moveToNext()) {
-      long timeStamp = cursor.getLong(cursor.getColumnIndex(WorkoutTable.Cols.TIME_STAMP));
-      uniqueTimeStamps.add(timeStamp);
-    }
-    cursor.close();
+    WorkoutCursorWrapper cursor = queryWorkout(whereClause, whereArgs);
 
     ArrayList<Workout> workouts = new ArrayList<>();
-    for (long timestamp : uniqueTimeStamps) {
-      workouts.add(getWorkout(exerciseId, timestamp));
+    while (cursor.moveToNext()) {
+      workouts.add(cursor.getWorkout());
     }
+    cursor.close();
     Collections.sort(workouts);
 
     return workouts;
   }
 
-  private WorkoutCursorWrapper queryExerciseSets(String whereClause, String[] whereArgs) {
+  private WorkoutCursorWrapper queryWorkout(String whereClause, String[] whereArgs) {
     @SuppressLint("Recycle") Cursor cursor = database.query(
         WorkoutTable.NAME,
         null,
@@ -70,31 +63,26 @@ public class WorkoutLab {
     String whereClause = String
         .format("%s=? AND %s=?", WorkoutTable.Cols.EXERCISE_ID, WorkoutTable.Cols.TIME_STAMP);
     String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(timeStamp)};
-    WorkoutCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
+    WorkoutCursorWrapper cursor = queryWorkout(whereClause, whereArgs);
 
-    ArrayList<ExerciseSet> exerciseSets = new ArrayList<>();
-    if (cursor.moveToNext()) {
-      exerciseSets = cursor.getExerciseSets();
+    if (!cursor.moveToNext()) {
+      return new Workout(exerciseId, new ArrayList<ExerciseSet>(), timeStamp);
     }
+    Workout workout = cursor.getWorkout();
     cursor.close();
 
-    return new Workout(timeStamp, exerciseSets, exerciseId);
-  }
-
-  public void deleteExercise(int exerciseId) {
-    String whereClause = WorkoutTable.Cols.EXERCISE_ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-    database.delete(WorkoutTable.NAME, whereClause, whereArgs);
+    return workout;
   }
 
   public void updateWorkout(Workout workout) {
-    deleteWorkout(workout.getTimeStamp());
+    deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
     insertWorkout(workout);
   }
 
-  public void deleteWorkout(long time) {
-    String whereClause = WorkoutTable.Cols.TIME_STAMP + "=?";
-    String[] whereArgs = new String[]{String.valueOf(time)};
+  public void deleteWorkout(int exerciseId, long timeStamp) {
+    String whereClause = String
+        .format("%s=? AND %s=?", WorkoutTable.Cols.EXERCISE_ID, WorkoutTable.Cols.TIME_STAMP);
+    String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(timeStamp)};
     database.delete(WorkoutTable.NAME, whereClause, whereArgs);
   }
 
@@ -112,9 +100,15 @@ public class WorkoutLab {
     ContentValues values = new ContentValues();
     String exerciseSetsString = new Gson().toJson(exerciseSets);
     values.put(WorkoutTable.Cols.EXERCISE_SETS, exerciseSetsString);
-    values.put(WorkoutTable.Cols.EXERCISE_ID, exerciseSets.get(0).getExerciseId());
+    values.put(WorkoutTable.Cols.EXERCISE_ID, workout.getExerciseId());
     values.put(WorkoutTable.Cols.TIME_STAMP, workout.getTimeStamp());
     return values;
+  }
+
+  public void deleteWorkouts(int exerciseId) {
+    String whereClause = WorkoutTable.Cols.EXERCISE_ID + "=?";
+    String[] whereArgs = new String[]{String.valueOf(exerciseId)};
+    database.delete(WorkoutTable.NAME, whereClause, whereArgs);
   }
 
 }
