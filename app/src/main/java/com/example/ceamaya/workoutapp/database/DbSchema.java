@@ -14,9 +14,9 @@ public class DbSchema {
     }
   }
 
-  public static final class ExerciseSetTable implements BaseColumns {
+  public static final class WorkoutTable implements BaseColumns {
 
-    public static final String NAME = "exercise_sets";
+    public static final String NAME = "workouts";
 
     public static final class Cols {
 
@@ -25,6 +25,7 @@ public class DbSchema {
       public static final String REPS = "reps";
       public static final String WEIGHT = "weight";
       public static final String TIME_STAMP = "time_stamp";
+      public static final String EXERCISE_SETS = "exercise_sets";
     }
   }
 

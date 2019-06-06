@@ -5,11 +5,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.Workout;
 import com.example.ceamaya.workoutapp.database.DatabaseHelper;
-import com.example.ceamaya.workoutapp.database.DbSchema.ExerciseSetTable;
-import com.example.ceamaya.workoutapp.database.ExerciseSetCursorWrapper;
+import com.example.ceamaya.workoutapp.database.DbSchema.WorkoutTable;
+import com.example.ceamaya.workoutapp.database.WorkoutCursorWrapper;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,13 +33,14 @@ public class WorkoutLab {
   }
 
   public ArrayList<Workout> getWorkouts(int exerciseId) {
-    String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=?";
+    String whereClause = WorkoutTable.Cols.EXERCISE_ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-    ExerciseSetCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
+    WorkoutCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
 
     HashSet<Long> uniqueTimeStamps = new HashSet<>();
     while (cursor.moveToNext()) {
-      uniqueTimeStamps.add(cursor.getExerciseSet().getTimeStamp());
+      long timeStamp = cursor.getLong(cursor.getColumnIndex(WorkoutTable.Cols.TIME_STAMP));
+      uniqueTimeStamps.add(timeStamp);
     }
     cursor.close();
 
@@ -50,9 +53,9 @@ public class WorkoutLab {
     return workouts;
   }
 
-  private ExerciseSetCursorWrapper queryExerciseSets(String whereClause, String[] whereArgs) {
+  private WorkoutCursorWrapper queryExerciseSets(String whereClause, String[] whereArgs) {
     @SuppressLint("Recycle") Cursor cursor = database.query(
-        ExerciseSetTable.NAME,
+        WorkoutTable.NAME,
         null,
         whereClause,
         whereArgs,
@@ -60,18 +63,18 @@ public class WorkoutLab {
         null,
         null
     );
-    return new ExerciseSetCursorWrapper(cursor);
+    return new WorkoutCursorWrapper(cursor);
   }
 
   public Workout getWorkout(int exerciseId, long timeStamp) {
-    String whereClause = String.format("%s=? AND %s=?", ExerciseSetTable.Cols.EXERCISE_ID,
-        ExerciseSetTable.Cols.TIME_STAMP);
+    String whereClause = String
+        .format("%s=? AND %s=?", WorkoutTable.Cols.EXERCISE_ID, WorkoutTable.Cols.TIME_STAMP);
     String[] whereArgs = new String[]{String.valueOf(exerciseId), String.valueOf(timeStamp)};
-    ExerciseSetCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
+    WorkoutCursorWrapper cursor = queryExerciseSets(whereClause, whereArgs);
 
     ArrayList<ExerciseSet> exerciseSets = new ArrayList<>();
-    while (cursor.moveToNext()) {
-      exerciseSets.add(cursor.getExerciseSet());
+    if (cursor.moveToNext()) {
+      exerciseSets = cursor.getExerciseSets();
     }
     cursor.close();
 
@@ -79,9 +82,9 @@ public class WorkoutLab {
   }
 
   public void deleteExercise(int exerciseId) {
-    String whereClause = ExerciseSetTable.Cols.EXERCISE_ID + "=?";
+    String whereClause = WorkoutTable.Cols.EXERCISE_ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(exerciseId)};
-    database.delete(ExerciseSetTable.NAME, whereClause, whereArgs);
+    database.delete(WorkoutTable.NAME, whereClause, whereArgs);
   }
 
   public void updateWorkout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
@@ -91,30 +94,29 @@ public class WorkoutLab {
   }
 
   public void deleteWorkout(long time) {
-    String whereClause = ExerciseSetTable.Cols.TIME_STAMP + "=?";
+    String whereClause = WorkoutTable.Cols.TIME_STAMP + "=?";
     String[] whereArgs = new String[]{String.valueOf(time)};
-    database.delete(ExerciseSetTable.NAME, whereClause, whereArgs);
+    database.delete(WorkoutTable.NAME, whereClause, whereArgs);
   }
 
   public void insertWorkout(Workout workout) {
-    for (ExerciseSet exerciseSet : workout.getExerciseSets()) {
-      workoutLab.insertExerciseSet(exerciseSet, workout.getTimeStamp());
+    ArrayList<ExerciseSet> exerciseSets = workout.getExerciseSets();
+    if (exerciseSets.size() == 0) {
+      return;
     }
+    ContentValues values = getContentValues(workout, exerciseSets);
+    database.insert(WorkoutTable.NAME, null, values);
   }
 
-  private void insertExerciseSet(ExerciseSet exerciseSet, long timeStamp) {
-    ContentValues values = getContentValues(exerciseSet, timeStamp);
-    database.insert(ExerciseSetTable.NAME, null, values);
-  }
-
-  private ContentValues getContentValues(ExerciseSet exerciseSet, long timeStamp) {
+  @NonNull
+  private ContentValues getContentValues(Workout workout, ArrayList<ExerciseSet> exerciseSets) {
     ContentValues values = new ContentValues();
-    values.put(ExerciseSetTable.Cols.REPS, exerciseSet.getReps());
-    values.put(ExerciseSetTable.Cols.WEIGHT, exerciseSet.getWeight());
-    values.put(ExerciseSetTable.Cols.SET_NUMBER, exerciseSet.getSetNumber());
-    values.put(ExerciseSetTable.Cols.EXERCISE_ID, exerciseSet.getExerciseId());
-    values.put(ExerciseSetTable.Cols.TIME_STAMP, timeStamp);
+    String exerciseSetsString = new Gson().toJson(exerciseSets);
+    values.put(WorkoutTable.Cols.EXERCISE_SETS, exerciseSetsString);
+    values.put(WorkoutTable.Cols.EXERCISE_ID, exerciseSets.get(0).getExerciseId());
+    values.put(WorkoutTable.Cols.TIME_STAMP, workout.getTimeStamp());
     return values;
   }
+
 }
 

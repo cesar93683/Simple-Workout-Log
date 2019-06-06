@@ -8,21 +8,12 @@ public class ExerciseSet {
   private int reps;
   private int weight;
   private int setNumber;
-  private long timeStamp;
 
   public ExerciseSet(int reps, int weight, int exerciseId, int setNumber) {
     this.reps = reps;
     this.weight = weight;
     this.exerciseId = exerciseId;
     this.setNumber = setNumber;
-  }
-
-  public long getTimeStamp() {
-    return timeStamp;
-  }
-
-  public void setTimeStamp(long timeStamp) {
-    this.timeStamp = timeStamp;
   }
 
   public int getReps() {
