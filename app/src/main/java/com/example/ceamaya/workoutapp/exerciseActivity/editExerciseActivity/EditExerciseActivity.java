@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import com.example.ceamaya.workoutapp.ExerciseSet;
 import com.example.ceamaya.workoutapp.R;
+import com.example.ceamaya.workoutapp.Workout;
 import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseFragment;
 import com.example.ceamaya.workoutapp.exerciseActivity.SaveSets;
 import com.example.ceamaya.workoutapp.labs.WorkoutLab;
@@ -21,6 +22,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   private long timeStamp;
   private WorkoutLab workoutLab;
   private Fragment fragment;
+  private int exerciseId;
 
   public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
       long timeStamp) {
@@ -38,7 +40,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
     workoutLab = WorkoutLab.get(this);
 
     String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
-    int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
+    exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
     timeStamp = getIntent().getLongExtra(EXTRA_TIME_STAMP, -1);
 
     if (exerciseId == -1 || timeStamp == -1) {
@@ -58,7 +60,8 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
 
   @Override
   public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-    workoutLab.updateWorkout(timeStamp, exerciseSets);
+    Workout workout = new Workout(timeStamp, exerciseSets, exerciseId);
+    workoutLab.updateWorkout(workout);
     setResult(RESULT_OK);
     finish();
   }

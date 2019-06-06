@@ -78,7 +78,7 @@ public class WorkoutLab {
     }
     cursor.close();
 
-    return new Workout(timeStamp, exerciseSets);
+    return new Workout(timeStamp, exerciseSets, exerciseId);
   }
 
   public void deleteExercise(int exerciseId) {
@@ -87,9 +87,8 @@ public class WorkoutLab {
     database.delete(WorkoutTable.NAME, whereClause, whereArgs);
   }
 
-  public void updateWorkout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
-    deleteWorkout(timeStamp);
-    Workout workout = new Workout(timeStamp, exerciseSets);
+  public void updateWorkout(Workout workout) {
+    deleteWorkout(workout.getTimeStamp());
     insertWorkout(workout);
   }
 

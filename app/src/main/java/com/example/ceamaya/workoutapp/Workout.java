@@ -7,10 +7,12 @@ public class Workout implements Comparable<Workout> {
 
   private final ArrayList<ExerciseSet> exerciseSets;
   private final long timeStamp;
+  private final int exerciseId;
 
-  public Workout(long timeStamp, ArrayList<ExerciseSet> exerciseSets) {
+  public Workout(long timeStamp, ArrayList<ExerciseSet> exerciseSets, int exerciseId) {
     this.timeStamp = timeStamp;
     this.exerciseSets = exerciseSets;
+    this.exerciseId = exerciseId;
   }
 
   public ArrayList<ExerciseSet> getExerciseSets() {
@@ -24,5 +26,9 @@ public class Workout implements Comparable<Workout> {
 
   public long getTimeStamp() {
     return timeStamp;
+  }
+
+  public int getExerciseId() {
+    return exerciseId;
   }
 }

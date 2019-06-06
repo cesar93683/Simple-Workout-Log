@@ -64,9 +64,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
   }
 
+  @Override
   public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
     long timeStamp = new Date().getTime();
-    Workout workout = new Workout(timeStamp, exerciseSets);
+    Workout workout = new Workout(timeStamp, exerciseSets, exerciseId);
     workoutLab.insertWorkout(workout);
     finish();
   }
