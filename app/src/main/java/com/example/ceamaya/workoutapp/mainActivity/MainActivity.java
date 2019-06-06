@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_exercise_select:
               selectedFragment = ExerciseSelectFragment.newInstance();
               break;
-            case R.id.nav_settings:
-              selectedFragment = SettingsFragment.newInstance();
+            case R.id.nav_category:
+              selectedFragment = CategoryFragment.newInstance();
               break;
             case R.id.nav_routine:
               selectedFragment = RoutineSelectFragment.newInstance();

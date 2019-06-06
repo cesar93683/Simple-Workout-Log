@@ -32,7 +32,7 @@
   <string name="history">History</string>
   <string name="menu_button_nav_exercise_text">Exercise</string>
   <string name="menu_button_nav_routine_text">Routine</string>
-  <string name="menu_button_nav_settings_text">Settings</string>
+  <string name="menu_button_nav_category_text">Category</string>
   <string name="new_exercise">New Exercise</string>
   <string name="new_exercise_created">New exercise created.</string>
   <string name="new_routine">New Routine</string>
