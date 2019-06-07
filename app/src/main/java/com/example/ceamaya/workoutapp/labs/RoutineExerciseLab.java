@@ -7,17 +7,19 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.database.DatabaseHelper;
 import com.example.ceamaya.workoutapp.database.DbSchema.RoutineExerciseTable;
+import com.example.ceamaya.workoutapp.database.DbSchema.RoutineExerciseTable.Cols;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class RoutineExerciseLab {
 
   private static RoutineExerciseLab routineExerciseLab;
   private final SQLiteDatabase database;
-  private final ExerciseLab exerciseLab;
 
   private RoutineExerciseLab(Context context) {
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
-    exerciseLab = ExerciseLab.get(context);
   }
 
   public static RoutineExerciseLab get(Context context) {
@@ -34,14 +36,10 @@ public class RoutineExerciseLab {
 
     ArrayList<Exercise> exercises = new ArrayList<>();
     if (cursor.moveToNext()) {
-      String exerciseIds = cursor
-          .getString(cursor.getColumnIndex(RoutineExerciseTable.Cols.EXERCISE_ID));
-      String[] exerciseIdStringArr = exerciseIds.split(",");
-      for (String exerciseIdString : exerciseIdStringArr) {
-        int exerciseId = Integer.parseInt(exerciseIdString);
-        Exercise exercise = exerciseLab.getExerciseById(exerciseId);
-        exercises.add(exercise);
-      }
+      String exerciseString = cursor.getString(cursor.getColumnIndex(Cols.EXERCISE_ID));
+      Type type = new TypeToken<ArrayList<Exercise>>() {
+      }.getType();
+      exercises = new Gson().fromJson(exerciseString, type);
     }
     cursor.close();
 
@@ -62,21 +60,10 @@ public class RoutineExerciseLab {
 
   public void updateRoutineExercises(int routineId, ArrayList<Exercise> exercises) {
     deleteRoutineExercise(routineId);
-    StringBuilder sb = new StringBuilder();
-    String comma = "";
-    for (Exercise exercise : exercises) {
-      sb.append(comma);
-      sb.append(exercise.getExerciseId());
-      if (comma.equals("")) {
-        comma = ",";
-      }
-    }
-    if (sb.length() == 0) {
-      return;
-    }
+    String exercisesString = new Gson().toJson(exercises);
     ContentValues values = new ContentValues();
     values.put(RoutineExerciseTable.Cols.ROUTINE_ID, routineId);
-    values.put(RoutineExerciseTable.Cols.EXERCISE_ID, sb.toString());
+    values.put(Cols.EXERCISE_ID, exercisesString);
     database.insert(RoutineExerciseTable.NAME, null, values);
   }
 
