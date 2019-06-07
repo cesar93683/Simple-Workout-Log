@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.example.ceamaya.workoutapp">
+  package="com.devcesar.workoutapp">
 
   <application
     android:allowBackup="false"
@@ -9,8 +9,8 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".routineActivity.editRoutineActivity.EditRoutineActivity"/>
-    <activity android:name=".mainActivity.MainActivity">
+    <activity android:name="com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity"/>
+    <activity android:name="com.devcesar.workoutapp.mainActivity.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -19,11 +19,11 @@
     </activity>
     <activity
       android:label="@string/title_activity_main2"
-      android:name=".exerciseActivity.ExerciseActivity"
+      android:name="com.devcesar.workoutapp.exerciseActivity.ExerciseActivity"
       android:theme="@style/AppTheme.NoActionBar"/>
-    <activity android:name=".exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
-    <activity android:name=".routineActivity.RoutineActivity"/>
-    <activity android:name=".routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity"/>
+    <activity android:name="com.devcesar.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
+    <activity android:name="com.devcesar.workoutapp.routineActivity.RoutineActivity"/>
+    <activity android:name="com.devcesar.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity"/>
   </application>
 
 </manifest>
