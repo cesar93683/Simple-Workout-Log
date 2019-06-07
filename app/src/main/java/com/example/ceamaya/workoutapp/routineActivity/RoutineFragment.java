@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.exerciseActivity.ExerciseActivity;
-import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
+import com.example.ceamaya.workoutapp.labs.RoutineLab;
 import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class RoutineFragment extends Fragment {
   private int routineId;
   private String routineName;
   private Activity activity;
-  private RoutineExerciseLab routineExerciseLab;
+  private RoutineLab routineLab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private View fragmentView;
@@ -60,8 +60,8 @@ public class RoutineFragment extends Fragment {
       routineName = getArguments().getString(ARG_ROUTINE_NAME);
     }
     activity = getActivity();
-    routineExerciseLab = RoutineExerciseLab.get(activity);
-    exercises = routineExerciseLab.getExercises(routineId);
+    routineLab = RoutineLab.get(activity);
+    exercises = routineLab.getExercises(routineId);
   }
 
   @Override
@@ -101,7 +101,7 @@ public class RoutineFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_EDIT_ROUTINE) {
       exercises.clear();
-      exercises.addAll(routineExerciseLab.getExercises(routineId));
+      exercises.addAll(routineLab.getExercises(routineId));
       exerciseAdapter.notifyDataSetChanged();
       Snackbar.make(fragmentView, R.string.routine_updated, Snackbar.LENGTH_SHORT).show();
     }
@@ -114,9 +114,9 @@ public class RoutineFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            routineExerciseLab.deleteExerciseFromRoutine(routineId, exerciseId);
+            routineLab.deleteExerciseFromRoutine(routineId, exerciseId);
             exercises.clear();
-            exercises.addAll(routineExerciseLab.getExercises(routineId));
+            exercises.addAll(routineLab.getExercises(routineId));
             exerciseAdapter.notifyDataSetChanged();
             Snackbar.make(fragmentView, R.string.exercise_deleted,
                 Snackbar.LENGTH_SHORT).show();

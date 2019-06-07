@@ -224,7 +224,7 @@ public class RoutineSelectFragment extends Fragment {
             } else if (routineLab.contains(newRoutine)) {
               newRoutineTextInputLayout.setError(getString(R.string.error_routine_already_exists));
             } else {
-              routineLab.updateRoutine(oldRoutine.getRoutineId(), newRoutine);
+              routineLab.updateRoutineName(oldRoutine.getRoutineId(), newRoutine);
               updateFilteredRoutines();
               Snackbar.make(fragmentView, R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
               alertDialog.dismiss();

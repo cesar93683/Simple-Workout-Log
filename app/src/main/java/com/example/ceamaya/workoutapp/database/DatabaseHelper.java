@@ -1,13 +1,13 @@
 package com.example.ceamaya.workoutapp.database;
 
 import static com.example.ceamaya.workoutapp.database.DbSchema.ExerciseTable;
-import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineExerciseTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.RoutineTable;
 import static com.example.ceamaya.workoutapp.database.DbSchema.WorkoutTable;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.example.ceamaya.workoutapp.database.DbSchema.RoutineTable.Cols;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -38,16 +38,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         WorkoutTable.NAME, WorkoutTable._ID, WorkoutTable.Cols.EXERCISE_ID,
         WorkoutTable.Cols.EXERCISE_SETS, WorkoutTable.Cols.TIME_STAMP);
     final String SQL_CREATE_ROUTINE_LIST_TABLE = String.format(
-        "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL);",
-        RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME);
-    final String SQL_CREATE_ROUTINE_EXERCISE_TABLE = String.format(
-        "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER NOT NULL, %s STRING "
-            + "NOT NULL);",
-        RoutineExerciseTable.NAME, RoutineExerciseTable._ID, RoutineExerciseTable.Cols.ROUTINE_ID,
-        RoutineExerciseTable.Cols.EXERCISE_ID);
+        "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT NOT "
+            + "NULL);",
+        RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME, Cols.EXERCISES);
     db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
     db.execSQL(SQL_CREATE_WORKOUT_TABLE);
     db.execSQL(SQL_CREATE_ROUTINE_LIST_TABLE);
-    db.execSQL(SQL_CREATE_ROUTINE_EXERCISE_TABLE);
   }
 }

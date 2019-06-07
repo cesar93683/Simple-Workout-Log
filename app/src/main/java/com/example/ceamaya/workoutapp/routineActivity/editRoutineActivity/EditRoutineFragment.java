@@ -22,9 +22,8 @@ import android.widget.TextView;
 import com.example.ceamaya.workoutapp.Exercise;
 import com.example.ceamaya.workoutapp.R;
 import com.example.ceamaya.workoutapp.labs.ExerciseLab;
-import com.example.ceamaya.workoutapp.labs.RoutineExerciseLab;
-import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity
-    .AddExercisesActivity;
+import com.example.ceamaya.workoutapp.labs.RoutineLab;
+import com.example.ceamaya.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +40,7 @@ public class EditRoutineFragment extends Fragment {
   private int routineId;
   private String routineName;
   private Activity activity;
-  private RoutineExerciseLab routineExerciseLab;
+  private RoutineLab routineLab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private ExerciseLab exerciseLab;
@@ -86,8 +85,8 @@ public class EditRoutineFragment extends Fragment {
     fragmentView = inflater.inflate(R.layout.fragment_select_multiple_fab, container,
         false);
 
-    routineExerciseLab = RoutineExerciseLab.get(activity);
-    exercises = routineExerciseLab.getExercises(routineId);
+    routineLab = RoutineLab.get(activity);
+    exercises = routineLab.getExercises(routineId);
 
     RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
@@ -163,7 +162,7 @@ public class EditRoutineFragment extends Fragment {
   private void saveExercisesToRoutine() {
     Intent intent = new Intent();
     activity.setResult(Activity.RESULT_OK, intent);
-    routineExerciseLab.updateRoutineExercises(routineId, exercises);
+    routineLab.updateRoutineExercises(routineId, exercises);
     activity.finish();
   }
 
@@ -220,6 +219,7 @@ public class EditRoutineFragment extends Fragment {
             for (int j = 0; j < exercises.size(); j++) {
               if (exercises.get(j).getExerciseId() == exerciseId) {
                 exercises.remove(j);
+                break;
               }
             }
             hasBeenModified = true;

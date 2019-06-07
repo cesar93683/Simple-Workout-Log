@@ -33,17 +33,8 @@ public class DbSchema {
     public static final class Cols {
 
       public static final String NAME = "name";
+      public static final String EXERCISES = "exercises";
     }
   }
 
-  public static final class RoutineExerciseTable implements BaseColumns {
-
-    public static final String NAME = "routine_exercise";
-
-    public static final class Cols {
-
-      public static final String ROUTINE_ID = "routine_id";
-      public static final String EXERCISE_ID = "exercise_id";
-    }
-  }
 }
