@@ -85,6 +85,8 @@ public class SelectFragment extends Fragment {
     filtered = new ArrayList<>();
     filtered.addAll(lab.getFiltered(filter));
     Collections.sort(filtered);
+
+    namedEntityAdapter = new NamedEntityAdapter(filtered);
   }
 
   @Nullable
@@ -101,12 +103,9 @@ public class SelectFragment extends Fragment {
 
     RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    recyclerView.addItemDecoration(new DividerItemDecoration(
-        recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-    namedEntityAdapter = new NamedEntityAdapter(filtered);
+    recyclerView.addItemDecoration(
+        new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
     recyclerView.setAdapter(namedEntityAdapter);
-
 
     return fragmentView;
   }

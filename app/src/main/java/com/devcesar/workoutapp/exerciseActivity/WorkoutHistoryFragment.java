@@ -61,6 +61,8 @@ public class WorkoutHistoryFragment extends Fragment {
       exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
     }
     workoutLab = WorkoutLab.get(getActivity());
+    workouts = workoutLab.getWorkouts(exerciseId);
+    workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
   }
 
   @Nullable
@@ -69,15 +71,13 @@ public class WorkoutHistoryFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     fragmentView = getLayoutInflater()
         .inflate(R.layout.fragment_exercise_history, container, false);
-    workouts = workoutLab.getWorkouts(exerciseId);
 
     RecyclerView workoutHistoryRecyclerView = fragmentView
         .findViewById(R.id.workout_history_recycler_view);
     workoutHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    workoutHistoryRecyclerView.addItemDecoration(new DividerItemDecoration(
-        workoutHistoryRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-    workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
+    workoutHistoryRecyclerView.addItemDecoration(
+        new DividerItemDecoration(workoutHistoryRecyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
     workoutHistoryRecyclerView.setAdapter(workoutHistoryAdapter);
 
     return fragmentView;

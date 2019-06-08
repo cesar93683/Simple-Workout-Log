@@ -81,6 +81,7 @@ public class ExerciseFragment extends Fragment {
       exerciseSets.addAll(workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets());
       isEditing = true;
     }
+    exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
   }
 
   @Nullable
@@ -116,12 +117,10 @@ public class ExerciseFragment extends Fragment {
     RecyclerView exerciseSetsRecyclerView = fragmentView
         .findViewById(R.id.exercise_sets_recycler_view);
     exerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    exerciseSetsRecyclerView.addItemDecoration(new DividerItemDecoration(
-        exerciseSetsRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-    exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
+    exerciseSetsRecyclerView.addItemDecoration(
+        new DividerItemDecoration(exerciseSetsRecyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
     exerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
-
 
     return fragmentView;
   }

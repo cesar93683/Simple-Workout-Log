@@ -74,6 +74,7 @@ public class NameFragment extends Fragment {
       lab = CategoryLab.get(activity);
     }
     exercises = lab.getExercises(id);
+    exerciseAdapter = new ExerciseAdapter(exercises);
   }
 
   @Override
@@ -83,10 +84,8 @@ public class NameFragment extends Fragment {
 
     RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    recyclerView.addItemDecoration(new DividerItemDecoration(
-        recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-    exerciseAdapter = new ExerciseAdapter(exercises);
+    recyclerView.addItemDecoration(
+        new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
     recyclerView.setAdapter(exerciseAdapter);
 
     FloatingActionButton editFab = fragmentView.findViewById(R.id.fab);

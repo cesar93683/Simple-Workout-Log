@@ -83,6 +83,7 @@ public class AddExerciseFragment extends Fragment {
         filteredExercises.remove(i);
       }
     }
+    exerciseAdapter = new ExerciseAdapter(filteredExercises);
   }
 
   @Override
@@ -95,12 +96,10 @@ public class AddExerciseFragment extends Fragment {
 
     RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
     exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    exerciseRecyclerView.addItemDecoration(new DividerItemDecoration(
-        exerciseRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-    exerciseAdapter = new ExerciseAdapter(filteredExercises);
+    exerciseRecyclerView.addItemDecoration(
+        new DividerItemDecoration(exerciseRecyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
     exerciseRecyclerView.setAdapter(exerciseAdapter);
-
 
     FloatingActionButton saveFab = fragmentView.findViewById(R.id.fab);
     saveFab.setOnClickListener(saveFab());

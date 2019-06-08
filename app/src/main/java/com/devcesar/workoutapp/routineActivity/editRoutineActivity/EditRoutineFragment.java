@@ -71,6 +71,7 @@ public class EditRoutineFragment extends Fragment {
     }
     activity = getActivity();
     exerciseLab = ExerciseLab.get(activity);
+    exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }
 
@@ -85,10 +86,9 @@ public class EditRoutineFragment extends Fragment {
 
     RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
     exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    exerciseRecyclerView.addItemDecoration(new DividerItemDecoration(
-        exerciseRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-    exerciseAdapter = new ExerciseAdapter(exercises);
+    exerciseRecyclerView.addItemDecoration(
+        new DividerItemDecoration(exerciseRecyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
     exerciseRecyclerView.setAdapter(exerciseAdapter);
 
     itemTouchHelper = new ItemTouchHelper(
