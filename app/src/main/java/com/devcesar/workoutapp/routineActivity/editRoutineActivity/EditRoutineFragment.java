@@ -71,6 +71,8 @@ public class EditRoutineFragment extends Fragment {
     }
     activity = getActivity();
     exerciseLab = ExerciseLab.get(activity);
+    routineLab = RoutineLab.get(activity);
+    exercises = routineLab.getExercises(routineId);
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }
@@ -80,9 +82,6 @@ public class EditRoutineFragment extends Fragment {
       Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_select_multiple_fab, container,
         false);
-
-    routineLab = RoutineLab.get(activity);
-    exercises = routineLab.getExercises(routineId);
 
     RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
     exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -131,12 +130,7 @@ public class EditRoutineFragment extends Fragment {
     return new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        int[] exerciseIds = new int[exercises.size()];
-        int i = 0;
-        for (Exercise exercise : exercises) {
-          exerciseIds[i++] = exercise.getId();
-        }
-        Intent intent = AddExercisesActivity.newIntent(activity, exerciseIds, routineName);
+        Intent intent = AddExercisesActivity.newIntent(activity, exercises, routineName);
         startActivityForResult(intent, REQ_ADD_EXERCISE);
       }
     };

@@ -7,13 +7,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.utils.Exercise;
+import java.util.ArrayList;
 
 public class AddExercisesActivity extends AppCompatActivity {
 
   private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
   private static final String EXTRA_NAME = "EXTRA_NAME";
 
-  public static Intent newIntent(Context packageContext, int[] exerciseIds, String name) {
+  public static Intent newIntent(Context packageContext, ArrayList<Exercise> exercises,
+      String name) {
+    int[] exerciseIds = new int[exercises.size()];
+    int i = 0;
+    for (Exercise exercise : exercises) {
+      exerciseIds[i++] = exercise.getId();
+    }
     Intent intent = new Intent(packageContext, AddExercisesActivity.class);
     intent.putExtra(EXTRA_EXERCISE_IDS, exerciseIds);
     intent.putExtra(EXTRA_NAME, name);

@@ -130,6 +130,7 @@ public class RoutineLab implements NamedEntityLab, NamedEntityExerciseLab {
     return exercises;
   }
 
+  @Override
   public void updateExercises(int id, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
     values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(exercises));

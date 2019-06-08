@@ -1,5 +1,7 @@
 package com.devcesar.workoutapp.routineActivity;
 
+import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
+
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity;
@@ -34,6 +38,7 @@ public class NameFragment extends Fragment {
   private static final String ARG_NAME = "ARG_NAME";
   private static final String ARG_TYPE = "ARG_TYPE";
   private static final int REQ_EDIT = 1;
+  private static final int REQ_ADD = 2;
 
   private int id;
   private String nameType;
@@ -88,10 +93,12 @@ public class NameFragment extends Fragment {
         new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
     recyclerView.setAdapter(exerciseAdapter);
 
-    FloatingActionButton editFab = fragmentView.findViewById(R.id.fab);
-    editFab.setImageDrawable(
-        ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
-    editFab.setOnClickListener(editFabClickListener());
+    FloatingActionButton fab = fragmentView.findViewById(R.id.fab);
+    if (type == Constants.TYPE_ROUTINE) {
+      fab.setImageDrawable(
+          ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
+    }
+    fab.setOnClickListener(editFabClickListener());
     return fragmentView;
   }
 
@@ -103,7 +110,8 @@ public class NameFragment extends Fragment {
           Intent intent = EditRoutineActivity.newIntent(activity, id, name);
           startActivityForResult(intent, REQ_EDIT);
         } else {
-          // todo
+          Intent intent = AddExercisesActivity.newIntent(activity, exercises, name);
+          startActivityForResult(intent, REQ_ADD);
         }
       }
     };
@@ -118,6 +126,13 @@ public class NameFragment extends Fragment {
       exerciseAdapter.notifyDataSetChanged();
       Snackbar.make(fragmentView, String.format(getString(R.string.x_updated), nameType),
           Snackbar.LENGTH_SHORT).show();
+    } else if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD) {
+      int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
+      for (int exerciseId : newExerciseIds) {
+        exercises.add(ExerciseLab.get(getContext()).getExerciseById(exerciseId));
+      }
+      lab.updateExercises(id, exercises);
+      exerciseAdapter.notifyDataSetChanged();
     }
   }
 

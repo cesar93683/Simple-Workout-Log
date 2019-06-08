@@ -9,4 +9,6 @@ public interface NamedEntityExerciseLab {
 
   ArrayList<Exercise> getExercises(int id);
 
+  void updateExercises(int id, ArrayList<Exercise> exercises);
+
 }
