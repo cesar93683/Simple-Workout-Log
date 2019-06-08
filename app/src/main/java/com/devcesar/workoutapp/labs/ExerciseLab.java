@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.devcesar.workoutapp.Exercise;
+import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.ExerciseCursorWrapper;

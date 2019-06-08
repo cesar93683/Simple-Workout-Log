@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.devcesar.workoutapp.Category;
+import com.devcesar.workoutapp.Utils.Category;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.labs.CategoryLab;
 import java.util.ArrayList;

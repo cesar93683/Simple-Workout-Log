@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.devcesar.workoutapp.Exercise;
+import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.R;

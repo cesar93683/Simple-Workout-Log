@@ -2,8 +2,8 @@ package com.devcesar.workoutapp.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import com.devcesar.workoutapp.Exercise;
-import com.devcesar.workoutapp.Routine;
+import com.devcesar.workoutapp.Utils.Exercise;
+import com.devcesar.workoutapp.Utils.Routine;
 import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

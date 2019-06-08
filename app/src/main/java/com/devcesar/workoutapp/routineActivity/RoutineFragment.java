@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.devcesar.workoutapp.Exercise;
+import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.RoutineLab;

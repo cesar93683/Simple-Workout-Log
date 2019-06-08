@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.Routine;
+import com.devcesar.workoutapp.Utils.Routine;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.routineActivity.RoutineActivity;
 import java.util.ArrayList;

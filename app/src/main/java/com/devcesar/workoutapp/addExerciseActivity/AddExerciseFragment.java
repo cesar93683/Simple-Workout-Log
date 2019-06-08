@@ -18,7 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.devcesar.workoutapp.Exercise;
+import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import java.util.ArrayList;

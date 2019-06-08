@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.devcesar.workoutapp.Exercise;
+import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
