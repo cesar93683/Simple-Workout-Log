@@ -21,9 +21,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.Utils.ExerciseSet;
 import com.devcesar.workoutapp.labs.WorkoutLab;
-import com.devcesar.workoutapp.R;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -25,14 +25,6 @@ public class RoutineLab {
     updateRoutines();
   }
 
-  public static RoutineLab get(Context context) {
-    if (routineLab == null) {
-      routineLab = new RoutineLab(context);
-    }
-    routineLab.updateRoutines();
-    return routineLab;
-  }
-
   private void updateRoutines() {
     routines.clear();
     RoutineCursorWrapper cursor = queryRoutines(null, null);
@@ -54,6 +46,14 @@ public class RoutineLab {
         null
     );
     return new RoutineCursorWrapper(cursor);
+  }
+
+  public static RoutineLab get(Context context) {
+    if (routineLab == null) {
+      routineLab = new RoutineLab(context);
+    }
+    routineLab.updateRoutines();
+    return routineLab;
   }
 
   public void insertRoutine(String routineName) {

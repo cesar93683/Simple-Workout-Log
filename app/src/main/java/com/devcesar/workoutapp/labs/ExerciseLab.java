@@ -25,14 +25,6 @@ public class ExerciseLab {
     updateExercises();
   }
 
-  public static ExerciseLab get(Context context) {
-    if (exerciseLab == null) {
-      exerciseLab = new ExerciseLab(context);
-    }
-    exerciseLab.updateExercises();
-    return exerciseLab;
-  }
-
   private void updateExercises() {
     exercises.clear();
     ExerciseCursorWrapper cursor = queryExercises(null, null);
@@ -54,6 +46,14 @@ public class ExerciseLab {
         null
     );
     return new ExerciseCursorWrapper(cursor);
+  }
+
+  public static ExerciseLab get(Context context) {
+    if (exerciseLab == null) {
+      exerciseLab = new ExerciseLab(context);
+    }
+    exerciseLab.updateExercises();
+    return exerciseLab;
   }
 
   public Exercise getExerciseById(int exerciseId) {

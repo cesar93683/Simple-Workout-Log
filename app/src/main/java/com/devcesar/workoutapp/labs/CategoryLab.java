@@ -25,14 +25,6 @@ public class CategoryLab {
     updateCategories();
   }
 
-  public static CategoryLab get(Context context) {
-    if (categoryLab == null) {
-      categoryLab = new CategoryLab(context);
-    }
-    categoryLab.updateCategories();
-    return categoryLab;
-  }
-
   private void updateCategories() {
     categories.clear();
     CategoryCursorWrapper cursor = queryCategories(null, null);
@@ -54,6 +46,14 @@ public class CategoryLab {
         null
     );
     return new CategoryCursorWrapper(cursor);
+  }
+
+  public static CategoryLab get(Context context) {
+    if (categoryLab == null) {
+      categoryLab = new CategoryLab(context);
+    }
+    categoryLab.updateCategories();
+    return categoryLab;
   }
 
   public void insertCategory(String categoryName) {
