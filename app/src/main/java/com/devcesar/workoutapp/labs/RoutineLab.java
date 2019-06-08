@@ -30,7 +30,6 @@ public class RoutineLab implements NamedEntityLab, ContainsExercisesLab {
     if (routineLab == null) {
       routineLab = new RoutineLab(context);
     }
-    routineLab.updateRoutines();
     return routineLab;
   }
 

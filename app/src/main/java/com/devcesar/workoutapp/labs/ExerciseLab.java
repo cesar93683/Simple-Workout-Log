@@ -30,13 +30,12 @@ public class ExerciseLab implements NamedEntityLab {
     if (exerciseLab == null) {
       exerciseLab = new ExerciseLab(context);
     }
-    exerciseLab.updateExercises();
     return exerciseLab;
   }
 
   private void updateExercises() {
     exercises.clear();
-    ExerciseCursorWrapper cursor = queryExercises(null, null);
+    ExerciseCursorWrapper cursor = queryExercises();
     exercises = new ArrayList<>();
     while (cursor.moveToNext()) {
       exercises.add(cursor.getExercise());
@@ -44,16 +43,9 @@ public class ExerciseLab implements NamedEntityLab {
     cursor.close();
   }
 
-  private ExerciseCursorWrapper queryExercises(String whereClause, String[] whereArgs) {
-    @SuppressLint("Recycle") Cursor cursor = database.query(
-        ExerciseTable.NAME,
-        null,
-        whereClause,
-        whereArgs,
-        null,
-        null,
-        null
-    );
+  private ExerciseCursorWrapper queryExercises() {
+    @SuppressLint("Recycle") Cursor cursor = database
+        .query(ExerciseTable.NAME, null, null, null, null, null, null);
     return new ExerciseCursorWrapper(cursor);
   }
 

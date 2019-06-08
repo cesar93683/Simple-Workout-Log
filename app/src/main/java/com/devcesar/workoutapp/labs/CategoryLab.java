@@ -30,7 +30,6 @@ public class CategoryLab implements NamedEntityLab, ContainsExercisesLab {
     if (categoryLab == null) {
       categoryLab = new CategoryLab(context);
     }
-    categoryLab.updateCategories();
     return categoryLab;
   }
 
