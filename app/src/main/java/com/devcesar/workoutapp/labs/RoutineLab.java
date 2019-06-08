@@ -14,7 +14,7 @@ import com.devcesar.workoutapp.utils.Routine;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-public class RoutineLab implements NamedEntityLab, NamedEntityExerciseLab {
+public class RoutineLab implements NamedEntityLab, ContainsExercisesLab {
 
   private static RoutineLab routineLab;
   private final SQLiteDatabase database;

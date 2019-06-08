@@ -3,7 +3,7 @@ package com.devcesar.workoutapp.labs;
 import com.devcesar.workoutapp.utils.Exercise;
 import java.util.ArrayList;
 
-public interface NamedEntityExerciseLab {
+public interface ContainsExercisesLab {
 
   void deleteExercise(int id, int exerciseId);
 

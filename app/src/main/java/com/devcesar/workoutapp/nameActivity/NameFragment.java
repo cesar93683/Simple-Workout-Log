@@ -24,8 +24,8 @@ import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
+import com.devcesar.workoutapp.labs.ContainsExercisesLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
-import com.devcesar.workoutapp.labs.NamedEntityExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.Exercise;
@@ -44,7 +44,7 @@ public class NameFragment extends Fragment {
   private String nameType;
   private String name;
   private Activity activity;
-  private NamedEntityExerciseLab lab;
+  private ContainsExercisesLab lab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private View fragmentView;

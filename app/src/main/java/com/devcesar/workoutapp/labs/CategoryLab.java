@@ -14,7 +14,7 @@ import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-public class CategoryLab implements NamedEntityLab, NamedEntityExerciseLab {
+public class CategoryLab implements NamedEntityLab, ContainsExercisesLab {
 
   private static CategoryLab categoryLab;
   private final SQLiteDatabase database;
