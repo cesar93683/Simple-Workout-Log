@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_routine:
               selectedFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
               break;
+            default:
+              throw new RuntimeException("ERROR: fragment id not found");
           }
           getSupportFragmentManager().beginTransaction()
               .replace(R.id.fragment_container, selectedFragment)

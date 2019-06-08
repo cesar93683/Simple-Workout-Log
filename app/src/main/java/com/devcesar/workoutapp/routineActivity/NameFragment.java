@@ -71,12 +71,17 @@ public class NameFragment extends Fragment {
     name = getArguments().getString(ARG_NAME);
     type = getArguments().getInt(ARG_TYPE);
     activity = getActivity();
-    if (type == Constants.TYPE_ROUTINE) {
-      nameType = getString(R.string.routine);
-      lab = RoutineLab.get(activity);
-    } else { // type == SelectFragment.TYPE_CATEGORY
-      nameType = getString(R.string.category);
-      lab = CategoryLab.get(activity);
+    switch (type) {
+      case Constants.TYPE_ROUTINE:
+        nameType = getString(R.string.routine);
+        lab = RoutineLab.get(activity);
+        break;
+      case Constants.TYPE_CATEGORY:
+        nameType = getString(R.string.category);
+        lab = CategoryLab.get(activity);
+        break;
+      default:
+        throw new RuntimeException("ERROR: type is invalid");
     }
     exercises = lab.getExercises(id);
     exerciseAdapter = new ExerciseAdapter(exercises);

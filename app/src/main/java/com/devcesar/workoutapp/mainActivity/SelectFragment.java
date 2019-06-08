@@ -47,7 +47,7 @@ public class SelectFragment extends Fragment {
   private NamedEntityAdapter namedEntityAdapter;
   private NamedEntityLab lab;
   private int type;
-  private String name;
+  private String nameType;
 
   public SelectFragment() {
     // Required empty public constructor
@@ -68,17 +68,19 @@ public class SelectFragment extends Fragment {
     activity = getActivity();
     switch (type) {
       case Constants.TYPE_CATEGORY:
-        name = getString(R.string.category);
+        nameType = getString(R.string.category);
         lab = CategoryLab.get(getActivity());
         break;
       case Constants.TYPE_ROUTINE:
-        name = getString(R.string.routine);
+        nameType = getString(R.string.routine);
         lab = RoutineLab.get(getActivity());
         break;
-      default:  // type == Constants.TYPE_EXERCISE
-        name = getString(R.string.exercise);
+      case Constants.TYPE_EXERCISE:
+        nameType = getString(R.string.exercise);
         lab = ExerciseLab.get(getActivity());
         break;
+      default:
+        throw new RuntimeException("ERROR: type is invalid");
     }
 
     filter = "";
@@ -149,7 +151,7 @@ public class SelectFragment extends Fragment {
 
     final AlertDialog alertDialog = new Builder(activity)
         .setView(dialogView)
-        .setMessage(String.format(getString(R.string.new_x), name))
+        .setMessage(String.format(getString(R.string.new_x), nameType))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -166,12 +168,12 @@ public class SelectFragment extends Fragment {
                   textInputLayout.setError(getString(R.string.error_no_name));
                 } else if (lab.contains(newName)) {
                   textInputLayout
-                      .setError(String.format(getString(R.string.x_already_exists), name));
+                      .setError(String.format(getString(R.string.x_already_exists), nameType));
                 } else {
                   lab.insert(newName);
                   updateFiltered();
                   Snackbar.make(fragmentView,
-                      String.format(getString(R.string.new_x_created), name.toLowerCase()),
+                      String.format(getString(R.string.new_x_created), nameType.toLowerCase()),
                       Snackbar.LENGTH_SHORT).show();
                   alertDialog.dismiss();
                 }
@@ -224,7 +226,7 @@ public class SelectFragment extends Fragment {
         activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
     final AlertDialog alertDialog = new Builder(activity)
         .setView(dialogView)
-        .setMessage(String.format(getString(R.string.edit_x), name.toLowerCase()))
+        .setMessage(String.format(getString(R.string.edit_x), nameType.toLowerCase()))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -245,7 +247,8 @@ public class SelectFragment extends Fragment {
             } else if (newNamedEntity.isEmpty()) {
               textInputLayout.setError(getString(R.string.error_no_name));
             } else if (lab.contains(newNamedEntity)) {
-              textInputLayout.setError(String.format(getString(R.string.x_already_exists), name));
+              textInputLayout
+                  .setError(String.format(getString(R.string.x_already_exists), nameType));
             } else {
               lab.updateName(oldNamedEntity.getId(), newNamedEntity);
               updateFiltered();
@@ -262,14 +265,15 @@ public class SelectFragment extends Fragment {
 
   private void createDeleteDialog(final NamedEntity namedEntity) {
     new Builder(activity)
-        .setMessage(String.format(getString(R.string.are_you_sure_delete_x), name.toLowerCase()))
+        .setMessage(
+            String.format(getString(R.string.are_you_sure_delete_x), nameType.toLowerCase()))
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             lab.delete(namedEntity.getId());
             updateFiltered();
-            Snackbar.make(fragmentView, String.format(getString(R.string.x_deleted), name),
+            Snackbar.make(fragmentView, String.format(getString(R.string.x_deleted), nameType),
                 Snackbar.LENGTH_SHORT).show();
           }
         })
