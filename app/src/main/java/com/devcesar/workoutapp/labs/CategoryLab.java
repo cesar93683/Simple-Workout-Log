@@ -58,36 +58,36 @@ public class CategoryLab implements NamedEntityLab, NamedEntityExerciseLab {
   }
 
   @Override
-  public void insert(String categoryName) {
+  public void insert(String name) {
     ContentValues values = new ContentValues();
-    values.put(CategoryTable.Cols.NAME, categoryName);
+    values.put(CategoryTable.Cols.NAME, name);
     values.put(CategoryTable.Cols.EXERCISES, new Gson().toJson(new ArrayList<Exercise>()));
     database.insert(CategoryTable.NAME, null, values);
     updateCategories();
   }
 
   @Override
-  public void delete(int categoryId) {
+  public void delete(int id) {
     String whereClause = CategoryTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(categoryId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.delete(CategoryTable.NAME, whereClause, whereArgs);
     updateCategories();
   }
 
   @Override
-  public void updateName(int categoryId, String newCategoryName) {
+  public void updateName(int id, String newCategoryName) {
     ContentValues values = new ContentValues();
     values.put(CategoryTable.Cols.NAME, newCategoryName);
     String whereClause = CategoryTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(categoryId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(CategoryTable.NAME, values, whereClause, whereArgs);
     updateCategories();
   }
 
   @Override
-  public boolean contains(String categoryName) {
+  public boolean contains(String name) {
     for (Category category : categories) {
-      if (category.getName().equals(categoryName)) {
+      if (category.getName().equals(name)) {
         return true;
       }
     }
@@ -106,21 +106,21 @@ public class CategoryLab implements NamedEntityLab, NamedEntityExerciseLab {
   }
 
   @Override
-  public void deleteExercise(int categoryId, int exerciseId) {
-    ArrayList<Exercise> exercises = getExercises(categoryId);
+  public void deleteExercise(int id, int exerciseId) {
+    ArrayList<Exercise> exercises = getExercises(id);
     for (int i = 0; i < exercises.size(); i++) {
       if (exercises.get(i).getId() == exerciseId) {
         exercises.remove(i);
         break;
       }
     }
-    updateExercises(categoryId, exercises);
+    updateExercises(id, exercises);
   }
 
   @Override
-  public ArrayList<Exercise> getExercises(int categoryId) {
+  public ArrayList<Exercise> getExercises(int id) {
     String whereClause = CategoryTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(categoryId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     CategoryCursorWrapper cursor = queryCategories(whereClause, whereArgs);
 
     cursor.moveToNext();
@@ -131,11 +131,11 @@ public class CategoryLab implements NamedEntityLab, NamedEntityExerciseLab {
   }
 
   @Override
-  public void updateExercises(int categoryId, ArrayList<Exercise> exercises) {
+  public void updateExercises(int id, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
     values.put(CategoryTable.Cols.EXERCISES, new Gson().toJson(exercises));
     String whereClause = CategoryTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(categoryId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(CategoryTable.NAME, values, whereClause, whereArgs);
   }
 

@@ -57,9 +57,9 @@ public class ExerciseLab implements NamedEntityLab {
     return new ExerciseCursorWrapper(cursor);
   }
 
-  public Exercise getExerciseById(int exerciseId) {
+  public Exercise getExerciseById(int id) {
     for (Exercise exercise : exercises) {
-      if (exercise.getId() == exerciseId) {
+      if (exercise.getId() == id) {
         return exercise;
       }
     }
@@ -67,40 +67,40 @@ public class ExerciseLab implements NamedEntityLab {
   }
 
   @Override
-  public void insert(String exerciseName) {
-    ContentValues values = getContentValues(exerciseName);
+  public void insert(String name) {
+    ContentValues values = getContentValues(name);
     database.insert(ExerciseTable.NAME, null, values);
     updateExercises();
   }
 
-  private ContentValues getContentValues(String exerciseName) {
+  private ContentValues getContentValues(String name) {
     ContentValues values = new ContentValues();
-    values.put(ExerciseTable.Cols.NAME, exerciseName);
+    values.put(ExerciseTable.Cols.NAME, name);
     return values;
   }
 
   @Override
-  public void delete(int exerciseId) {
+  public void delete(int id) {
     String whereClause = ExerciseTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(exerciseId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.delete(ExerciseTable.NAME, whereClause, whereArgs);
-    workoutLab.deleteWorkouts(exerciseId);
+    workoutLab.deleteWorkouts(id);
     updateExercises();
   }
 
   @Override
-  public void updateName(int exerciseId, String newExerciseName) {
-    ContentValues values = getContentValues(newExerciseName);
+  public void updateName(int id, String newName) {
+    ContentValues values = getContentValues(newName);
     String whereClause = ExerciseTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(exerciseId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(ExerciseTable.NAME, values, whereClause, whereArgs);
     updateExercises();
   }
 
   @Override
-  public boolean contains(String exerciseName) {
+  public boolean contains(String name) {
     for (Exercise exercise : exercises) {
-      if (exercise.getName().equals(exerciseName)) {
+      if (exercise.getName().equals(name)) {
         return true;
       }
     }

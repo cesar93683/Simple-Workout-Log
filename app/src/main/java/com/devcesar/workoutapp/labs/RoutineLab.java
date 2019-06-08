@@ -58,28 +58,28 @@ public class RoutineLab implements NamedEntityLab, NamedEntityExerciseLab {
   }
 
   @Override
-  public void insert(String routineName) {
+  public void insert(String name) {
     ContentValues values = new ContentValues();
-    values.put(RoutineTable.Cols.NAME, routineName);
+    values.put(RoutineTable.Cols.NAME, name);
     values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(new ArrayList<Exercise>()));
     database.insert(RoutineTable.NAME, null, values);
     updateRoutines();
   }
 
   @Override
-  public void delete(int routineId) {
+  public void delete(int id) {
     String whereClause = RoutineTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(routineId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.delete(RoutineTable.NAME, whereClause, whereArgs);
     updateRoutines();
   }
 
   @Override
-  public void updateName(int routineId, String newRoutineName) {
+  public void updateName(int id, String newName) {
     ContentValues values = new ContentValues();
-    values.put(RoutineTable.Cols.NAME, newRoutineName);
+    values.put(RoutineTable.Cols.NAME, newName);
     String whereClause = RoutineTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(routineId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(RoutineTable.NAME, values, whereClause, whereArgs);
     updateRoutines();
   }
@@ -106,21 +106,21 @@ public class RoutineLab implements NamedEntityLab, NamedEntityExerciseLab {
   }
 
   @Override
-  public void deleteExercise(int routineId, int exerciseId) {
-    ArrayList<Exercise> exercises = getExercises(routineId);
+  public void deleteExercise(int id, int exerciseId) {
+    ArrayList<Exercise> exercises = getExercises(id);
     for (int i = 0; i < exercises.size(); i++) {
       if (exercises.get(i).getId() == exerciseId) {
         exercises.remove(i);
         break;
       }
     }
-    updateExercises(routineId, exercises);
+    updateExercises(id, exercises);
   }
 
   @Override
-  public ArrayList<Exercise> getExercises(int routineId) {
+  public ArrayList<Exercise> getExercises(int id) {
     String whereClause = RoutineTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(routineId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     RoutineCursorWrapper cursor = queryRoutines(whereClause, whereArgs);
 
     cursor.moveToNext();
@@ -131,11 +131,11 @@ public class RoutineLab implements NamedEntityLab, NamedEntityExerciseLab {
   }
 
   @Override
-  public void updateExercises(int routineId, ArrayList<Exercise> exercises) {
+  public void updateExercises(int id, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
     values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(exercises));
     String whereClause = RoutineTable._ID + "=?";
-    String[] whereArgs = new String[]{String.valueOf(routineId)};
+    String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(RoutineTable.NAME, values, whereClause, whereArgs);
   }
 
