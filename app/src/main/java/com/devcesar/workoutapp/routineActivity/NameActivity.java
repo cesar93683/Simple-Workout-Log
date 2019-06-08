@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.mainActivity.SelectFragment;
+import com.devcesar.workoutapp.utils.Constants;
 
 public class NameActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class NameActivity extends AppCompatActivity {
     if (id == -1) {
       finish();
     }
-    int type = getIntent().getIntExtra(EXTRA_TYPE, SelectFragment.TYPE_CATEGORY);
+    int type = getIntent().getIntExtra(EXTRA_TYPE, Constants.TYPE_CATEGORY);
     setTitle(name);
 
     FragmentManager fm = getSupportFragmentManager();

@@ -73,13 +73,12 @@ public class WorkoutHistoryFragment extends Fragment {
 
     RecyclerView workoutHistoryRecyclerView = fragmentView
         .findViewById(R.id.workout_history_recycler_view);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-    workoutHistoryRecyclerView.setLayoutManager(linearLayoutManager);
+    workoutHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    workoutHistoryRecyclerView.addItemDecoration(new DividerItemDecoration(
+        workoutHistoryRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
     workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
     workoutHistoryRecyclerView.setAdapter(workoutHistoryAdapter);
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        workoutHistoryRecyclerView.getContext(), linearLayoutManager.getOrientation());
-    workoutHistoryRecyclerView.addItemDecoration(dividerItemDecoration);
 
     return fragmentView;
   }

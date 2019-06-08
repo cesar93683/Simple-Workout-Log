@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.utils.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
           Fragment selectedFragment = null;
           switch (item.getItemId()) {
             case R.id.nav_exercise_select:
-              selectedFragment = SelectFragment.newInstance(SelectFragment.TYPE_EXERCISE);
+              selectedFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
               break;
             case R.id.nav_category:
-              selectedFragment = SelectFragment.newInstance(SelectFragment.TYPE_CATEGORY);
+              selectedFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
               break;
             case R.id.nav_routine:
-              selectedFragment = SelectFragment.newInstance(SelectFragment.TYPE_ROUTINE);
+              selectedFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
               break;
           }
           getSupportFragmentManager().beginTransaction()
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.fragment_container,
-              SelectFragment.newInstance(SelectFragment.TYPE_EXERCISE))
+              SelectFragment.newInstance(Constants.TYPE_EXERCISE))
           .commit();
     }
   }

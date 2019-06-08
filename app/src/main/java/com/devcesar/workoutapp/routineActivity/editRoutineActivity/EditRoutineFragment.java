@@ -84,8 +84,10 @@ public class EditRoutineFragment extends Fragment {
     exercises = routineLab.getExercises(routineId);
 
     RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-    exerciseRecyclerView.setLayoutManager(linearLayoutManager);
+    exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    exerciseRecyclerView.addItemDecoration(new DividerItemDecoration(
+        exerciseRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
     exerciseAdapter = new ExerciseAdapter(exercises);
     exerciseRecyclerView.setAdapter(exerciseAdapter);
 
@@ -113,10 +115,6 @@ public class EditRoutineFragment extends Fragment {
           }
         });
     itemTouchHelper.attachToRecyclerView(exerciseRecyclerView);
-
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
-    exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
     FloatingActionButton addExercisesFab = fragmentView.findViewById(R.id.fab_action1);
     addExercisesFab.setTitle(getString(R.string.add_exercises));

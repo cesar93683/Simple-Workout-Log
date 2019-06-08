@@ -22,8 +22,8 @@ import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.NamedEntityExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
-import com.devcesar.workoutapp.mainActivity.SelectFragment;
 import com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity;
+import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.Exercise;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class NameFragment extends Fragment {
     name = getArguments().getString(ARG_NAME);
     type = getArguments().getInt(ARG_TYPE);
     activity = getActivity();
-    if (type == SelectFragment.TYPE_ROUTINE) {
+    if (type == Constants.TYPE_ROUTINE) {
       nameType = getString(R.string.routine);
       lab = RoutineLab.get(activity);
     } else { // type == SelectFragment.TYPE_CATEGORY
@@ -82,27 +82,25 @@ public class NameFragment extends Fragment {
     fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
 
     RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-    recyclerView.setLayoutManager(linearLayoutManager);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    recyclerView.addItemDecoration(new DividerItemDecoration(
+        recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
     exerciseAdapter = new ExerciseAdapter(exercises);
     recyclerView.setAdapter(exerciseAdapter);
-
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        recyclerView.getContext(), linearLayoutManager.getOrientation());
-    recyclerView.addItemDecoration(dividerItemDecoration);
 
     FloatingActionButton editFab = fragmentView.findViewById(R.id.fab);
     editFab.setImageDrawable(
         ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
-    editFab.setOnClickListener(editRoutineFabClickListener());
+    editFab.setOnClickListener(editFabClickListener());
     return fragmentView;
   }
 
-  private View.OnClickListener editRoutineFabClickListener() {
+  private View.OnClickListener editFabClickListener() {
     return new View.OnClickListener() {
       @Override
       public void onClick(final View v) {
-        if (type == SelectFragment.TYPE_ROUTINE) {
+        if (type == Constants.TYPE_ROUTINE) {
           Intent intent = EditRoutineActivity.newIntent(activity, id, name);
           startActivityForResult(intent, REQ_EDIT);
         } else {

@@ -32,6 +32,7 @@ import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.routineActivity.NameActivity;
+import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,10 +40,6 @@ import java.util.List;
 
 public class SelectFragment extends Fragment {
 
-  public static final int TYPE_CATEGORY = 1;
-  public static final int TYPE_ROUTINE = 2;
-  public static final int TYPE_EXERCISE = 3;
-  private static final String TYPE = "TYPE";
   private Activity activity;
   private ArrayList<NamedEntity> filtered;
   private String filter;
@@ -59,7 +56,7 @@ public class SelectFragment extends Fragment {
   public static Fragment newInstance(int type) {
     Fragment fragment = new SelectFragment();
     Bundle args = new Bundle();
-    args.putInt(TYPE, type);
+    args.putInt(Constants.TYPE, type);
     fragment.setArguments(args);
     return fragment;
   }
@@ -67,17 +64,21 @@ public class SelectFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    type = getArguments().getInt(TYPE);
+    type = getArguments().getInt(Constants.TYPE);
     activity = getActivity();
-    if (type == TYPE_CATEGORY) {
-      name = getString(R.string.category);
-      lab = CategoryLab.get(getActivity());
-    } else if (type == TYPE_ROUTINE) {
-      name = getString(R.string.routine);
-      lab = RoutineLab.get(getActivity());
-    } else { // type == TYPE_EXERCISE
-      name = getString(R.string.exercise);
-      lab = ExerciseLab.get(getActivity());
+    switch (type) {
+      case Constants.TYPE_CATEGORY:
+        name = getString(R.string.category);
+        lab = CategoryLab.get(getActivity());
+        break;
+      case Constants.TYPE_ROUTINE:
+        name = getString(R.string.routine);
+        lab = RoutineLab.get(getActivity());
+        break;
+      default:  // type == Constants.TYPE_EXERCISE
+        name = getString(R.string.exercise);
+        lab = ExerciseLab.get(getActivity());
+        break;
     }
 
     filter = "";
@@ -99,14 +100,13 @@ public class SelectFragment extends Fragment {
     filterEditText.addTextChangedListener(filterEditTextListener());
 
     RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-    recyclerView.setLayoutManager(linearLayoutManager);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    recyclerView.addItemDecoration(new DividerItemDecoration(
+        recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
     namedEntityAdapter = new NamedEntityAdapter(filtered);
     recyclerView.setAdapter(namedEntityAdapter);
 
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        recyclerView.getContext(), linearLayoutManager.getOrientation());
-    recyclerView.addItemDecoration(dividerItemDecoration);
 
     return fragmentView;
   }
@@ -150,7 +150,7 @@ public class SelectFragment extends Fragment {
 
     final AlertDialog alertDialog = new Builder(activity)
         .setView(dialogView)
-        .setMessage(String.format(getString(R.string.new_x), name.toLowerCase()))
+        .setMessage(String.format(getString(R.string.new_x), name))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -271,8 +271,7 @@ public class SelectFragment extends Fragment {
             lab.delete(namedEntity.getId());
             updateFiltered();
             Snackbar.make(fragmentView, String.format(getString(R.string.x_deleted), name),
-                Snackbar.LENGTH_SHORT)
-                .show();
+                Snackbar.LENGTH_SHORT).show();
           }
         })
         .show();
@@ -296,11 +295,11 @@ public class SelectFragment extends Fragment {
 
     @Override
     public void onClick(View view) {
-      if (type == TYPE_CATEGORY || type == TYPE_ROUTINE) {
+      if (type == Constants.TYPE_CATEGORY || type == Constants.TYPE_ROUTINE) {
         Intent intent = NameActivity
             .newIntent(activity, namedEntity.getName(), namedEntity.getId(), type);
         startActivity(intent);
-      } else if (type == TYPE_EXERCISE){
+      } else if (type == Constants.TYPE_EXERCISE) {
         Intent intent = ExerciseActivity
             .newIntent(activity, namedEntity.getName(), namedEntity.getId());
         startActivity(intent);

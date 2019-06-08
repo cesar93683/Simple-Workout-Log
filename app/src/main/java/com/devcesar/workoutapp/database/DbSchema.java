@@ -4,13 +4,15 @@ import android.provider.BaseColumns;
 
 public class DbSchema {
 
+  private static final String COL_NAME = "name";
+
   public static final class ExerciseTable implements BaseColumns {
 
     public static final String NAME = "exercises";
 
     public static final class Cols {
 
-      public static final String NAME = "name";
+      public static final String NAME = COL_NAME;
     }
   }
 
@@ -32,8 +34,8 @@ public class DbSchema {
 
     public static final class Cols {
 
-      public static final String NAME = "name";
-      public static final String EXERCISES = "exercises";
+      public static final String NAME = COL_NAME;
+      public static final String EXERCISES = ExerciseTable.NAME;
     }
   }
 
@@ -43,8 +45,8 @@ public class DbSchema {
 
     public static final class Cols {
 
-      public static final String NAME = "name";
-      public static final String EXERCISES = "exercises";
+      public static final String NAME = COL_NAME;
+      public static final String EXERCISES = ExerciseTable.NAME;
     }
   }
 

@@ -115,14 +115,13 @@ public class ExerciseFragment extends Fragment {
 
     RecyclerView exerciseSetsRecyclerView = fragmentView
         .findViewById(R.id.exercise_sets_recycler_view);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-    exerciseSetsRecyclerView.setLayoutManager(linearLayoutManager);
+    exerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    exerciseSetsRecyclerView.addItemDecoration(new DividerItemDecoration(
+        exerciseSetsRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
     exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
     exerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
 
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        exerciseSetsRecyclerView.getContext(), linearLayoutManager.getOrientation());
-    exerciseSetsRecyclerView.addItemDecoration(dividerItemDecoration);
 
     return fragmentView;
   }

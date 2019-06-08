@@ -94,14 +94,13 @@ public class AddExerciseFragment extends Fragment {
     filterEditText.addTextChangedListener(filterEditTextListener());
 
     RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-    exerciseRecyclerView.setLayoutManager(linearLayoutManager);
+    exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    exerciseRecyclerView.addItemDecoration(new DividerItemDecoration(
+        exerciseRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
     exerciseAdapter = new ExerciseAdapter(filteredExercises);
     exerciseRecyclerView.setAdapter(exerciseAdapter);
 
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
-    exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
 
     FloatingActionButton saveFab = fragmentView.findViewById(R.id.fab);
     saveFab.setOnClickListener(saveFab());
