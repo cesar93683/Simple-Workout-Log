@@ -12,9 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.Utils.ExerciseSet;
-import com.devcesar.workoutapp.Utils.Workout;
 import com.devcesar.workoutapp.labs.WorkoutLab;
+import com.devcesar.workoutapp.utils.ExerciseSet;
+import com.devcesar.workoutapp.utils.Workout;
 import java.util.ArrayList;
 import java.util.Date;
 

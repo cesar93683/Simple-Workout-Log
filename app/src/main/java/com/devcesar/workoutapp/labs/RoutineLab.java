@@ -5,12 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.devcesar.workoutapp.Utils.Exercise;
-import com.devcesar.workoutapp.Utils.NamedEntity;
-import com.devcesar.workoutapp.Utils.Routine;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
 import com.devcesar.workoutapp.database.RoutineCursorWrapper;
+import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.NamedEntity;
+import com.devcesar.workoutapp.utils.Routine;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 

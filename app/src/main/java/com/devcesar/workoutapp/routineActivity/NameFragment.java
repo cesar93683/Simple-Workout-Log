@@ -18,36 +18,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
+import com.devcesar.workoutapp.labs.CategoryLab;
+import com.devcesar.workoutapp.labs.NamedEntityExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
+import com.devcesar.workoutapp.mainActivity.SelectFragment;
 import com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity;
+import com.devcesar.workoutapp.utils.Exercise;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoutineFragment extends Fragment {
+public class NameFragment extends Fragment {
 
-  private static final String ARG_ROUTINE_ID = "ARG_ROUTINE_ID";
-  private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
-  private static final int REQ_EDIT_ROUTINE = 1;
+  private static final String ARG_ID = "ARG_ID";
+  private static final String ARG_NAME = "ARG_NAME";
+  private static final String ARG_TYPE = "ARG_TYPE";
+  private static final int REQ_EDIT = 1;
 
-  private int routineId;
-  private String routineName;
+  private int id;
+  private String nameType;
+  private String name;
   private Activity activity;
-  private RoutineLab routineLab;
+  private NamedEntityExerciseLab lab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private View fragmentView;
+  private int type;
 
-  public RoutineFragment() {
+  public NameFragment() {
     // Required empty public constructor
   }
 
-  public static RoutineFragment newInstance(int routineId, String routineName) {
-    RoutineFragment fragment = new RoutineFragment();
+  public static NameFragment newInstance(int id, String name, int type) {
+    NameFragment fragment = new NameFragment();
     Bundle args = new Bundle();
-    args.putInt(ARG_ROUTINE_ID, routineId);
-    args.putString(ARG_ROUTINE_NAME, routineName);
+    args.putInt(ARG_ID, id);
+    args.putInt(ARG_TYPE, type);
+    args.putString(ARG_NAME, name);
     fragment.setArguments(args);
     return fragment;
   }
@@ -55,13 +62,18 @@ public class RoutineFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      routineId = getArguments().getInt(ARG_ROUTINE_ID);
-      routineName = getArguments().getString(ARG_ROUTINE_NAME);
-    }
+    id = getArguments().getInt(ARG_ID);
+    name = getArguments().getString(ARG_NAME);
+    type = getArguments().getInt(ARG_TYPE);
     activity = getActivity();
-    routineLab = RoutineLab.get(activity);
-    exercises = routineLab.getExercises(routineId);
+    if (type == SelectFragment.TYPE_ROUTINE) {
+      lab = RoutineLab.get(activity);
+      nameType = getString(R.string.routine);
+    } else {
+      nameType = getString(R.string.category);
+      lab = CategoryLab.get(activity);
+    }
+    exercises = lab.getExercises(id);
   }
 
   @Override
@@ -69,20 +81,20 @@ public class RoutineFragment extends Fragment {
       Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
 
-    RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
+    RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-    exerciseRecyclerView.setLayoutManager(linearLayoutManager);
+    recyclerView.setLayoutManager(linearLayoutManager);
     exerciseAdapter = new ExerciseAdapter(exercises);
-    exerciseRecyclerView.setAdapter(exerciseAdapter);
+    recyclerView.setAdapter(exerciseAdapter);
 
     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-        exerciseRecyclerView.getContext(), linearLayoutManager.getOrientation());
-    exerciseRecyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.getContext(), linearLayoutManager.getOrientation());
+    recyclerView.addItemDecoration(dividerItemDecoration);
 
-    FloatingActionButton editRoutineFab = fragmentView.findViewById(R.id.fab);
-    editRoutineFab.setImageDrawable(
+    FloatingActionButton editFab = fragmentView.findViewById(R.id.fab);
+    editFab.setImageDrawable(
         ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
-    editRoutineFab.setOnClickListener(editRoutineFabClickListener());
+    editFab.setOnClickListener(editRoutineFabClickListener());
     return fragmentView;
   }
 
@@ -90,8 +102,12 @@ public class RoutineFragment extends Fragment {
     return new View.OnClickListener() {
       @Override
       public void onClick(final View v) {
-        Intent intent = EditRoutineActivity.newIntent(activity, routineId, routineName);
-        startActivityForResult(intent, REQ_EDIT_ROUTINE);
+        if (type == SelectFragment.TYPE_ROUTINE) {
+          Intent intent = EditRoutineActivity.newIntent(activity, id, name);
+          startActivityForResult(intent, REQ_EDIT);
+        } else {
+          // todo
+        }
       }
     };
   }
@@ -99,11 +115,12 @@ public class RoutineFragment extends Fragment {
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == Activity.RESULT_OK && requestCode == REQ_EDIT_ROUTINE) {
+    if (resultCode == Activity.RESULT_OK && requestCode == REQ_EDIT) {
       exercises.clear();
-      exercises.addAll(routineLab.getExercises(routineId));
+      exercises.addAll(lab.getExercises(id));
       exerciseAdapter.notifyDataSetChanged();
-      Snackbar.make(fragmentView, R.string.routine_updated, Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(fragmentView, String.format(getString(R.string.x_updated), nameType),
+          Snackbar.LENGTH_SHORT).show();
     }
   }
 
@@ -114,12 +131,11 @@ public class RoutineFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            routineLab.deleteExercise(routineId, exerciseId);
+            lab.deleteExercise(id, exerciseId);
             exercises.clear();
-            exercises.addAll(routineLab.getExercises(routineId));
+            exercises.addAll(lab.getExercises(id));
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(fragmentView, R.string.exercise_deleted,
-                Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(fragmentView, R.string.exercise_deleted, Snackbar.LENGTH_SHORT).show();
           }
         })
         .show();

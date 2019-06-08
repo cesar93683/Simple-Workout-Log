@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.Utils;
+package com.devcesar.workoutapp.utils;
 
 import android.annotation.SuppressLint;
 

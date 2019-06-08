@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.Utils;
+package com.devcesar.workoutapp.utils;
 
 public class Routine extends NamedEntity {
 

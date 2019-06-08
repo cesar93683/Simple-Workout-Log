@@ -5,11 +5,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.devcesar.workoutapp.Utils.Exercise;
-import com.devcesar.workoutapp.Utils.NamedEntity;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.ExerciseCursorWrapper;
+import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 
 public class ExerciseLab implements NamedEntityLab {

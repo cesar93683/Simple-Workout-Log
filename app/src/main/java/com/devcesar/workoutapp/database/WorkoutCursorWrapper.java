@@ -2,9 +2,9 @@ package com.devcesar.workoutapp.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import com.devcesar.workoutapp.Utils.ExerciseSet;
-import com.devcesar.workoutapp.Utils.Workout;
 import com.devcesar.workoutapp.database.DbSchema.WorkoutTable;
+import com.devcesar.workoutapp.utils.ExerciseSet;
+import com.devcesar.workoutapp.utils.Workout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;

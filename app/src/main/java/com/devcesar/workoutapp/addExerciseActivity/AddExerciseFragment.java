@@ -19,9 +19,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.labs.ExerciseLab;
-import java.lang.reflect.Array;
+import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -73,7 +73,10 @@ public class AddExerciseFragment extends Fragment {
     filter = "";
     // todo change to ArrayList<Exercise>
     filteredExercises = new ArrayList<>();
-//    filteredExercises =  exerciseLab.getFiltered(filter);
+    ArrayList<NamedEntity> filteredExercises2 = exerciseLab.getFiltered(filter);
+    for (NamedEntity namedEntity : filteredExercises2) {
+      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
+    }
     Collections.sort(filteredExercises);
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
@@ -146,7 +149,10 @@ public class AddExerciseFragment extends Fragment {
   private void updateFilteredExercises() {
     filteredExercises.clear();
     // todo change to ArrayList<Exercise>
-//    filteredExercises.addAll(exerciseLab.getFiltered(filter));
+    ArrayList<NamedEntity> filteredExercises2 = exerciseLab.getFiltered(filter);
+    for (NamedEntity namedEntity : filteredExercises2) {
+      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
+    }
     Collections.sort(filteredExercises);
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {

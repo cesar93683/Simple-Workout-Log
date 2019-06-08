@@ -1,7 +1,6 @@
 package com.devcesar.workoutapp.labs;
 
-import com.devcesar.workoutapp.Utils.Exercise;
-import com.devcesar.workoutapp.Utils.NamedEntity;
+import com.devcesar.workoutapp.utils.Exercise;
 import java.util.ArrayList;
 
 public interface NamedEntityExerciseLab {

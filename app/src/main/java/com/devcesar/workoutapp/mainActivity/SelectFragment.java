@@ -3,6 +3,7 @@ package com.devcesar.workoutapp.mainActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,13 +26,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.Utils.NamedEntity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
-import com.devcesar.workoutapp.routineActivity.RoutineActivity;
+import com.devcesar.workoutapp.routineActivity.NameActivity;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -68,13 +70,13 @@ public class SelectFragment extends Fragment {
     type = getArguments().getInt(TYPE);
     activity = getActivity();
     if (type == TYPE_CATEGORY) {
-      name = "Category";
+      name = getString(R.string.category);
       lab = CategoryLab.get(getActivity());
-    } else if(type == TYPE_ROUTINE) {
-      name = "Routine";
+    } else if (type == TYPE_ROUTINE) {
+      name = getString(R.string.routine);
       lab = RoutineLab.get(getActivity());
-    } else {
-      name = "Exercise";
+    } else { // type == TYPE_EXERCISE
+      name = getString(R.string.exercise);
       lab = ExerciseLab.get(getActivity());
     }
 
@@ -146,9 +148,9 @@ public class SelectFragment extends Fragment {
 
     final TextInputLayout textInputLayout = dialogView.findViewById(R.id.text_input_layout);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+    final AlertDialog alertDialog = new Builder(activity)
         .setView(dialogView)
-        .setMessage(String.format("New %s", name.toLowerCase()))
+        .setMessage(String.format(getString(R.string.new_x), name.toLowerCase()))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -164,11 +166,13 @@ public class SelectFragment extends Fragment {
                 if (newName.isEmpty()) {
                   textInputLayout.setError(getString(R.string.error_no_name));
                 } else if (lab.contains(newName)) {
-                  textInputLayout.setError(String.format("%s already exists.", name));
+                  textInputLayout
+                      .setError(String.format(getString(R.string.x_already_exists), name));
                 } else {
                   lab.insert(newName);
                   updateFiltered();
-                  Snackbar.make(fragmentView, String.format("New %s created.", name.toLowerCase()),
+                  Snackbar.make(fragmentView,
+                      String.format(getString(R.string.new_x_created), name.toLowerCase()),
                       Snackbar.LENGTH_SHORT).show();
                   alertDialog.dismiss();
                 }
@@ -219,9 +223,9 @@ public class SelectFragment extends Fragment {
   private void createRenameDialog(final NamedEntity oldNamedEntity) {
     @SuppressLint("InflateParams") final View dialogView =
         activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+    final AlertDialog alertDialog = new Builder(activity)
         .setView(dialogView)
-        .setMessage(String.format("Edit %s", name.toLowerCase()))
+        .setMessage(String.format(getString(R.string.edit_x), name.toLowerCase()))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -242,7 +246,7 @@ public class SelectFragment extends Fragment {
             } else if (newNamedEntity.isEmpty()) {
               textInputLayout.setError(getString(R.string.error_no_name));
             } else if (lab.contains(newNamedEntity)) {
-              textInputLayout.setError(name + " already exists.");
+              textInputLayout.setError(String.format(getString(R.string.x_already_exists), name));
             } else {
               lab.updateName(oldNamedEntity.getId(), newNamedEntity);
               updateFiltered();
@@ -258,15 +262,16 @@ public class SelectFragment extends Fragment {
   }
 
   private void createDeleteDialog(final NamedEntity namedEntity) {
-    new AlertDialog.Builder(activity)
-        .setMessage(String.format("Are you sure you want to delete this %s?", name.toLowerCase()))
+    new Builder(activity)
+        .setMessage(String.format(getString(R.string.are_you_sure_delete_x), name.toLowerCase()))
         .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.yes, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             lab.delete(namedEntity.getId());
             updateFiltered();
-            Snackbar.make(fragmentView, String.format("%s deleted.", name), Snackbar.LENGTH_SHORT)
+            Snackbar.make(fragmentView, String.format(getString(R.string.x_deleted), name),
+                Snackbar.LENGTH_SHORT)
                 .show();
           }
         })
@@ -291,13 +296,11 @@ public class SelectFragment extends Fragment {
 
     @Override
     public void onClick(View view) {
-      if (type == TYPE_CATEGORY) {
-        // todo
-      } else if (type == TYPE_ROUTINE) {
-        Intent intent = RoutineActivity
-            .newIntent(activity, namedEntity.getName(), namedEntity.getId());
+      if (type == TYPE_CATEGORY || type == TYPE_ROUTINE) {
+        Intent intent = NameActivity
+            .newIntent(activity, namedEntity.getName(), namedEntity.getId(), type);
         startActivity(intent);
-      } else {
+      } else if (type == TYPE_EXERCISE){
         Intent intent = ExerciseActivity
             .newIntent(activity, namedEntity.getName(), namedEntity.getId());
         startActivity(intent);

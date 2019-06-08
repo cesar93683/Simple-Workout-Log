@@ -2,8 +2,8 @@ package com.devcesar.workoutapp.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
+import com.devcesar.workoutapp.utils.Exercise;
 
 
 public class ExerciseCursorWrapper extends CursorWrapper {
