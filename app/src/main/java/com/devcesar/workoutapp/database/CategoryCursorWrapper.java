@@ -17,13 +17,13 @@ public class CategoryCursorWrapper extends CursorWrapper {
   }
 
   public Category getCategory() {
-    String categoryName = getString(getColumnIndex(CategoryTable.Cols.NAME));
-    int categoryId = getInt(getColumnIndex(CategoryTable._ID));
+    String categoryName = getString(getColumnIndexOrThrow(CategoryTable.Cols.NAME));
+    int categoryId = getInt(getColumnIndexOrThrow(CategoryTable._ID));
     return new Category(categoryName, categoryId);
   }
 
   public ArrayList<Exercise> getExercises() {
-    String exerciseString = getString(getColumnIndex(CategoryTable.Cols.EXERCISES));
+    String exerciseString = getString(getColumnIndexOrThrow(CategoryTable.Cols.EXERCISES));
     Type type = new TypeToken<ArrayList<Exercise>>() {
     }.getType();
     return new Gson().fromJson(exerciseString, type);

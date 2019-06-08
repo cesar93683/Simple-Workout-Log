@@ -17,13 +17,13 @@ public class RoutineCursorWrapper extends CursorWrapper {
   }
 
   public Routine getRoutine() {
-    String routineName = getString(getColumnIndex(RoutineTable.Cols.NAME));
-    int routineId = getInt(getColumnIndex(RoutineTable._ID));
+    String routineName = getString(getColumnIndexOrThrow(RoutineTable.Cols.NAME));
+    int routineId = getInt(getColumnIndexOrThrow(RoutineTable._ID));
     return new Routine(routineName, routineId);
   }
 
   public ArrayList<Exercise> getExercises() {
-    String exerciseString = getString(getColumnIndex(RoutineTable.Cols.EXERCISES));
+    String exerciseString = getString(getColumnIndexOrThrow(RoutineTable.Cols.EXERCISES));
     Type type = new TypeToken<ArrayList<Exercise>>() {
     }.getType();
     return new Gson().fromJson(exerciseString, type);

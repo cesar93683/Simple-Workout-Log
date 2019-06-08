@@ -13,8 +13,8 @@ public class ExerciseCursorWrapper extends CursorWrapper {
   }
 
   public Exercise getExercise() {
-    String exerciseName = getString(getColumnIndex(ExerciseTable.Cols.NAME));
-    int exerciseId = getInt(getColumnIndex(ExerciseTable._ID));
+    String exerciseName = getString(getColumnIndexOrThrow(ExerciseTable.Cols.NAME));
+    int exerciseId = getInt(getColumnIndexOrThrow(ExerciseTable._ID));
 
     return new Exercise(exerciseName, exerciseId);
   }

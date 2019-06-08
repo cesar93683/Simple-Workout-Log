@@ -17,12 +17,12 @@ public class WorkoutCursorWrapper extends CursorWrapper {
   }
 
   public Workout getWorkout() {
-    String exerciseSetsString = getString(getColumnIndex(WorkoutTable.Cols.EXERCISE_SETS));
+    String exerciseSetsString = getString(getColumnIndexOrThrow(WorkoutTable.Cols.EXERCISE_SETS));
     Type type = new TypeToken<ArrayList<ExerciseSet>>() {
     }.getType();
     ArrayList<ExerciseSet> exerciseSets = new Gson().fromJson(exerciseSetsString, type);
-    long timeStamp = getLong(getColumnIndex(WorkoutTable.Cols.TIME_STAMP));
-    int exerciseId = getInt(getColumnIndex(WorkoutTable.Cols.EXERCISE_ID));
+    long timeStamp = getLong(getColumnIndexOrThrow(WorkoutTable.Cols.TIME_STAMP));
+    int exerciseId = getInt(getColumnIndexOrThrow(WorkoutTable.Cols.EXERCISE_ID));
     return new Workout(exerciseId, exerciseSets, timeStamp);
   }
 }
