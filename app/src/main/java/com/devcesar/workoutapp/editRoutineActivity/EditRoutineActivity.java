@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.routineActivity.editRoutineActivity;
+package com.devcesar.workoutapp.editRoutineActivity;
 
 import android.content.Context;
 import android.content.Intent;

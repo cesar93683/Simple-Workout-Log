@@ -31,7 +31,7 @@ import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
-import com.devcesar.workoutapp.routineActivity.NameActivity;
+import com.devcesar.workoutapp.nameActivity.NameActivity;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;

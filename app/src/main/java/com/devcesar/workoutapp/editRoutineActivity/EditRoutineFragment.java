@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.routineActivity.editRoutineActivity;
+package com.devcesar.workoutapp.editRoutineActivity;
 
 import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
 

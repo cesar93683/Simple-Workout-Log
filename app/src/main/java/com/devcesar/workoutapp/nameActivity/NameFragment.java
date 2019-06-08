@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.routineActivity;
+package com.devcesar.workoutapp.nameActivity;
 
 import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
 
@@ -21,12 +21,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
+import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
-import com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.Exercise;
 import java.util.ArrayList;

@@ -9,7 +9,7 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name="com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineActivity"/>
+    <activity android:name=".editRoutineActivity.EditRoutineActivity"/>
     <activity android:name="com.devcesar.workoutapp.mainActivity.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -22,7 +22,7 @@
       android:name="com.devcesar.workoutapp.exerciseActivity.ExerciseActivity"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity android:name="com.devcesar.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
-    <activity android:name="com.devcesar.workoutapp.routineActivity.NameActivity"/>
+    <activity android:name="com.devcesar.workoutapp.nameActivity.NameActivity"/>
     <activity android:name=".addExerciseActivity.AddExercisesActivity"/>
   </application>
 
