@@ -23,10 +23,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.Routine;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.routineActivity.RoutineActivity;
-import com.devcesar.workoutapp.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -137,15 +137,15 @@ public class RoutineSelectFragment extends Fragment {
             new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                String newRoutine = newRoutineTextInputLayout.getEditText().getText().toString()
+                String newRoutineName = newRoutineTextInputLayout.getEditText().getText().toString()
                     .trim();
-                if (newRoutine.isEmpty()) {
+                if (newRoutineName.isEmpty()) {
                   newRoutineTextInputLayout.setError(getString(R.string.error_no_name));
-                } else if (routineLab.contains(newRoutine)) {
+                } else if (routineLab.contains(newRoutineName)) {
                   newRoutineTextInputLayout
                       .setError(getString(R.string.error_routine_already_exists));
                 } else {
-                  routineLab.insertRoutine(newRoutine);
+                  routineLab.insertRoutine(newRoutineName);
                   updateFilteredRoutines();
                   Snackbar.make(fragmentView, R.string.new_routine_created, Snackbar.LENGTH_SHORT)
                       .show();

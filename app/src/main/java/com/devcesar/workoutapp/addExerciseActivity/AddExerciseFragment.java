@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity;
+package com.devcesar.workoutapp.addExerciseActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,9 +19,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.Exercise;
-import com.devcesar.workoutapp.labs.ExerciseLab;
-import com.devcesar.workoutapp.routineActivity.editRoutineActivity.EditRoutineFragment;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,6 +28,7 @@ import java.util.List;
 
 public class AddExerciseFragment extends Fragment {
 
+  public static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
   private int[] exerciseIds;
   private Activity activity;
@@ -132,7 +132,8 @@ public class AddExerciseFragment extends Fragment {
         for (Integer val : exercisesIdsToAdd) {
           exerciseIds[i++] = val;
         }
-        Intent intent = EditRoutineFragment.returnNewExercisesIntent(exerciseIds);
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
         activity.setResult(Activity.RESULT_OK, intent);
         activity.finish();
       }
@@ -170,6 +171,14 @@ public class AddExerciseFragment extends Fragment {
       itemView.setOnClickListener(this);
     }
 
+    private void checkChanged(boolean isChecked) {
+      if (isChecked) {
+        exercisesIdsToAdd.add(exercise.getExerciseId());
+      } else {
+        exercisesIdsToAdd.remove(exercise.getExerciseId());
+      }
+    }
+
     void bind(Exercise exercise) {
       this.exercise = exercise;
       checkBox.setChecked(exercisesIdsToAdd.contains(exercise.getExerciseId()));
@@ -180,14 +189,6 @@ public class AddExerciseFragment extends Fragment {
     public void onClick(View v) {
       checkBox.setChecked(!checkBox.isChecked());
       checkChanged(checkBox.isChecked());
-    }
-
-    private void checkChanged(boolean isChecked) {
-      if (isChecked) {
-        exercisesIdsToAdd.add(exercise.getExerciseId());
-      } else {
-        exercisesIdsToAdd.remove(exercise.getExerciseId());
-      }
     }
   }
 

@@ -1,5 +1,7 @@
 package com.devcesar.workoutapp.routineActivity.editRoutineActivity;
 
+import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -22,7 +24,7 @@ import android.widget.TextView;
 import com.devcesar.workoutapp.Exercise;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
-import com.devcesar.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity.AddExercisesActivity;
+import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
@@ -35,7 +37,6 @@ public class EditRoutineFragment extends Fragment {
   private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
 
   private static final int REQ_ADD_EXERCISE = 1;
-  private static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
 
   private int routineId;
   private String routineName;
@@ -59,12 +60,6 @@ public class EditRoutineFragment extends Fragment {
     args.putString(ARG_ROUTINE_NAME, routineName);
     fragment.setArguments(args);
     return fragment;
-  }
-
-  public static Intent returnNewExercisesIntent(int[] exercisesToAdd) {
-    Intent intent = new Intent();
-    intent.putExtra(EXTRA_NEW_EXERCISES, exercisesToAdd);
-    return intent;
   }
 
   @Override

@@ -9,7 +9,6 @@ import com.devcesar.workoutapp.Exercise;
 import com.devcesar.workoutapp.Routine;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
-import com.devcesar.workoutapp.database.DbSchema.RoutineTable.Cols;
 import com.devcesar.workoutapp.database.RoutineCursorWrapper;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class RoutineLab {
   public void insertRoutine(String routineName) {
     ContentValues values = new ContentValues();
     values.put(RoutineTable.Cols.NAME, routineName);
-    values.put(Cols.EXERCISES, new Gson().toJson(new ArrayList<Exercise>()));
+    values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(new ArrayList<Exercise>()));
     database.insert(RoutineTable.NAME, null, values);
     updateRoutines();
   }
@@ -125,7 +124,7 @@ public class RoutineLab {
 
   public void updateRoutineExercises(int routineId, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
-    values.put(Cols.EXERCISES, new Gson().toJson(exercises));
+    values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(exercises));
     String whereClause = RoutineTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(routineId)};
     database.update(RoutineTable.NAME, values, whereClause, whereArgs);

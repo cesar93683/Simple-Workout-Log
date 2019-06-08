@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.routineActivity.editRoutineActivity.addExerciseActivity;
+package com.devcesar.workoutapp.addExerciseActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +11,12 @@ import com.devcesar.workoutapp.R;
 public class AddExercisesActivity extends AppCompatActivity {
 
   private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
-  private static final String EXTRA_ROUTINE_NAME = "EXTRA_ROUTINE_NAME";
+  private static final String EXTRA_NAME = "EXTRA_NAME";
 
-  public static Intent newIntent(Context packageContext, int[] exerciseIds, String routineName) {
+  public static Intent newIntent(Context packageContext, int[] exerciseIds, String name) {
     Intent intent = new Intent(packageContext, AddExercisesActivity.class);
     intent.putExtra(EXTRA_EXERCISE_IDS, exerciseIds);
-    intent.putExtra(EXTRA_ROUTINE_NAME, routineName);
+    intent.putExtra(EXTRA_NAME, name);
     return intent;
   }
 
@@ -24,8 +24,8 @@ public class AddExercisesActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
-    String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
-    setTitle(routineName);
+    String name = getIntent().getStringExtra(EXTRA_NAME);
+    setTitle(name);
 
     int[] exerciseIds = getIntent().getIntArrayExtra(EXTRA_EXERCISE_IDS);
 
