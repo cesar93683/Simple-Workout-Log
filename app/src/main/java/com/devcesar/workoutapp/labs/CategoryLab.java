@@ -130,8 +130,7 @@ public class CategoryLab implements NamedEntityLab, NamedEntityExerciseLab {
     return exercises;
   }
 
-  @Override
-  public void updateExercises(int id, ArrayList<Exercise> exercises) {
+  private void updateExercises(int id, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
     values.put(CategoryTable.Cols.EXERCISES, new Gson().toJson(exercises));
     String whereClause = CategoryTable._ID + "=?";
