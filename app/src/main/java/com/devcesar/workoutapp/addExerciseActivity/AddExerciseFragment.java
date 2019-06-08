@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.Utils.Exercise;
 import com.devcesar.workoutapp.labs.ExerciseLab;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -70,7 +71,9 @@ public class AddExerciseFragment extends Fragment {
     exerciseLab = ExerciseLab.get(activity);
 
     filter = "";
-    filteredExercises = exerciseLab.getFilteredExercise(filter);
+    // todo change to ArrayList<Exercise>
+    filteredExercises = new ArrayList<>();
+//    filteredExercises =  exerciseLab.getFiltered(filter);
     Collections.sort(filteredExercises);
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
@@ -142,7 +145,8 @@ public class AddExerciseFragment extends Fragment {
 
   private void updateFilteredExercises() {
     filteredExercises.clear();
-    filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
+    // todo change to ArrayList<Exercise>
+//    filteredExercises.addAll(exerciseLab.getFiltered(filter));
     Collections.sort(filteredExercises);
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {

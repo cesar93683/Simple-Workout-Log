@@ -114,7 +114,7 @@ public class RoutineFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            routineLab.deleteExerciseFromRoutine(routineId, exerciseId);
+            routineLab.deleteExercise(routineId, exerciseId);
             exercises.clear();
             exercises.addAll(routineLab.getExercises(routineId));
             exerciseAdapter.notifyDataSetChanged();

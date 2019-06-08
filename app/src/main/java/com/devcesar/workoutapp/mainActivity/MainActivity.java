@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
           Fragment selectedFragment = null;
           switch (item.getItemId()) {
             case R.id.nav_exercise_select:
-              selectedFragment = ExerciseSelectFragment.newInstance();
+              selectedFragment = SelectFragment.newInstance(SelectFragment.TYPE_EXERCISE);
               break;
             case R.id.nav_category:
-              selectedFragment = CategoryFragment.newInstance();
+              selectedFragment = SelectFragment.newInstance(SelectFragment.TYPE_CATEGORY);
               break;
             case R.id.nav_routine:
-              selectedFragment = RoutineSelectFragment.newInstance();
+              selectedFragment = SelectFragment.newInstance(SelectFragment.TYPE_ROUTINE);
               break;
           }
           getSupportFragmentManager().beginTransaction()
@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
     if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction().
-          replace(R.id.fragment_container, new ExerciseSelectFragment())
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.fragment_container,
+              SelectFragment.newInstance(SelectFragment.TYPE_EXERCISE))
           .commit();
     }
   }

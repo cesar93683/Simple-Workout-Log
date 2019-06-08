@@ -7,13 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.devcesar.workoutapp.Utils.Category;
 import com.devcesar.workoutapp.Utils.Exercise;
+import com.devcesar.workoutapp.Utils.NamedEntity;
 import com.devcesar.workoutapp.database.CategoryCursorWrapper;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.CategoryTable;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-public class CategoryLab {
+public class CategoryLab implements NamedEntityLab, NamedEntityExerciseLab {
 
   private static CategoryLab categoryLab;
   private final SQLiteDatabase database;
@@ -23,6 +24,14 @@ public class CategoryLab {
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
     categories = new ArrayList<>();
     updateCategories();
+  }
+
+  public static CategoryLab get(Context context) {
+    if (categoryLab == null) {
+      categoryLab = new CategoryLab(context);
+    }
+    categoryLab.updateCategories();
+    return categoryLab;
   }
 
   private void updateCategories() {
@@ -48,15 +57,8 @@ public class CategoryLab {
     return new CategoryCursorWrapper(cursor);
   }
 
-  public static CategoryLab get(Context context) {
-    if (categoryLab == null) {
-      categoryLab = new CategoryLab(context);
-    }
-    categoryLab.updateCategories();
-    return categoryLab;
-  }
-
-  public void insertCategory(String categoryName) {
+  @Override
+  public void insert(String categoryName) {
     ContentValues values = new ContentValues();
     values.put(CategoryTable.Cols.NAME, categoryName);
     values.put(CategoryTable.Cols.EXERCISES, new Gson().toJson(new ArrayList<Exercise>()));
@@ -64,14 +66,16 @@ public class CategoryLab {
     updateCategories();
   }
 
-  public void deleteCategory(int categoryId) {
+  @Override
+  public void delete(int categoryId) {
     String whereClause = CategoryTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(categoryId)};
     database.delete(CategoryTable.NAME, whereClause, whereArgs);
     updateCategories();
   }
 
-  public void updateCategoryName(int categoryId, String newCategoryName) {
+  @Override
+  public void updateName(int categoryId, String newCategoryName) {
     ContentValues values = new ContentValues();
     values.put(CategoryTable.Cols.NAME, newCategoryName);
     String whereClause = CategoryTable._ID + "=?";
@@ -80,6 +84,7 @@ public class CategoryLab {
     updateCategories();
   }
 
+  @Override
   public boolean contains(String categoryName) {
     for (Category category : categories) {
       if (category.getName().equals(categoryName)) {
@@ -89,8 +94,9 @@ public class CategoryLab {
     return false;
   }
 
-  public ArrayList<Category> getFilteredCategories(String filter) {
-    ArrayList<Category> filteredCategories = new ArrayList<>();
+  @Override
+  public ArrayList<NamedEntity> getFiltered(String filter) {
+    ArrayList<NamedEntity> filteredCategories = new ArrayList<>();
     for (Category category : categories) {
       if (category.getName().contains(filter)) {
         filteredCategories.add(category);
@@ -99,7 +105,8 @@ public class CategoryLab {
     return filteredCategories;
   }
 
-  public void deleteExerciseFromCategory(int categoryId, int exerciseId) {
+  @Override
+  public void deleteExercise(int categoryId, int exerciseId) {
     ArrayList<Exercise> exercises = getExercises(categoryId);
     for (int i = 0; i < exercises.size(); i++) {
       if (exercises.get(i).getId() == exerciseId) {
@@ -107,9 +114,10 @@ public class CategoryLab {
         break;
       }
     }
-    updateCategoryExercises(categoryId, exercises);
+    updateExercises(categoryId, exercises);
   }
 
+  @Override
   public ArrayList<Exercise> getExercises(int categoryId) {
     String whereClause = CategoryTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(categoryId)};
@@ -122,7 +130,8 @@ public class CategoryLab {
     return exercises;
   }
 
-  public void updateCategoryExercises(int categoryId, ArrayList<Exercise> exercises) {
+  @Override
+  public void updateExercises(int categoryId, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
     values.put(CategoryTable.Cols.EXERCISES, new Gson().toJson(exercises));
     String whereClause = CategoryTable._ID + "=?";

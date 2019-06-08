@@ -157,7 +157,7 @@ public class EditRoutineFragment extends Fragment {
   private void saveExercisesToRoutine() {
     Intent intent = new Intent();
     activity.setResult(Activity.RESULT_OK, intent);
-    routineLab.updateRoutineExercises(routineId, exercises);
+    routineLab.updateExercises(routineId, exercises);
     activity.finish();
   }
 

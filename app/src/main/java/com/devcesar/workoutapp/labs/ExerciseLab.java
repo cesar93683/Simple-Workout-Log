@@ -6,12 +6,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.devcesar.workoutapp.Utils.Exercise;
+import com.devcesar.workoutapp.Utils.NamedEntity;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.ExerciseCursorWrapper;
 import java.util.ArrayList;
 
-public class ExerciseLab {
+public class ExerciseLab implements NamedEntityLab {
 
   private static ExerciseLab exerciseLab;
   private final SQLiteDatabase database;
@@ -23,6 +24,14 @@ public class ExerciseLab {
     exercises = new ArrayList<>();
     workoutLab = WorkoutLab.get(context);
     updateExercises();
+  }
+
+  public static ExerciseLab get(Context context) {
+    if (exerciseLab == null) {
+      exerciseLab = new ExerciseLab(context);
+    }
+    exerciseLab.updateExercises();
+    return exerciseLab;
   }
 
   private void updateExercises() {
@@ -48,14 +57,6 @@ public class ExerciseLab {
     return new ExerciseCursorWrapper(cursor);
   }
 
-  public static ExerciseLab get(Context context) {
-    if (exerciseLab == null) {
-      exerciseLab = new ExerciseLab(context);
-    }
-    exerciseLab.updateExercises();
-    return exerciseLab;
-  }
-
   public Exercise getExerciseById(int exerciseId) {
     for (Exercise exercise : exercises) {
       if (exercise.getId() == exerciseId) {
@@ -65,7 +66,8 @@ public class ExerciseLab {
     throw new RuntimeException("ERROR: exercise id does not exist");
   }
 
-  public void insertExercise(String exerciseName) {
+  @Override
+  public void insert(String exerciseName) {
     ContentValues values = getContentValues(exerciseName);
     database.insert(ExerciseTable.NAME, null, values);
     updateExercises();
@@ -77,7 +79,8 @@ public class ExerciseLab {
     return values;
   }
 
-  public void deleteExercise(int exerciseId) {
+  @Override
+  public void delete(int exerciseId) {
     String whereClause = ExerciseTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(exerciseId)};
     database.delete(ExerciseTable.NAME, whereClause, whereArgs);
@@ -85,7 +88,8 @@ public class ExerciseLab {
     updateExercises();
   }
 
-  public void updateExercise(long exerciseId, String newExerciseName) {
+  @Override
+  public void updateName(int exerciseId, String newExerciseName) {
     ContentValues values = getContentValues(newExerciseName);
     String whereClause = ExerciseTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(exerciseId)};
@@ -93,6 +97,7 @@ public class ExerciseLab {
     updateExercises();
   }
 
+  @Override
   public boolean contains(String exerciseName) {
     for (Exercise exercise : exercises) {
       if (exercise.getName().equals(exerciseName)) {
@@ -102,8 +107,9 @@ public class ExerciseLab {
     return false;
   }
 
-  public ArrayList<Exercise> getFilteredExercise(String filter) {
-    ArrayList<Exercise> filteredExercises = new ArrayList<>();
+  @Override
+  public ArrayList<NamedEntity> getFiltered(String filter) {
+    ArrayList<NamedEntity> filteredExercises = new ArrayList<>();
     for (Exercise exercise : exercises) {
       if (exercise.getName().contains(filter)) {
         filteredExercises.add(exercise);
@@ -111,4 +117,5 @@ public class ExerciseLab {
     }
     return filteredExercises;
   }
+
 }

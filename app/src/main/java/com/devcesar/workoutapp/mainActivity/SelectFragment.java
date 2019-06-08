@@ -25,7 +25,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.Utils.NamedEntity;
+import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
+import com.devcesar.workoutapp.labs.CategoryLab;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityLab;
+import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.routineActivity.RoutineActivity;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +39,7 @@ public class SelectFragment extends Fragment {
 
   public static final int TYPE_CATEGORY = 1;
   public static final int TYPE_ROUTINE = 2;
+  public static final int TYPE_EXERCISE = 3;
   private static final String TYPE = "TYPE";
   private Activity activity;
   private ArrayList<NamedEntity> filtered;
@@ -64,10 +69,13 @@ public class SelectFragment extends Fragment {
     activity = getActivity();
     if (type == TYPE_CATEGORY) {
       name = "Category";
-//      lab = CategoryLab.get(getActivity());
-    } else {
+      lab = CategoryLab.get(getActivity());
+    } else if(type == TYPE_ROUTINE) {
       name = "Routine";
-//      lab = RoutineLab.get(getActivity());
+      lab = RoutineLab.get(getActivity());
+    } else {
+      name = "Exercise";
+      lab = ExerciseLab.get(getActivity());
     }
 
     filter = "";
@@ -285,8 +293,12 @@ public class SelectFragment extends Fragment {
     public void onClick(View view) {
       if (type == TYPE_CATEGORY) {
         // todo
-      } else {
+      } else if (type == TYPE_ROUTINE) {
         Intent intent = RoutineActivity
+            .newIntent(activity, namedEntity.getName(), namedEntity.getId());
+        startActivity(intent);
+      } else {
+        Intent intent = ExerciseActivity
             .newIntent(activity, namedEntity.getName(), namedEntity.getId());
         startActivity(intent);
       }

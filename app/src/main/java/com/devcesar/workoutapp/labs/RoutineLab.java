@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.devcesar.workoutapp.Utils.Exercise;
+import com.devcesar.workoutapp.Utils.NamedEntity;
 import com.devcesar.workoutapp.Utils.Routine;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
@@ -13,7 +14,7 @@ import com.devcesar.workoutapp.database.RoutineCursorWrapper;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-public class RoutineLab {
+public class RoutineLab implements NamedEntityLab, NamedEntityExerciseLab {
 
   private static RoutineLab routineLab;
   private final SQLiteDatabase database;
@@ -23,6 +24,14 @@ public class RoutineLab {
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
     routines = new ArrayList<>();
     updateRoutines();
+  }
+
+  public static RoutineLab get(Context context) {
+    if (routineLab == null) {
+      routineLab = new RoutineLab(context);
+    }
+    routineLab.updateRoutines();
+    return routineLab;
   }
 
   private void updateRoutines() {
@@ -48,15 +57,8 @@ public class RoutineLab {
     return new RoutineCursorWrapper(cursor);
   }
 
-  public static RoutineLab get(Context context) {
-    if (routineLab == null) {
-      routineLab = new RoutineLab(context);
-    }
-    routineLab.updateRoutines();
-    return routineLab;
-  }
-
-  public void insertRoutine(String routineName) {
+  @Override
+  public void insert(String routineName) {
     ContentValues values = new ContentValues();
     values.put(RoutineTable.Cols.NAME, routineName);
     values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(new ArrayList<Exercise>()));
@@ -64,14 +66,16 @@ public class RoutineLab {
     updateRoutines();
   }
 
-  public void deleteRoutine(int routineId) {
+  @Override
+  public void delete(int routineId) {
     String whereClause = RoutineTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(routineId)};
     database.delete(RoutineTable.NAME, whereClause, whereArgs);
     updateRoutines();
   }
 
-  public void updateRoutineName(int routineId, String newRoutineName) {
+  @Override
+  public void updateName(int routineId, String newRoutineName) {
     ContentValues values = new ContentValues();
     values.put(RoutineTable.Cols.NAME, newRoutineName);
     String whereClause = RoutineTable._ID + "=?";
@@ -80,6 +84,7 @@ public class RoutineLab {
     updateRoutines();
   }
 
+  @Override
   public boolean contains(String routineName) {
     for (Routine routine : routines) {
       if (routine.getName().equals(routineName)) {
@@ -89,8 +94,9 @@ public class RoutineLab {
     return false;
   }
 
-  public ArrayList<Routine> getFilteredRoutines(String filter) {
-    ArrayList<Routine> filteredRoutines = new ArrayList<>();
+  @Override
+  public ArrayList<NamedEntity> getFiltered(String filter) {
+    ArrayList<NamedEntity> filteredRoutines = new ArrayList<>();
     for (Routine routine : routines) {
       if (routine.getName().contains(filter)) {
         filteredRoutines.add(routine);
@@ -99,7 +105,8 @@ public class RoutineLab {
     return filteredRoutines;
   }
 
-  public void deleteExerciseFromRoutine(int routineId, int exerciseId) {
+  @Override
+  public void deleteExercise(int routineId, int exerciseId) {
     ArrayList<Exercise> exercises = getExercises(routineId);
     for (int i = 0; i < exercises.size(); i++) {
       if (exercises.get(i).getId() == exerciseId) {
@@ -107,9 +114,10 @@ public class RoutineLab {
         break;
       }
     }
-    updateRoutineExercises(routineId, exercises);
+    updateExercises(routineId, exercises);
   }
 
+  @Override
   public ArrayList<Exercise> getExercises(int routineId) {
     String whereClause = RoutineTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(routineId)};
@@ -122,7 +130,8 @@ public class RoutineLab {
     return exercises;
   }
 
-  public void updateRoutineExercises(int routineId, ArrayList<Exercise> exercises) {
+  @Override
+  public void updateExercises(int routineId, ArrayList<Exercise> exercises) {
     ContentValues values = new ContentValues();
     values.put(RoutineTable.Cols.EXERCISES, new Gson().toJson(exercises));
     String whereClause = RoutineTable._ID + "=?";
