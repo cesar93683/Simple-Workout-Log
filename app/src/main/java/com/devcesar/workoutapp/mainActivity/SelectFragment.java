@@ -226,7 +226,7 @@ public class SelectFragment extends Fragment {
         activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
     final AlertDialog alertDialog = new Builder(activity)
         .setView(dialogView)
-        .setMessage(String.format(getString(R.string.edit_x), nameType.toLowerCase()))
+        .setMessage(String.format(getString(R.string.rename_x), nameType))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();

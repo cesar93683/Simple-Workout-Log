@@ -20,7 +20,6 @@
   <string name="discard_changes">Discard changes?</string>
   <string name="drag_icon">Drag Icon</string>
   <string name="edit_set">Edit Set</string>
-  <string name="edit_x">Edit %s</string>
   <string name="error_no_name">Please enter a name.</string>
   <string name="error_no_reps">Please enter at least 1 rep</string>
   <string name="error_same_name">Same name.</string>
@@ -36,6 +35,7 @@
   <string name="new_x_created">New %s created.</string>
   <string name="no">No</string>
   <string name="rename_successful">Rename successful</string>
+  <string name="rename_x">Rename %s</string>
   <string name="routine">Routine</string>
   <string name="save">Save</string>
   <string name="save_changes">Save changes?</string>
