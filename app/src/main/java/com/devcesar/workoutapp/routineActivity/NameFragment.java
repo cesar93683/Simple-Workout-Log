@@ -67,9 +67,9 @@ public class NameFragment extends Fragment {
     type = getArguments().getInt(ARG_TYPE);
     activity = getActivity();
     if (type == SelectFragment.TYPE_ROUTINE) {
-      lab = RoutineLab.get(activity);
       nameType = getString(R.string.routine);
-    } else {
+      lab = RoutineLab.get(activity);
+    } else { // type == SelectFragment.TYPE_CATEGORY
       nameType = getString(R.string.category);
       lab = CategoryLab.get(activity);
     }
