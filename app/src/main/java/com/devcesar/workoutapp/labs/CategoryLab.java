@@ -82,7 +82,7 @@ public class CategoryLab {
 
   public boolean contains(String categoryName) {
     for (Category category : categories) {
-      if (category.getCategoryName().equals(categoryName)) {
+      if (category.getName().equals(categoryName)) {
         return true;
       }
     }
@@ -92,7 +92,7 @@ public class CategoryLab {
   public ArrayList<Category> getFilteredCategories(String filter) {
     ArrayList<Category> filteredCategories = new ArrayList<>();
     for (Category category : categories) {
-      if (category.getCategoryName().contains(filter)) {
+      if (category.getName().contains(filter)) {
         filteredCategories.add(category);
       }
     }
@@ -102,7 +102,7 @@ public class CategoryLab {
   public void deleteExerciseFromCategory(int categoryId, int exerciseId) {
     ArrayList<Exercise> exercises = getExercises(categoryId);
     for (int i = 0; i < exercises.size(); i++) {
-      if (exercises.get(i).getExerciseId() == exerciseId) {
+      if (exercises.get(i).getId() == exerciseId) {
         exercises.remove(i);
         break;
       }

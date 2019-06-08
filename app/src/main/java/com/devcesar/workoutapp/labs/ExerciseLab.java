@@ -58,7 +58,7 @@ public class ExerciseLab {
 
   public Exercise getExerciseById(int exerciseId) {
     for (Exercise exercise : exercises) {
-      if (exercise.getExerciseId() == exerciseId) {
+      if (exercise.getId() == exerciseId) {
         return exercise;
       }
     }
@@ -95,7 +95,7 @@ public class ExerciseLab {
 
   public boolean contains(String exerciseName) {
     for (Exercise exercise : exercises) {
-      if (exercise.getExerciseName().equals(exerciseName)) {
+      if (exercise.getName().equals(exerciseName)) {
         return true;
       }
     }
@@ -105,7 +105,7 @@ public class ExerciseLab {
   public ArrayList<Exercise> getFilteredExercise(String filter) {
     ArrayList<Exercise> filteredExercises = new ArrayList<>();
     for (Exercise exercise : exercises) {
-      if (exercise.getExerciseName().contains(filter)) {
+      if (exercise.getName().contains(filter)) {
         filteredExercises.add(exercise);
       }
     }

@@ -136,7 +136,7 @@ public class EditRoutineFragment extends Fragment {
         int[] exerciseIds = new int[exercises.size()];
         int i = 0;
         for (Exercise exercise : exercises) {
-          exerciseIds[i++] = exercise.getExerciseId();
+          exerciseIds[i++] = exercise.getId();
         }
         Intent intent = AddExercisesActivity.newIntent(activity, exerciseIds, routineName);
         startActivityForResult(intent, REQ_ADD_EXERCISE);
@@ -212,7 +212,7 @@ public class EditRoutineFragment extends Fragment {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             for (int j = 0; j < exercises.size(); j++) {
-              if (exercises.get(j).getExerciseId() == exerciseId) {
+              if (exercises.get(j).getId() == exerciseId) {
                 exercises.remove(j);
                 break;
               }
@@ -246,7 +246,7 @@ public class EditRoutineFragment extends Fragment {
       itemView.setOnLongClickListener(new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-          createDeleteExerciseDialog(exercise.getExerciseId());
+          createDeleteExerciseDialog(exercise.getId());
           return false;
         }
       });
@@ -254,7 +254,7 @@ public class EditRoutineFragment extends Fragment {
 
     void bind(Exercise exercise) {
       this.exercise = exercise;
-      textView.setText(exercise.getExerciseName());
+      textView.setText(exercise.getName());
     }
   }
 

@@ -208,7 +208,7 @@ public class ExerciseSelectFragment extends Fragment {
 
     final TextInputLayout newExerciseTextInputLayout = dialogView
         .findViewById(R.id.text_input_layout);
-    newExerciseTextInputLayout.getEditText().setText(oldExercise.getExerciseName());
+    newExerciseTextInputLayout.getEditText().setText(oldExercise.getName());
 
     alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
       @Override
@@ -219,7 +219,7 @@ public class ExerciseSelectFragment extends Fragment {
           public void onClick(View view) {
             String newExercise = newExerciseTextInputLayout.getEditText().getText().toString()
                 .trim();
-            if (oldExercise.getExerciseName().equals(newExercise)) {
+            if (oldExercise.getName().equals(newExercise)) {
               newExerciseTextInputLayout.setError(getString(R.string
                   .error_same_name));
             } else if (newExercise.isEmpty()) {
@@ -228,7 +228,7 @@ public class ExerciseSelectFragment extends Fragment {
               newExerciseTextInputLayout.setError(getString(R.string
                   .error_exercise_already_exists));
             } else {
-              exerciseLab.updateExercise(oldExercise.getExerciseId(), newExercise);
+              exerciseLab.updateExercise(oldExercise.getId(), newExercise);
               updateFilteredExercises();
               Snackbar.make(fragmentView, R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
               alertDialog.dismiss();
@@ -248,7 +248,7 @@ public class ExerciseSelectFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            exerciseLab.deleteExercise(exerciseToRemove.getExerciseId());
+            exerciseLab.deleteExercise(exerciseToRemove.getId());
             updateFilteredExercises();
             Snackbar.make(fragmentView, R.string.exercise_deleted, Snackbar.LENGTH_SHORT).show();
           }
@@ -269,13 +269,13 @@ public class ExerciseSelectFragment extends Fragment {
 
     void bind(Exercise exercise) {
       this.exercise = exercise;
-      ((TextView) itemView).setText(exercise.getExerciseName());
+      ((TextView) itemView).setText(exercise.getName());
     }
 
     @Override
     public void onClick(View view) {
       Intent intent = ExerciseActivity
-          .newIntent(activity, exercise.getExerciseName(), exercise.getExerciseId());
+          .newIntent(activity, exercise.getName(), exercise.getId());
       startActivity(intent);
     }
 

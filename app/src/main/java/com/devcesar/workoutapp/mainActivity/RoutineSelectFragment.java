@@ -207,7 +207,7 @@ public class RoutineSelectFragment extends Fragment {
 
     final TextInputLayout newRoutineTextInputLayout = dialogView.findViewById(
         R.id.text_input_layout);
-    newRoutineTextInputLayout.getEditText().setText(oldRoutine.getRoutineName());
+    newRoutineTextInputLayout.getEditText().setText(oldRoutine.getName());
 
     alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
       @Override
@@ -217,14 +217,14 @@ public class RoutineSelectFragment extends Fragment {
           @Override
           public void onClick(View view) {
             String newRoutine = newRoutineTextInputLayout.getEditText().getText().toString().trim();
-            if (oldRoutine.getRoutineName().equals(newRoutine)) {
+            if (oldRoutine.getName().equals(newRoutine)) {
               newRoutineTextInputLayout.setError(getString(R.string.error_same_name));
             } else if (newRoutine.isEmpty()) {
               newRoutineTextInputLayout.setError(getString(R.string.error_no_name));
             } else if (routineLab.contains(newRoutine)) {
               newRoutineTextInputLayout.setError(getString(R.string.error_routine_already_exists));
             } else {
-              routineLab.updateRoutineName(oldRoutine.getRoutineId(), newRoutine);
+              routineLab.updateRoutineName(oldRoutine.getId(), newRoutine);
               updateFilteredRoutines();
               Snackbar.make(fragmentView, R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
               alertDialog.dismiss();
@@ -244,7 +244,7 @@ public class RoutineSelectFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            routineLab.deleteRoutine(routineToRemove.getRoutineId());
+            routineLab.deleteRoutine(routineToRemove.getId());
             updateFilteredRoutines();
             Snackbar.make(fragmentView, R.string.routine_deleted,
                 Snackbar.LENGTH_SHORT).show();
@@ -266,13 +266,13 @@ public class RoutineSelectFragment extends Fragment {
 
     void bind(Routine routine) {
       this.routine = routine;
-      ((TextView) itemView).setText(routine.getRoutineName());
+      ((TextView) itemView).setText(routine.getName());
     }
 
     @Override
     public void onClick(View view) {
       Intent intent = RoutineActivity
-          .newIntent(activity, routine.getRoutineName(), routine.getRoutineId());
+          .newIntent(activity, routine.getName(), routine.getId());
       startActivity(intent);
     }
 

@@ -138,19 +138,19 @@ public class RoutineFragment extends Fragment {
 
     void bind(Exercise exercise) {
       this.exercise = exercise;
-      ((TextView) itemView).setText(exercise.getExerciseName());
+      ((TextView) itemView).setText(exercise.getName());
     }
 
     @Override
     public void onClick(View view) {
       Intent intent = ExerciseActivity
-          .newIntent(activity, exercise.getExerciseName(), exercise.getExerciseId());
+          .newIntent(activity, exercise.getName(), exercise.getId());
       startActivity(intent);
     }
 
     @Override
     public boolean onLongClick(View v) {
-      createDeleteExerciseDialog(exercise.getExerciseId());
+      createDeleteExerciseDialog(exercise.getId());
       return true;
     }
 

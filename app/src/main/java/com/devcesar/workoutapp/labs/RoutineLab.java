@@ -82,7 +82,7 @@ public class RoutineLab {
 
   public boolean contains(String routineName) {
     for (Routine routine : routines) {
-      if (routine.getRoutineName().equals(routineName)) {
+      if (routine.getName().equals(routineName)) {
         return true;
       }
     }
@@ -92,7 +92,7 @@ public class RoutineLab {
   public ArrayList<Routine> getFilteredRoutines(String filter) {
     ArrayList<Routine> filteredRoutines = new ArrayList<>();
     for (Routine routine : routines) {
-      if (routine.getRoutineName().contains(filter)) {
+      if (routine.getName().contains(filter)) {
         filteredRoutines.add(routine);
       }
     }
@@ -102,7 +102,7 @@ public class RoutineLab {
   public void deleteExerciseFromRoutine(int routineId, int exerciseId) {
     ArrayList<Exercise> exercises = getExercises(routineId);
     for (int i = 0; i < exercises.size(); i++) {
-      if (exercises.get(i).getExerciseId() == exerciseId) {
+      if (exercises.get(i).getId() == exerciseId) {
         exercises.remove(i);
         break;
       }

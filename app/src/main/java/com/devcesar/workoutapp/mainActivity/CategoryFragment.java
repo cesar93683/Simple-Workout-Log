@@ -206,7 +206,7 @@ public class CategoryFragment extends Fragment {
 
     final TextInputLayout newCategoryTextInputLayout = dialogView
         .findViewById(R.id.text_input_layout);
-    newCategoryTextInputLayout.getEditText().setText(oldCategory.getCategoryName());
+    newCategoryTextInputLayout.getEditText().setText(oldCategory.getName());
 
     alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
       @Override
@@ -217,7 +217,7 @@ public class CategoryFragment extends Fragment {
           public void onClick(View view) {
             String newCategory = newCategoryTextInputLayout.getEditText().getText().toString()
                 .trim();
-            if (oldCategory.getCategoryName().equals(newCategory)) {
+            if (oldCategory.getName().equals(newCategory)) {
               newCategoryTextInputLayout.setError(getString(R.string.error_same_name));
             } else if (newCategory.isEmpty()) {
               newCategoryTextInputLayout.setError(getString(R.string.error_no_name));
@@ -225,7 +225,7 @@ public class CategoryFragment extends Fragment {
               newCategoryTextInputLayout
                   .setError(getString(R.string.error_category_already_exists));
             } else {
-              categoryLab.updateCategoryName(oldCategory.getCategoryId(), newCategory);
+              categoryLab.updateCategoryName(oldCategory.getId(), newCategory);
               updateFilteredCategories();
               Snackbar.make(fragmentView, R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
               alertDialog.dismiss();
@@ -245,7 +245,7 @@ public class CategoryFragment extends Fragment {
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
-            categoryLab.deleteCategory(categoryToRemove.getCategoryId());
+            categoryLab.deleteCategory(categoryToRemove.getId());
             updateFilteredCategories();
             Snackbar.make(fragmentView, R.string.category_deleted, Snackbar.LENGTH_SHORT).show();
           }
@@ -266,13 +266,13 @@ public class CategoryFragment extends Fragment {
 
     void bind(Category category) {
       this.category = category;
-      ((TextView) itemView).setText(category.getCategoryName());
+      ((TextView) itemView).setText(category.getName());
     }
 
     @Override
     public void onClick(View view) {
 //      Intent intent = RoutineActivity
-//          .newIntent(activity, routine.getRoutineName(), routine.getRoutineId());
+//          .newIntent(activity, routine.getName(), routine.getId());
 //      startActivity(intent);
     }
 

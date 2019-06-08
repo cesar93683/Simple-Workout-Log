@@ -73,7 +73,7 @@ public class AddExerciseFragment extends Fragment {
     filteredExercises = exerciseLab.getFilteredExercise(filter);
     Collections.sort(filteredExercises);
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-      if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
+      if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
         filteredExercises.remove(i);
       }
     }
@@ -145,7 +145,7 @@ public class AddExerciseFragment extends Fragment {
     filteredExercises.addAll(exerciseLab.getFilteredExercise(filter));
     Collections.sort(filteredExercises);
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-      if (includedExerciseIds.contains(filteredExercises.get(i).getExerciseId())) {
+      if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
         filteredExercises.remove(i);
       }
     }
@@ -173,16 +173,16 @@ public class AddExerciseFragment extends Fragment {
 
     private void checkChanged(boolean isChecked) {
       if (isChecked) {
-        exercisesIdsToAdd.add(exercise.getExerciseId());
+        exercisesIdsToAdd.add(exercise.getId());
       } else {
-        exercisesIdsToAdd.remove(exercise.getExerciseId());
+        exercisesIdsToAdd.remove(exercise.getId());
       }
     }
 
     void bind(Exercise exercise) {
       this.exercise = exercise;
-      checkBox.setChecked(exercisesIdsToAdd.contains(exercise.getExerciseId()));
-      textView.setText(exercise.getExerciseName());
+      checkBox.setChecked(exercisesIdsToAdd.contains(exercise.getId()));
+      textView.setText(exercise.getName());
     }
 
     @Override
