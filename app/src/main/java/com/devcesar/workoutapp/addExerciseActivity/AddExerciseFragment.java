@@ -2,9 +2,9 @@ package com.devcesar.workoutapp.addExerciseActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,12 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.databinding.FragmentSelectWithFilterBinding;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.utils.Exercise;
-import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -71,39 +70,56 @@ public class AddExerciseFragment extends Fragment {
     exerciseLab = ExerciseLab.get(activity);
 
     filter = "";
-    // todo change to ArrayList<Exercise>
     filteredExercises = new ArrayList<>();
-    ArrayList<NamedEntity> filteredExercises2 = exerciseLab.getFiltered(filter);
-    for (NamedEntity namedEntity : filteredExercises2) {
-      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
-    }
-    Collections.sort(filteredExercises);
+    exerciseAdapter = new ExerciseAdapter(filteredExercises);
+    updateFilteredExercises();
+  }
+
+  private void updateFilteredExercises() {
+    filteredExercises.clear();
+    filteredExercises.addAll(exerciseLab.getFilteredExercises(filter));
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
         filteredExercises.remove(i);
       }
     }
-    exerciseAdapter = new ExerciseAdapter(filteredExercises);
+    Collections.sort(filteredExercises);
+    exerciseAdapter.notifyDataSetChanged();
+  }
+
+  private View.OnClickListener saveFab() {
+    return new View.OnClickListener() {
+      @Override
+      public void onClick(final View v) {
+        int[] exerciseIds = new int[exercisesIdsToAdd.size()];
+        int i = 0;
+        for (Integer val : exercisesIdsToAdd) {
+          exerciseIds[i++] = val;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
+        activity.setResult(Activity.RESULT_OK, intent);
+        activity.finish();
+      }
+    };
   }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View fragmentView = inflater.inflate(R.layout.fragment_select_with_filter, container, false);
+    FragmentSelectWithFilterBinding binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
-    EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);
-    filterEditText.addTextChangedListener(filterEditTextListener());
+    binding.fab.setOnClickListener(saveFab());
+    binding.filterEditText.addTextChangedListener(filterEditTextListener());
 
-    RecyclerView exerciseRecyclerView = fragmentView.findViewById(R.id.recycler_view);
-    exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    exerciseRecyclerView.addItemDecoration(
-        new DividerItemDecoration(exerciseRecyclerView.getContext(),
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
             DividerItemDecoration.VERTICAL));
-    exerciseRecyclerView.setAdapter(exerciseAdapter);
+    binding.recyclerView.setAdapter(exerciseAdapter);
 
-    FloatingActionButton saveFab = fragmentView.findViewById(R.id.fab);
-    saveFab.setOnClickListener(saveFab());
-    return fragmentView;
+    return binding.getRoot();
   }
 
   @NonNull
@@ -125,39 +141,6 @@ public class AddExerciseFragment extends Fragment {
         updateFilteredExercises();
       }
     };
-  }
-
-  private View.OnClickListener saveFab() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        int[] exerciseIds = new int[exercisesIdsToAdd.size()];
-        int i = 0;
-        for (Integer val : exercisesIdsToAdd) {
-          exerciseIds[i++] = val;
-        }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
-        activity.setResult(Activity.RESULT_OK, intent);
-        activity.finish();
-      }
-    };
-  }
-
-  private void updateFilteredExercises() {
-    filteredExercises.clear();
-    // todo change to ArrayList<Exercise>
-    ArrayList<NamedEntity> filteredExercises2 = exerciseLab.getFiltered(filter);
-    for (NamedEntity namedEntity : filteredExercises2) {
-      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
-    }
-    Collections.sort(filteredExercises);
-    for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-      if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
-        filteredExercises.remove(i);
-      }
-    }
-    exerciseAdapter.notifyDataSetChanged();
   }
 
   private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

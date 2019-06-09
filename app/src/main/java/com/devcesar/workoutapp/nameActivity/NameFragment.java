@@ -30,6 +30,7 @@ import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.Exercise;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NameFragment extends Fragment {
@@ -75,15 +76,17 @@ public class NameFragment extends Fragment {
       case Constants.TYPE_ROUTINE:
         nameType = getString(R.string.routine);
         lab = RoutineLab.get(activity);
+        exercises = lab.getExercises(id);
         break;
       case Constants.TYPE_CATEGORY:
         nameType = getString(R.string.category);
         lab = CategoryLab.get(activity);
+        exercises = lab.getExercises(id);
+        Collections.sort(exercises);
         break;
       default:
         throw new RuntimeException("ERROR: type is invalid");
     }
-    exercises = lab.getExercises(id);
     exerciseAdapter = new ExerciseAdapter(exercises);
   }
 

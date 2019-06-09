@@ -1,19 +1,16 @@
 package com.devcesar.workoutapp.mainActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +19,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.databinding.DialogEditOrDeleteBinding;
+import com.devcesar.workoutapp.databinding.DialogInputBinding;
+import com.devcesar.workoutapp.databinding.FragmentSelectWithFilterBinding;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
@@ -43,11 +41,11 @@ public class SelectFragment extends Fragment {
   private Activity activity;
   private ArrayList<NamedEntity> filtered;
   private String filter;
-  private View fragmentView;
   private NamedEntityAdapter namedEntityAdapter;
   private NamedEntityLab lab;
   private int type;
   private String nameType;
+  private FragmentSelectWithFilterBinding binding;
 
   public SelectFragment() {
     // Required empty public constructor
@@ -85,31 +83,27 @@ public class SelectFragment extends Fragment {
 
     filter = "";
     filtered = new ArrayList<>();
-    filtered.addAll(lab.getFiltered(filter));
-    Collections.sort(filtered);
-
     namedEntityAdapter = new NamedEntityAdapter(filtered);
+    updateFiltered();
   }
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    fragmentView = inflater.inflate(R.layout.fragment_select_with_filter, container, false);
+    binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
-    FloatingActionButton newFab = fragmentView.findViewById(R.id.fab);
-    newFab.setOnClickListener(newFabClickListener());
+    binding.fab.setOnClickListener(newFabClickListener());
+    binding.filterEditText.addTextChangedListener(filterEditTextListener());
 
-    EditText filterEditText = fragmentView.findViewById(R.id.filter_edit_text);
-    filterEditText.addTextChangedListener(filterEditTextListener());
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
+    binding.recyclerView.setAdapter(namedEntityAdapter);
 
-    RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    recyclerView.addItemDecoration(
-        new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-    recyclerView.setAdapter(namedEntityAdapter);
-
-    return fragmentView;
+    return binding.getRoot();
   }
 
   @NonNull
@@ -144,13 +138,11 @@ public class SelectFragment extends Fragment {
   }
 
   private void createNewDialog() {
-    @SuppressLint("InflateParams") View dialogView = activity.getLayoutInflater()
-        .inflate(R.layout.dialog_text_input_layout, null);
+    final DialogInputBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(getContext()), R.layout.dialog_input, null, false);
 
-    final TextInputLayout textInputLayout = dialogView.findViewById(R.id.text_input_layout);
-
-    final AlertDialog alertDialog = new Builder(activity)
-        .setView(dialogView)
+    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+        .setView(dialogBinding.getRoot())
         .setMessage(String.format(getString(R.string.new_x), nameType))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
@@ -163,16 +155,17 @@ public class SelectFragment extends Fragment {
             new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                String newName = textInputLayout.getEditText().getText().toString().trim();
+                String newName = dialogBinding.textInputLayout.getEditText().getText().toString()
+                    .trim();
                 if (newName.isEmpty()) {
-                  textInputLayout.setError(getString(R.string.error_no_name));
+                  dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
                 } else if (lab.contains(newName)) {
-                  textInputLayout
+                  dialogBinding.textInputLayout
                       .setError(String.format(getString(R.string.x_already_exists), nameType));
                 } else {
                   lab.insert(newName);
                   updateFiltered();
-                  Snackbar.make(fragmentView,
+                  Snackbar.make(binding.getRoot(),
                       String.format(getString(R.string.new_x_created), nameType.toLowerCase()),
                       Snackbar.LENGTH_SHORT).show();
                   alertDialog.dismiss();
@@ -193,16 +186,15 @@ public class SelectFragment extends Fragment {
   }
 
   private void createRenameOrDeleteDialog(final NamedEntity namedEntity) {
-    @SuppressLint("InflateParams") final View dialogView = activity.getLayoutInflater()
-        .inflate(R.layout.dialog_edit_or_delete, null);
+    final DialogEditOrDeleteBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(getContext()), R.layout.dialog_edit_or_delete, null, false);
 
-    TextView editTextView = dialogView.findViewById(R.id.edit_text_view);
-    editTextView.setText(R.string.dialog_rename_text);
+    dialogBinding.editTextView.setText(R.string.dialog_rename_text);
 
     final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-    alertDialog.setView(dialogView);
+    alertDialog.setView(dialogBinding.getRoot());
 
-    dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
+    dialogBinding.editLinearLayout.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -210,7 +202,7 @@ public class SelectFragment extends Fragment {
             alertDialog.dismiss();
           }
         });
-    dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
+    dialogBinding.deleteLinearLayout.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -222,41 +214,44 @@ public class SelectFragment extends Fragment {
   }
 
   private void createRenameDialog(final NamedEntity oldNamedEntity) {
-    @SuppressLint("InflateParams") final View dialogView =
-        activity.getLayoutInflater().inflate(R.layout.dialog_text_input_layout, null);
-    final AlertDialog alertDialog = new Builder(activity)
-        .setView(dialogView)
+    final DialogInputBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(getContext()), R.layout.dialog_input, null, false);
+
+    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+        .setView(dialogBinding.getRoot())
         .setMessage(String.format(getString(R.string.rename_x), nameType))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
 
-    final TextInputLayout textInputLayout = dialogView.findViewById(R.id.text_input_layout);
-    textInputLayout.getEditText().setText(oldNamedEntity.getName());
+    dialogBinding.textInputLayout.getEditText().setText(oldNamedEntity.getName());
 
     alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
       @Override
       public void onShow(DialogInterface dialogInterface) {
-        Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            String newNamedEntity = textInputLayout.getEditText().getText().toString().trim();
-            if (oldNamedEntity.getName().equals(newNamedEntity)) {
-              textInputLayout.setError(getString(R.string.error_same_name));
-            } else if (newNamedEntity.isEmpty()) {
-              textInputLayout.setError(getString(R.string.error_no_name));
-            } else if (lab.contains(newNamedEntity)) {
-              textInputLayout
-                  .setError(String.format(getString(R.string.x_already_exists), nameType));
-            } else {
-              lab.updateName(oldNamedEntity.getId(), newNamedEntity);
-              updateFiltered();
-              Snackbar.make(fragmentView, R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
-              alertDialog.dismiss();
-            }
-          }
-        });
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                String newNamedEntity = dialogBinding.textInputLayout.getEditText().getText()
+                    .toString().trim();
+                if (oldNamedEntity.getName().equals(newNamedEntity)) {
+                  dialogBinding.textInputLayout.setError(getString(R.string.error_same_name));
+                } else if (newNamedEntity.isEmpty()) {
+                  dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
+                } else if (lab.contains(newNamedEntity)) {
+                  dialogBinding.textInputLayout
+                      .setError(String.format(getString(R.string.x_already_exists), nameType));
+                } else {
+                  lab.updateName(oldNamedEntity.getId(), newNamedEntity);
+                  updateFiltered();
+                  Snackbar
+                      .make(binding.getRoot(), R.string.rename_successful, Snackbar.LENGTH_SHORT)
+                      .show();
+                  alertDialog.dismiss();
+                }
+              }
+            });
       }
     });
 
@@ -264,7 +259,7 @@ public class SelectFragment extends Fragment {
   }
 
   private void createDeleteDialog(final NamedEntity namedEntity) {
-    new Builder(activity)
+    new AlertDialog.Builder(activity)
         .setMessage(
             String.format(getString(R.string.are_you_sure_delete_x), nameType.toLowerCase()))
         .setNegativeButton(R.string.no, null)
@@ -273,7 +268,7 @@ public class SelectFragment extends Fragment {
           public void onClick(DialogInterface dialogInterface, int i) {
             lab.delete(namedEntity.getId());
             updateFiltered();
-            Snackbar.make(fragmentView, String.format(getString(R.string.x_deleted), nameType),
+            Snackbar.make(binding.getRoot(), String.format(getString(R.string.x_deleted), nameType),
                 Snackbar.LENGTH_SHORT).show();
           }
         })

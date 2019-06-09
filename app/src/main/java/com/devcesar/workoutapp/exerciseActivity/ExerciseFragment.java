@@ -3,6 +3,7 @@ package com.devcesar.workoutapp.exerciseActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.databinding.DialogEditOrDeleteBinding;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import java.util.ArrayList;
@@ -209,13 +211,13 @@ public class ExerciseFragment extends Fragment {
   }
 
   private void createEditOrDeleteDialog(final int position) {
-    @SuppressLint("InflateParams") final View dialogView = activity.getLayoutInflater()
-        .inflate(R.layout.dialog_edit_or_delete, null);
+    final DialogEditOrDeleteBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(getContext()), R.layout.dialog_edit_or_delete, null, false);
 
     final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-    alertDialog.setView(dialogView);
+    alertDialog.setView(dialogBinding.getRoot());
 
-    dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
+    dialogBinding.editLinearLayout.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -223,7 +225,7 @@ public class ExerciseFragment extends Fragment {
             alertDialog.dismiss();
           }
         });
-    dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
+    dialogBinding.deleteLinearLayout.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
