@@ -1,4 +1,4 @@
-package com.devcesar.workoutapp.nameActivity;
+package com.devcesar.workoutapp.viewExercisesActivity;
 
 import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
 
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NameFragment extends Fragment {
+public class ViewExercisesFragment extends Fragment {
 
   private static final String ARG_ID = "ARG_ID";
   private static final String ARG_NAME = "ARG_NAME";
@@ -50,12 +50,12 @@ public class NameFragment extends Fragment {
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
 
-  public NameFragment() {
+  public ViewExercisesFragment() {
     // Required empty public constructor
   }
 
-  public static NameFragment newInstance(int id, String name, int type) {
-    NameFragment fragment = new NameFragment();
+  public static ViewExercisesFragment newInstance(int id, String name, int type) {
+    ViewExercisesFragment fragment = new ViewExercisesFragment();
     Bundle args = new Bundle();
     args.putInt(ARG_ID, id);
     args.putInt(ARG_TYPE, type);

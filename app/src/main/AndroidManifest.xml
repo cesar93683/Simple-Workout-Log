@@ -22,7 +22,7 @@
       android:name="com.devcesar.workoutapp.exerciseActivity.ExerciseActivity"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity android:name="com.devcesar.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
-    <activity android:name="com.devcesar.workoutapp.nameActivity.NameActivity"/>
+    <activity android:name="com.devcesar.workoutapp.viewExercisesActivity.ViewExercisesActivity"/>
     <activity android:name=".addExerciseActivity.AddExercisesActivity"/>
   </application>
 

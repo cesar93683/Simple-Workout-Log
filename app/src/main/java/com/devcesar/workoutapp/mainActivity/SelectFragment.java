@@ -28,9 +28,9 @@ import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
-import com.devcesar.workoutapp.nameActivity.NameActivity;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntity;
+import com.devcesar.workoutapp.viewExercisesActivity.ViewExercisesActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -290,7 +290,7 @@ public class SelectFragment extends Fragment {
     @Override
     public void onClick(View view) {
       if (type == Constants.TYPE_CATEGORY || type == Constants.TYPE_ROUTINE) {
-        Intent intent = NameActivity
+        Intent intent = ViewExercisesActivity
             .newIntent(getActivity(), namedEntity.getName(), namedEntity.getId(), type);
         startActivity(intent);
       } else if (type == Constants.TYPE_EXERCISE) {
