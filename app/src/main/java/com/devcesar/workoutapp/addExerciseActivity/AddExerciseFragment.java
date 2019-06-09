@@ -53,14 +53,12 @@ public class AddExerciseFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     int[] exerciseIds = getArguments().getIntArray(ARGS_EXERCISE_IDS);
-
     includedExerciseIds = new HashSet<>();
     for (int exerciseId : exerciseIds) {
       includedExerciseIds.add(exerciseId);
     }
 
     exercisesIdsToAdd = new HashSet<>();
-
     exerciseLab = ExerciseLab.get(getActivity());
 
     filter = "";
