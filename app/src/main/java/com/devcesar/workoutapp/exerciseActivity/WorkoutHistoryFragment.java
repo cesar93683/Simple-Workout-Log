@@ -41,7 +41,6 @@ public class WorkoutHistoryFragment extends Fragment {
   private ArrayList<Workout> workouts;
   private WorkoutHistoryAdapter workoutHistoryAdapter;
   private WorkoutLab workoutLab;
-  private FragmentWorkoutHistoryBinding binding;
 
   public WorkoutHistoryFragment() {
     // Required empty public constructor
@@ -59,10 +58,8 @@ public class WorkoutHistoryFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
-      exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
-    }
+    exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
+    exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
     workoutLab = WorkoutLab.get(getActivity());
     workouts = workoutLab.getWorkouts(exerciseId);
     workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
@@ -72,7 +69,7 @@ public class WorkoutHistoryFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    binding = DataBindingUtil
+    FragmentWorkoutHistoryBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_workout_history, container, false);
 
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -122,8 +119,9 @@ public class WorkoutHistoryFragment extends Fragment {
             Workout workout = workouts.get(position);
             workoutLab.deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
             updateWorkouts();
-            Snackbar.make(binding.getRoot(), R.string.workout_deleted, Snackbar.LENGTH_SHORT)
-                .show();
+            Snackbar
+                .make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
+                    Snackbar.LENGTH_SHORT).show();
           }
         })
         .setNegativeButton(R.string.no, null)
@@ -141,7 +139,8 @@ public class WorkoutHistoryFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
       updateWorkouts();
-      Snackbar.make(binding.getRoot(), R.string.workout_updated, Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.workout_updated,
+          Snackbar.LENGTH_SHORT).show();
     }
   }
 

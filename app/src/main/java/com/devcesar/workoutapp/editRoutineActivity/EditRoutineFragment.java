@@ -41,14 +41,12 @@ public class EditRoutineFragment extends Fragment {
 
   private int routineId;
   private String routineName;
-  private Activity activity;
   private RoutineLab routineLab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private ExerciseLab exerciseLab;
   private boolean hasBeenModified;
   private ItemTouchHelper itemTouchHelper;
-  private FragmentSelectMultipleFabBinding binding;
 
   public EditRoutineFragment() {
     // Required empty public constructor
@@ -66,13 +64,10 @@ public class EditRoutineFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      routineId = getArguments().getInt(ARG_ROUTINE_ID);
-      routineName = getArguments().getString(ARG_ROUTINE_NAME);
-    }
-    activity = getActivity();
-    exerciseLab = ExerciseLab.get(activity);
-    routineLab = RoutineLab.get(activity);
+    routineId = getArguments().getInt(ARG_ROUTINE_ID);
+    routineName = getArguments().getString(ARG_ROUTINE_NAME);
+    exerciseLab = ExerciseLab.get(getActivity());
+    routineLab = RoutineLab.get(getActivity());
     exercises = routineLab.getExercises(routineId);
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
@@ -81,7 +76,7 @@ public class EditRoutineFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    binding = DataBindingUtil
+    FragmentSelectMultipleFabBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select_multiple_fab, container, false);
 
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -128,7 +123,7 @@ public class EditRoutineFragment extends Fragment {
     return new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = AddExercisesActivity.newIntent(activity, exercises, routineName);
+        Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routineName);
         startActivityForResult(intent, REQ_ADD_EXERCISE);
       }
     };
@@ -144,13 +139,6 @@ public class EditRoutineFragment extends Fragment {
     };
   }
 
-  private void saveExercisesToRoutine() {
-    Intent intent = new Intent();
-    activity.setResult(Activity.RESULT_OK, intent);
-    routineLab.updateExercises(routineId, exercises);
-    activity.finish();
-  }
-
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -161,7 +149,8 @@ public class EditRoutineFragment extends Fragment {
       }
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
-      Snackbar.make(binding.getRoot(), R.string.exercise_updated, Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_updated,
+          Snackbar.LENGTH_SHORT).show();
     }
   }
 
@@ -169,19 +158,19 @@ public class EditRoutineFragment extends Fragment {
     if (hasBeenModified) {
       createSaveChangesDialog();
     } else {
-      activity.finish();
+      getActivity().finish();
     }
   }
 
   private void createSaveChangesDialog() {
-    new AlertDialog.Builder(activity)
+    new AlertDialog.Builder(getActivity())
         .setTitle(R.string.save_changes)
         .setMessage(R.string.would_save_changes_routine)
         .setNeutralButton(R.string.cancel, null)
         .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-            activity.finish();
+            getActivity().finish();
           }
         })
         .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
@@ -193,8 +182,15 @@ public class EditRoutineFragment extends Fragment {
         .show();
   }
 
+  private void saveExercisesToRoutine() {
+    Intent intent = new Intent();
+    getActivity().setResult(Activity.RESULT_OK, intent);
+    routineLab.updateExercises(routineId, exercises);
+    getActivity().finish();
+  }
+
   private void createDeleteExerciseDialog(final int exerciseId) {
-    new AlertDialog.Builder(activity)
+    new AlertDialog.Builder(getActivity())
         .setMessage(R.string.are_you_sure_delete_exercise)
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -208,8 +204,9 @@ public class EditRoutineFragment extends Fragment {
             }
             hasBeenModified = true;
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(binding.getRoot(), R.string.exercise_deleted,
-                Snackbar.LENGTH_SHORT).show();
+            Snackbar
+                .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+                    Snackbar.LENGTH_SHORT).show();
           }
         })
         .show();
@@ -258,7 +255,7 @@ public class EditRoutineFragment extends Fragment {
     @NonNull
     @Override
     public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(activity);
+      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
       return new ExerciseHolder(layoutInflater, parent);
     }
 

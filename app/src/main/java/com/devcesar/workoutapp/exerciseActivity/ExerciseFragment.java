@@ -1,7 +1,6 @@
 package com.devcesar.workoutapp.exerciseActivity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -35,7 +34,6 @@ public class ExerciseFragment extends Fragment {
   private static final String ARGS_TIME_STAMP = "ARGS_TIME_STAMP";
   private static final long NO_TIME_STAMP = -1;
   private ArrayList<ExerciseSet> exerciseSets;
-  private Activity activity;
   private ExerciseAdapter exerciseSetsAdapter;
   private boolean isEditing;
   private boolean hasBeenModified;
@@ -69,14 +67,13 @@ public class ExerciseFragment extends Fragment {
     int exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
     long timeStamp = getArguments().getLong(ARGS_TIME_STAMP);
 
-    activity = getActivity();
     hasBeenModified = false;
 
     exerciseSets = new ArrayList<>();
     if (timeStamp == NO_TIME_STAMP) {
       isEditing = false;
     } else {
-      WorkoutLab workoutLab = WorkoutLab.get(activity);
+      WorkoutLab workoutLab = WorkoutLab.get(getActivity());
       exerciseSets.addAll(workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets());
       isEditing = true;
     }
@@ -175,7 +172,7 @@ public class ExerciseFragment extends Fragment {
         exerciseSets.add(exerciseSet);
         exerciseSetsAdapter.notifyDataSetChanged();
         hasBeenModified = true;
-        Snackbar.make(activity.findViewById(android.R.id.content), R.string.set_added,
+        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_added,
             Snackbar.LENGTH_SHORT).show();
       }
     };
@@ -185,7 +182,7 @@ public class ExerciseFragment extends Fragment {
     return new View.OnClickListener() {
       @Override
       public void onClick(final View v) {
-        ((SaveSets) activity).saveSets(exerciseSets);
+        ((SaveSets) getActivity()).saveSets(exerciseSets);
       }
     };
   }
@@ -201,10 +198,10 @@ public class ExerciseFragment extends Fragment {
   }
 
   private void createEditOrDeleteDialog(final int position) {
-    @SuppressLint("InflateParams") final View dialogView = activity.getLayoutInflater()
+    @SuppressLint("InflateParams") final View dialogView = getActivity().getLayoutInflater()
         .inflate(R.layout.dialog_edit_or_delete, null);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
     alertDialog.setView(dialogView);
 
     dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
@@ -230,7 +227,7 @@ public class ExerciseFragment extends Fragment {
     final ExerciseSetEditorBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.exercise_set_editor, null, false);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setMessage(R.string.edit_set)
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
@@ -273,7 +270,7 @@ public class ExerciseFragment extends Fragment {
   }
 
   private void createDeleteSetDialog(final int position) {
-    new AlertDialog.Builder(activity)
+    new AlertDialog.Builder(getActivity())
         .setMessage(R.string.are_you_sure_delete_set)
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
           @Override
@@ -286,7 +283,7 @@ public class ExerciseFragment extends Fragment {
   }
 
   private void setViewToCenterInDialog(View exerciseSetEditorView, AlertDialog alertDialog) {
-    FrameLayout container = new FrameLayout(activity);
+    FrameLayout container = new FrameLayout(getActivity());
     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     params.gravity = Gravity.CENTER_HORIZONTAL;
@@ -312,7 +309,7 @@ public class ExerciseFragment extends Fragment {
 
     alertDialog.dismiss();
     hasBeenModified = true;
-    Snackbar.make(activity.findViewById(android.R.id.content), R.string.set_updated,
+    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_updated,
         Snackbar.LENGTH_SHORT).show();
   }
 
@@ -323,35 +320,35 @@ public class ExerciseFragment extends Fragment {
     }
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
-    Snackbar.make(activity.findViewById(android.R.id.content), R.string.set_deleted,
+    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_deleted,
         Snackbar.LENGTH_SHORT).show();
   }
 
   public void onBackPressed() {
     if (!isEditing && exerciseSets.size() == 0) {
-      activity.finish();
+      getActivity().finish();
     } else if (isEditing && !hasBeenModified) {
-      activity.finish();
+      getActivity().finish();
     } else {
       createDiscardChangesDialog();
     }
   }
 
   private void createDiscardChangesDialog() {
-    new AlertDialog.Builder(activity)
+    new AlertDialog.Builder(getActivity())
         .setTitle(R.string.discard_changes)
         .setMessage(R.string.are_you_sure_close_exercise)
         .setNeutralButton(R.string.cancel, null)
         .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-            activity.finish();
+            getActivity().finish();
           }
         })
         .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-            ((SaveSets) activity).saveSets(exerciseSets);
+            ((SaveSets) getActivity()).saveSets(exerciseSets);
           }
         })
         .show();

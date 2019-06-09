@@ -30,8 +30,6 @@ public class AddExerciseFragment extends Fragment {
 
   public static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
-  private int[] exerciseIds;
-  private Activity activity;
   private ExerciseLab exerciseLab;
   private HashSet<Integer> exercisesIdsToAdd;
   private HashSet<Integer> includedExerciseIds;
@@ -54,11 +52,7 @@ public class AddExerciseFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    activity = getActivity();
-
-    if (getArguments() != null) {
-      exerciseIds = getArguments().getIntArray(ARGS_EXERCISE_IDS);
-    }
+    int[] exerciseIds = getArguments().getIntArray(ARGS_EXERCISE_IDS);
 
     includedExerciseIds = new HashSet<>();
     for (int exerciseId : exerciseIds) {
@@ -67,7 +61,7 @@ public class AddExerciseFragment extends Fragment {
 
     exercisesIdsToAdd = new HashSet<>();
 
-    exerciseLab = ExerciseLab.get(activity);
+    exerciseLab = ExerciseLab.get(getActivity());
 
     filter = "";
     filteredExercises = new ArrayList<>();
@@ -87,23 +81,6 @@ public class AddExerciseFragment extends Fragment {
     exerciseAdapter.notifyDataSetChanged();
   }
 
-  private View.OnClickListener saveFab() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        int[] exerciseIds = new int[exercisesIdsToAdd.size()];
-        int i = 0;
-        for (Integer val : exercisesIdsToAdd) {
-          exerciseIds[i++] = val;
-        }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
-        activity.setResult(Activity.RESULT_OK, intent);
-        activity.finish();
-      }
-    };
-  }
-
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -120,6 +97,23 @@ public class AddExerciseFragment extends Fragment {
     binding.recyclerView.setAdapter(exerciseAdapter);
 
     return binding.getRoot();
+  }
+
+  private View.OnClickListener saveFab() {
+    return new View.OnClickListener() {
+      @Override
+      public void onClick(final View v) {
+        int[] exerciseIds = new int[exercisesIdsToAdd.size()];
+        int i = 0;
+        for (Integer val : exercisesIdsToAdd) {
+          exerciseIds[i++] = val;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
+      }
+    };
   }
 
   @NonNull
@@ -194,7 +188,7 @@ public class AddExerciseFragment extends Fragment {
     @NonNull
     @Override
     public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(activity);
+      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
       return new ExerciseHolder(layoutInflater, parent);
     }
 

@@ -26,13 +26,6 @@ public class RoutineLab implements NamedEntityLab, ContainsExercisesLab {
     updateRoutines();
   }
 
-  public static RoutineLab get(Context context) {
-    if (routineLab == null) {
-      routineLab = new RoutineLab(context);
-    }
-    return routineLab;
-  }
-
   private void updateRoutines() {
     routines.clear();
     RoutineCursorWrapper cursor = queryRoutines(null, null);
@@ -54,6 +47,13 @@ public class RoutineLab implements NamedEntityLab, ContainsExercisesLab {
         null
     );
     return new RoutineCursorWrapper(cursor);
+  }
+
+  public static RoutineLab get(Context context) {
+    if (routineLab == null) {
+      routineLab = new RoutineLab(context);
+    }
+    return routineLab;
   }
 
   @Override

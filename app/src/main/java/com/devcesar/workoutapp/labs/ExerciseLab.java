@@ -26,13 +26,6 @@ public class ExerciseLab implements NamedEntityLab {
     updateExercises();
   }
 
-  public static ExerciseLab get(Context context) {
-    if (exerciseLab == null) {
-      exerciseLab = new ExerciseLab(context);
-    }
-    return exerciseLab;
-  }
-
   private void updateExercises() {
     exercises.clear();
     ExerciseCursorWrapper cursor = queryExercises();
@@ -47,6 +40,13 @@ public class ExerciseLab implements NamedEntityLab {
     @SuppressLint("Recycle") Cursor cursor = database
         .query(ExerciseTable.NAME, null, null, null, null, null, null);
     return new ExerciseCursorWrapper(cursor);
+  }
+
+  public static ExerciseLab get(Context context) {
+    if (exerciseLab == null) {
+      exerciseLab = new ExerciseLab(context);
+    }
+    return exerciseLab;
   }
 
   public Exercise getExerciseById(int id) {
@@ -99,6 +99,15 @@ public class ExerciseLab implements NamedEntityLab {
     return false;
   }
 
+  public ArrayList<Exercise> getFilteredExercises(String filter) {
+    ArrayList<Exercise> filteredExercises = new ArrayList<>();
+    ArrayList<NamedEntity> filteredExercises2 = exerciseLab.getFiltered(filter);
+    for (NamedEntity namedEntity : filteredExercises2) {
+      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
+    }
+    return filteredExercises;
+  }
+
   @Override
   public ArrayList<NamedEntity> getFiltered(String filter) {
     ArrayList<NamedEntity> filteredExercises = new ArrayList<>();
@@ -106,15 +115,6 @@ public class ExerciseLab implements NamedEntityLab {
       if (exercise.getName().contains(filter)) {
         filteredExercises.add(exercise);
       }
-    }
-    return filteredExercises;
-  }
-
-  public ArrayList<Exercise> getFilteredExercises(String filter) {
-    ArrayList<Exercise> filteredExercises = new ArrayList<>();
-    ArrayList<NamedEntity> filteredExercises2 = exerciseLab.getFiltered(filter);
-    for (NamedEntity namedEntity : filteredExercises2) {
-      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
     }
     return filteredExercises;
   }

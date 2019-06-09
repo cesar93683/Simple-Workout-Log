@@ -45,12 +45,10 @@ public class NameFragment extends Fragment {
   private int id;
   private String nameType;
   private String name;
-  private Activity activity;
   private ContainsExercisesLab lab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private int type;
-  private FragmentSelectBinding binding;
 
   public NameFragment() {
     // Required empty public constructor
@@ -72,16 +70,15 @@ public class NameFragment extends Fragment {
     id = getArguments().getInt(ARG_ID);
     name = getArguments().getString(ARG_NAME);
     type = getArguments().getInt(ARG_TYPE);
-    activity = getActivity();
     switch (type) {
       case Constants.TYPE_ROUTINE:
         nameType = getString(R.string.routine);
-        lab = RoutineLab.get(activity);
+        lab = RoutineLab.get(getActivity());
         exercises = lab.getExercises(id);
         break;
       case Constants.TYPE_CATEGORY:
         nameType = getString(R.string.category);
-        lab = CategoryLab.get(activity);
+        lab = CategoryLab.get(getActivity());
         exercises = lab.getExercises(id);
         Collections.sort(exercises);
         break;
@@ -94,7 +91,7 @@ public class NameFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    binding = DataBindingUtil
+    FragmentSelectBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select, container, false);
 
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -116,10 +113,10 @@ public class NameFragment extends Fragment {
       @Override
       public void onClick(final View v) {
         if (type == Constants.TYPE_ROUTINE) {
-          Intent intent = EditRoutineActivity.newIntent(activity, id, name);
+          Intent intent = EditRoutineActivity.newIntent(getActivity(), id, name);
           startActivityForResult(intent, REQ_EDIT);
         } else {
-          Intent intent = AddExercisesActivity.newIntent(activity, exercises, name);
+          Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, name);
           startActivityForResult(intent, REQ_ADD);
         }
       }
@@ -133,8 +130,8 @@ public class NameFragment extends Fragment {
       exercises.clear();
       exercises.addAll(lab.getExercises(id));
       exerciseAdapter.notifyDataSetChanged();
-      Snackbar.make(binding.getRoot(), String.format(getString(R.string.x_updated), nameType),
-          Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(getActivity().findViewById(android.R.id.content),
+          String.format(getString(R.string.x_updated), nameType), Snackbar.LENGTH_SHORT).show();
     } else if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD) {
       int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
       for (int exerciseId : newExerciseIds) {
@@ -146,7 +143,7 @@ public class NameFragment extends Fragment {
   }
 
   private void createDeleteExerciseDialog(final int exerciseId) {
-    new AlertDialog.Builder(activity)
+    new AlertDialog.Builder(getActivity())
         .setMessage(R.string.are_you_sure_delete_exercise)
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -156,8 +153,9 @@ public class NameFragment extends Fragment {
             exercises.clear();
             exercises.addAll(lab.getExercises(id));
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(binding.getRoot(), R.string.exercise_deleted, Snackbar.LENGTH_SHORT)
-                .show();
+            Snackbar
+                .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+                    Snackbar.LENGTH_SHORT).show();
           }
         })
         .show();
@@ -182,7 +180,7 @@ public class NameFragment extends Fragment {
     @Override
     public void onClick(View view) {
       Intent intent = ExerciseActivity
-          .newIntent(activity, exercise.getName(), exercise.getId());
+          .newIntent(getActivity(), exercise.getName(), exercise.getId());
       startActivity(intent);
     }
 
@@ -205,7 +203,7 @@ public class NameFragment extends Fragment {
     @NonNull
     @Override
     public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(activity);
+      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
       return new ExerciseHolder(layoutInflater, parent);
     }
 

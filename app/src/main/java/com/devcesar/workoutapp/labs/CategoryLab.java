@@ -26,13 +26,6 @@ public class CategoryLab implements NamedEntityLab, ContainsExercisesLab {
     updateCategories();
   }
 
-  public static CategoryLab get(Context context) {
-    if (categoryLab == null) {
-      categoryLab = new CategoryLab(context);
-    }
-    return categoryLab;
-  }
-
   private void updateCategories() {
     categories.clear();
     CategoryCursorWrapper cursor = queryCategories(null, null);
@@ -54,6 +47,13 @@ public class CategoryLab implements NamedEntityLab, ContainsExercisesLab {
         null
     );
     return new CategoryCursorWrapper(cursor);
+  }
+
+  public static CategoryLab get(Context context) {
+    if (categoryLab == null) {
+      categoryLab = new CategoryLab(context);
+    }
+    return categoryLab;
   }
 
   @Override

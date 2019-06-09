@@ -1,6 +1,5 @@
 package com.devcesar.workoutapp.mainActivity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -38,14 +37,12 @@ import java.util.List;
 
 public class SelectFragment extends Fragment {
 
-  private Activity activity;
   private ArrayList<NamedEntity> filtered;
   private String filter;
   private NamedEntityAdapter namedEntityAdapter;
   private NamedEntityLab lab;
   private int type;
   private String nameType;
-  private FragmentSelectWithFilterBinding binding;
 
   public SelectFragment() {
     // Required empty public constructor
@@ -63,7 +60,6 @@ public class SelectFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     type = getArguments().getInt(Constants.TYPE);
-    activity = getActivity();
     switch (type) {
       case Constants.TYPE_CATEGORY:
         nameType = getString(R.string.category);
@@ -91,7 +87,7 @@ public class SelectFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    binding = DataBindingUtil
+    FragmentSelectWithFilterBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
     binding.fab.setOnClickListener(newFabClickListener());
@@ -104,6 +100,47 @@ public class SelectFragment extends Fragment {
     binding.recyclerView.setAdapter(namedEntityAdapter);
 
     return binding.getRoot();
+  }
+
+  private void createNewDialog() {
+    final DialogInputBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(getContext()), R.layout.dialog_input, null, false);
+
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+        .setView(dialogBinding.getRoot())
+        .setMessage(String.format(getString(R.string.new_x), nameType))
+        .setNegativeButton(R.string.cancel, null)
+        .setPositiveButton(R.string.save, null)
+        .create();
+
+    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+      @Override
+      public void onShow(DialogInterface dialogInterface) {
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                String newName = dialogBinding.textInputLayout.getEditText().getText().toString()
+                    .trim();
+                if (newName.isEmpty()) {
+                  dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
+                } else if (lab.contains(newName)) {
+                  dialogBinding.textInputLayout
+                      .setError(String.format(getString(R.string.x_already_exists), nameType));
+                } else {
+                  lab.insert(newName);
+                  updateFiltered();
+                  Snackbar.make(getActivity().findViewById(android.R.id.content),
+                      String.format(getString(R.string.new_x_created), nameType.toLowerCase()),
+                      Snackbar.LENGTH_SHORT).show();
+                  alertDialog.dismiss();
+                }
+              }
+            });
+      }
+    });
+
+    alertDialog.show();
   }
 
   @NonNull
@@ -137,47 +174,6 @@ public class SelectFragment extends Fragment {
     };
   }
 
-  private void createNewDialog() {
-    final DialogInputBinding dialogBinding = DataBindingUtil
-        .inflate(LayoutInflater.from(getContext()), R.layout.dialog_input, null, false);
-
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-        .setView(dialogBinding.getRoot())
-        .setMessage(String.format(getString(R.string.new_x), nameType))
-        .setNegativeButton(R.string.cancel, null)
-        .setPositiveButton(R.string.save, null)
-        .create();
-
-    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-      @Override
-      public void onShow(DialogInterface dialogInterface) {
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                String newName = dialogBinding.textInputLayout.getEditText().getText().toString()
-                    .trim();
-                if (newName.isEmpty()) {
-                  dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
-                } else if (lab.contains(newName)) {
-                  dialogBinding.textInputLayout
-                      .setError(String.format(getString(R.string.x_already_exists), nameType));
-                } else {
-                  lab.insert(newName);
-                  updateFiltered();
-                  Snackbar.make(binding.getRoot(),
-                      String.format(getString(R.string.new_x_created), nameType.toLowerCase()),
-                      Snackbar.LENGTH_SHORT).show();
-                  alertDialog.dismiss();
-                }
-              }
-            });
-      }
-    });
-
-    alertDialog.show();
-  }
-
   private void updateFiltered() {
     filtered.clear();
     filtered.addAll(lab.getFiltered(filter));
@@ -191,7 +187,7 @@ public class SelectFragment extends Fragment {
 
     dialogBinding.editTextView.setText(R.string.dialog_rename_text);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
     alertDialog.setView(dialogBinding.getRoot());
 
     dialogBinding.editLinearLayout.setOnClickListener(
@@ -217,7 +213,7 @@ public class SelectFragment extends Fragment {
     final DialogInputBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.dialog_input, null, false);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setView(dialogBinding.getRoot())
         .setMessage(String.format(getString(R.string.rename_x), nameType))
         .setNegativeButton(R.string.cancel, null)
@@ -245,9 +241,8 @@ public class SelectFragment extends Fragment {
                 } else {
                   lab.updateName(oldNamedEntity.getId(), newNamedEntity);
                   updateFiltered();
-                  Snackbar
-                      .make(binding.getRoot(), R.string.rename_successful, Snackbar.LENGTH_SHORT)
-                      .show();
+                  Snackbar.make(getActivity().findViewById(android.R.id.content),
+                      R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
                   alertDialog.dismiss();
                 }
               }
@@ -259,7 +254,7 @@ public class SelectFragment extends Fragment {
   }
 
   private void createDeleteDialog(final NamedEntity namedEntity) {
-    new AlertDialog.Builder(activity)
+    new AlertDialog.Builder(getActivity())
         .setMessage(
             String.format(getString(R.string.are_you_sure_delete_x), nameType.toLowerCase()))
         .setNegativeButton(R.string.no, null)
@@ -268,8 +263,9 @@ public class SelectFragment extends Fragment {
           public void onClick(DialogInterface dialogInterface, int i) {
             lab.delete(namedEntity.getId());
             updateFiltered();
-            Snackbar.make(binding.getRoot(), String.format(getString(R.string.x_deleted), nameType),
-                Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(android.R.id.content),
+                String.format(getString(R.string.x_deleted), nameType), Snackbar.LENGTH_SHORT)
+                .show();
           }
         })
         .show();
@@ -295,11 +291,11 @@ public class SelectFragment extends Fragment {
     public void onClick(View view) {
       if (type == Constants.TYPE_CATEGORY || type == Constants.TYPE_ROUTINE) {
         Intent intent = NameActivity
-            .newIntent(activity, namedEntity.getName(), namedEntity.getId(), type);
+            .newIntent(getActivity(), namedEntity.getName(), namedEntity.getId(), type);
         startActivity(intent);
       } else if (type == Constants.TYPE_EXERCISE) {
         Intent intent = ExerciseActivity
-            .newIntent(activity, namedEntity.getName(), namedEntity.getId());
+            .newIntent(getActivity(), namedEntity.getName(), namedEntity.getId());
         startActivity(intent);
       }
     }
