@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.DialogEditOrDeleteBinding;
+import com.devcesar.workoutapp.databinding.FragmentWorkoutHistoryBinding;
 import com.devcesar.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
@@ -37,10 +38,10 @@ public class WorkoutHistoryFragment extends Fragment {
   private static final int REQUEST_CODE_EDIT_WORKOUT = 1;
   private int exerciseId;
   private String exerciseName;
-  private View fragmentView;
   private ArrayList<Workout> workouts;
   private WorkoutHistoryAdapter workoutHistoryAdapter;
   private WorkoutLab workoutLab;
+  private FragmentWorkoutHistoryBinding binding;
 
   public WorkoutHistoryFragment() {
     // Required empty public constructor
@@ -71,18 +72,16 @@ public class WorkoutHistoryFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    fragmentView = getLayoutInflater()
-        .inflate(R.layout.fragment_exercise_history, container, false);
+    binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_workout_history, container, false);
 
-    RecyclerView workoutHistoryRecyclerView = fragmentView
-        .findViewById(R.id.workout_history_recycler_view);
-    workoutHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    workoutHistoryRecyclerView.addItemDecoration(
-        new DividerItemDecoration(workoutHistoryRecyclerView.getContext(),
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
             DividerItemDecoration.VERTICAL));
-    workoutHistoryRecyclerView.setAdapter(workoutHistoryAdapter);
+    binding.recyclerView.setAdapter(workoutHistoryAdapter);
 
-    return fragmentView;
+    return binding.getRoot();
   }
 
 
@@ -123,7 +122,8 @@ public class WorkoutHistoryFragment extends Fragment {
             Workout workout = workouts.get(position);
             workoutLab.deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
             updateWorkouts();
-            Snackbar.make(fragmentView, R.string.workout_deleted, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), R.string.workout_deleted, Snackbar.LENGTH_SHORT)
+                .show();
           }
         })
         .setNegativeButton(R.string.no, null)
@@ -141,7 +141,7 @@ public class WorkoutHistoryFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
       updateWorkouts();
-      Snackbar.make(fragmentView, R.string.workout_updated, Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(binding.getRoot(), R.string.workout_updated, Snackbar.LENGTH_SHORT).show();
     }
   }
 

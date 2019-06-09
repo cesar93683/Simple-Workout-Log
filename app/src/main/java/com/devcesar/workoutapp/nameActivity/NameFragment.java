@@ -5,9 +5,9 @@ import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EX
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
+import com.devcesar.workoutapp.databinding.FragmentSelectBinding;
 import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
@@ -48,8 +49,8 @@ public class NameFragment extends Fragment {
   private ContainsExercisesLab lab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
-  private View fragmentView;
   private int type;
+  private FragmentSelectBinding binding;
 
   public NameFragment() {
     // Required empty public constructor
@@ -93,21 +94,21 @@ public class NameFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    fragmentView = inflater.inflate(R.layout.fragment_select, container, false);
+    binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select, container, false);
 
-    RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    recyclerView.addItemDecoration(
-        new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-    recyclerView.setAdapter(exerciseAdapter);
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
+    binding.recyclerView.setAdapter(exerciseAdapter);
 
-    FloatingActionButton fab = fragmentView.findViewById(R.id.fab);
     if (type == Constants.TYPE_ROUTINE) {
-      fab.setImageDrawable(
+      binding.fab.setImageDrawable(
           ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
     }
-    fab.setOnClickListener(editFabClickListener());
-    return fragmentView;
+    binding.fab.setOnClickListener(editFabClickListener());
+    return binding.getRoot();
   }
 
   private View.OnClickListener editFabClickListener() {
@@ -132,7 +133,7 @@ public class NameFragment extends Fragment {
       exercises.clear();
       exercises.addAll(lab.getExercises(id));
       exerciseAdapter.notifyDataSetChanged();
-      Snackbar.make(fragmentView, String.format(getString(R.string.x_updated), nameType),
+      Snackbar.make(binding.getRoot(), String.format(getString(R.string.x_updated), nameType),
           Snackbar.LENGTH_SHORT).show();
     } else if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD) {
       int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
@@ -155,7 +156,8 @@ public class NameFragment extends Fragment {
             exercises.clear();
             exercises.addAll(lab.getExercises(id));
             exerciseAdapter.notifyDataSetChanged();
-            Snackbar.make(fragmentView, R.string.exercise_deleted, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), R.string.exercise_deleted, Snackbar.LENGTH_SHORT)
+                .show();
           }
         })
         .show();
