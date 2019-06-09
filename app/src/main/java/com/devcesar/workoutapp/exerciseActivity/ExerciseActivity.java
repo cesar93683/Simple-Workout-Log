@@ -27,7 +27,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private int exerciseId;
   private String exerciseName;
   private WorkoutLab workoutLab;
-  private ActivityExerciseBinding binding;
 
   public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -39,7 +38,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    binding = DataBindingUtil.setContentView(this, R.layout.activity_exercise);
+    ActivityExerciseBinding binding = DataBindingUtil
+        .setContentView(this, R.layout.activity_exercise);
 
     workoutLab = WorkoutLab.get(this);
     int INVALID_ID = -1;
