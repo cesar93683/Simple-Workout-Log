@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.ExerciseUtils;
 import java.util.ArrayList;
 
 public class AddExercisesActivity extends AppCompatActivity {
@@ -17,13 +18,8 @@ public class AddExercisesActivity extends AppCompatActivity {
 
   public static Intent newIntent(Context packageContext, ArrayList<Exercise> exercises,
       String name) {
-    int[] exerciseIds = new int[exercises.size()];
-    int i = 0;
-    for (Exercise exercise : exercises) {
-      exerciseIds[i++] = exercise.getId();
-    }
     Intent intent = new Intent(packageContext, AddExercisesActivity.class);
-    intent.putExtra(EXTRA_EXERCISE_IDS, exerciseIds);
+    intent.putExtra(EXTRA_EXERCISE_IDS, ExerciseUtils.getExerciseIds(exercises));
     intent.putExtra(EXTRA_NAME, name);
     return intent;
   }

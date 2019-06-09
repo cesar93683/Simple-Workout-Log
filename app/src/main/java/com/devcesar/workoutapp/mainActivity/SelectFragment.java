@@ -37,11 +37,11 @@ import java.util.List;
 
 public class SelectFragment extends Fragment {
 
+  private int type;
   private ArrayList<NamedEntity> filtered;
   private String filter;
   private NamedEntityAdapter namedEntityAdapter;
   private NamedEntityLab lab;
-  private int type;
   private String nameType;
 
   public SelectFragment() {

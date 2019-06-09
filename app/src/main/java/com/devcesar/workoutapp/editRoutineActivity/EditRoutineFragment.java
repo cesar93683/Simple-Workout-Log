@@ -25,9 +25,9 @@ import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.databinding.FragmentSelectMultipleFabBinding;
-import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.ExerciseUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,10 +41,8 @@ public class EditRoutineFragment extends Fragment {
 
   private int routineId;
   private String routineName;
-  private RoutineLab routineLab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
-  private ExerciseLab exerciseLab;
   private boolean hasBeenModified;
   private ItemTouchHelper itemTouchHelper;
 
@@ -66,9 +64,7 @@ public class EditRoutineFragment extends Fragment {
     super.onCreate(savedInstanceState);
     routineId = getArguments().getInt(ARG_ROUTINE_ID);
     routineName = getArguments().getString(ARG_ROUTINE_NAME);
-    exerciseLab = ExerciseLab.get(getActivity());
-    routineLab = RoutineLab.get(getActivity());
-    exercises = routineLab.getExercises(routineId);
+    exercises = RoutineLab.get(getActivity()).getExercises(routineId);
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }
@@ -144,9 +140,7 @@ public class EditRoutineFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
       int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
-      for (int exerciseId : newExerciseIds) {
-        exercises.add(exerciseLab.getExerciseById(exerciseId));
-      }
+      exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
       Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_updated,
@@ -185,7 +179,7 @@ public class EditRoutineFragment extends Fragment {
   private void saveExercisesToRoutine() {
     Intent intent = new Intent();
     getActivity().setResult(Activity.RESULT_OK, intent);
-    routineLab.updateExercises(routineId, exercises);
+    RoutineLab.get(getActivity()).updateExercises(routineId, exercises);
     getActivity().finish();
   }
 

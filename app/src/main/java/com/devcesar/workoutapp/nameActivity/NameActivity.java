@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import com.devcesar.workoutapp.R;
-import com.devcesar.workoutapp.utils.Constants;
 
 public class NameActivity extends AppCompatActivity {
 
@@ -27,13 +26,14 @@ public class NameActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
+    int invalid = -1;
 
-    String name = getIntent().getStringExtra(EXTRA_NAME);
-    int id = getIntent().getIntExtra(EXTRA_ID, -1);
-    if (id == -1) {
+    int id = getIntent().getIntExtra(EXTRA_ID, invalid);
+    int type = getIntent().getIntExtra(EXTRA_TYPE, invalid);
+    if (id == invalid || type == invalid) {
       finish();
     }
-    int type = getIntent().getIntExtra(EXTRA_TYPE, Constants.TYPE_CATEGORY);
+    String name = getIntent().getStringExtra(EXTRA_NAME);
     setTitle(name);
 
     FragmentManager fm = getSupportFragmentManager();

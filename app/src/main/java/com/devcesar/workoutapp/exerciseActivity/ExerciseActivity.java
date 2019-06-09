@@ -26,7 +26,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private ViewPager mViewPager;
   private int exerciseId;
   private String exerciseName;
-  private WorkoutLab workoutLab;
 
   public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -41,14 +40,13 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     ActivityExerciseBinding binding = DataBindingUtil
         .setContentView(this, R.layout.activity_exercise);
 
-    workoutLab = WorkoutLab.get(this);
-    int INVALID_ID = -1;
-    exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, INVALID_ID);
-    exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
-
-    if (exerciseId == INVALID_ID) {
+    int invalid = -1;
+    exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
+    if (exerciseId == invalid) {
       finish();
     }
+
+    exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
     setSupportActionBar(binding.toolbar);
     binding.toolbar.setTitle(exerciseName);
@@ -70,7 +68,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
     long timeStamp = new Date().getTime();
     Workout workout = new Workout(exerciseId, exerciseSets, timeStamp);
-    workoutLab.insertWorkout(workout);
+    WorkoutLab.get(this).insertWorkout(workout);
     finish();
   }
 

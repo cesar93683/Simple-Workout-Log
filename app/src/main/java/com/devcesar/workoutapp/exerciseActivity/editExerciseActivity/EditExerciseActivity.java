@@ -19,10 +19,9 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private static final String EXTRA_TIME_STAMP = "EXTRA_TIME_STAMP";
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
-  private long timeStamp;
-  private WorkoutLab workoutLab;
-  private Fragment fragment;
   private int exerciseId;
+  private long timeStamp;
+  private Fragment fragment;
 
   public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
       long timeStamp) {
@@ -37,15 +36,14 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
-    workoutLab = WorkoutLab.get(this);
-
-    String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
-    exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, -1);
-    timeStamp = getIntent().getLongExtra(EXTRA_TIME_STAMP, -1);
-
-    if (exerciseId == -1 || timeStamp == -1) {
+    int invalid = -1;
+    exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
+    timeStamp = getIntent().getLongExtra(EXTRA_TIME_STAMP, invalid);
+    if (exerciseId == invalid || timeStamp == invalid) {
       finish();
     }
+
+    String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
     setTitle(exerciseName);
 
     FragmentManager fm = getSupportFragmentManager();
@@ -61,7 +59,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   @Override
   public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
     Workout workout = new Workout(exerciseId, exerciseSets, timeStamp);
-    workoutLab.updateWorkout(workout);
+    WorkoutLab.get(this).updateWorkout(workout);
     setResult(RESULT_OK);
     finish();
   }

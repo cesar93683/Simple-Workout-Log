@@ -40,7 +40,6 @@ public class WorkoutHistoryFragment extends Fragment {
   private String exerciseName;
   private ArrayList<Workout> workouts;
   private WorkoutHistoryAdapter workoutHistoryAdapter;
-  private WorkoutLab workoutLab;
 
   public WorkoutHistoryFragment() {
     // Required empty public constructor
@@ -60,8 +59,7 @@ public class WorkoutHistoryFragment extends Fragment {
     super.onCreate(savedInstanceState);
     exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
     exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
-    workoutLab = WorkoutLab.get(getActivity());
-    workouts = workoutLab.getWorkouts(exerciseId);
+    workouts = WorkoutLab.get(getActivity()).getWorkouts(exerciseId);
     workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
   }
 
@@ -117,7 +115,8 @@ public class WorkoutHistoryFragment extends Fragment {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             Workout workout = workouts.get(position);
-            workoutLab.deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
+            WorkoutLab.get(getActivity())
+                .deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
             updateWorkouts();
             Snackbar
                 .make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
@@ -130,7 +129,7 @@ public class WorkoutHistoryFragment extends Fragment {
 
   private void updateWorkouts() {
     workouts.clear();
-    workouts.addAll(workoutLab.getWorkouts(exerciseId));
+    workouts.addAll(WorkoutLab.get(getActivity()).getWorkouts(exerciseId));
     workoutHistoryAdapter.notifyDataSetChanged();
   }
 

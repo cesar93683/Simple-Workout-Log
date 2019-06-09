@@ -30,7 +30,6 @@ public class AddExerciseFragment extends Fragment {
 
   public static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
-  private ExerciseLab exerciseLab;
   private HashSet<Integer> exercisesIdsToAdd;
   private HashSet<Integer> includedExerciseIds;
   private String filter;
@@ -59,7 +58,6 @@ public class AddExerciseFragment extends Fragment {
     }
 
     exercisesIdsToAdd = new HashSet<>();
-    exerciseLab = ExerciseLab.get(getActivity());
 
     filter = "";
     filteredExercises = new ArrayList<>();
@@ -69,7 +67,7 @@ public class AddExerciseFragment extends Fragment {
 
   private void updateFilteredExercises() {
     filteredExercises.clear();
-    filteredExercises.addAll(exerciseLab.getFilteredExercises(filter));
+    filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(filter));
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
         filteredExercises.remove(i);

@@ -26,10 +26,10 @@ import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryLab;
 import com.devcesar.workoutapp.labs.ContainsExercisesLab;
-import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.ExerciseUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,12 +43,12 @@ public class NameFragment extends Fragment {
   private static final int REQ_ADD = 2;
 
   private int id;
-  private String nameType;
   private String name;
+  private int type;
+  private String nameType;
   private ContainsExercisesLab lab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
-  private int type;
 
   public NameFragment() {
     // Required empty public constructor
@@ -134,9 +134,7 @@ public class NameFragment extends Fragment {
           String.format(getString(R.string.x_updated), nameType), Snackbar.LENGTH_SHORT).show();
     } else if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD) {
       int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
-      for (int exerciseId : newExerciseIds) {
-        exercises.add(ExerciseLab.get(getContext()).getExerciseById(exerciseId));
-      }
+      exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
       lab.updateExercises(id, exercises);
       exerciseAdapter.notifyDataSetChanged();
     }
