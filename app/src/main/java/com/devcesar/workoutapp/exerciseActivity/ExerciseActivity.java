@@ -2,6 +2,7 @@ package com.devcesar.workoutapp.exerciseActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,8 +11,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.databinding.ActivityExerciseBinding;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import com.devcesar.workoutapp.utils.Workout;
@@ -26,6 +27,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private int exerciseId;
   private String exerciseName;
   private WorkoutLab workoutLab;
+  private ActivityExerciseBinding binding;
 
   public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -37,7 +39,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_exercise);
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_exercise);
+
     workoutLab = WorkoutLab.get(this);
     int INVALID_ID = -1;
     exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, INVALID_ID);
@@ -47,17 +50,16 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       finish();
     }
 
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-    toolbar.setTitle(exerciseName);
+    setSupportActionBar(binding.toolbar);
+    binding.toolbar.setTitle(exerciseName);
 
     SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(
         getSupportFragmentManager());
 
-    mViewPager = findViewById(R.id.container);
+    mViewPager = binding.container;
     mViewPager.setAdapter(mSectionsPagerAdapter);
 
-    TabLayout tabLayout = findViewById(R.id.tabs);
+    TabLayout tabLayout = binding.tabs;
 
     mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     tabLayout.setupWithViewPager(mViewPager);

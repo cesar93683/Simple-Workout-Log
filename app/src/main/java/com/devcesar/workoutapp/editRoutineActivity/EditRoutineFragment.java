@@ -161,8 +161,7 @@ public class EditRoutineFragment extends Fragment {
       }
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
-      Snackbar.make(activity.findViewById(android.R.id.content), R.string.exercise_updated,
-          Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(binding.getRoot(), R.string.exercise_updated, Snackbar.LENGTH_SHORT).show();
     }
   }
 
