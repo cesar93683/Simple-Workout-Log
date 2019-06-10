@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ExerciseUtils {
-
   private ExerciseUtils() {
     throw new AssertionError();
   }

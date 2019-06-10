@@ -20,12 +20,15 @@ public class MainActivity extends AppCompatActivity {
           Fragment selectedFragment = null;
           switch (item.getItemId()) {
             case R.id.nav_exercise_select:
+              setTitle(R.string.exercise);
               selectedFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
               break;
             case R.id.nav_category:
+              setTitle(R.string.category);
               selectedFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
               break;
             case R.id.nav_routine:
+              setTitle(R.string.routine);
               selectedFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
               break;
           }
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
     if (savedInstanceState == null) {
+      setTitle(R.string.exercise);
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.fragment_container,
               SelectFragment.newInstance(Constants.TYPE_EXERCISE))
