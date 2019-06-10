@@ -38,12 +38,12 @@ abstract class SelectFragmentHelper {
 
   private final String name;
   private final NamedEntityLab lab;
-  private SelectFragmentOnClick selectFragmentOnClick;
+  private final SelectFragmentOnClick selectFragmentOnClick;
 
-  SelectFragmentHelper(String name, NamedEntityLab lab,
+  SelectFragmentHelper(HelperForFragments helperForFragments,
       SelectFragmentOnClick selectFragmentOnClick) {
-    this.name = name;
-    this.lab = lab;
+    this.name = helperForFragments.getName();
+    this.lab = helperForFragments.getNamedEntityLab();
     this.selectFragmentOnClick = selectFragmentOnClick;
   }
 
@@ -62,8 +62,8 @@ abstract class SelectFragmentHelper {
 
 class GoToViewExercisesActivity implements SelectFragmentOnClick {
 
-  private Activity activity;
-  private int type;
+  private final Activity activity;
+  private final int type;
 
   GoToViewExercisesActivity(Activity activity, int type) {
     this.activity = activity;
@@ -80,7 +80,7 @@ class GoToViewExercisesActivity implements SelectFragmentOnClick {
 
 class GoToExerciseActivity implements SelectFragmentOnClick {
 
-  private Activity activity;
+  private final Activity activity;
 
   GoToExerciseActivity(Activity activity) {
     this.activity = activity;
@@ -97,20 +97,60 @@ class GoToExerciseActivity implements SelectFragmentOnClick {
 class SelectFragmentExercise extends SelectFragmentHelper {
 
   SelectFragmentExercise(Activity activity, SelectFragmentOnClick selectFragmentOnClick) {
-    super(activity.getString(R.string.exercise), ExerciseLab.get(activity), selectFragmentOnClick);
+    super(new ExerciseHelperForFragments(activity), selectFragmentOnClick);
   }
 }
 
 class SelectFragmentCategory extends SelectFragmentHelper {
 
   SelectFragmentCategory(Activity activity, SelectFragmentOnClick selectFragmentOnClick) {
-    super(activity.getString(R.string.category), CategoryLab.get(activity), selectFragmentOnClick);
+    super(new CategoryHelperForFragments(activity), selectFragmentOnClick);
   }
 }
 
 class SelectFragmentRoutine extends SelectFragmentHelper {
 
   SelectFragmentRoutine(Activity activity, SelectFragmentOnClick selectFragmentOnClick) {
-    super(activity.getString(R.string.routine), RoutineLab.get(activity), selectFragmentOnClick);
+    super(new RoutineHelperForFragments(activity), selectFragmentOnClick);
+  }
+}
+
+class HelperForFragments {
+
+  private final String name;
+  private final NamedEntityLab namedEntityLab;
+
+  HelperForFragments(String name, NamedEntityLab namedEntityLab) {
+    this.name = name;
+    this.namedEntityLab = namedEntityLab;
+  }
+
+  public NamedEntityLab getNamedEntityLab() {
+    return namedEntityLab;
+  }
+
+  public String getName() {
+    return name;
+  }
+}
+
+class ExerciseHelperForFragments extends HelperForFragments {
+
+  ExerciseHelperForFragments(Activity activity) {
+    super(activity.getString(R.string.exercise), ExerciseLab.get(activity));
+  }
+}
+
+class CategoryHelperForFragments extends HelperForFragments {
+
+  CategoryHelperForFragments(Activity activity) {
+    super(activity.getString(R.string.category), CategoryLab.get(activity));
+  }
+}
+
+class RoutineHelperForFragments extends HelperForFragments {
+
+  RoutineHelperForFragments(Activity activity) {
+    super(activity.getString(R.string.routine), RoutineLab.get(activity));
   }
 }
