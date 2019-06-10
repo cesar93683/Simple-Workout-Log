@@ -7,6 +7,10 @@ import java.util.List;
 
 public class ExerciseUtils {
 
+  private ExerciseUtils() {
+    throw new AssertionError();
+  }
+
   public static int[] getExerciseIds(List<Exercise> exercises) {
     int[] exerciseIds = new int[exercises.size()];
     for (int i = 0; i < exercises.size(); i++) {

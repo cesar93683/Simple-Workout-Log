@@ -6,4 +6,8 @@ public class Constants {
   public static final int TYPE_ROUTINE = 2;
   public static final int TYPE_EXERCISE = 3;
   public static final String TYPE = "TYPE";
+
+  private Constants() {
+    throw new AssertionError();
+  }
 }
