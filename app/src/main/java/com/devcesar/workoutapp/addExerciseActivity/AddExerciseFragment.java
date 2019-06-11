@@ -1,8 +1,12 @@
 package com.devcesar.workoutapp.addExerciseActivity;
 
+import static com.devcesar.workoutapp.utils.ExerciseUtils.getExerciseIds;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -28,9 +32,9 @@ import java.util.List;
 
 public class AddExerciseFragment extends Fragment {
 
-  public static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
+  public static final String EXTRA_NEW_EXERCISE_IDS = "EXTRA_NEW_EXERCISE_IDS";
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
-  private HashSet<Integer> exerciseIdsToAdd;
+  private HashSet<Exercise> exercisesToAdd;
   private HashSet<Integer> exerciseIdsToExclude;
   private String filter;
   private ArrayList<Exercise> filteredExercises;
@@ -57,7 +61,7 @@ public class AddExerciseFragment extends Fragment {
       exerciseIdsToExclude.add(exerciseId);
     }
 
-    exerciseIdsToAdd = new HashSet<>();
+    exercisesToAdd = new HashSet<>();
 
     filter = "";
     filteredExercises = new ArrayList<>();
@@ -68,9 +72,13 @@ public class AddExerciseFragment extends Fragment {
   private void updateFilteredExercises() {
     filteredExercises.clear();
     filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(filter));
-    for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-      if (exerciseIdsToExclude.contains(filteredExercises.get(i).getId())) {
-        filteredExercises.remove(i);
+    if (VERSION.SDK_INT >= VERSION_CODES.N) {
+      filteredExercises.removeIf(i -> exerciseIdsToExclude.contains(i.getId()));
+    } else {
+      for (int i = filteredExercises.size() - 1; i >= 0; i--) {
+        if (exerciseIdsToExclude.contains(filteredExercises.get(i).getId())) {
+          filteredExercises.remove(i);
+        }
       }
     }
     Collections.sort(filteredExercises);
@@ -100,13 +108,8 @@ public class AddExerciseFragment extends Fragment {
 
   private View.OnClickListener saveFab() {
     return v -> {
-      int[] exerciseIds = new int[exerciseIdsToAdd.size()];
-      int i = 0;
-      for (Integer val : exerciseIdsToAdd) {
-        exerciseIds[i++] = val;
-      }
       Intent intent = new Intent();
-      intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
+      intent.putExtra(EXTRA_NEW_EXERCISE_IDS, getExerciseIds(exercisesToAdd));
       getActivity().setResult(Activity.RESULT_OK, intent);
       getActivity().finish();
     };
@@ -149,15 +152,15 @@ public class AddExerciseFragment extends Fragment {
 
     private void checkChanged(boolean isChecked) {
       if (isChecked) {
-        exerciseIdsToAdd.add(exercise.getId());
+        exercisesToAdd.add(exercise);
       } else {
-        exerciseIdsToAdd.remove(exercise.getId());
+        exercisesToAdd.remove(exercise);
       }
     }
 
     void bind(Exercise exercise) {
       this.exercise = exercise;
-      checkBox.setChecked(exerciseIdsToAdd.contains(exercise.getId()));
+      checkBox.setChecked(exercisesToAdd.contains(exercise));
       textView.setText(exercise.getName());
     }
 

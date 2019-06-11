@@ -1,6 +1,6 @@
 package com.devcesar.workoutapp.editRoutineActivity;
 
-import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
+import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISE_IDS;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -136,7 +136,7 @@ public class EditRoutineFragment extends Fragment {
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
-      int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
+      int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISE_IDS);
       exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;

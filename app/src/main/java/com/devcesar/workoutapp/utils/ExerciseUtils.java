@@ -2,6 +2,7 @@ package com.devcesar.workoutapp.utils;
 
 import android.content.Context;
 import com.devcesar.workoutapp.labs.ExerciseLab;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,10 +11,11 @@ public class ExerciseUtils {
     throw new AssertionError();
   }
 
-  public static int[] getExerciseIds(List<Exercise> exercises) {
+  public static int[] getExerciseIds(Collection<Exercise> exercises) {
     int[] exerciseIds = new int[exercises.size()];
-    for (int i = 0; i < exercises.size(); i++) {
-      exerciseIds[i] = exercises.get(i).getId();
+    int i = 0;
+    for (Exercise exercise : exercises) {
+      exerciseIds[i++] = exercise.getId();
     }
     return exerciseIds;
   }

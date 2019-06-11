@@ -1,6 +1,6 @@
 package com.devcesar.workoutapp.viewExercisesActivity;
 
-import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
+import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISE_IDS;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -125,7 +125,7 @@ public class ViewExercisesFragment extends Fragment {
         exercises.clear();
         exercises.addAll(lab.getExercises(id));
       } else if (requestCode == REQ_ADD) {
-        int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
+        int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISE_IDS);
         exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
         lab.updateExercises(id, exercises);
       }
