@@ -72,7 +72,7 @@ public class SelectFragment extends Fragment {
     FragmentSelectWithFilterBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
-    binding.fab.setOnClickListener(newFabClickListener());
+    binding.fab.setOnClickListener(v -> createNewDialog());
     binding.filterEditText.addTextChangedListener(filterEditTextListener());
 
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -84,10 +84,6 @@ public class SelectFragment extends Fragment {
     return binding.getRoot();
   }
 
-  @NonNull
-  private View.OnClickListener newFabClickListener() {
-    return v -> createNewDialog();
-  }
 
   private void createNewDialog() {
     final DialogInputBinding dialogBinding = DataBindingUtil
@@ -108,17 +104,15 @@ public class SelectFragment extends Fragment {
               if (newName.isEmpty()) {
                 dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
               } else if (selectFragmentHelper.getLab().contains(newName)) {
-                dialogBinding.textInputLayout
-                    .setError(
-                        String.format(getString(R.string.x_already_exists), selectFragmentHelper
-                            .getName()));
+                dialogBinding.textInputLayout.setError(String
+                    .format(getString(R.string.x_already_exists), selectFragmentHelper.getName()));
               } else {
                 selectFragmentHelper.getLab().insert(newName);
                 updateFiltered();
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                    String.format(getString(R.string.new_x_created),
-                        selectFragmentHelper.getName().toLowerCase()),
-                    Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(android.R.id.content), String
+                    .format(getString(R.string.new_x_created),
+                        selectFragmentHelper.getName().toLowerCase()), Snackbar.LENGTH_SHORT)
+                    .show();
                 alertDialog.dismiss();
               }
             }));
@@ -153,8 +147,8 @@ public class SelectFragment extends Fragment {
 
     dialogBinding.editTextView.setText(R.string.dialog_rename_text);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-    alertDialog.setView(dialogBinding.getRoot());
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+        .setView(dialogBinding.getRoot()).create();
 
     dialogBinding.editLinearLayout.setOnClickListener(
         v -> {
@@ -219,8 +213,7 @@ public class SelectFragment extends Fragment {
           updateFiltered();
           Snackbar.make(getActivity().findViewById(android.R.id.content),
               String.format(getString(R.string.x_deleted), selectFragmentHelper.getName()),
-              Snackbar.LENGTH_SHORT)
-              .show();
+              Snackbar.LENGTH_SHORT).show();
         })
         .show();
   }

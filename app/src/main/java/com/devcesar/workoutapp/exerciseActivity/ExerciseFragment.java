@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
@@ -102,7 +101,7 @@ public class ExerciseFragment extends Fragment {
         addSetButtonClickListener(binding.exerciseSetEditor.repsTextInputLayout,
             binding.exerciseSetEditor.weightTextInputLayout));
 
-    binding.finishExerciseFab.setOnClickListener(finishExerciseFabClickListener());
+    binding.finishExerciseFab.setOnClickListener(v -> saveSets());
 
     binding.exerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     binding.exerciseSetsRecyclerView.addItemDecoration(
@@ -111,6 +110,40 @@ public class ExerciseFragment extends Fragment {
     binding.exerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
 
     return binding.getRoot();
+  }
+
+  @NonNull
+  private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
+      textInputLayout) {
+    return v -> {
+      textInputLayout.setErrorEnabled(false);
+      String text = textInputLayout.getEditText().getText().toString();
+      if (text.isEmpty()) {
+        textInputLayout.getEditText().setText("0");
+      } else {
+        int val = Integer.parseInt(text);
+        if (val > 0) {
+          val--;
+        }
+        textInputLayout.getEditText().setText(String.valueOf(val));
+      }
+    };
+  }
+
+  @NonNull
+  private View.OnClickListener increaseButtonClickListener(final TextInputLayout
+      textInputLayout) {
+    return v -> {
+      textInputLayout.setErrorEnabled(false);
+      String text = textInputLayout.getEditText().getText().toString();
+      if (text.isEmpty()) {
+        textInputLayout.getEditText().setText("1");
+      } else {
+        int val = Integer.parseInt(text);
+        val++;
+        textInputLayout.getEditText().setText(String.valueOf(val));
+      }
+    };
   }
 
   private View.OnClickListener addSetButtonClickListener(final TextInputLayout repsTextInputLayout,
@@ -134,8 +167,18 @@ public class ExerciseFragment extends Fragment {
     };
   }
 
-  private View.OnClickListener finishExerciseFabClickListener() {
-    return v -> ((SaveSets) getActivity()).saveSets(exerciseSets);
+  private void saveSets() {
+    ((SaveSets) getActivity()).saveSets(exerciseSets);
+  }
+
+  private boolean validateReps(TextInputLayout repsTextInputLayout) {
+    String repsString = repsTextInputLayout.getEditText().getText().toString();
+    if (repsString.isEmpty() || Integer.parseInt(repsString) == 0) {
+      repsTextInputLayout.setError(getString(R.string.error_no_reps));
+      return false;
+    }
+    repsTextInputLayout.setErrorEnabled(false);
+    return true;
   }
 
   private void createEditOrDeleteDialog(final int position) {
@@ -188,23 +231,11 @@ public class ExerciseFragment extends Fragment {
     dialogBinding.increaseWeightButton
         .setOnClickListener(increaseButtonClickListener(dialogBinding.weightTextInputLayout));
 
-    alertDialog.setOnShowListener(dialogInterface -> {
-      Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-      button.setOnClickListener(
-          view -> editSet(dialogBinding.repsTextInputLayout, dialogBinding.weightTextInputLayout,
-              alertDialog, position));
-    });
+    alertDialog.setOnShowListener(
+        dialogInterface -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+            view -> editSet(dialogBinding.repsTextInputLayout, dialogBinding.weightTextInputLayout,
+                alertDialog, position)));
     alertDialog.show();
-  }
-
-  private boolean validateReps(TextInputLayout repsTextInputLayout) {
-    String repsString = repsTextInputLayout.getEditText().getText().toString();
-    if (repsString.isEmpty() || Integer.parseInt(repsString) == 0) {
-      repsTextInputLayout.setError(getString(R.string.error_no_reps));
-      return false;
-    }
-    repsTextInputLayout.setErrorEnabled(false);
-    return true;
   }
 
   private void createDeleteSetDialog(final int position) {
@@ -213,40 +244,6 @@ public class ExerciseFragment extends Fragment {
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExerciseSet(position))
         .setNegativeButton(R.string.no, null)
         .show();
-  }
-
-  @NonNull
-  private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
-      textInputLayout) {
-    return v -> {
-      textInputLayout.setErrorEnabled(false);
-      String text = textInputLayout.getEditText().getText().toString();
-      if (text.isEmpty()) {
-        textInputLayout.getEditText().setText("0");
-      } else {
-        int val = Integer.parseInt(text);
-        if (val > 0) {
-          val--;
-        }
-        textInputLayout.getEditText().setText(String.valueOf(val));
-      }
-    };
-  }
-
-  @NonNull
-  private View.OnClickListener increaseButtonClickListener(final TextInputLayout
-      textInputLayout) {
-    return v -> {
-      textInputLayout.setErrorEnabled(false);
-      String text = textInputLayout.getEditText().getText().toString();
-      if (text.isEmpty()) {
-        textInputLayout.getEditText().setText("1");
-      } else {
-        int val = Integer.parseInt(text);
-        val++;
-        textInputLayout.getEditText().setText(String.valueOf(val));
-      }
-    };
   }
 
   private void setViewToCenterInDialog(View exerciseSetEditorView, AlertDialog alertDialog) {
@@ -282,13 +279,17 @@ public class ExerciseFragment extends Fragment {
 
   private void deleteExerciseSet(int position) {
     exerciseSets.remove(position);
-    for (int i = position; i < exerciseSets.size(); i++) {
-      exerciseSets.get(i).setSetNumber(i + 1);
-    }
+    updateExerciseSetNumbers(position);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
     Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_deleted,
         Snackbar.LENGTH_SHORT).show();
+  }
+
+  private void updateExerciseSetNumbers(int position) {
+    for (int i = position; i < exerciseSets.size(); i++) {
+      exerciseSets.get(i).setSetNumber(i + 1);
+    }
   }
 
   public void onBackPressed() {
@@ -307,8 +308,7 @@ public class ExerciseFragment extends Fragment {
         .setMessage(R.string.are_you_sure_close_exercise)
         .setNeutralButton(R.string.cancel, null)
         .setNegativeButton(R.string.discard, (dialog, which) -> getActivity().finish())
-        .setPositiveButton(R.string.save,
-            (dialog, which) -> ((SaveSets) getActivity()).saveSets(exerciseSets))
+        .setPositiveButton(R.string.save, (dialog, which) -> saveSets())
         .show();
   }
 

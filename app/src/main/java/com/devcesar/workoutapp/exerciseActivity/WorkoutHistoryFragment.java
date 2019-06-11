@@ -83,8 +83,8 @@ public class WorkoutHistoryFragment extends Fragment {
     final DialogEditOrDeleteBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.dialog_edit_or_delete, null, false);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-    alertDialog.setView(dialogBinding.getRoot());
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+        .setView(dialogBinding.getRoot()).create();
 
     dialogBinding.editLinearLayout.setOnClickListener(
         v -> {
@@ -109,9 +109,8 @@ public class WorkoutHistoryFragment extends Fragment {
           WorkoutLab.get(getActivity())
               .deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
           updateWorkouts();
-          Snackbar
-              .make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
-                  Snackbar.LENGTH_SHORT).show();
+          Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
+              Snackbar.LENGTH_SHORT).show();
         })
         .setNegativeButton(R.string.no, null)
         .show();
