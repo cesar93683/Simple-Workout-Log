@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +31,8 @@ public class AddExerciseFragment extends Fragment {
 
   public static final String EXTRA_NEW_EXERCISES = "EXTRA_NEW_EXERCISES";
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
-  private HashSet<Integer> exercisesIdsToAdd;
-  private HashSet<Integer> includedExerciseIds;
+  private HashSet<Integer> exerciseIdsToAdd;
+  private HashSet<Integer> exerciseIdsToExclude;
   private String filter;
   private ArrayList<Exercise> filteredExercises;
   private ExerciseAdapter exerciseAdapter;
@@ -40,10 +41,10 @@ public class AddExerciseFragment extends Fragment {
     // Required empty public constructor
   }
 
-  public static AddExerciseFragment newInstance(int[] exerciseIds) {
+  public static AddExerciseFragment newInstance(int[] exerciseIdsToExclude) {
     AddExerciseFragment fragment = new AddExerciseFragment();
     Bundle args = new Bundle();
-    args.putIntArray(ARGS_EXERCISE_IDS, exerciseIds);
+    args.putIntArray(ARGS_EXERCISE_IDS, exerciseIdsToExclude);
     fragment.setArguments(args);
     return fragment;
   }
@@ -51,13 +52,13 @@ public class AddExerciseFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    int[] exerciseIds = getArguments().getIntArray(ARGS_EXERCISE_IDS);
-    includedExerciseIds = new HashSet<>();
-    for (int exerciseId : exerciseIds) {
-      includedExerciseIds.add(exerciseId);
+    int[] exerciseIdsToExcludeArr = getArguments().getIntArray(ARGS_EXERCISE_IDS);
+    exerciseIdsToExclude = new HashSet<>();
+    for (int exerciseId : exerciseIdsToExcludeArr) {
+      exerciseIdsToExclude.add(exerciseId);
     }
 
-    exercisesIdsToAdd = new HashSet<>();
+    exerciseIdsToAdd = new HashSet<>();
 
     filter = "";
     filteredExercises = new ArrayList<>();
@@ -69,7 +70,7 @@ public class AddExerciseFragment extends Fragment {
     filteredExercises.clear();
     filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(filter));
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-      if (includedExerciseIds.contains(filteredExercises.get(i).getId())) {
+      if (exerciseIdsToExclude.contains(filteredExercises.get(i).getId())) {
         filteredExercises.remove(i);
       }
     }
@@ -84,6 +85,9 @@ public class AddExerciseFragment extends Fragment {
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
     binding.fab.setOnClickListener(saveFab());
+    binding.fab.setImageDrawable(
+        ContextCompat.getDrawable(getContext(), R.drawable.ic_check_black_24dp));
+
     binding.filterEditText.addTextChangedListener(filterEditTextListener());
 
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -99,9 +103,9 @@ public class AddExerciseFragment extends Fragment {
     return new View.OnClickListener() {
       @Override
       public void onClick(final View v) {
-        int[] exerciseIds = new int[exercisesIdsToAdd.size()];
+        int[] exerciseIds = new int[exerciseIdsToAdd.size()];
         int i = 0;
-        for (Integer val : exercisesIdsToAdd) {
+        for (Integer val : exerciseIdsToAdd) {
           exerciseIds[i++] = val;
         }
         Intent intent = new Intent();
@@ -154,15 +158,15 @@ public class AddExerciseFragment extends Fragment {
 
     private void checkChanged(boolean isChecked) {
       if (isChecked) {
-        exercisesIdsToAdd.add(exercise.getId());
+        exerciseIdsToAdd.add(exercise.getId());
       } else {
-        exercisesIdsToAdd.remove(exercise.getId());
+        exerciseIdsToAdd.remove(exercise.getId());
       }
     }
 
     void bind(Exercise exercise) {
       this.exercise = exercise;
-      checkBox.setChecked(exercisesIdsToAdd.contains(exercise.getId()));
+      checkBox.setChecked(exerciseIdsToAdd.contains(exercise.getId()));
       textView.setText(exercise.getName());
     }
 

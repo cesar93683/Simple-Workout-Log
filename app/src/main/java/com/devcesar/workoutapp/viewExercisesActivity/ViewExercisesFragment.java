@@ -126,17 +126,18 @@ public class ViewExercisesFragment extends Fragment {
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == Activity.RESULT_OK && requestCode == REQ_EDIT) {
-      exercises.clear();
-      exercises.addAll(lab.getExercises(id));
+    if (resultCode == Activity.RESULT_OK) {
+      if (requestCode == REQ_EDIT) {
+        exercises.clear();
+        exercises.addAll(lab.getExercises(id));
+      } else if (requestCode == REQ_ADD) {
+        int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
+        exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
+        lab.updateExercises(id, exercises);
+      }
       exerciseAdapter.notifyDataSetChanged();
       Snackbar.make(getActivity().findViewById(android.R.id.content),
           String.format(getString(R.string.x_updated), nameType), Snackbar.LENGTH_SHORT).show();
-    } else if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD) {
-      int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISES);
-      exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
-      lab.updateExercises(id, exercises);
-      exerciseAdapter.notifyDataSetChanged();
     }
   }
 
