@@ -41,7 +41,8 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
 
   private void updateNamedEntities() {
     namedEntities.clear();
-    CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(null, null);
+    String[] columns = new String[]{colId, colName};
+    CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(columns,null, null);
     namedEntities = new ArrayList<>();
     while (cursor.moveToNext()) {
       namedEntities.add(cursor.getNamedEntity());
@@ -49,11 +50,11 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     cursor.close();
   }
 
-  private CategoryOrRoutineCursorWrapper queryNamedEntities(String whereClause,
+  private CategoryOrRoutineCursorWrapper queryNamedEntities(String[] columns, String whereClause,
       String[] whereArgs) {
     @SuppressLint("Recycle") Cursor cursor = database.query(
         tableName,
-        null,
+        columns,
         whereClause,
         whereArgs,
         null,
@@ -141,7 +142,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public List<Exercise> getExercises(int id, Context context) {
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
-    CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(whereClause, whereArgs);
+    CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(null, whereClause, whereArgs);
 
     cursor.moveToNext();
     List<Exercise> exercises = cursor.getExercises(context);
