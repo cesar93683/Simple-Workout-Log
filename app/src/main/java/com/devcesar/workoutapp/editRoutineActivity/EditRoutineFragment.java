@@ -39,7 +39,7 @@ public class EditRoutineFragment extends Fragment {
 
   private int routineId;
   private String routineName;
-  private ArrayList<Exercise> exercises;
+  private List<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
   private boolean hasBeenModified;
   private ItemTouchHelper itemTouchHelper;
@@ -62,7 +62,7 @@ public class EditRoutineFragment extends Fragment {
     super.onCreate(savedInstanceState);
     routineId = getArguments().getInt(ARG_ROUTINE_ID);
     routineName = getArguments().getString(ARG_ROUTINE_NAME);
-    exercises = CategoryOrRoutineLab.getRoutineLab(getActivity()).getExercises(routineId);
+    exercises = CategoryOrRoutineLab.getRoutineLab(getActivity()).getExercises(routineId, getContext());
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }

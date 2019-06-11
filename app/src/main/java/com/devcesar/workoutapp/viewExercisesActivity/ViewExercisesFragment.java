@@ -44,7 +44,7 @@ public class ViewExercisesFragment extends Fragment {
   private int type;
   private String nameType;
   private CategoryOrRoutineLab lab;
-  private ArrayList<Exercise> exercises;
+  private List<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
 
   public ViewExercisesFragment() {
@@ -71,12 +71,12 @@ public class ViewExercisesFragment extends Fragment {
       case Constants.TYPE_ROUTINE:
         nameType = getString(R.string.routine);
         lab = CategoryOrRoutineLab.getRoutineLab(getActivity());
-        exercises = lab.getExercises(id);
+        exercises = lab.getExercises(id, getContext());
         break;
       case Constants.TYPE_CATEGORY:
         nameType = getString(R.string.category);
         lab = CategoryOrRoutineLab.getCategoryLab(getActivity());
-        exercises = lab.getExercises(id);
+        exercises = lab.getExercises(id, getContext());
         Collections.sort(exercises);
         break;
       default:
@@ -123,7 +123,7 @@ public class ViewExercisesFragment extends Fragment {
     if (resultCode == Activity.RESULT_OK) {
       if (requestCode == REQ_EDIT) {
         exercises.clear();
-        exercises.addAll(lab.getExercises(id));
+        exercises.addAll(lab.getExercises(id, getContext()));
       } else if (requestCode == REQ_ADD) {
         ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
         exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
@@ -141,13 +141,12 @@ public class ViewExercisesFragment extends Fragment {
         .setMessage(R.string.are_you_sure_delete_exercise)
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-          lab.deleteExercise(id, exerciseId);
+          lab.deleteExercise(id, exerciseId, getContext());
           exercises.clear();
-          exercises.addAll(lab.getExercises(id));
+          exercises.addAll(lab.getExercises(id, getContext()));
           exerciseAdapter.notifyDataSetChanged();
-          Snackbar
-              .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
-                  Snackbar.LENGTH_SHORT).show();
+          Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+              Snackbar.LENGTH_SHORT).show();
         })
         .show();
   }

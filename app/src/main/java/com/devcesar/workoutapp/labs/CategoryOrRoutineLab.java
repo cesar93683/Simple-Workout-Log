@@ -1,5 +1,7 @@
 package com.devcesar.workoutapp.labs;
 
+import static com.devcesar.workoutapp.utils.ExerciseUtils.getExerciseIds;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,6 +15,7 @@ import com.devcesar.workoutapp.utils.Exercise;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryOrRoutineLab implements NamedEntityLab {
 
@@ -31,7 +34,6 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     this.colName = colName;
     this.colId = android.provider.BaseColumns._ID;
     this.colExercises = colExercises;
-
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
     namedEntities = new ArrayList<>();
     updateNamedEntities();
@@ -64,7 +66,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public static CategoryOrRoutineLab getCategoryLab(Context context) {
     if (categoryLab == null) {
       categoryLab = new CategoryOrRoutineLab(context, CategoryTable.NAME, CategoryTable.Cols.NAME,
-          CategoryTable.Cols.EXERCISES);
+          CategoryTable.Cols.EXERCISES_ID);
     }
     return categoryLab;
   }
@@ -72,7 +74,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public static CategoryOrRoutineLab getRoutineLab(Context context) {
     if (routineLab == null) {
       routineLab = new CategoryOrRoutineLab(context, RoutineTable.NAME, RoutineTable.Cols.NAME,
-          RoutineTable.Cols.EXERCISES);
+          RoutineTable.Cols.EXERCISES_ID);
     }
     return routineLab;
   }
@@ -125,8 +127,8 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     return filtered;
   }
 
-  public void deleteExercise(int id, int exerciseId) {
-    ArrayList<Exercise> exercises = getExercises(id);
+  public void deleteExercise(int id, int exerciseId, Context context) {
+    List<Exercise> exercises = getExercises(id, context);
     for (int i = 0; i < exercises.size(); i++) {
       if (exercises.get(i).getId() == exerciseId) {
         exercises.remove(i);
@@ -136,21 +138,21 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     updateExercises(id, exercises);
   }
 
-  public ArrayList<Exercise> getExercises(int id) {
+  public List<Exercise> getExercises(int id, Context context) {
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(whereClause, whereArgs);
 
     cursor.moveToNext();
-    ArrayList<Exercise> exercises = cursor.getExercises();
+    List<Exercise> exercises = cursor.getExercises(context);
     cursor.close();
 
     return exercises;
   }
 
-  public void updateExercises(int id, ArrayList<Exercise> exercises) {
+  public void updateExercises(int id, List<Exercise> exercises) {
     ContentValues values = new ContentValues();
-    values.put(colExercises, new Gson().toJson(exercises));
+    values.put(colExercises, new Gson().toJson(getExerciseIds(exercises)));
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(tableName, values, whereClause, whereArgs);

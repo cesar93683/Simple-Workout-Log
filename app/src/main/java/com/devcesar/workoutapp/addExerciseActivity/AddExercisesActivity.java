@@ -10,13 +10,14 @@ import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.utils.Exercise;
 import com.devcesar.workoutapp.utils.ExerciseUtils;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddExercisesActivity extends AppCompatActivity {
 
   private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
   private static final String EXTRA_NAME = "EXTRA_NAME";
 
-  public static Intent newIntent(Context packageContext, ArrayList<Exercise> exercises,
+  public static Intent newIntent(Context packageContext, List<Exercise> exercises,
       String name) {
     Intent intent = new Intent(packageContext, AddExercisesActivity.class);
     intent.putExtra(EXTRA_EXERCISE_IDS, ExerciseUtils.getExerciseIds(exercises));

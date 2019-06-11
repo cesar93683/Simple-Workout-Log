@@ -35,7 +35,7 @@ public class DbSchema {
     public static final class Cols {
 
       public static final String NAME = COL_NAME;
-      public static final String EXERCISES = ExerciseTable.NAME;
+      public static final String EXERCISES_ID = "exercises_id";
     }
   }
 
@@ -46,7 +46,7 @@ public class DbSchema {
     public static final class Cols {
 
       public static final String NAME = COL_NAME;
-      public static final String EXERCISES = ExerciseTable.NAME;
+      public static final String EXERCISES_ID = "exercises_id";
     }
   }
 

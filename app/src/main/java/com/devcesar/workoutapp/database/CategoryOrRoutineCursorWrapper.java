@@ -1,13 +1,16 @@
 package com.devcesar.workoutapp.database;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.ExerciseUtils;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryOrRoutineCursorWrapper extends CursorWrapper {
 
@@ -29,11 +32,12 @@ public class CategoryOrRoutineCursorWrapper extends CursorWrapper {
     return new NamedEntity(categoryName, categoryId);
   }
 
-  public ArrayList<Exercise> getExercises() {
+  public List<Exercise> getExercises(Context context) {
     String exerciseString = getString(getColumnIndexOrThrow(colExercises));
-    Type type = new TypeToken<ArrayList<Exercise>>() {
+    Type type = new TypeToken<ArrayList<Integer>>() {
     }.getType();
-    return new Gson().fromJson(exerciseString, type);
+    ArrayList<Integer> exerciseIds = new Gson().fromJson(exerciseString, type);
+    return ExerciseUtils.getExercises(exerciseIds, context);
   }
 
 }
