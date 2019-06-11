@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.FragmentSelectWithFilterBinding;
@@ -100,19 +99,16 @@ public class AddExerciseFragment extends Fragment {
   }
 
   private View.OnClickListener saveFab() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        int[] exerciseIds = new int[exerciseIdsToAdd.size()];
-        int i = 0;
-        for (Integer val : exerciseIdsToAdd) {
-          exerciseIds[i++] = val;
-        }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
+    return v -> {
+      int[] exerciseIds = new int[exerciseIdsToAdd.size()];
+      int i = 0;
+      for (Integer val : exerciseIdsToAdd) {
+        exerciseIds[i++] = val;
       }
+      Intent intent = new Intent();
+      intent.putExtra(EXTRA_NEW_EXERCISES, exerciseIds);
+      getActivity().setResult(Activity.RESULT_OK, intent);
+      getActivity().finish();
     };
   }
 
@@ -145,15 +141,10 @@ public class AddExerciseFragment extends Fragment {
 
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.checkable_list_item, parent, false));
+      itemView.setOnClickListener(this);
       textView = itemView.findViewById(R.id.text_view);
       checkBox = itemView.findViewById(R.id.check_box);
-      checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-          checkChanged(isChecked);
-        }
-      });
-      itemView.setOnClickListener(this);
+      checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> checkChanged(isChecked));
     }
 
     private void checkChanged(boolean isChecked) {

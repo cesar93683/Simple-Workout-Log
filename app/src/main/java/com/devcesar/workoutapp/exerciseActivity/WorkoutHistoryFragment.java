@@ -3,7 +3,6 @@ package com.devcesar.workoutapp.exerciseActivity;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -88,22 +87,16 @@ public class WorkoutHistoryFragment extends Fragment {
     alertDialog.setView(dialogBinding.getRoot());
 
     dialogBinding.editLinearLayout.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            Intent intent = EditExerciseActivity.newIntent(getActivity(), exerciseName, exerciseId,
-                workouts.get(position).getTimeStamp());
-            alertDialog.dismiss();
-            startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
-          }
+        v -> {
+          Intent intent = EditExerciseActivity.newIntent(getActivity(), exerciseName, exerciseId,
+              workouts.get(position).getTimeStamp());
+          alertDialog.dismiss();
+          startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
         });
     dialogBinding.deleteLinearLayout.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            createDeleteDialog(position);
-            alertDialog.dismiss();
-          }
+        v -> {
+          createDeleteDialog(position);
+          alertDialog.dismiss();
         });
     alertDialog.show();
   }
@@ -111,17 +104,14 @@ public class WorkoutHistoryFragment extends Fragment {
   private void createDeleteDialog(final int position) {
     new AlertDialog.Builder(getActivity())
         .setMessage(R.string.are_you_sure_delete_workout)
-        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialogInterface, int i) {
-            Workout workout = workouts.get(position);
-            WorkoutLab.get(getActivity())
-                .deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
-            updateWorkouts();
-            Snackbar
-                .make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
-                    Snackbar.LENGTH_SHORT).show();
-          }
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+          Workout workout = workouts.get(position);
+          WorkoutLab.get(getActivity())
+              .deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
+          updateWorkouts();
+          Snackbar
+              .make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
+                  Snackbar.LENGTH_SHORT).show();
         })
         .setNegativeButton(R.string.no, null)
         .show();

@@ -4,7 +4,6 @@ import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EX
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -116,23 +114,15 @@ public class EditRoutineFragment extends Fragment {
 
   @NonNull
   private View.OnClickListener addExerciseFabClickListener() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routineName);
-        startActivityForResult(intent, REQ_ADD_EXERCISE);
-      }
+    return v -> {
+      Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routineName);
+      startActivityForResult(intent, REQ_ADD_EXERCISE);
     };
   }
 
   @NonNull
   private View.OnClickListener saveFabClickListener() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        saveExercisesToRoutine();
-      }
-    };
+    return v -> saveExercisesToRoutine();
   }
 
   private void saveExercisesToRoutine() {
@@ -168,18 +158,8 @@ public class EditRoutineFragment extends Fragment {
         .setTitle(R.string.save_changes)
         .setMessage(R.string.would_save_changes_routine)
         .setNeutralButton(R.string.cancel, null)
-        .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            getActivity().finish();
-          }
-        })
-        .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            saveExercisesToRoutine();
-          }
-        })
+        .setNegativeButton(R.string.discard, (dialog, which) -> getActivity().finish())
+        .setPositiveButton(R.string.save, (dialog, which) -> saveExercisesToRoutine())
         .show();
   }
 
@@ -187,21 +167,18 @@ public class EditRoutineFragment extends Fragment {
     new AlertDialog.Builder(getActivity())
         .setMessage(R.string.are_you_sure_delete_exercise)
         .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialogInterface, int i) {
-            for (int j = 0; j < exercises.size(); j++) {
-              if (exercises.get(j).getId() == exerciseId) {
-                exercises.remove(j);
-                break;
-              }
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+          for (int j = 0; j < exercises.size(); j++) {
+            if (exercises.get(j).getId() == exerciseId) {
+              exercises.remove(j);
+              break;
             }
-            hasBeenModified = true;
-            exerciseAdapter.notifyDataSetChanged();
-            Snackbar
-                .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
-                    Snackbar.LENGTH_SHORT).show();
           }
+          hasBeenModified = true;
+          exerciseAdapter.notifyDataSetChanged();
+          Snackbar
+              .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+                  Snackbar.LENGTH_SHORT).show();
         })
         .show();
   }
@@ -216,19 +193,13 @@ public class EditRoutineFragment extends Fragment {
       super(inflater.inflate(R.layout.draggable_list_item, parent, false));
       textView = itemView.findViewById(R.id.text_view);
       ImageView imageView = itemView.findViewById(R.id.drag_image_view);
-      imageView.setOnTouchListener(new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-          itemTouchHelper.startDrag(ExerciseHolder.this);
-          return true;
-        }
+      imageView.setOnTouchListener((v, event) -> {
+        itemTouchHelper.startDrag(ExerciseHolder.this);
+        return true;
       });
-      itemView.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-          createDeleteExerciseDialog(exercise.getId());
-          return false;
-        }
+      itemView.setOnLongClickListener(v -> {
+        createDeleteExerciseDialog(exercise.getId());
+        return false;
       });
     }
 

@@ -1,7 +1,5 @@
 package com.devcesar.workoutapp.mainActivity;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -88,12 +86,7 @@ public class SelectFragment extends Fragment {
 
   @NonNull
   private View.OnClickListener newFabClickListener() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        createNewDialog();
-      }
-    };
+    return v -> createNewDialog();
   }
 
   private void createNewDialog() {
@@ -107,35 +100,28 @@ public class SelectFragment extends Fragment {
         .setPositiveButton(R.string.save, null)
         .create();
 
-    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-      @Override
-      public void onShow(DialogInterface dialogInterface) {
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                String newName = dialogBinding.textInputLayout.getEditText().getText().toString()
-                    .trim();
-                if (newName.isEmpty()) {
-                  dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
-                } else if (selectFragmentHelper.getLab().contains(newName)) {
-                  dialogBinding.textInputLayout
-                      .setError(
-                          String.format(getString(R.string.x_already_exists), selectFragmentHelper
-                              .getName()));
-                } else {
-                  selectFragmentHelper.getLab().insert(newName);
-                  updateFiltered();
-                  Snackbar.make(getActivity().findViewById(android.R.id.content),
-                      String.format(getString(R.string.new_x_created),
-                          selectFragmentHelper.getName().toLowerCase()),
-                      Snackbar.LENGTH_SHORT).show();
-                  alertDialog.dismiss();
-                }
+    alertDialog.setOnShowListener(
+        dialogInterface -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+            view -> {
+              String newName = dialogBinding.textInputLayout.getEditText().getText().toString()
+                  .trim();
+              if (newName.isEmpty()) {
+                dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
+              } else if (selectFragmentHelper.getLab().contains(newName)) {
+                dialogBinding.textInputLayout
+                    .setError(
+                        String.format(getString(R.string.x_already_exists), selectFragmentHelper
+                            .getName()));
+              } else {
+                selectFragmentHelper.getLab().insert(newName);
+                updateFiltered();
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                    String.format(getString(R.string.new_x_created),
+                        selectFragmentHelper.getName().toLowerCase()),
+                    Snackbar.LENGTH_SHORT).show();
+                alertDialog.dismiss();
               }
-            });
-      }
-    });
+            }));
 
     alertDialog.show();
   }
@@ -171,20 +157,14 @@ public class SelectFragment extends Fragment {
     alertDialog.setView(dialogBinding.getRoot());
 
     dialogBinding.editLinearLayout.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            createRenameDialog(namedEntity);
-            alertDialog.dismiss();
-          }
+        v -> {
+          createRenameDialog(namedEntity);
+          alertDialog.dismiss();
         });
     dialogBinding.deleteLinearLayout.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            createDeleteDialog(namedEntity);
-            alertDialog.dismiss();
-          }
+        v -> {
+          createDeleteDialog(namedEntity);
+          alertDialog.dismiss();
         });
     alertDialog.show();
   }
@@ -202,35 +182,28 @@ public class SelectFragment extends Fragment {
 
     dialogBinding.textInputLayout.getEditText().setText(oldNamedEntity.getName());
 
-    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-      @Override
-      public void onShow(DialogInterface dialogInterface) {
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                String newNamedEntity = dialogBinding.textInputLayout.getEditText().getText()
-                    .toString().trim();
-                if (oldNamedEntity.getName().equals(newNamedEntity)) {
-                  dialogBinding.textInputLayout.setError(getString(R.string.error_same_name));
-                } else if (newNamedEntity.isEmpty()) {
-                  dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
-                } else if (selectFragmentHelper.getLab().contains(newNamedEntity)) {
-                  dialogBinding.textInputLayout
-                      .setError(
-                          String.format(getString(R.string.x_already_exists), selectFragmentHelper
-                              .getName()));
-                } else {
-                  selectFragmentHelper.getLab().updateName(oldNamedEntity.getId(), newNamedEntity);
-                  updateFiltered();
-                  Snackbar.make(getActivity().findViewById(android.R.id.content),
-                      R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
-                  alertDialog.dismiss();
-                }
+    alertDialog
+        .setOnShowListener(dialogInterface -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setOnClickListener(view -> {
+              String newNamedEntity = dialogBinding.textInputLayout.getEditText().getText()
+                  .toString().trim();
+              if (oldNamedEntity.getName().equals(newNamedEntity)) {
+                dialogBinding.textInputLayout.setError(getString(R.string.error_same_name));
+              } else if (newNamedEntity.isEmpty()) {
+                dialogBinding.textInputLayout.setError(getString(R.string.error_no_name));
+              } else if (selectFragmentHelper.getLab().contains(newNamedEntity)) {
+                dialogBinding.textInputLayout
+                    .setError(
+                        String.format(getString(R.string.x_already_exists), selectFragmentHelper
+                            .getName()));
+              } else {
+                selectFragmentHelper.getLab().updateName(oldNamedEntity.getId(), newNamedEntity);
+                updateFiltered();
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                    R.string.rename_successful, Snackbar.LENGTH_SHORT).show();
+                alertDialog.dismiss();
               }
-            });
-      }
-    });
+            }));
 
     alertDialog.show();
   }
@@ -241,16 +214,13 @@ public class SelectFragment extends Fragment {
             String.format(getString(R.string.are_you_sure_delete_x),
                 selectFragmentHelper.getName().toLowerCase()))
         .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, new OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialogInterface, int i) {
-            selectFragmentHelper.getLab().delete(namedEntity.getId());
-            updateFiltered();
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                String.format(getString(R.string.x_deleted), selectFragmentHelper.getName()),
-                Snackbar.LENGTH_SHORT)
-                .show();
-          }
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+          selectFragmentHelper.getLab().delete(namedEntity.getId());
+          updateFiltered();
+          Snackbar.make(getActivity().findViewById(android.R.id.content),
+              String.format(getString(R.string.x_deleted), selectFragmentHelper.getName()),
+              Snackbar.LENGTH_SHORT)
+              .show();
         })
         .show();
   }

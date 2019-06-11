@@ -101,8 +101,7 @@ public class ExerciseLab implements NamedEntityLab {
 
   public ArrayList<Exercise> getFilteredExercises(String filter) {
     ArrayList<Exercise> filteredExercises = new ArrayList<>();
-    ArrayList<NamedEntity> namedEntities = exerciseLab.getFiltered(filter);
-    for (NamedEntity namedEntity : namedEntities) {
+    for (NamedEntity namedEntity : getFiltered(filter)) {
       filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
     }
     return filteredExercises;

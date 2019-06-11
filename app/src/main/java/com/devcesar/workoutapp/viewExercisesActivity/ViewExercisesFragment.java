@@ -3,7 +3,6 @@ package com.devcesar.workoutapp.viewExercisesActivity;
 import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISES;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -107,16 +106,13 @@ public class ViewExercisesFragment extends Fragment {
   }
 
   private View.OnClickListener editFabClickListener() {
-    return new View.OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        if (type == Constants.TYPE_ROUTINE) {
-          Intent intent = EditRoutineActivity.newIntent(getActivity(), id, name);
-          startActivityForResult(intent, REQ_EDIT);
-        } else {
-          Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, name);
-          startActivityForResult(intent, REQ_ADD);
-        }
+    return v -> {
+      if (type == Constants.TYPE_ROUTINE) {
+        Intent intent = EditRoutineActivity.newIntent(getActivity(), id, name);
+        startActivityForResult(intent, REQ_EDIT);
+      } else {
+        Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, name);
+        startActivityForResult(intent, REQ_ADD);
       }
     };
   }
@@ -143,17 +139,14 @@ public class ViewExercisesFragment extends Fragment {
     new AlertDialog.Builder(getActivity())
         .setMessage(R.string.are_you_sure_delete_exercise)
         .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialogInterface, int i) {
-            lab.deleteExercise(id, exerciseId);
-            exercises.clear();
-            exercises.addAll(lab.getExercises(id));
-            exerciseAdapter.notifyDataSetChanged();
-            Snackbar
-                .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
-                    Snackbar.LENGTH_SHORT).show();
-          }
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+          lab.deleteExercise(id, exerciseId);
+          exercises.clear();
+          exercises.addAll(lab.getExercises(id));
+          exerciseAdapter.notifyDataSetChanged();
+          Snackbar
+              .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+                  Snackbar.LENGTH_SHORT).show();
         })
         .show();
   }

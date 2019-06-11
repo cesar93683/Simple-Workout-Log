@@ -66,7 +66,7 @@ public class WorkoutLab {
     WorkoutCursorWrapper cursor = queryWorkout(whereClause, whereArgs);
 
     if (!cursor.moveToNext()) {
-      return new Workout(exerciseId, new ArrayList<ExerciseSet>(), timeStamp);
+      return new Workout(exerciseId, new ArrayList<>(), timeStamp);
     }
     Workout workout = cursor.getWorkout();
     cursor.close();

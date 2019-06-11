@@ -20,10 +20,10 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   private static CategoryOrRoutineLab routineLab;
   private final SQLiteDatabase database;
   private ArrayList<NamedEntity> namedEntities;
-  private String tableName;
-  private String colName;
-  private String colId;
-  private String colExercises;
+  private final String tableName;
+  private final String colName;
+  private final String colId;
+  private final String colExercises;
 
   private CategoryOrRoutineLab(Context context, String tableName, String colName, String colId,
       String colExercises) {
