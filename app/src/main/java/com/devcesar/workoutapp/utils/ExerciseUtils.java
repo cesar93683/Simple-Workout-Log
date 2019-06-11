@@ -4,11 +4,11 @@ import android.content.Context;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ExerciseUtils {
+
   private ExerciseUtils() {
     throw new AssertionError();
   }

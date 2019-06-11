@@ -108,7 +108,7 @@ public class EditRoutineFragment extends Fragment {
     binding.fabAction1.setOnClickListener(addExerciseFabClickListener());
 
     binding.fabAction2.setTitle(getString(R.string.save_text));
-    binding.fabAction2.setOnClickListener(saveFabClickListener());
+    binding.fabAction2.setOnClickListener(v -> saveExercises());
     return binding.getRoot();
   }
 
@@ -120,15 +120,10 @@ public class EditRoutineFragment extends Fragment {
     };
   }
 
-  @NonNull
-  private View.OnClickListener saveFabClickListener() {
-    return v -> saveExercisesToRoutine();
-  }
-
-  private void saveExercisesToRoutine() {
+  private void saveExercises() {
+    CategoryOrRoutineLab.getRoutineLab(getActivity()).updateExercises(routineId, exercises);
     Intent intent = new Intent();
     getActivity().setResult(Activity.RESULT_OK, intent);
-    CategoryOrRoutineLab.getRoutineLab(getActivity()).updateExercises(routineId, exercises);
     getActivity().finish();
   }
 
@@ -159,7 +154,7 @@ public class EditRoutineFragment extends Fragment {
         .setMessage(R.string.would_save_changes_routine)
         .setNeutralButton(R.string.cancel, null)
         .setNegativeButton(R.string.discard, (dialog, which) -> getActivity().finish())
-        .setPositiveButton(R.string.save, (dialog, which) -> saveExercisesToRoutine())
+        .setPositiveButton(R.string.save, (dialog, which) -> saveExercises())
         .show();
   }
 
@@ -176,9 +171,8 @@ public class EditRoutineFragment extends Fragment {
           }
           hasBeenModified = true;
           exerciseAdapter.notifyDataSetChanged();
-          Snackbar
-              .make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
-                  Snackbar.LENGTH_SHORT).show();
+          Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+              Snackbar.LENGTH_SHORT).show();
         })
         .show();
   }

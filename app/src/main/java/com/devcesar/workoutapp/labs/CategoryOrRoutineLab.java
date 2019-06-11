@@ -19,17 +19,17 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   private static CategoryOrRoutineLab categoryLab;
   private static CategoryOrRoutineLab routineLab;
   private final SQLiteDatabase database;
-  private ArrayList<NamedEntity> namedEntities;
   private final String tableName;
   private final String colName;
   private final String colId;
   private final String colExercises;
+  private ArrayList<NamedEntity> namedEntities;
 
-  private CategoryOrRoutineLab(Context context, String tableName, String colName, String colId,
+  private CategoryOrRoutineLab(Context context, String tableName, String colName,
       String colExercises) {
     this.tableName = tableName;
     this.colName = colName;
-    this.colId = colId;
+    this.colId = android.provider.BaseColumns._ID;
     this.colExercises = colExercises;
 
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
@@ -64,7 +64,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public static CategoryOrRoutineLab getCategoryLab(Context context) {
     if (categoryLab == null) {
       categoryLab = new CategoryOrRoutineLab(context, CategoryTable.NAME, CategoryTable.Cols.NAME,
-          CategoryTable._ID, CategoryTable.Cols.EXERCISES);
+          CategoryTable.Cols.EXERCISES);
     }
     return categoryLab;
   }
@@ -72,7 +72,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public static CategoryOrRoutineLab getRoutineLab(Context context) {
     if (routineLab == null) {
       routineLab = new CategoryOrRoutineLab(context, RoutineTable.NAME, RoutineTable.Cols.NAME,
-          RoutineTable._ID, RoutineTable.Cols.EXERCISES);
+          RoutineTable.Cols.EXERCISES);
     }
     return routineLab;
   }

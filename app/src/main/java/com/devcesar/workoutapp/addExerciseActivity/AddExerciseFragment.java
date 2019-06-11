@@ -67,7 +67,7 @@ public class AddExerciseFragment extends Fragment {
     filteredExercises.clear();
     filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(filter));
     // api 24 to remove for-loop
-//    filteredExercises.removeIf(i -> exerciseIdsToExclude.contains(i.getId()));
+//    filteredExercises.removeIf(exercise -> exerciseIdsToExclude.contains(exercise.getId()));
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
       if (exerciseIdsToExclude.contains(filteredExercises.get(i).getId())) {
         filteredExercises.remove(i);
@@ -174,12 +174,14 @@ public class AddExerciseFragment extends Fragment {
     @NonNull
     @Override
     public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      return new ExerciseHolder(LayoutInflater.from(getActivity()), parent);
+      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+      return new ExerciseHolder(layoutInflater, parent);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
-      holder.bind(exercises.get(position));
+      Exercise exercise = exercises.get(position);
+      holder.bind(exercise);
     }
 
     @Override
