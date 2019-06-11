@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.databinding.FragmentSelectMultipleFabBinding;
-import com.devcesar.workoutapp.labs.RoutineLab;
+import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.utils.Exercise;
 import com.devcesar.workoutapp.utils.ExerciseUtils;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class EditRoutineFragment extends Fragment {
     super.onCreate(savedInstanceState);
     routineId = getArguments().getInt(ARG_ROUTINE_ID);
     routineName = getArguments().getString(ARG_ROUTINE_NAME);
-    exercises = RoutineLab.get(getActivity()).getExercises(routineId);
+    exercises = CategoryOrRoutineLab.getRoutineLab(getActivity()).getExercises(routineId);
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }
@@ -135,6 +135,13 @@ public class EditRoutineFragment extends Fragment {
     };
   }
 
+  private void saveExercisesToRoutine() {
+    Intent intent = new Intent();
+    getActivity().setResult(Activity.RESULT_OK, intent);
+    CategoryOrRoutineLab.getRoutineLab(getActivity()).updateExercises(routineId, exercises);
+    getActivity().finish();
+  }
+
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -174,13 +181,6 @@ public class EditRoutineFragment extends Fragment {
           }
         })
         .show();
-  }
-
-  private void saveExercisesToRoutine() {
-    Intent intent = new Intent();
-    getActivity().setResult(Activity.RESULT_OK, intent);
-    RoutineLab.get(getActivity()).updateExercises(routineId, exercises);
-    getActivity().finish();
   }
 
   private void createDeleteExerciseDialog(final int exerciseId) {

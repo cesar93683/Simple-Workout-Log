@@ -24,9 +24,7 @@ import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.databinding.FragmentSelectBinding;
 import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
-import com.devcesar.workoutapp.labs.CategoryLab;
-import com.devcesar.workoutapp.labs.ContainsExercisesLab;
-import com.devcesar.workoutapp.labs.RoutineLab;
+import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.Exercise;
 import com.devcesar.workoutapp.utils.ExerciseUtils;
@@ -46,7 +44,7 @@ public class ViewExercisesFragment extends Fragment {
   private String name;
   private int type;
   private String nameType;
-  private ContainsExercisesLab lab;
+  private CategoryOrRoutineLab lab;
   private ArrayList<Exercise> exercises;
   private ExerciseAdapter exerciseAdapter;
 
@@ -73,12 +71,12 @@ public class ViewExercisesFragment extends Fragment {
     switch (type) {
       case Constants.TYPE_ROUTINE:
         nameType = getString(R.string.routine);
-        lab = RoutineLab.get(getActivity());
+        lab = CategoryOrRoutineLab.getRoutineLab(getActivity());
         exercises = lab.getExercises(id);
         break;
       case Constants.TYPE_CATEGORY:
         nameType = getString(R.string.category);
-        lab = CategoryLab.get(getActivity());
+        lab = CategoryOrRoutineLab.getCategoryLab(getActivity());
         exercises = lab.getExercises(id);
         Collections.sort(exercises);
         break;

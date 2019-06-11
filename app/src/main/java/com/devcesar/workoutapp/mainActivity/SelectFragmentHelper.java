@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
-import com.devcesar.workoutapp.labs.CategoryLab;
+import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.NamedEntityLab;
-import com.devcesar.workoutapp.labs.RoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.viewExercisesActivity.ViewExercisesActivity;
@@ -24,11 +23,9 @@ class SelectFragmentFactoryHelper {
       case Constants.TYPE_EXERCISE:
         return new SelectFragmentExercise(activity, new GoToExerciseActivity(activity));
       case Constants.TYPE_CATEGORY:
-        return new SelectFragmentCategory(activity,
-            new GoToViewExercisesActivity(activity, Constants.TYPE_CATEGORY));
+        return new SelectFragmentCategory(activity, new GoToViewExercisesActivity(activity, type));
       case Constants.TYPE_ROUTINE:
-        return new SelectFragmentRoutine(activity,
-            new GoToViewExercisesActivity(activity, Constants.TYPE_ROUTINE));
+        return new SelectFragmentRoutine(activity, new GoToViewExercisesActivity(activity, type));
     }
     throw new RuntimeException("Error: type does not exists");
   }
@@ -144,13 +141,13 @@ class ExerciseHelperForFragments extends HelperForFragments {
 class CategoryHelperForFragments extends HelperForFragments {
 
   CategoryHelperForFragments(Activity activity) {
-    super(activity.getString(R.string.category), CategoryLab.get(activity));
+    super(activity.getString(R.string.category), CategoryOrRoutineLab.getCategoryLab(activity));
   }
 }
 
 class RoutineHelperForFragments extends HelperForFragments {
 
   RoutineHelperForFragments(Activity activity) {
-    super(activity.getString(R.string.routine), RoutineLab.get(activity));
+    super(activity.getString(R.string.routine), CategoryOrRoutineLab.getRoutineLab(activity));
   }
 }
