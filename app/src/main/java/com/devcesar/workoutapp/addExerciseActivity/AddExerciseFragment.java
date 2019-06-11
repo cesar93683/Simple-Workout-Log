@@ -5,8 +5,6 @@ import static com.devcesar.workoutapp.utils.ExerciseUtils.getExerciseIds;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -44,10 +42,10 @@ public class AddExerciseFragment extends Fragment {
     // Required empty public constructor
   }
 
-  public static AddExerciseFragment newInstance(int[] exerciseIdsToExclude) {
+  public static AddExerciseFragment newInstance(ArrayList<Integer> exerciseIdsToExclude) {
     AddExerciseFragment fragment = new AddExerciseFragment();
     Bundle args = new Bundle();
-    args.putIntArray(ARGS_EXERCISE_IDS, exerciseIdsToExclude);
+    args.putIntegerArrayList(ARGS_EXERCISE_IDS, exerciseIdsToExclude);
     fragment.setArguments(args);
     return fragment;
   }
@@ -55,12 +53,8 @@ public class AddExerciseFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    int[] exerciseIdsToExcludeArr = getArguments().getIntArray(ARGS_EXERCISE_IDS);
-    exerciseIdsToExclude = new HashSet<>();
-    for (int exerciseId : exerciseIdsToExcludeArr) {
-      exerciseIdsToExclude.add(exerciseId);
-    }
 
+    exerciseIdsToExclude = new HashSet<>(getArguments().getIntegerArrayList(ARGS_EXERCISE_IDS));
     exercisesToAdd = new HashSet<>();
 
     filter = "";
@@ -72,13 +66,11 @@ public class AddExerciseFragment extends Fragment {
   private void updateFilteredExercises() {
     filteredExercises.clear();
     filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(filter));
-    if (VERSION.SDK_INT >= VERSION_CODES.N) {
-      filteredExercises.removeIf(i -> exerciseIdsToExclude.contains(i.getId()));
-    } else {
-      for (int i = filteredExercises.size() - 1; i >= 0; i--) {
-        if (exerciseIdsToExclude.contains(filteredExercises.get(i).getId())) {
-          filteredExercises.remove(i);
-        }
+    // api 24 to remove for-loop
+//    filteredExercises.removeIf(i -> exerciseIdsToExclude.contains(i.getId()));
+    for (int i = filteredExercises.size() - 1; i >= 0; i--) {
+      if (exerciseIdsToExclude.contains(filteredExercises.get(i).getId())) {
+        filteredExercises.remove(i);
       }
     }
     Collections.sort(filteredExercises);
@@ -147,10 +139,10 @@ public class AddExerciseFragment extends Fragment {
       itemView.setOnClickListener(this);
       textView = itemView.findViewById(R.id.text_view);
       checkBox = itemView.findViewById(R.id.check_box);
-      checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> checkChanged(isChecked));
+      checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> checkBoxChanged(isChecked));
     }
 
-    private void checkChanged(boolean isChecked) {
+    private void checkBoxChanged(boolean isChecked) {
       if (isChecked) {
         exercisesToAdd.add(exercise);
       } else {
@@ -167,7 +159,7 @@ public class AddExerciseFragment extends Fragment {
     @Override
     public void onClick(View v) {
       checkBox.setChecked(!checkBox.isChecked());
-      checkChanged(checkBox.isChecked());
+      checkBoxChanged(checkBox.isChecked());
     }
   }
 
@@ -182,14 +174,12 @@ public class AddExerciseFragment extends Fragment {
     @NonNull
     @Override
     public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-      return new ExerciseHolder(layoutInflater, parent);
+      return new ExerciseHolder(LayoutInflater.from(getActivity()), parent);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
-      Exercise exercise = exercises.get(position);
-      holder.bind(exercise);
+      holder.bind(exercises.get(position));
     }
 
     @Override

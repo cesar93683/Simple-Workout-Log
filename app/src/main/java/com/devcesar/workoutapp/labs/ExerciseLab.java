@@ -99,17 +99,13 @@ public class ExerciseLab implements NamedEntityLab {
     return false;
   }
 
-  public ArrayList<Exercise> getFilteredExercises(String filter) {
-    ArrayList<Exercise> filteredExercises = new ArrayList<>();
-    for (NamedEntity namedEntity : getFiltered(filter)) {
-      filteredExercises.add(new Exercise(namedEntity.getName(), namedEntity.getId()));
-    }
-    return filteredExercises;
-  }
-
   @Override
   public ArrayList<NamedEntity> getFiltered(String filter) {
-    ArrayList<NamedEntity> filteredExercises = new ArrayList<>();
+    return new ArrayList<>(getFilteredExercises(filter));
+  }
+
+  public ArrayList<Exercise> getFilteredExercises(String filter) {
+    ArrayList<Exercise> filteredExercises = new ArrayList<>();
     for (Exercise exercise : exercises) {
       if (exercise.getName().contains(filter)) {
         filteredExercises.add(exercise);

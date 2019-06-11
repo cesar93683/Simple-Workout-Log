@@ -136,7 +136,7 @@ public class EditRoutineFragment extends Fragment {
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
-      int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISE_IDS);
+      ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
       exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;

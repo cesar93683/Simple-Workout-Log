@@ -31,7 +31,7 @@ public class AddExercisesActivity extends AppCompatActivity {
     String name = getIntent().getStringExtra(EXTRA_NAME);
     setTitle(name);
 
-    int[] exerciseIds = getIntent().getIntArrayExtra(EXTRA_EXERCISE_IDS);
+    ArrayList<Integer> exerciseIds = getIntent().getIntegerArrayListExtra(EXTRA_EXERCISE_IDS);
 
     FragmentManager fm = getSupportFragmentManager();
     Fragment fragment = fm.findFragmentById(R.id.fragment_container);

@@ -125,8 +125,9 @@ public class ViewExercisesFragment extends Fragment {
         exercises.clear();
         exercises.addAll(lab.getExercises(id));
       } else if (requestCode == REQ_ADD) {
-        int[] newExerciseIds = data.getIntArrayExtra(EXTRA_NEW_EXERCISE_IDS);
+        ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
         exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
+        Collections.sort(exercises);
         lab.updateExercises(id, exercises);
       }
       exerciseAdapter.notifyDataSetChanged();
