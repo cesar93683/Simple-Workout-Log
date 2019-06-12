@@ -21,17 +21,20 @@ class SelectFragmentFactoryHelper {
   static SelectFragmentHelper getSelectFragmentHelper(int type, Activity activity) {
     switch (type) {
       case Constants.TYPE_EXERCISE:
-        return new SelectFragmentExercise(activity, new GoToExerciseActivity(activity));
+        return new SelectFragmentHelper(new ExerciseHelperForFragments(activity),
+            new GoToExerciseActivity(activity));
       case Constants.TYPE_CATEGORY:
-        return new SelectFragmentCategory(activity, new GoToViewExercisesActivity(activity, type));
+        return new SelectFragmentHelper(new CategoryHelperForFragments(activity),
+            new GoToViewExercisesActivity(activity, type));
       case Constants.TYPE_ROUTINE:
-        return new SelectFragmentRoutine(activity, new GoToViewExercisesActivity(activity, type));
+        return new SelectFragmentHelper(new RoutineHelperForFragments(activity),
+            new GoToViewExercisesActivity(activity, type));
     }
     throw new RuntimeException("Error: type does not exists");
   }
 }
 
-abstract class SelectFragmentHelper {
+class SelectFragmentHelper {
 
   private final String name;
   private final NamedEntityLab lab;
@@ -88,27 +91,6 @@ class GoToExerciseActivity implements SelectFragmentOnClick {
     Intent intent = ExerciseActivity
         .newIntent(activity, namedEntity.getName(), namedEntity.getId());
     activity.startActivity(intent);
-  }
-}
-
-class SelectFragmentExercise extends SelectFragmentHelper {
-
-  SelectFragmentExercise(Activity activity, SelectFragmentOnClick selectFragmentOnClick) {
-    super(new ExerciseHelperForFragments(activity), selectFragmentOnClick);
-  }
-}
-
-class SelectFragmentCategory extends SelectFragmentHelper {
-
-  SelectFragmentCategory(Activity activity, SelectFragmentOnClick selectFragmentOnClick) {
-    super(new CategoryHelperForFragments(activity), selectFragmentOnClick);
-  }
-}
-
-class SelectFragmentRoutine extends SelectFragmentHelper {
-
-  SelectFragmentRoutine(Activity activity, SelectFragmentOnClick selectFragmentOnClick) {
-    super(new RoutineHelperForFragments(activity), selectFragmentOnClick);
   }
 }
 
