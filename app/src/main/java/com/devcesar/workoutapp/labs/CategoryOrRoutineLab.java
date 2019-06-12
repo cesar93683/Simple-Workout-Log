@@ -1,6 +1,6 @@
 package com.devcesar.workoutapp.labs;
 
-import static com.devcesar.workoutapp.utils.ExerciseUtils.getExerciseIds;
+import static com.devcesar.workoutapp.utils.NamedEntitiesUtils.getIds;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -11,7 +11,6 @@ import com.devcesar.workoutapp.database.CategoryOrRoutineCursorWrapper;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.CategoryTable;
 import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
-import com.devcesar.workoutapp.utils.Exercise;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public void insert(String name) {
     ContentValues values = new ContentValues();
     values.put(colName, name);
-    values.put(colExercises, new Gson().toJson(new ArrayList<Exercise>()));
+    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
     database.insert(tableName, null, values);
     updateNamedEntities();
   }
@@ -129,7 +128,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   }
 
   public void deleteExercise(int id, int exerciseId, Context context) {
-    List<Exercise> exercises = getExercises(id, context);
+    List<NamedEntity> exercises = getExercises(id, context);
     for (int i = 0; i < exercises.size(); i++) {
       if (exercises.get(i).getId() == exerciseId) {
         exercises.remove(i);
@@ -139,21 +138,21 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     updateExercises(id, exercises);
   }
 
-  public List<Exercise> getExercises(int id, Context context) {
+  public List<NamedEntity> getExercises(int id, Context context) {
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(null, whereClause, whereArgs);
 
     cursor.moveToNext();
-    List<Exercise> exercises = cursor.getExercises(context);
+    List<NamedEntity> exercises = cursor.getExercises(context);
     cursor.close();
 
     return exercises;
   }
 
-  public void updateExercises(int id, List<Exercise> exercises) {
+  public void updateExercises(int id, List<NamedEntity> exercises) {
     ContentValues values = new ContentValues();
-    values.put(colExercises, new Gson().toJson(getExerciseIds(exercises)));
+    values.put(colExercises, new Gson().toJson(getIds(exercises)));
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(tableName, values, whereClause, whereArgs);

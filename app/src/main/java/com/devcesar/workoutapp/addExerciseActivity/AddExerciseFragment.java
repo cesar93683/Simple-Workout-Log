@@ -1,6 +1,6 @@
 package com.devcesar.workoutapp.addExerciseActivity;
 
-import static com.devcesar.workoutapp.utils.ExerciseUtils.getExerciseIds;
+import static com.devcesar.workoutapp.utils.NamedEntitiesUtils.getIds;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.FragmentSelectWithFilterBinding;
 import com.devcesar.workoutapp.labs.ExerciseLab;
-import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,10 +32,10 @@ public class AddExerciseFragment extends Fragment {
 
   public static final String EXTRA_NEW_EXERCISE_IDS = "EXTRA_NEW_EXERCISE_IDS";
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
-  private HashSet<Exercise> exercisesToAdd;
+  private HashSet<NamedEntity> exercisesToAdd;
   private HashSet<Integer> exerciseIdsToExclude;
   private String filter;
-  private ArrayList<Exercise> filteredExercises;
+  private ArrayList<NamedEntity> filteredExercises;
   private ExerciseAdapter exerciseAdapter;
 
   public AddExerciseFragment() {
@@ -101,7 +101,7 @@ public class AddExerciseFragment extends Fragment {
   private View.OnClickListener saveFab() {
     return v -> {
       Intent intent = new Intent();
-      intent.putExtra(EXTRA_NEW_EXERCISE_IDS, getExerciseIds(exercisesToAdd));
+      intent.putExtra(EXTRA_NEW_EXERCISE_IDS, getIds(exercisesToAdd));
       getActivity().setResult(Activity.RESULT_OK, intent);
       getActivity().finish();
     };
@@ -132,7 +132,7 @@ public class AddExerciseFragment extends Fragment {
 
     private final TextView textView;
     private final CheckBox checkBox;
-    private Exercise exercise;
+    private NamedEntity exercise;
 
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.checkable_list_item, parent, false));
@@ -150,7 +150,7 @@ public class AddExerciseFragment extends Fragment {
       }
     }
 
-    void bind(Exercise exercise) {
+    void bind(NamedEntity exercise) {
       this.exercise = exercise;
       checkBox.setChecked(exercisesToAdd.contains(exercise));
       textView.setText(exercise.getName());
@@ -165,9 +165,9 @@ public class AddExerciseFragment extends Fragment {
 
   private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
 
-    private final List<Exercise> exercises;
+    private final List<NamedEntity> exercises;
 
-    ExerciseAdapter(List<Exercise> exercises) {
+    ExerciseAdapter(List<NamedEntity> exercises) {
       this.exercises = exercises;
     }
 
@@ -180,7 +180,7 @@ public class AddExerciseFragment extends Fragment {
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
-      Exercise exercise = exercises.get(position);
+      NamedEntity exercise = exercises.get(position);
       holder.bind(exercise);
     }
 

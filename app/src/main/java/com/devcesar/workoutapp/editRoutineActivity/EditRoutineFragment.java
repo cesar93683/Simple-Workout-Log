@@ -24,8 +24,8 @@ import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.databinding.FragmentSelectMultipleFabBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
-import com.devcesar.workoutapp.utils.Exercise;
-import com.devcesar.workoutapp.utils.ExerciseUtils;
+import com.devcesar.workoutapp.utils.NamedEntitiesUtils;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +39,7 @@ public class EditRoutineFragment extends Fragment {
 
   private int routineId;
   private String routineName;
-  private List<Exercise> exercises;
+  private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
   private boolean hasBeenModified;
   private ItemTouchHelper itemTouchHelper;
@@ -62,7 +62,8 @@ public class EditRoutineFragment extends Fragment {
     super.onCreate(savedInstanceState);
     routineId = getArguments().getInt(ARG_ROUTINE_ID);
     routineName = getArguments().getString(ARG_ROUTINE_NAME);
-    exercises = CategoryOrRoutineLab.getRoutineLab(getActivity()).getExercises(routineId, getContext());
+    exercises = CategoryOrRoutineLab.getRoutineLab(getActivity())
+        .getExercises(routineId, getContext());
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }
@@ -132,7 +133,7 @@ public class EditRoutineFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
       ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
-      exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
+      exercises.addAll(NamedEntitiesUtils.getNamedEntities(newExerciseIds, getContext()));
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
       Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_updated,
@@ -180,7 +181,7 @@ public class EditRoutineFragment extends Fragment {
   private class ExerciseHolder extends RecyclerView.ViewHolder {
 
     final TextView textView;
-    Exercise exercise;
+    NamedEntity exercise;
 
     @SuppressLint("ClickableViewAccessibility")
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -197,7 +198,7 @@ public class EditRoutineFragment extends Fragment {
       });
     }
 
-    void bind(Exercise exercise) {
+    void bind(NamedEntity exercise) {
       this.exercise = exercise;
       textView.setText(exercise.getName());
     }
@@ -205,9 +206,9 @@ public class EditRoutineFragment extends Fragment {
 
   private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
 
-    private final List<Exercise> exercises;
+    private final List<NamedEntity> exercises;
 
-    ExerciseAdapter(List<Exercise> exercises) {
+    ExerciseAdapter(List<NamedEntity> exercises) {
       this.exercises = exercises;
     }
 
@@ -220,7 +221,7 @@ public class EditRoutineFragment extends Fragment {
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
-      Exercise exercise = exercises.get(position);
+      NamedEntity exercise = exercises.get(position);
       holder.bind(exercise);
     }
 

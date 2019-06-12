@@ -7,8 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
-import com.devcesar.workoutapp.database.ExerciseCursorWrapper;
-import com.devcesar.workoutapp.utils.Exercise;
+import com.devcesar.workoutapp.database.NamedEntityCursorWrapper;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ public class ExerciseLab implements NamedEntityLab {
   private static ExerciseLab exerciseLab;
   private final SQLiteDatabase database;
   private final WorkoutLab workoutLab;
-  private ArrayList<Exercise> exercises;
+  private ArrayList<NamedEntity> exercises;
 
   private ExerciseLab(Context context) {
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
@@ -28,18 +27,18 @@ public class ExerciseLab implements NamedEntityLab {
 
   private void updateExercises() {
     exercises.clear();
-    ExerciseCursorWrapper cursor = queryExercises();
+    NamedEntityCursorWrapper cursor = queryExercises();
     exercises = new ArrayList<>();
     while (cursor.moveToNext()) {
-      exercises.add(cursor.getExercise());
+      exercises.add(cursor.getNamedEntity());
     }
     cursor.close();
   }
 
-  private ExerciseCursorWrapper queryExercises() {
+  private NamedEntityCursorWrapper queryExercises() {
     @SuppressLint("Recycle") Cursor cursor = database
         .query(ExerciseTable.NAME, null, null, null, null, null, null);
-    return new ExerciseCursorWrapper(cursor);
+    return new NamedEntityCursorWrapper(cursor, ExerciseTable.Cols.NAME, ExerciseTable._ID);
   }
 
   public static ExerciseLab get(Context context) {
@@ -49,8 +48,8 @@ public class ExerciseLab implements NamedEntityLab {
     return exerciseLab;
   }
 
-  public Exercise getExerciseById(int id) {
-    for (Exercise exercise : exercises) {
+  public NamedEntity getExerciseById(int id) {
+    for (NamedEntity exercise : exercises) {
       if (exercise.getId() == id) {
         return exercise;
       }
@@ -91,7 +90,7 @@ public class ExerciseLab implements NamedEntityLab {
 
   @Override
   public boolean contains(String name) {
-    for (Exercise exercise : exercises) {
+    for (NamedEntity exercise : exercises) {
       if (exercise.getName().equals(name)) {
         return true;
       }
@@ -104,9 +103,9 @@ public class ExerciseLab implements NamedEntityLab {
     return new ArrayList<>(getFilteredExercises(filter));
   }
 
-  public ArrayList<Exercise> getFilteredExercises(String filter) {
-    ArrayList<Exercise> filteredExercises = new ArrayList<>();
-    for (Exercise exercise : exercises) {
+  public ArrayList<NamedEntity> getFilteredExercises(String filter) {
+    ArrayList<NamedEntity> filteredExercises = new ArrayList<>();
+    for (NamedEntity exercise : exercises) {
       if (exercise.getName().contains(filter)) {
         filteredExercises.add(exercise);
       }

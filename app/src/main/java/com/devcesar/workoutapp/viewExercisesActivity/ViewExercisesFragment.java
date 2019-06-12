@@ -25,8 +25,8 @@ import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
-import com.devcesar.workoutapp.utils.Exercise;
-import com.devcesar.workoutapp.utils.ExerciseUtils;
+import com.devcesar.workoutapp.utils.NamedEntitiesUtils;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +44,7 @@ public class ViewExercisesFragment extends Fragment {
   private int type;
   private String nameType;
   private CategoryOrRoutineLab lab;
-  private List<Exercise> exercises;
+  private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
 
   public ViewExercisesFragment() {
@@ -126,7 +126,7 @@ public class ViewExercisesFragment extends Fragment {
         exercises.addAll(lab.getExercises(id, getContext()));
       } else if (requestCode == REQ_ADD) {
         ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
-        exercises.addAll(ExerciseUtils.getExercises(newExerciseIds, getContext()));
+        exercises.addAll(NamedEntitiesUtils.getNamedEntities(newExerciseIds, getContext()));
         Collections.sort(exercises);
         lab.updateExercises(id, exercises);
       }
@@ -154,7 +154,7 @@ public class ViewExercisesFragment extends Fragment {
   private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
       View.OnLongClickListener {
 
-    private Exercise exercise;
+    private NamedEntity exercise;
 
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.simple_list_item, parent, false));
@@ -162,7 +162,7 @@ public class ViewExercisesFragment extends Fragment {
       itemView.setOnLongClickListener(this);
     }
 
-    void bind(Exercise exercise) {
+    void bind(NamedEntity exercise) {
       this.exercise = exercise;
       ((TextView) itemView).setText(exercise.getName());
     }
@@ -184,9 +184,9 @@ public class ViewExercisesFragment extends Fragment {
 
   private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
 
-    private final List<Exercise> exercises;
+    private final List<NamedEntity> exercises;
 
-    ExerciseAdapter(List<Exercise> exercises) {
+    ExerciseAdapter(List<NamedEntity> exercises) {
       this.exercises = exercises;
     }
 
@@ -199,7 +199,7 @@ public class ViewExercisesFragment extends Fragment {
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
-      Exercise exercise = exercises.get(position);
+      NamedEntity exercise = exercises.get(position);
       holder.bind(exercise);
     }
 
