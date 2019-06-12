@@ -66,7 +66,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public static CategoryOrRoutineLab getCategoryLab(Context context) {
     if (categoryLab == null) {
       categoryLab = new CategoryOrRoutineLab(context, CategoryTable.NAME, CategoryTable.Cols.NAME,
-          CategoryTable.Cols.EXERCISES_ID);
+          CategoryTable.Cols.EXERCISE_IDS);
     }
     return categoryLab;
   }
@@ -74,7 +74,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public static CategoryOrRoutineLab getRoutineLab(Context context) {
     if (routineLab == null) {
       routineLab = new CategoryOrRoutineLab(context, RoutineTable.NAME, RoutineTable.Cols.NAME,
-          RoutineTable.Cols.EXERCISES_ID);
+          RoutineTable.Cols.EXERCISE_IDS);
     }
     return routineLab;
   }

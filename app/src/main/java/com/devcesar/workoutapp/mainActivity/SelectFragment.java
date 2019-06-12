@@ -29,7 +29,7 @@ import java.util.List;
 public class SelectFragment extends Fragment {
 
   private ArrayList<NamedEntity> filtered;
-  private String filter;
+  private String textFilter;
   private NamedEntityAdapter namedEntityAdapter;
   private SelectFragmentHelper selectFragmentHelper;
 
@@ -52,7 +52,7 @@ public class SelectFragment extends Fragment {
 
     selectFragmentHelper = SelectFragmentFactoryHelper.getSelectFragmentHelper(type, getActivity());
 
-    filter = "";
+    textFilter = "";
     filtered = new ArrayList<>();
     namedEntityAdapter = new NamedEntityAdapter(filtered);
     updateFiltered();
@@ -60,7 +60,7 @@ public class SelectFragment extends Fragment {
 
   private void updateFiltered() {
     filtered.clear();
-    filtered.addAll(selectFragmentHelper.getLab().getFiltered(filter));
+    filtered.addAll(selectFragmentHelper.getLab().getFiltered(textFilter));
     Collections.sort(filtered);
     namedEntityAdapter.notifyDataSetChanged();
   }
@@ -135,7 +135,7 @@ public class SelectFragment extends Fragment {
 
       @Override
       public void afterTextChanged(Editable s) {
-        filter = s.toString();
+        textFilter = s.toString();
         updateFiltered();
       }
     };

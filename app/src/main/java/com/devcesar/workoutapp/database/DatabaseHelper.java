@@ -41,11 +41,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     final String SQL_CREATE_ROUTINE_LIST_TABLE = String.format(
         "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT NOT "
             + "NULL);", RoutineTable.NAME, RoutineTable._ID, RoutineTable.Cols.NAME,
-        RoutineTable.Cols.EXERCISES_ID);
+        RoutineTable.Cols.EXERCISE_IDS);
     final String SQL_CREATE_CATEGORY_LIST_TABLE = String.format(
         "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT NOT "
             + "NULL);", CategoryTable.NAME, CategoryTable._ID, CategoryTable.Cols.NAME,
-        CategoryTable.Cols.EXERCISES_ID);
+        CategoryTable.Cols.EXERCISE_IDS);
     db.execSQL(SQL_CREATE_EXERCISE_LIST_TABLE);
     db.execSQL(SQL_CREATE_WORKOUT_TABLE);
     db.execSQL(SQL_CREATE_ROUTINE_LIST_TABLE);

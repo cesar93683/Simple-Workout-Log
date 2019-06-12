@@ -12,19 +12,19 @@ import java.util.List;
 
 public class CategoryOrRoutineCursorWrapper extends NamedEntityCursorWrapper {
 
-  private final String colExercises;
+  private final String colExerciseIds;
 
   public CategoryOrRoutineCursorWrapper(Cursor cursor, String colName, String colId,
-      String colExercises) {
+      String colExerciseIds) {
     super(cursor, colName, colId);
-    this.colExercises = colExercises;
+    this.colExerciseIds = colExerciseIds;
   }
 
   public List<NamedEntity> getExercises(Context context) {
-    String exerciseString = getString(getColumnIndexOrThrow(colExercises));
+    String exerciseIdsString = getString(getColumnIndexOrThrow(colExerciseIds));
     Type type = new TypeToken<ArrayList<Integer>>() {
     }.getType();
-    ArrayList<Integer> exerciseIds = new Gson().fromJson(exerciseString, type);
+    ArrayList<Integer> exerciseIds = new Gson().fromJson(exerciseIdsString, type);
     return NamedEntitiesUtils.getNamedEntities(exerciseIds, context);
   }
 

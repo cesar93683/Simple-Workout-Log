@@ -34,7 +34,7 @@ public class AddExerciseFragment extends Fragment {
   private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
   private HashSet<NamedEntity> exercisesToAdd;
   private HashSet<Integer> exerciseIdsToExclude;
-  private String filter;
+  private String textFilter;
   private ArrayList<NamedEntity> filteredExercises;
   private ExerciseAdapter exerciseAdapter;
 
@@ -57,7 +57,7 @@ public class AddExerciseFragment extends Fragment {
     exerciseIdsToExclude = new HashSet<>(getArguments().getIntegerArrayList(ARGS_EXERCISE_IDS));
     exercisesToAdd = new HashSet<>();
 
-    filter = "";
+    textFilter = "";
     filteredExercises = new ArrayList<>();
     exerciseAdapter = new ExerciseAdapter(filteredExercises);
     updateFilteredExercises();
@@ -65,7 +65,7 @@ public class AddExerciseFragment extends Fragment {
 
   private void updateFilteredExercises() {
     filteredExercises.clear();
-    filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(filter));
+    filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(textFilter));
     // api 24 to remove for-loop
 //    filteredExercises.removeIf(exercise -> exerciseIdsToExclude.contains(exercise.getId()));
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
@@ -122,7 +122,7 @@ public class AddExerciseFragment extends Fragment {
 
       @Override
       public void afterTextChanged(Editable s) {
-        filter = s.toString();
+        textFilter = s.toString();
         updateFilteredExercises();
       }
     };
