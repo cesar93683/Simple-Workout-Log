@@ -132,7 +132,7 @@ public class ViewExercisesFragment extends Fragment {
       }
       exerciseAdapter.notifyDataSetChanged();
       Snackbar.make(getActivity().findViewById(android.R.id.content),
-          String.format(getString(R.string.x_updated), nameType), Snackbar.LENGTH_SHORT).show();
+          String.format(getString(R.string.item_updated), nameType), Snackbar.LENGTH_SHORT).show();
     }
   }
 

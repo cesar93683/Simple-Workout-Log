@@ -8,7 +8,7 @@
   <string name="are_you_sure_delete_exercise">Are you sure you want to delete this exercise?</string>
   <string name="are_you_sure_delete_set">Are you sure you want to delete this set?</string>
   <string name="are_you_sure_delete_workout">Are you sure you want to delete this workout?</string>
-  <string name="are_you_sure_delete_x">Are you sure you want to delete this %s?</string>
+  <string name="delete_confirmation">Are you sure you want to delete this %s?</string>
   <string name="cancel">Cancel</string>
   <string name="category">Category</string>
   <string name="dialog_delete_content_description">Delete Icon</string>
@@ -31,11 +31,11 @@
   <string name="menu_button_nav_category_text">Category</string>
   <string name="menu_button_nav_exercise_text">Exercise</string>
   <string name="menu_button_nav_routine_text">Routine</string>
-  <string name="new_x">New %s</string>
-  <string name="new_x_created">New %s created.</string>
+  <string name="new_item">New %s</string>
+  <string name="new_item_created">New %s created.</string>
   <string name="no">No</string>
   <string name="rename_successful">Rename successful</string>
-  <string name="rename_x">Rename %s</string>
+  <string name="rename_item">Rename %s</string>
   <string name="routine">Routine</string>
   <string name="save">Save</string>
   <string name="save_changes">Save changes?</string>
@@ -50,9 +50,9 @@
   <string name="workout_deleted">Workout deleted.</string>
   <string name="workout_updated">Workout updated.</string>
   <string name="would_save_changes_routine">Would you like to save changes made to the routine?</string>
-  <string name="x_already_exists">%s already exists.</string>
-  <string name="x_deleted">%s deleted.</string>
-  <string name="x_updated">%s updated.</string>
+  <string name="item_already_exists">%s already exists.</string>
+  <string name="item_deleted">%s deleted.</string>
+  <string name="item_updated">%s updated.</string>
   <string name="yes">Yes</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.devcesar.workoutapp.mainActivity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -13,13 +14,13 @@ import com.devcesar.workoutapp.utils.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
-  private Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
-  private Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
-  private Fragment categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
+  private final Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
+  private final Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
+  private final Fragment categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
   private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
       item -> {
         switch (item.getItemId()) {
-          case R.id.nav_exercise_select:
+          case R.id.nav_exercise:
             setTitle(R.string.exercise);
             setTabStateFragment(item.getItemId()).commit();
             return true;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         .add(R.id.fragment_container, routineFragment)
         .add(R.id.fragment_container, categoryFragment)
         .commit();
+    setTabStateFragment(R.id.nav_exercise).commit();
   }
 
   private FragmentTransaction setTabStateFragment(int type) {
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.hide(exerciseFragment);
         transaction.hide(routineFragment);
         break;
-      case R.id.nav_exercise_select:
+      case R.id.nav_exercise:
         transaction.hide(categoryFragment);
         transaction.show(exerciseFragment);
         transaction.hide(routineFragment);
@@ -74,6 +76,5 @@ public class MainActivity extends AppCompatActivity {
 
     return transaction;
   }
-
 
 }
