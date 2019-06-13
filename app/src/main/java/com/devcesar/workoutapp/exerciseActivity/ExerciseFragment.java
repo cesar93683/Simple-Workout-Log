@@ -68,12 +68,11 @@ public class ExerciseFragment extends Fragment {
     hasBeenModified = false;
 
     exerciseSets = new ArrayList<>();
-    if (timeStamp == NO_TIME_STAMP) {
-      isEditing = false;
-    } else {
-      WorkoutLab workoutLab = WorkoutLab.get(getActivity());
-      exerciseSets.addAll(workoutLab.getWorkout(exerciseId, timeStamp).getExerciseSets());
-      isEditing = true;
+    isEditing = timeStamp == NO_TIME_STAMP;
+
+    if (!isEditing) {
+      exerciseSets.addAll(
+          WorkoutLab.get(getActivity()).getWorkout(exerciseId, timeStamp).getExerciseSets());
     }
     exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
   }
@@ -101,7 +100,7 @@ public class ExerciseFragment extends Fragment {
         addSetButtonClickListener(binding.exerciseSetEditor.repsTextInputLayout,
             binding.exerciseSetEditor.weightTextInputLayout));
 
-    binding.finishExerciseFab.setOnClickListener(v -> saveSets());
+    binding.finishExerciseFab.setOnClickListener(view -> saveSets());
 
     binding.exerciseSetsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     binding.exerciseSetsRecyclerView.addItemDecoration(
@@ -115,7 +114,7 @@ public class ExerciseFragment extends Fragment {
   @NonNull
   private View.OnClickListener decreaseButtonClickListener(final TextInputLayout
       textInputLayout) {
-    return v -> {
+    return view -> {
       textInputLayout.setErrorEnabled(false);
       String text = textInputLayout.getEditText().getText().toString();
       if (text.isEmpty()) {
@@ -133,7 +132,7 @@ public class ExerciseFragment extends Fragment {
   @NonNull
   private View.OnClickListener increaseButtonClickListener(final TextInputLayout
       textInputLayout) {
-    return v -> {
+    return view -> {
       textInputLayout.setErrorEnabled(false);
       String text = textInputLayout.getEditText().getText().toString();
       if (text.isEmpty()) {
@@ -148,7 +147,7 @@ public class ExerciseFragment extends Fragment {
 
   private View.OnClickListener addSetButtonClickListener(final TextInputLayout repsTextInputLayout,
       final TextInputLayout weightTextInputLayout) {
-    return v -> {
+    return view -> {
       if (!validateReps(repsTextInputLayout)) {
         return;
       }
@@ -181,27 +180,29 @@ public class ExerciseFragment extends Fragment {
     return true;
   }
 
-  private void createEditOrDeleteDialog(final int position) {
+  private void showEditOrDeleteDialog(final int position) {
     @SuppressLint("InflateParams") final View dialogView = getActivity().getLayoutInflater()
         .inflate(R.layout.dialog_edit_or_delete, null);
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-    alertDialog.setView(dialogView);
+    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+        .setView(dialogView)
+        .create();
 
     dialogView.findViewById(R.id.edit_linear_layout).setOnClickListener(
-        v -> {
-          createEditSetDialog(position);
+        view -> {
+          showEditSetDialog(position);
           alertDialog.dismiss();
         });
     dialogView.findViewById(R.id.delete_linear_layout).setOnClickListener(
-        v -> {
-          createDeleteSetDialog(position);
+        view -> {
+          showDeleteSetDialog(position);
           alertDialog.dismiss();
         });
+
     alertDialog.show();
   }
 
-  private void createEditSetDialog(final int position) {
+  private void showEditSetDialog(final int position) {
     final ExerciseSetEditorBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.exercise_set_editor, null, false);
 
@@ -238,7 +239,7 @@ public class ExerciseFragment extends Fragment {
     alertDialog.show();
   }
 
-  private void createDeleteSetDialog(final int position) {
+  private void showDeleteSetDialog(final int position) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String.format(getString(R.string.delete_item_confirmation),
             getString(R.string.set).toLowerCase()))
@@ -247,13 +248,13 @@ public class ExerciseFragment extends Fragment {
         .show();
   }
 
-  private void setViewToCenterInDialog(View exerciseSetEditorView, AlertDialog alertDialog) {
+  private void setViewToCenterInDialog(View view, AlertDialog alertDialog) {
     FrameLayout container = new FrameLayout(getActivity());
     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     params.gravity = Gravity.CENTER_HORIZONTAL;
-    exerciseSetEditorView.setLayoutParams(params);
-    container.addView(exerciseSetEditorView);
+    view.setLayoutParams(params);
+    container.addView(view);
     alertDialog.setView(container);
   }
 
@@ -301,11 +302,11 @@ public class ExerciseFragment extends Fragment {
     } else if (isEditing && !hasBeenModified) {
       getActivity().finish();
     } else {
-      createDiscardChangesDialog();
+      showDiscardChangesDialog();
     }
   }
 
-  private void createDiscardChangesDialog() {
+  private void showDiscardChangesDialog() {
     new AlertDialog.Builder(getActivity())
         .setTitle(R.string.discard_changes)
         .setMessage(R.string.are_you_sure_close_exercise)
@@ -315,14 +316,16 @@ public class ExerciseFragment extends Fragment {
         .show();
   }
 
-  public class ExerciseHolder extends RecyclerView.ViewHolder implements View
-      .OnLongClickListener {
+  public class ExerciseHolder extends RecyclerView.ViewHolder {
 
     private ExerciseSet exerciseSet;
 
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.simple_list_item, parent, false));
-      itemView.setOnLongClickListener(this);
+      itemView.setOnLongClickListener(v -> {
+        showEditOrDeleteDialog(exerciseSet.getSetNumber() - 1);
+        return true;
+      });
     }
 
     void bind(ExerciseSet exerciseSet) {
@@ -330,11 +333,6 @@ public class ExerciseFragment extends Fragment {
       ((TextView) itemView).setText(exerciseSet.toString());
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-      createEditOrDeleteDialog(exerciseSet.getSetNumber() - 1);
-      return true;
-    }
   }
 
   class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {

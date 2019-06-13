@@ -79,7 +79,7 @@ public class WorkoutHistoryFragment extends Fragment {
   }
 
 
-  private void createEditOrDeleteDialog(final int position) {
+  private void showEditOrDeleteDialog(final int position) {
     final DialogEditOrDeleteBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.dialog_edit_or_delete, null, false);
 
@@ -95,13 +95,13 @@ public class WorkoutHistoryFragment extends Fragment {
         });
     dialogBinding.deleteLinearLayout.setOnClickListener(
         v -> {
-          createDeleteDialog(position);
+          showDeleteDialog(position);
           alertDialog.dismiss();
         });
     alertDialog.show();
   }
 
-  private void createDeleteDialog(final int position) {
+  private void showDeleteDialog(final int position) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String.format(getString(R.string.delete_item_confirmation),
             getString(R.string.workout).toLowerCase()))
@@ -173,7 +173,7 @@ public class WorkoutHistoryFragment extends Fragment {
 
     @Override
     public boolean onLongClick(View v) {
-      createEditOrDeleteDialog(position);
+      showEditOrDeleteDialog(position);
       return true;
     }
   }

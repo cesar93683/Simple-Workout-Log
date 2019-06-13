@@ -136,7 +136,7 @@ public class ViewExercisesFragment extends Fragment {
     }
   }
 
-  private void createDeleteExerciseDialog(final int exerciseId) {
+  private void showDeleteExerciseDialog(final int exerciseId) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String.format(getString(R.string.delete_item_confirmation), getString(R.string.exercise)))
         .setNegativeButton(R.string.no, null)
@@ -177,7 +177,7 @@ public class ViewExercisesFragment extends Fragment {
 
     @Override
     public boolean onLongClick(View v) {
-      createDeleteExerciseDialog(exercise.getId());
+      showDeleteExerciseDialog(exercise.getId());
       return true;
     }
 

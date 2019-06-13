@@ -144,13 +144,13 @@ public class EditRoutineFragment extends Fragment {
 
   public void onBackPressed() {
     if (hasBeenModified) {
-      createSaveChangesDialog();
+      showSaveChangesDialog();
     } else {
       getActivity().finish();
     }
   }
 
-  private void createSaveChangesDialog() {
+  private void showSaveChangesDialog() {
     new AlertDialog.Builder(getActivity())
         .setTitle(R.string.save_changes)
         .setMessage(R.string.would_save_changes_routine)
@@ -160,7 +160,7 @@ public class EditRoutineFragment extends Fragment {
         .show();
   }
 
-  private void createDeleteExerciseDialog(final int exerciseId) {
+  private void showDeleteExerciseDialog(final int exerciseId) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String.format(getString(R.string.delete_item_confirmation),
             getString(R.string.exercise).toLowerCase()))
@@ -196,7 +196,7 @@ public class EditRoutineFragment extends Fragment {
         return true;
       });
       itemView.setOnLongClickListener(v -> {
-        createDeleteExerciseDialog(exercise.getId());
+        showDeleteExerciseDialog(exercise.getId());
         return false;
       });
     }
