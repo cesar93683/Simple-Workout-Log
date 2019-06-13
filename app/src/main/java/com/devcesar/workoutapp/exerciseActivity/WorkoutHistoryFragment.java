@@ -79,7 +79,7 @@ public class WorkoutHistoryFragment extends Fragment {
   }
 
 
-  private void showEditOrDeleteDialog(final int position) {
+  private void showEditOrDeleteDialog(final Workout workout) {
     final DialogEditOrDeleteBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.dialog_edit_or_delete, null, false);
 
@@ -88,34 +88,34 @@ public class WorkoutHistoryFragment extends Fragment {
 
     dialogBinding.editLinearLayout.setOnClickListener(
         v -> {
-          Intent intent = EditExerciseActivity.newIntent(getActivity(), exerciseName, exerciseId,
-              workouts.get(position).getTimeStamp());
-          alertDialog.dismiss();
+          Intent intent = EditExerciseActivity
+              .newIntent(getActivity(), exerciseName, exerciseId, workout.getTimeStamp());
           startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
+          alertDialog.dismiss();
         });
     dialogBinding.deleteLinearLayout.setOnClickListener(
         v -> {
-          showDeleteDialog(position);
+          showDeleteDialog(workout);
           alertDialog.dismiss();
         });
     alertDialog.show();
   }
 
-  private void showDeleteDialog(final int position) {
+  private void showDeleteDialog(final Workout workout) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String.format(getString(R.string.delete_item_confirmation),
             getString(R.string.workout).toLowerCase()))
-        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-          Workout workout = workouts.get(position);
-          WorkoutLab.get(getActivity())
-              .deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
-          updateWorkouts();
-          Snackbar.make(getActivity().findViewById(android.R.id.content),
-              String.format(getString(R.string.item_deleted), getString(R.string.workout)),
-              Snackbar.LENGTH_SHORT).show();
-        })
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteWorkout(workout))
         .setNegativeButton(R.string.no, null)
         .show();
+  }
+
+  private void deleteWorkout(Workout workout) {
+    WorkoutLab.get(getActivity()).deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
+    updateWorkouts();
+    Snackbar.make(getActivity().findViewById(android.R.id.content),
+        String.format(getString(R.string.item_deleted), getString(R.string.workout)),
+        Snackbar.LENGTH_SHORT).show();
   }
 
   private void updateWorkouts() {
@@ -141,7 +141,7 @@ public class WorkoutHistoryFragment extends Fragment {
     private final TextView timeTextView;
     private final LinearLayout exerciseSetsContainer;
     private final TextView dateTextView;
-    private int position;
+    private Workout workout;
 
     WorkoutHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.history_list_item, parent, false));
@@ -151,8 +151,8 @@ public class WorkoutHistoryFragment extends Fragment {
       exerciseSetsContainer = itemView.findViewById(R.id.exercise_sets_container);
     }
 
-    void bind(Workout workout, int position) {
-      this.position = position;
+    void bind(Workout workout) {
+      this.workout = workout;
 
       String dateText = DateFormat.getDateInstance().format(workout.getTimeStamp());
       dateTextView.setText(dateText);
@@ -173,7 +173,7 @@ public class WorkoutHistoryFragment extends Fragment {
 
     @Override
     public boolean onLongClick(View v) {
-      showEditOrDeleteDialog(position);
+      showEditOrDeleteDialog(workout);
       return true;
     }
   }
@@ -196,7 +196,7 @@ public class WorkoutHistoryFragment extends Fragment {
     @Override
     public void onBindViewHolder(@NonNull WorkoutHistoryHolder holder, int position) {
       Workout workout = workouts.get(position);
-      holder.bind(workout, position);
+      holder.bind(workout);
     }
 
     @Override
