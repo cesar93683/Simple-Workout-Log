@@ -89,14 +89,14 @@ public class WorkoutHistoryFragment extends Fragment {
         .setView(dialogBinding.getRoot()).create();
 
     dialogBinding.editLinearLayout.setOnClickListener(
-        v -> {
+        view -> {
           Intent intent = EditExerciseActivity
               .newIntent(getActivity(), exercise, workout.getTimeStamp());
           startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
           alertDialog.dismiss();
         });
     dialogBinding.deleteLinearLayout.setOnClickListener(
-        v -> {
+        view -> {
           showDeleteDialog(workout);
           alertDialog.dismiss();
         });
@@ -148,7 +148,7 @@ public class WorkoutHistoryFragment extends Fragment {
 
     WorkoutHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.history_list_item, parent, false));
-      itemView.setOnLongClickListener(v -> {
+      itemView.setOnLongClickListener(view -> {
         showEditOrDeleteDialog(workout);
         return true;
       });

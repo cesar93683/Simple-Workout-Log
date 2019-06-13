@@ -322,7 +322,7 @@ public class ExerciseFragment extends Fragment {
 
     ExerciseSetHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.simple_list_item, parent, false));
-      itemView.setOnLongClickListener(v -> {
+      itemView.setOnLongClickListener(view -> {
         showEditOrDeleteDialog(exerciseSet.getSetNumber() - 1);
         return true;
       });

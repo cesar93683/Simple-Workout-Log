@@ -48,7 +48,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
-    exercise = new NamedEntity(exerciseName,exerciseId);
+    exercise = new NamedEntity(exerciseName, exerciseId);
 
     setSupportActionBar(binding.toolbar);
     binding.toolbar.setTitle(exerciseName);

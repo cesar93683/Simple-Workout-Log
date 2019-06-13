@@ -191,11 +191,11 @@ public class EditRoutineFragment extends Fragment {
       super(inflater.inflate(R.layout.draggable_list_item, parent, false));
       textView = itemView.findViewById(R.id.text_view);
       ImageView imageView = itemView.findViewById(R.id.drag_image_view);
-      imageView.setOnTouchListener((v, event) -> {
+      imageView.setOnTouchListener((view, event) -> {
         itemTouchHelper.startDrag(ExerciseHolder.this);
         return true;
       });
-      itemView.setOnLongClickListener(v -> {
+      itemView.setOnLongClickListener(view -> {
         showDeleteExerciseDialog(exercise.getId());
         return false;
       });

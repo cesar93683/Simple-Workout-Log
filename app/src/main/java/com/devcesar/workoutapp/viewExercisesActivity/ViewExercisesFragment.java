@@ -66,6 +66,7 @@ public class ViewExercisesFragment extends Fragment {
     int id = getArguments().getInt(ARG_ID);
     String name = getArguments().getString(ARG_NAME);
     namedEntity = new NamedEntity(name, id);
+
     type = getArguments().getInt(ARG_TYPE);
     switch (type) {
       case Constants.TYPE_ROUTINE:
@@ -111,7 +112,8 @@ public class ViewExercisesFragment extends Fragment {
         Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
         startActivityForResult(intent, REQ_EDIT);
       } else {
-        Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, namedEntity.getName());
+        Intent intent = AddExercisesActivity
+            .newIntent(getActivity(), exercises, namedEntity.getName());
         startActivityForResult(intent, REQ_ADD);
       }
     };
@@ -136,21 +138,23 @@ public class ViewExercisesFragment extends Fragment {
     }
   }
 
-  private void showDeleteExerciseDialog(final int exerciseId) {
+  private void showDeleteExerciseDialog(int exerciseId) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String
             .format(getString(R.string.delete_item_confirmation), getString(R.string.exercise)))
         .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-          lab.deleteExercise(namedEntity.getId(), exerciseId, getContext());
-          exercises.clear();
-          exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
-          exerciseAdapter.notifyDataSetChanged();
-          Snackbar.make(getActivity().findViewById(android.R.id.content),
-              String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
-              Snackbar.LENGTH_SHORT).show();
-        })
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExercise(exerciseId))
         .show();
+  }
+
+  private void deleteExercise(int exerciseId) {
+    lab.deleteExercise(namedEntity.getId(), exerciseId, getContext());
+    exercises.clear();
+    exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
+    exerciseAdapter.notifyDataSetChanged();
+    Snackbar.make(getActivity().findViewById(android.R.id.content),
+        String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
+        Snackbar.LENGTH_SHORT).show();
   }
 
   private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
