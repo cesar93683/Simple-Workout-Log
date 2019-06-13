@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityMainBinding;
@@ -11,27 +13,26 @@ import com.devcesar.workoutapp.utils.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
+  private Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
+  private Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
+  private Fragment categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
   private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
       item -> {
-        Fragment selectedFragment = null;
         switch (item.getItemId()) {
           case R.id.nav_exercise_select:
             setTitle(R.string.exercise);
-            selectedFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
-            break;
+            setTabStateFragment(item.getItemId()).commit();
+            return true;
           case R.id.nav_category:
             setTitle(R.string.category);
-            selectedFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
-            break;
+            setTabStateFragment(item.getItemId()).commit();
+            return true;
           case R.id.nav_routine:
             setTitle(R.string.routine);
-            selectedFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
-            break;
+            setTabStateFragment(item.getItemId()).commit();
+            return true;
         }
-        getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_container, selectedFragment)
-            .commit();
-        return true;
+        return false;
       };
 
   @Override
@@ -41,12 +42,38 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
-    if (savedInstanceState == null) {
-      setTitle(R.string.exercise);
-      getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragment_container,
-              SelectFragment.newInstance(Constants.TYPE_EXERCISE))
-          .commit();
-    }
+    setTitle(R.string.exercise);
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(R.id.fragment_container, exerciseFragment)
+        .add(R.id.fragment_container, routineFragment)
+        .add(R.id.fragment_container, categoryFragment)
+        .commit();
   }
+
+  private FragmentTransaction setTabStateFragment(int type) {
+    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    switch (type) {
+      case R.id.nav_category:
+        transaction.show(categoryFragment);
+        transaction.hide(exerciseFragment);
+        transaction.hide(routineFragment);
+        break;
+      case R.id.nav_exercise_select:
+        transaction.hide(categoryFragment);
+        transaction.show(exerciseFragment);
+        transaction.hide(routineFragment);
+        break;
+      case R.id.nav_routine:
+        transaction.hide(categoryFragment);
+        transaction.hide(exerciseFragment);
+        transaction.show(routineFragment);
+        break;
+    }
+
+    return transaction;
+  }
+
+
 }
