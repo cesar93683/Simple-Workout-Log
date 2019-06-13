@@ -72,8 +72,7 @@ class GoToViewExercisesActivity implements SelectFragmentOnClick {
 
   @Override
   public void onClick(final NamedEntity namedEntity) {
-    Intent intent = ViewExercisesActivity
-        .newIntent(activity, namedEntity.getName(), namedEntity.getId(), type);
+    Intent intent = ViewExercisesActivity.newIntent(activity, namedEntity, type);
     activity.startActivity(intent);
   }
 }
@@ -87,9 +86,8 @@ class GoToExerciseActivity implements SelectFragmentOnClick {
   }
 
   @Override
-  public void onClick(final NamedEntity namedEntity) {
-    Intent intent = ExerciseActivity
-        .newIntent(activity, namedEntity.getName(), namedEntity.getId());
+  public void onClick(final NamedEntity exercise) {
+    Intent intent = ExerciseActivity.newIntent(activity, exercise);
     activity.startActivity(intent);
   }
 }

@@ -15,6 +15,7 @@ import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityExerciseBinding;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,13 +25,12 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private ViewPager mViewPager;
-  private int exerciseId;
-  private String exerciseName;
+  private NamedEntity exercise;
 
-  public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId) {
+  public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
-    intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
-    intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
+    intent.putExtra(EXTRA_EXERCISE_NAME, exercise.getName());
+    intent.putExtra(EXTRA_EXERCISE_ID, exercise.getId());
     return intent;
   }
 
@@ -41,12 +41,14 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setContentView(this, R.layout.activity_exercise);
 
     int invalid = -1;
-    exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
+    int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
     if (exerciseId == invalid) {
       finish();
     }
 
-    exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
+    String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
+
+    exercise = new NamedEntity(exerciseName,exerciseId);
 
     setSupportActionBar(binding.toolbar);
     binding.toolbar.setTitle(exerciseName);
@@ -67,7 +69,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   @Override
   public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
     long timeStamp = new Date().getTime();
-    Workout workout = new Workout(exerciseId, exerciseSets, timeStamp);
+    Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
     WorkoutLab.get(this).insertWorkout(workout);
     finish();
   }
@@ -94,10 +96,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       Fragment fragment = null;
       switch (position) {
         case 0:
-          fragment = ExerciseFragment.newInstance(exerciseId);
+          fragment = ExerciseFragment.newInstance(exercise.getId());
           break;
         case 1:
-          fragment = WorkoutHistoryFragment.newInstance(exerciseId, exerciseName);
+          fragment = WorkoutHistoryFragment.newInstance(exercise);
           break;
       }
       return fragment;

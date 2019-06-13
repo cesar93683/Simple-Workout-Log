@@ -39,24 +39,23 @@ public class ViewExercisesFragment extends Fragment {
   private static final int REQ_EDIT = 1;
   private static final int REQ_ADD = 2;
 
-  private int id;
-  private String name;
   private int type;
   private String nameType;
   private CategoryOrRoutineLab lab;
   private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
+  private NamedEntity namedEntity;
 
   public ViewExercisesFragment() {
     // Required empty public constructor
   }
 
-  public static ViewExercisesFragment newInstance(int id, String name, int type) {
+  public static ViewExercisesFragment newInstance(NamedEntity namedEntity, int type) {
     ViewExercisesFragment fragment = new ViewExercisesFragment();
     Bundle args = new Bundle();
-    args.putInt(ARG_ID, id);
+    args.putInt(ARG_ID, namedEntity.getId());
     args.putInt(ARG_TYPE, type);
-    args.putString(ARG_NAME, name);
+    args.putString(ARG_NAME, namedEntity.getName());
     fragment.setArguments(args);
     return fragment;
   }
@@ -64,8 +63,9 @@ public class ViewExercisesFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    id = getArguments().getInt(ARG_ID);
-    name = getArguments().getString(ARG_NAME);
+    int id = getArguments().getInt(ARG_ID);
+    String name = getArguments().getString(ARG_NAME);
+    namedEntity = new NamedEntity(name, id);
     type = getArguments().getInt(ARG_TYPE);
     switch (type) {
       case Constants.TYPE_ROUTINE:
@@ -108,10 +108,10 @@ public class ViewExercisesFragment extends Fragment {
   private View.OnClickListener editFabClickListener() {
     return v -> {
       if (type == Constants.TYPE_ROUTINE) {
-        Intent intent = EditRoutineActivity.newIntent(getActivity(), id, name);
+        Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
         startActivityForResult(intent, REQ_EDIT);
       } else {
-        Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, name);
+        Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, namedEntity.getName());
         startActivityForResult(intent, REQ_ADD);
       }
     };
@@ -123,12 +123,12 @@ public class ViewExercisesFragment extends Fragment {
     if (resultCode == Activity.RESULT_OK) {
       if (requestCode == REQ_EDIT) {
         exercises.clear();
-        exercises.addAll(lab.getExercises(id, getContext()));
+        exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
       } else if (requestCode == REQ_ADD) {
         ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
         exercises.addAll(NamedEntitiesUtils.getNamedEntities(newExerciseIds, getContext()));
         Collections.sort(exercises);
-        lab.updateExercises(id, exercises);
+        lab.updateExercises(namedEntity.getId(), exercises);
       }
       exerciseAdapter.notifyDataSetChanged();
       Snackbar.make(getActivity().findViewById(android.R.id.content),
@@ -138,12 +138,13 @@ public class ViewExercisesFragment extends Fragment {
 
   private void showDeleteExerciseDialog(final int exerciseId) {
     new AlertDialog.Builder(getActivity())
-        .setMessage(String.format(getString(R.string.delete_item_confirmation), getString(R.string.exercise)))
+        .setMessage(String
+            .format(getString(R.string.delete_item_confirmation), getString(R.string.exercise)))
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-          lab.deleteExercise(id, exerciseId, getContext());
+          lab.deleteExercise(namedEntity.getId(), exerciseId, getContext());
           exercises.clear();
-          exercises.addAll(lab.getExercises(id, getContext()));
+          exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
           exerciseAdapter.notifyDataSetChanged();
           Snackbar.make(getActivity().findViewById(android.R.id.content),
               String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
@@ -170,8 +171,7 @@ public class ViewExercisesFragment extends Fragment {
 
     @Override
     public void onClick(View view) {
-      Intent intent = ExerciseActivity
-          .newIntent(getActivity(), exercise.getName(), exercise.getId());
+      Intent intent = ExerciseActivity.newIntent(getActivity(), exercise);
       startActivity(intent);
     }
 

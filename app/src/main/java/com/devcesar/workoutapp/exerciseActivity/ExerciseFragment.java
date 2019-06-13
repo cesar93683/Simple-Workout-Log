@@ -32,7 +32,7 @@ public class ExerciseFragment extends Fragment {
   private static final String ARGS_TIME_STAMP = "ARGS_TIME_STAMP";
   private static final long NO_TIME_STAMP = -1;
   private ArrayList<ExerciseSet> exerciseSets;
-  private ExerciseAdapter exerciseSetsAdapter;
+  private ExerciseSetAdapter exerciseSetsAdapter;
   private boolean isEditing;
   private boolean hasBeenModified;
 
@@ -74,7 +74,7 @@ public class ExerciseFragment extends Fragment {
       exerciseSets.addAll(
           WorkoutLab.get(getActivity()).getWorkout(exerciseId, timeStamp).getExerciseSets());
     }
-    exerciseSetsAdapter = new ExerciseAdapter(exerciseSets);
+    exerciseSetsAdapter = new ExerciseSetAdapter(exerciseSets);
   }
 
   @Nullable
@@ -316,11 +316,11 @@ public class ExerciseFragment extends Fragment {
         .show();
   }
 
-  public class ExerciseHolder extends RecyclerView.ViewHolder {
+  public class ExerciseSetHolder extends RecyclerView.ViewHolder {
 
     private ExerciseSet exerciseSet;
 
-    ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
+    ExerciseSetHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.simple_list_item, parent, false));
       itemView.setOnLongClickListener(v -> {
         showEditOrDeleteDialog(exerciseSet.getSetNumber() - 1);
@@ -335,23 +335,23 @@ public class ExerciseFragment extends Fragment {
 
   }
 
-  class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
+  class ExerciseSetAdapter extends RecyclerView.Adapter<ExerciseSetHolder> {
 
     private final List<ExerciseSet> exerciseSets;
 
-    ExerciseAdapter(List<ExerciseSet> exerciseSets) {
+    ExerciseSetAdapter(List<ExerciseSet> exerciseSets) {
       this.exerciseSets = exerciseSets;
     }
 
     @NonNull
     @Override
-    public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ExerciseSetHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-      return new ExerciseHolder(layoutInflater, parent);
+      return new ExerciseSetHolder(layoutInflater, parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ExerciseSetHolder holder, int position) {
       ExerciseSet exerciseSet = exerciseSets.get(position);
       holder.bind(exerciseSet);
     }

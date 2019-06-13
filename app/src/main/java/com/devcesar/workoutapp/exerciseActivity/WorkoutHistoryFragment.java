@@ -25,6 +25,7 @@ import com.devcesar.workoutapp.databinding.FragmentWorkoutHistoryBinding;
 import com.devcesar.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -35,20 +36,19 @@ public class WorkoutHistoryFragment extends Fragment {
   private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
   private static final String ARGS_EXERCISE_NAME = "ARGS_EXERCISE_NAME";
   private static final int REQUEST_CODE_EDIT_WORKOUT = 1;
-  private int exerciseId;
-  private String exerciseName;
   private ArrayList<Workout> workouts;
   private WorkoutHistoryAdapter workoutHistoryAdapter;
+  private NamedEntity exercise;
 
   public WorkoutHistoryFragment() {
     // Required empty public constructor
   }
 
-  public static Fragment newInstance(int exerciseId, String exerciseName) {
+  public static Fragment newInstance(NamedEntity exercise) {
     WorkoutHistoryFragment fragment = new WorkoutHistoryFragment();
     Bundle args = new Bundle();
-    args.putInt(ARGS_EXERCISE_ID, exerciseId);
-    args.putString(ARGS_EXERCISE_NAME, exerciseName);
+    args.putInt(ARGS_EXERCISE_ID, exercise.getId());
+    args.putString(ARGS_EXERCISE_NAME, exercise.getName());
     fragment.setArguments(args);
     return fragment;
   }
@@ -56,8 +56,10 @@ public class WorkoutHistoryFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
-    exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
+    int exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
+    String exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
+    exercise = new NamedEntity(exerciseName, exerciseId);
+
     workouts = WorkoutLab.get(getActivity()).getWorkouts(exerciseId);
     workoutHistoryAdapter = new WorkoutHistoryAdapter(workouts);
   }
@@ -89,7 +91,7 @@ public class WorkoutHistoryFragment extends Fragment {
     dialogBinding.editLinearLayout.setOnClickListener(
         v -> {
           Intent intent = EditExerciseActivity
-              .newIntent(getActivity(), exerciseName, exerciseId, workout.getTimeStamp());
+              .newIntent(getActivity(), exercise, workout.getTimeStamp());
           startActivityForResult(intent, REQUEST_CODE_EDIT_WORKOUT);
           alertDialog.dismiss();
         });
@@ -113,15 +115,20 @@ public class WorkoutHistoryFragment extends Fragment {
   private void deleteWorkout(Workout workout) {
     WorkoutLab.get(getActivity()).deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
     updateWorkouts();
-    Snackbar.make(getActivity().findViewById(android.R.id.content),
-        String.format(getString(R.string.item_deleted), getString(R.string.workout)),
-        Snackbar.LENGTH_SHORT).show();
+    showSnackbar(R.string.item_deleted);
   }
 
   private void updateWorkouts() {
     workouts.clear();
-    workouts.addAll(WorkoutLab.get(getActivity()).getWorkouts(exerciseId));
+    workouts.addAll(WorkoutLab.get(getActivity()).getWorkouts(exercise.getId()));
     workoutHistoryAdapter.notifyDataSetChanged();
+    showSnackbar(R.string.item_updated);
+  }
+
+  private void showSnackbar(int item_action) {
+    Snackbar.make(getActivity().findViewById(android.R.id.content),
+        String.format(getString(item_action), getString(R.string.workout)), Snackbar.LENGTH_SHORT)
+        .show();
   }
 
   @Override
@@ -129,14 +136,10 @@ public class WorkoutHistoryFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
       updateWorkouts();
-      Snackbar.make(getActivity().findViewById(android.R.id.content),
-          String.format(getString(R.string.item_updated), getString(R.string.workout)),
-          Snackbar.LENGTH_SHORT).show();
     }
   }
 
-  private class WorkoutHistoryHolder extends RecyclerView.ViewHolder implements
-      View.OnLongClickListener {
+  private class WorkoutHistoryHolder extends RecyclerView.ViewHolder {
 
     private final TextView timeTextView;
     private final LinearLayout exerciseSetsContainer;
@@ -145,7 +148,10 @@ public class WorkoutHistoryFragment extends Fragment {
 
     WorkoutHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.history_list_item, parent, false));
-      itemView.setOnLongClickListener(this);
+      itemView.setOnLongClickListener(v -> {
+        showEditOrDeleteDialog(workout);
+        return true;
+      });
       dateTextView = itemView.findViewById(R.id.date_text_view);
       timeTextView = itemView.findViewById(R.id.time_text_view);
       exerciseSetsContainer = itemView.findViewById(R.id.exercise_sets_container);
@@ -163,19 +169,19 @@ public class WorkoutHistoryFragment extends Fragment {
       exerciseSetsContainer.removeAllViews();
 
       for (ExerciseSet exerciseSet : workout.getExerciseSets()) {
-        @SuppressLint("InflateParams") TextView textView = (TextView) LayoutInflater
-            .from(getActivity()).inflate(R.layout.simple_list_item, null);
-        textView.setText(exerciseSet.toString());
-        textView.setBackground(null);
-        exerciseSetsContainer.addView(textView);
+        exerciseSetsContainer.addView(getExerciseSetView(exerciseSet));
       }
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-      showEditOrDeleteDialog(workout);
-      return true;
+    @NonNull
+    private TextView getExerciseSetView(ExerciseSet exerciseSet) {
+      @SuppressLint("InflateParams") TextView textView = (TextView) LayoutInflater
+          .from(getActivity()).inflate(R.layout.simple_list_item, null);
+      textView.setText(exerciseSet.toString());
+      textView.setBackground(null);
+      return textView;
     }
+
   }
 
   private class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryHolder> {

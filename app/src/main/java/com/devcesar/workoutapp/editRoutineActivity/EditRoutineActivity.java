@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.utils.NamedEntity;
 
 public class EditRoutineActivity extends AppCompatActivity {
 
@@ -14,10 +15,10 @@ public class EditRoutineActivity extends AppCompatActivity {
   private static final String EXTRA_ROUTINE_NAME = "EXTRA_ROUTINE_NAME";
   private Fragment fragment;
 
-  public static Intent newIntent(Context packageContext, int routineId, String routineName) {
+  public static Intent newIntent(Context packageContext, NamedEntity routine) {
     Intent intent = new Intent(packageContext, EditRoutineActivity.class);
-    intent.putExtra(EXTRA_ROUTINE_ID, routineId);
-    intent.putExtra(EXTRA_ROUTINE_NAME, routineName);
+    intent.putExtra(EXTRA_ROUTINE_ID, routine.getId());
+    intent.putExtra(EXTRA_ROUTINE_NAME, routine.getName());
     return intent;
   }
 
@@ -36,7 +37,7 @@ public class EditRoutineActivity extends AppCompatActivity {
     FragmentManager fm = getSupportFragmentManager();
     fragment = fm.findFragmentById(R.id.fragment_container);
     if (fragment == null) {
-      fragment = EditRoutineFragment.newInstance(routineId, routineName);
+      fragment = EditRoutineFragment.newInstance(new NamedEntity(routineName, routineId));
       fm.beginTransaction()
           .add(R.id.fragment_container, fragment)
           .commit();

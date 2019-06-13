@@ -37,22 +37,21 @@ public class EditRoutineFragment extends Fragment {
 
   private static final int REQ_ADD_EXERCISE = 1;
 
-  private int routineId;
-  private String routineName;
   private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
   private boolean hasBeenModified;
   private ItemTouchHelper itemTouchHelper;
+  private NamedEntity routine;
 
   public EditRoutineFragment() {
     // Required empty public constructor
   }
 
-  public static EditRoutineFragment newInstance(int routineId, String routineName) {
+  public static EditRoutineFragment newInstance(NamedEntity routine) {
     EditRoutineFragment fragment = new EditRoutineFragment();
     Bundle args = new Bundle();
-    args.putInt(ARG_ROUTINE_ID, routineId);
-    args.putString(ARG_ROUTINE_NAME, routineName);
+    args.putInt(ARG_ROUTINE_ID, routine.getId());
+    args.putString(ARG_ROUTINE_NAME, routine.getName());
     fragment.setArguments(args);
     return fragment;
   }
@@ -60,8 +59,9 @@ public class EditRoutineFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    routineId = getArguments().getInt(ARG_ROUTINE_ID);
-    routineName = getArguments().getString(ARG_ROUTINE_NAME);
+    int routineId = getArguments().getInt(ARG_ROUTINE_ID);
+    String routineName = getArguments().getString(ARG_ROUTINE_NAME);
+    routine = new NamedEntity(routineName, routineId);
     exercises = CategoryOrRoutineLab.getRoutineLab(getActivity())
         .getExercises(routineId, getContext());
     exerciseAdapter = new ExerciseAdapter(exercises);
@@ -116,13 +116,13 @@ public class EditRoutineFragment extends Fragment {
   @NonNull
   private View.OnClickListener addExerciseFabClickListener() {
     return v -> {
-      Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routineName);
+      Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routine.getName());
       startActivityForResult(intent, REQ_ADD_EXERCISE);
     };
   }
 
   private void saveExercises() {
-    CategoryOrRoutineLab.getRoutineLab(getActivity()).updateExercises(routineId, exercises);
+    CategoryOrRoutineLab.getRoutineLab(getActivity()).updateExercises(routine.getId(), exercises);
     Intent intent = new Intent();
     getActivity().setResult(Activity.RESULT_OK, intent);
     getActivity().finish();
@@ -183,8 +183,8 @@ public class EditRoutineFragment extends Fragment {
 
   private class ExerciseHolder extends RecyclerView.ViewHolder {
 
-    final TextView textView;
-    NamedEntity exercise;
+    private final TextView textView;
+    private NamedEntity exercise;
 
     @SuppressLint("ClickableViewAccessibility")
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {

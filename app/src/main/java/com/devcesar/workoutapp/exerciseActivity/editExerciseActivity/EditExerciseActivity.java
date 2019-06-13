@@ -11,6 +11,7 @@ import com.devcesar.workoutapp.exerciseActivity.ExerciseFragment;
 import com.devcesar.workoutapp.exerciseActivity.SaveSets;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
 import java.util.ArrayList;
 
@@ -23,11 +24,10 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   private long timeStamp;
   private Fragment fragment;
 
-  public static Intent newIntent(Context packageContext, String exerciseName, int exerciseId,
-      long timeStamp) {
+  public static Intent newIntent(Context packageContext, NamedEntity exercise, long timeStamp) {
     Intent intent = new Intent(packageContext, EditExerciseActivity.class);
-    intent.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
-    intent.putExtra(EXTRA_EXERCISE_ID, exerciseId);
+    intent.putExtra(EXTRA_EXERCISE_NAME, exercise.getName());
+    intent.putExtra(EXTRA_EXERCISE_ID, exercise.getId());
     intent.putExtra(EXTRA_TIME_STAMP, timeStamp);
     return intent;
   }
