@@ -174,7 +174,7 @@ public class ExerciseFragment extends Fragment {
   private boolean validateReps(TextInputLayout repsTextInputLayout) {
     String repsString = repsTextInputLayout.getEditText().getText().toString();
     if (repsString.isEmpty() || Integer.parseInt(repsString) == 0) {
-      repsTextInputLayout.setError(getString(R.string.error_no_reps));
+      repsTextInputLayout.setError(getString(R.string.please_enter_at_least_1_rep));
       return false;
     }
     repsTextInputLayout.setErrorEnabled(false);
@@ -240,7 +240,8 @@ public class ExerciseFragment extends Fragment {
 
   private void createDeleteSetDialog(final int position) {
     new AlertDialog.Builder(getActivity())
-        .setMessage(R.string.are_you_sure_delete_set)
+        .setMessage(String.format(getString(R.string.delete_item_confirmation),
+            getString(R.string.set).toLowerCase()))
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExerciseSet(position))
         .setNegativeButton(R.string.no, null)
         .show();
@@ -273,7 +274,8 @@ public class ExerciseFragment extends Fragment {
 
     alertDialog.dismiss();
     hasBeenModified = true;
-    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_updated,
+    Snackbar.make(getActivity().findViewById(android.R.id.content),
+        String.format(getString(R.string.item_updated), getString(R.string.set)),
         Snackbar.LENGTH_SHORT).show();
   }
 
@@ -282,7 +284,8 @@ public class ExerciseFragment extends Fragment {
     updateExerciseSetNumbers(position);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
-    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_deleted,
+    Snackbar.make(getActivity().findViewById(android.R.id.content),
+        String.format(getString(R.string.item_deleted), getString(R.string.set)),
         Snackbar.LENGTH_SHORT).show();
   }
 

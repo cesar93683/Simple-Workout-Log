@@ -103,13 +103,15 @@ public class WorkoutHistoryFragment extends Fragment {
 
   private void createDeleteDialog(final int position) {
     new AlertDialog.Builder(getActivity())
-        .setMessage(R.string.are_you_sure_delete_workout)
+        .setMessage(String.format(getString(R.string.delete_item_confirmation),
+            getString(R.string.workout).toLowerCase()))
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
           Workout workout = workouts.get(position);
           WorkoutLab.get(getActivity())
               .deleteWorkout(workout.getExerciseId(), workout.getTimeStamp());
           updateWorkouts();
-          Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.workout_deleted,
+          Snackbar.make(getActivity().findViewById(android.R.id.content),
+              String.format(getString(R.string.item_deleted), getString(R.string.workout)),
               Snackbar.LENGTH_SHORT).show();
         })
         .setNegativeButton(R.string.no, null)
@@ -127,7 +129,8 @@ public class WorkoutHistoryFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
       updateWorkouts();
-      Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.workout_updated,
+      Snackbar.make(getActivity().findViewById(android.R.id.content),
+          String.format(getString(R.string.item_updated), getString(R.string.workout)),
           Snackbar.LENGTH_SHORT).show();
     }
   }

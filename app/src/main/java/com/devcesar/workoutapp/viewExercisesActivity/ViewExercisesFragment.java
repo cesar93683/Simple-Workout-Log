@@ -138,14 +138,15 @@ public class ViewExercisesFragment extends Fragment {
 
   private void createDeleteExerciseDialog(final int exerciseId) {
     new AlertDialog.Builder(getActivity())
-        .setMessage(R.string.are_you_sure_delete_exercise)
+        .setMessage(String.format(getString(R.string.delete_item_confirmation), getString(R.string.exercise)))
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
           lab.deleteExercise(id, exerciseId, getContext());
           exercises.clear();
           exercises.addAll(lab.getExercises(id, getContext()));
           exerciseAdapter.notifyDataSetChanged();
-          Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+          Snackbar.make(getActivity().findViewById(android.R.id.content),
+              String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
               Snackbar.LENGTH_SHORT).show();
         })
         .show();

@@ -145,7 +145,7 @@ public class SelectFragment extends Fragment {
 
   private boolean validateNotEmpty(String name, TextInputLayout textInputLayout) {
     if (name.isEmpty()) {
-      textInputLayout.setError(getString(R.string.error_no_name));
+      textInputLayout.setError(getString(R.string.please_enter_name));
       return false;
     }
     return true;
@@ -169,7 +169,7 @@ public class SelectFragment extends Fragment {
     final DialogEditOrDeleteBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.dialog_edit_or_delete, null, false);
 
-    dialogBinding.editTextView.setText(R.string.dialog_rename_text);
+    dialogBinding.editTextView.setText(R.string.rename);
 
     final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setView(dialogBinding.getRoot()).create();
@@ -218,7 +218,7 @@ public class SelectFragment extends Fragment {
   }
 
   private void showDeleteDialog(final NamedEntity namedEntity) {
-    String deleteConfirmationMsg = String.format(getString(R.string.delete_confirmation),
+    String deleteConfirmationMsg = String.format(getString(R.string.delete_item_confirmation),
         selectFragmentHelper.getName().toLowerCase());
 
     new AlertDialog.Builder(getActivity())
@@ -249,7 +249,7 @@ public class SelectFragment extends Fragment {
   private boolean validateNotSameName(String oldName, String newName,
       TextInputLayout textInputLayout) {
     if (oldName.equals(newName)) {
-      textInputLayout.setError(getString(R.string.error_same_name));
+      textInputLayout.setError(getString(R.string.same_name));
       return false;
     }
     return true;

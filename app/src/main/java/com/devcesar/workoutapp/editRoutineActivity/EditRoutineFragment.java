@@ -108,7 +108,7 @@ public class EditRoutineFragment extends Fragment {
     binding.fabAction1.setTitle(getString(R.string.add_exercises));
     binding.fabAction1.setOnClickListener(addExerciseFabClickListener());
 
-    binding.fabAction2.setTitle(getString(R.string.save_text));
+    binding.fabAction2.setTitle(getString(R.string.save));
     binding.fabAction2.setOnClickListener(v -> saveExercises());
     return binding.getRoot();
   }
@@ -136,7 +136,8 @@ public class EditRoutineFragment extends Fragment {
       exercises.addAll(NamedEntitiesUtils.getNamedEntities(newExerciseIds, getContext()));
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
-      Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_updated,
+      Snackbar.make(getActivity().findViewById(android.R.id.content),
+          String.format(getString(R.string.item_updated), getString(R.string.exercise)),
           Snackbar.LENGTH_SHORT).show();
     }
   }
@@ -161,7 +162,8 @@ public class EditRoutineFragment extends Fragment {
 
   private void createDeleteExerciseDialog(final int exerciseId) {
     new AlertDialog.Builder(getActivity())
-        .setMessage(R.string.are_you_sure_delete_exercise)
+        .setMessage(String.format(getString(R.string.delete_item_confirmation),
+            getString(R.string.exercise).toLowerCase()))
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
           for (int j = 0; j < exercises.size(); j++) {
@@ -172,7 +174,8 @@ public class EditRoutineFragment extends Fragment {
           }
           hasBeenModified = true;
           exerciseAdapter.notifyDataSetChanged();
-          Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.exercise_deleted,
+          Snackbar.make(getActivity().findViewById(android.R.id.content),
+              String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
               Snackbar.LENGTH_SHORT).show();
         })
         .show();

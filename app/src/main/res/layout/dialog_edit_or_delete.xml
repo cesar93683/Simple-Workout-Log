@@ -34,7 +34,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/dialog_edit_text"
+        android:text="@string/edit"
         android:textSize="20sp"/>
     </LinearLayout>
 
@@ -61,7 +61,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/dialog_delete_text"
+        android:text="@string/delete"
         android:textSize="20sp"/>
     </LinearLayout>
   </LinearLayout>

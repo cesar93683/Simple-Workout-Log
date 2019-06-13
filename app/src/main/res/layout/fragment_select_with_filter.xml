@@ -13,7 +13,7 @@
       android:id="@+id/filter_edit_text"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/filter_edit_text_hint"
+      android:hint="@string/filter"
       android:inputType="text"
       android:textSize="20sp"/>
 
