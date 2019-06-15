@@ -48,13 +48,13 @@ public class ExerciseLab implements NamedEntityLab {
     return exerciseLab;
   }
 
-  public NamedEntity getExerciseById(int id) {
+  public NamedEntity findExercise(int id) {
     for (NamedEntity exercise : exercises) {
       if (exercise.getId() == id) {
         return exercise;
       }
     }
-    throw new RuntimeException("ERROR: exercise id does not exist");
+    throw new RuntimeException(String.format("ERROR: exercise id:%d does not exist", id));
   }
 
   @Override
@@ -100,17 +100,12 @@ public class ExerciseLab implements NamedEntityLab {
 
   @Override
   public ArrayList<NamedEntity> getFiltered(String filter) {
-    return new ArrayList<>(getFilteredExercises(filter));
-  }
-
-  public ArrayList<NamedEntity> getFilteredExercises(String filter) {
-    ArrayList<NamedEntity> filteredExercises = new ArrayList<>();
+    ArrayList<NamedEntity> filtered = new ArrayList<>();
     for (NamedEntity exercise : exercises) {
       if (exercise.getName().contains(filter)) {
-        filteredExercises.add(exercise);
+        filtered.add(exercise);
       }
     }
-    return filteredExercises;
+    return filtered;
   }
-
 }

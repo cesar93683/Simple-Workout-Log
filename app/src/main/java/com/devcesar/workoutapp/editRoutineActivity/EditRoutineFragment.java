@@ -106,19 +106,16 @@ public class EditRoutineFragment extends Fragment {
     itemTouchHelper.attachToRecyclerView(binding.recyclerView);
 
     binding.fabAction1.setTitle(getString(R.string.add_exercises));
-    binding.fabAction1.setOnClickListener(addExerciseFabClickListener());
+    binding.fabAction1.setOnClickListener(v -> addExercise());
 
     binding.fabAction2.setTitle(getString(R.string.save));
     binding.fabAction2.setOnClickListener(v -> saveExercises());
     return binding.getRoot();
   }
 
-  @NonNull
-  private View.OnClickListener addExerciseFabClickListener() {
-    return v -> {
-      Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routine.getName());
-      startActivityForResult(intent, REQ_ADD_EXERCISE);
-    };
+  private void addExercise() {
+    Intent intent = AddExercisesActivity.newIntent(getActivity(), exercises, routine.getName());
+    startActivityForResult(intent, REQ_ADD_EXERCISE);
   }
 
   private void saveExercises() {

@@ -65,7 +65,7 @@ public class AddExerciseFragment extends Fragment {
 
   private void updateFilteredExercises() {
     filteredExercises.clear();
-    filteredExercises.addAll(ExerciseLab.get(getActivity()).getFilteredExercises(textFilter));
+    filteredExercises.addAll(ExerciseLab.get(getActivity()).getFiltered(textFilter));
     // api 24 to remove for-loop
 //    filteredExercises.removeIf(exercise -> exerciseIdsToExclude.contains(exercise.getId()));
     for (int i = filteredExercises.size() - 1; i >= 0; i--) {
@@ -83,7 +83,7 @@ public class AddExerciseFragment extends Fragment {
     FragmentSelectWithFilterBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
-    binding.fab.setOnClickListener(saveFab());
+    binding.fab.setOnClickListener(v -> save());
     binding.fab.setImageDrawable(
         ContextCompat.getDrawable(getContext(), R.drawable.ic_check_black_24dp));
 
@@ -98,13 +98,11 @@ public class AddExerciseFragment extends Fragment {
     return binding.getRoot();
   }
 
-  private View.OnClickListener saveFab() {
-    return v -> {
+  private void save() {
       Intent intent = new Intent();
       intent.putExtra(EXTRA_NEW_EXERCISE_IDS, getIds(exercisesToAdd));
       getActivity().setResult(Activity.RESULT_OK, intent);
       getActivity().finish();
-    };
   }
 
   @NonNull

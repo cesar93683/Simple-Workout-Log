@@ -24,7 +24,7 @@ public class NamedEntitiesUtils {
   public static List<NamedEntity> getNamedEntities(ArrayList<Integer> ids, Context context) {
     List<NamedEntity> namedEntities = new LinkedList<>();
     for (int exerciseId : ids) {
-      namedEntities.add(ExerciseLab.get(context).getExerciseById(exerciseId));
+      namedEntities.add(ExerciseLab.get(context).findExercise(exerciseId));
     }
     return namedEntities;
   }

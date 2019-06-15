@@ -102,21 +102,19 @@ public class ViewExercisesFragment extends Fragment {
       binding.fab.setImageDrawable(
           ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
     }
-    binding.fab.setOnClickListener(editFabClickListener());
+    binding.fab.setOnClickListener(v -> edit());
     return binding.getRoot();
   }
 
-  private View.OnClickListener editFabClickListener() {
-    return v -> {
-      if (type == Constants.TYPE_ROUTINE) {
-        Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
-        startActivityForResult(intent, REQ_EDIT);
-      } else {
-        Intent intent = AddExercisesActivity
-            .newIntent(getActivity(), exercises, namedEntity.getName());
-        startActivityForResult(intent, REQ_ADD);
-      }
-    };
+  private void edit() {
+    if (type == Constants.TYPE_ROUTINE) {
+      Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
+      startActivityForResult(intent, REQ_EDIT);
+    } else {
+      Intent intent = AddExercisesActivity
+          .newIntent(getActivity(), exercises, namedEntity.getName());
+      startActivityForResult(intent, REQ_ADD);
+    }
   }
 
   @Override
