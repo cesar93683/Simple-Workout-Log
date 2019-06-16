@@ -14,6 +14,7 @@ import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CategoryOrRoutineLab implements NamedEntityLab {
@@ -41,7 +42,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   private void updateNamedEntities() {
     namedEntities.clear();
     String[] columns = new String[]{colId, colName};
-    CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(columns,null, null);
+    CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(columns, null, null);
     namedEntities = new ArrayList<>();
     while (cursor.moveToNext()) {
       namedEntities.add(cursor.getNamedEntity());
@@ -77,15 +78,6 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
           RoutineTable.Cols.EXERCISE_IDS);
     }
     return routineLab;
-  }
-
-  @Override
-  public void insert(String name) {
-    ContentValues values = new ContentValues();
-    values.put(colName, name);
-    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
-    database.insert(tableName, null, values);
-    updateNamedEntities();
   }
 
   @Override
@@ -156,6 +148,51 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(tableName, values, whereClause, whereArgs);
+  }
+
+  public void importNamedEntitiesAndExercises(
+      HashMap<String, ArrayList<String>> namedEntitiesAndExerciseNames, Context context) {
+    ArrayList<String> names = new ArrayList<>(namedEntitiesAndExerciseNames.keySet());
+    insertNames(names);
+    for (String name : namedEntitiesAndExerciseNames.keySet()) {
+      List<NamedEntity> exercises = new ArrayList<>();
+      for (String exerciseName : namedEntitiesAndExerciseNames.get(name)) {
+        NamedEntity exercise = ExerciseLab.get(context).findExercise(exerciseName);
+        exercises.add(exercise);
+      }
+      NamedEntity namedEntity = findNamedEntity(name);
+      updateExercises(namedEntity.getId(), exercises);
+    }
+  }
+
+  private void insertNames(List<String> names) {
+    for (String categoryName : names) {
+      insertNamedEntity(categoryName);
+    }
+    updateNamedEntities();
+  }
+
+  @Override
+  public void insert(String name) {
+    insertNamedEntity(name);
+    updateNamedEntities();
+  }
+
+  private void insertNamedEntity(String name) {
+    ContentValues values = new ContentValues();
+    values.put(colName, name);
+    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
+    database.insert(tableName, null, values);
+  }
+
+  private NamedEntity findNamedEntity(String name) {
+    for (NamedEntity namedEntity : namedEntities) {
+      if (namedEntity.getName().equals(name)) {
+        return namedEntity;
+      }
+    }
+    throw new RuntimeException(
+        String.format("ERROR: category or routine name:%s does not exist", name));
   }
 
 }

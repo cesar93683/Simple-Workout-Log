@@ -10,6 +10,7 @@ import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.NamedEntityCursorWrapper;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ExerciseLab implements NamedEntityLab {
 
@@ -57,11 +58,24 @@ public class ExerciseLab implements NamedEntityLab {
     throw new RuntimeException(String.format("ERROR: exercise id:%d does not exist", id));
   }
 
+  NamedEntity findExercise(String name) {
+    for (NamedEntity exercise : exercises) {
+      if (exercise.getName().equals(name)) {
+        return exercise;
+      }
+    }
+    throw new RuntimeException(String.format("ERROR: exercise name:%s does not exist", name));
+  }
+
   @Override
   public void insert(String name) {
+    insertExercise(name);
+    updateExercises();
+  }
+
+  private void insertExercise(String name) {
     ContentValues values = getContentValues(name);
     database.insert(ExerciseTable.NAME, null, values);
-    updateExercises();
   }
 
   private ContentValues getContentValues(String name) {
@@ -107,5 +121,14 @@ public class ExerciseLab implements NamedEntityLab {
       }
     }
     return filtered;
+  }
+
+  public void importExercises(HashMap<String, ArrayList<String>> exerciseNames) {
+    for(String category : exerciseNames.keySet()) {
+      for(String exerciseName : exerciseNames.get(category)) {
+        insertExercise(exerciseName);
+      }
+    }
+    updateExercises();
   }
 }
