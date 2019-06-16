@@ -30,9 +30,49 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
+  // should_render_error_when_trying_to_create_exercise_with_existing_name
+  // should_be_able_to_delete_exercise
+  // should_be_able_to_rename_exercise
+  // should_be_able_to_create_and_delete_exercise
+  // should_be_able_to_filter_exercises
+  //
+
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void should_default_to_exercise() {
+    ViewInteraction textView = onView(
+        allOf(withText("Exercise"),
+            childAtPosition(
+                allOf(withId(R.id.action_bar),
+                    childAtPosition(
+                        withId(R.id.action_bar_container),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Exercise")));
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
+  }
 
   @Test
   public void should_be_able_to_switch_to_category() {
@@ -56,25 +96,6 @@ public class MainActivityTest {
                 0),
             isDisplayed()));
     textView.check(matches(withText("Category")));
-  }
-
-  private static Matcher<View> childAtPosition(
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
   }
 
   @Test
@@ -102,7 +123,32 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_render_error_no_name_in_dialog_box() {
+  public void should_start_with_at_least_2_exercises() {
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.check(matches(isDisplayed()));
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Barbell Back Squat"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                1),
+            isDisplayed()));
+    textView2.check(matches(isDisplayed()));
+  }
+
+  @Test
+  public void should_render_error_when_no_name_entered_in_dialog_box() {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
@@ -131,5 +177,29 @@ public class MainActivityTest {
             1),
             isDisplayed()));
     linearLayout.check(matches(isDisplayed()));
+  }
+
+  @Test
+  public void should_have_at_least_1_category() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Back"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.check(matches(isDisplayed()));
   }
 }
