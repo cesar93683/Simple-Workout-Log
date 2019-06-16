@@ -10,7 +10,6 @@ import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.NamedEntityCursorWrapper;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ExerciseLab implements NamedEntityLab {
 
@@ -58,7 +57,7 @@ public class ExerciseLab implements NamedEntityLab {
     throw new RuntimeException(String.format("ERROR: exercise id:%d does not exist", id));
   }
 
-  NamedEntity findExercise(String name) {
+  public NamedEntity findExercise(String name) {
     for (NamedEntity exercise : exercises) {
       if (exercise.getName().equals(name)) {
         return exercise;
@@ -69,11 +68,11 @@ public class ExerciseLab implements NamedEntityLab {
 
   @Override
   public void insert(String name) {
-    insertExercise(name);
+    insertNoUpdate(name);
     updateExercises();
   }
 
-  private void insertExercise(String name) {
+  private void insertNoUpdate(String name) {
     ContentValues values = getContentValues(name);
     database.insert(ExerciseTable.NAME, null, values);
   }
@@ -123,11 +122,9 @@ public class ExerciseLab implements NamedEntityLab {
     return filtered;
   }
 
-  public void importExercises(HashMap<String, ArrayList<String>> exerciseNames) {
-    for(String category : exerciseNames.keySet()) {
-      for(String exerciseName : exerciseNames.get(category)) {
-        insertExercise(exerciseName);
-      }
+  public void insertMultiple(ArrayList<String> exerciseNames) {
+    for (String exerciseName : exerciseNames) {
+      insertNoUpdate(exerciseName);
     }
     updateExercises();
   }

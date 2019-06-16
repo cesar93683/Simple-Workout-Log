@@ -15,8 +15,10 @@ import com.devcesar.workoutapp.databinding.ActivityMainBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.utils.Constants;
+import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,15 +49,14 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    boolean isFirstRun = prefs.getBoolean("FIRST_RUN", true);
+    String IS_FIRST_RUN = "IS_FIRST_RUN";
+    boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
     if (isFirstRun) {
+      initDatabase();
       PreferenceManager.getDefaultSharedPreferences(this)
           .edit()
-          .putBoolean("FIRST_RUN", false)
+          .putBoolean(IS_FIRST_RUN, false)
           .apply();
-      HashMap<String, ArrayList<String>> categoryAndExerciseNames = getCategoryAndExerciseNames();
-      ExerciseLab.get(this).importExercises(categoryAndExerciseNames);
-      CategoryOrRoutineLab.getCategoryLab(this).importNamedEntitiesAndExercises(categoryAndExerciseNames, this);
     }
 
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -69,6 +70,42 @@ public class MainActivity extends AppCompatActivity {
         .add(R.id.fragment_container, categoryFragment)
         .commit();
     setTabStateFragment(R.id.nav_exercise).commit();
+  }
+
+  private void initDatabase() {
+    HashMap<String, ArrayList<String>> categoryAndExerciseNames = getCategoryAndExerciseNames();
+    ArrayList<String> exerciseNames = getExerciseNames(categoryAndExerciseNames);
+    ExerciseLab.get(this).insertMultiple(exerciseNames);
+
+    ArrayList<String> categoryNames = new ArrayList<>(categoryAndExerciseNames.keySet());
+    CategoryOrRoutineLab.getCategoryLab(this).insertMultiple(categoryNames);
+
+    insertExercisesIntoCategory(categoryAndExerciseNames);
+
+  }
+
+  private FragmentTransaction setTabStateFragment(int type) {
+    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    switch (type) {
+      case R.id.nav_category:
+        transaction.show(categoryFragment);
+        transaction.hide(exerciseFragment);
+        transaction.hide(routineFragment);
+        break;
+      case R.id.nav_exercise:
+        transaction.hide(categoryFragment);
+        transaction.show(exerciseFragment);
+        transaction.hide(routineFragment);
+        break;
+      case R.id.nav_routine:
+        transaction.hide(categoryFragment);
+        transaction.hide(exerciseFragment);
+        transaction.show(routineFragment);
+        break;
+    }
+
+    return transaction;
   }
 
   @NonNull
@@ -156,28 +193,35 @@ public class MainActivity extends AppCompatActivity {
     return exerciseNames;
   }
 
-  private FragmentTransaction setTabStateFragment(int type) {
-    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    switch (type) {
-      case R.id.nav_category:
-        transaction.show(categoryFragment);
-        transaction.hide(exerciseFragment);
-        transaction.hide(routineFragment);
-        break;
-      case R.id.nav_exercise:
-        transaction.hide(categoryFragment);
-        transaction.show(exerciseFragment);
-        transaction.hide(routineFragment);
-        break;
-      case R.id.nav_routine:
-        transaction.hide(categoryFragment);
-        transaction.hide(exerciseFragment);
-        transaction.show(routineFragment);
-        break;
+  @NonNull
+  private ArrayList<String> getExerciseNames(
+      HashMap<String, ArrayList<String>> categoryAndExerciseNames) {
+    ArrayList<String> exerciseNames = new ArrayList<>();
+    for (String key : categoryAndExerciseNames.keySet()) {
+      exerciseNames.addAll(categoryAndExerciseNames.get(key));
     }
+    return exerciseNames;
+  }
 
-    return transaction;
+  private void insertExercisesIntoCategory(
+      HashMap<String, ArrayList<String>> categoryAndExerciseNames) {
+    CategoryOrRoutineLab categoryLab = CategoryOrRoutineLab.getCategoryLab(this);
+    for (String categoryName : categoryAndExerciseNames.keySet()) {
+      ArrayList<String> exerciseNames = categoryAndExerciseNames.get(categoryName);
+      List<NamedEntity> exercises = getExercises(exerciseNames);
+      NamedEntity namedEntity = categoryLab.findNamedEntity(categoryName);
+      categoryLab.updateExercises(namedEntity.getId(), exercises);
+    }
+  }
+
+  @NonNull
+  private List<NamedEntity> getExercises(ArrayList<String> exerciseNames) {
+    List<NamedEntity> exercises = new ArrayList<>();
+    for (String exerciseName : exerciseNames) {
+      NamedEntity exercise = ExerciseLab.get(this).findExercise(exerciseName);
+      exercises.add(exercise);
+    }
+    return exercises;
   }
 
 }

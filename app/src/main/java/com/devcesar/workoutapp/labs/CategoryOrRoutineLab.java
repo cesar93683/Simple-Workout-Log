@@ -150,42 +150,14 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     database.update(tableName, values, whereClause, whereArgs);
   }
 
-  public void importNamedEntitiesAndExercises(
-      HashMap<String, ArrayList<String>> namedEntitiesAndExerciseNames, Context context) {
-    ArrayList<String> names = new ArrayList<>(namedEntitiesAndExerciseNames.keySet());
-    insertNames(names);
-    for (String name : namedEntitiesAndExerciseNames.keySet()) {
-      List<NamedEntity> exercises = new ArrayList<>();
-      for (String exerciseName : namedEntitiesAndExerciseNames.get(name)) {
-        NamedEntity exercise = ExerciseLab.get(context).findExercise(exerciseName);
-        exercises.add(exercise);
-      }
-      NamedEntity namedEntity = findNamedEntity(name);
-      updateExercises(namedEntity.getId(), exercises);
-    }
-  }
-
-  private void insertNames(List<String> names) {
-    for (String categoryName : names) {
-      insertNamedEntity(categoryName);
+  public void insertMultiple(List<String> names) {
+    for (String name : names) {
+      insertWithNoUpdate(name);
     }
     updateNamedEntities();
   }
 
-  @Override
-  public void insert(String name) {
-    insertNamedEntity(name);
-    updateNamedEntities();
-  }
-
-  private void insertNamedEntity(String name) {
-    ContentValues values = new ContentValues();
-    values.put(colName, name);
-    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
-    database.insert(tableName, null, values);
-  }
-
-  private NamedEntity findNamedEntity(String name) {
+  public NamedEntity findNamedEntity(String name) {
     for (NamedEntity namedEntity : namedEntities) {
       if (namedEntity.getName().equals(name)) {
         return namedEntity;
@@ -193,6 +165,19 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     }
     throw new RuntimeException(
         String.format("ERROR: category or routine name:%s does not exist", name));
+  }
+
+  private void insertWithNoUpdate(String name) {
+    ContentValues values = new ContentValues();
+    values.put(colName, name);
+    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
+    database.insert(tableName, null, values);
+  }
+
+  @Override
+  public void insert(String name) {
+    insertWithNoUpdate(name);
+    updateNamedEntities();
   }
 
 }

@@ -43,29 +43,34 @@
   <string name="workout">Workout</string>
   <string name="would_save_changes_routine">Would you like to save changes made to the routine?</string>
   <string name="yes">Yes</string>
+
   <string name="barbellBenchPress">Barbell Bench Press</string>
   <string name="barbellBenchPressIncline">Barbell Bench Press (Incline)</string>
   <string name="dumbbellPress">Dumbbell Press</string>
   <string name="dumbbellPressIncline">Dumbbell Press Incline</string>
   <string name="dumbbellChestFly">Dumbbell Chest Fly</string>
   <string name="chest">Chest</string>
+
   <string name="barbellBackSquat">Barbell Back Squat</string>
   <string name="barbellFrontSquat">Barbell Front Squat</string>
   <string name="barbellLunge">Barbell Lunge</string>
   <string name="romanianDeadlift">Romanian Deadlift</string>
   <string name="legPressMachine">Leg Press Machine</string>
   <string name="legs">Legs</string>
+
   <string name="barbellCurl">Barbell Curl</string>
   <string name="eZBarBicepsCurl">E-Z Bar Biceps Curl</string>
   <string name="alternatingDumbbellCurl">Alternating Dumbbell Curl</string>
   <string name="hammerDumbbellCurl">Hammer Dumbbell Curl</string>
   <string name="standingCableCurl">Standing Cable Curl</string>
   <string name="biceps">Biceps</string>
+
   <string name="benchPressCloseGrip">Bench Press (Close Grip)</string>
   <string name="dip">Dip</string>
   <string name="tricepsPushdown">Triceps Pushdown</string>
   <string name="ezBarSkullCrushers">E-Z Bar Skull Crushers</string>
   <string name="dumbbellOverheadTricepsPress">Dumbbell Overhead Triceps Press</string>
+
   <string name="triceps">Triceps</string>
   <string name="deadlift">Deadlift</string>
   <string name="barbellRow">Barbell Row</string>
@@ -73,6 +78,7 @@
   <string name="tBarRow">T-Bar Row</string>
   <string name="latPulldown">Lat Pulldown</string>
   <string name="back">Back</string>
+
   <string name="overheadPress">Overhead Press</string>
   <string name="dumbbellFrontRaise">Dumbbell Front Raise</string>
   <string name="dumbbellSideLateralRaise">Dumbbell Side Lateral Raise</string>
