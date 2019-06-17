@@ -9,20 +9,21 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
+    <activity
+      android:label="@string/title_activity_exercise2"
+      android:name=".exerciseActivity.ExerciseActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+    </activity>
     <activity android:name=".editRoutineActivity.EditRoutineActivity"/>
-    <activity android:name="com.devcesar.workoutapp.mainActivity.MainActivity">
+    <activity android:name=".mainActivity.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity
-      android:label="@string/title_activity_main2"
-      android:name="com.devcesar.workoutapp.exerciseActivity.ExerciseActivity"
-      android:theme="@style/AppTheme.NoActionBar"/>
-    <activity android:name="com.devcesar.workoutapp.exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
-    <activity android:name="com.devcesar.workoutapp.viewExercisesActivity.ViewExercisesActivity"/>
+    <activity android:name=".exerciseActivity.editExerciseActivity.EditExerciseActivity"/>
+    <activity android:name=".viewExercisesActivity.ViewExercisesActivity"/>
     <activity android:name=".addExerciseActivity.AddExercisesActivity"/>
   </application>
 

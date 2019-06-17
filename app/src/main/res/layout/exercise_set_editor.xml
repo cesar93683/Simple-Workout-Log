@@ -20,18 +20,18 @@
         android:layout_gravity="center_vertical"
         android:background="@drawable/ic_remove_circle_black_24dp"/>
 
-      <android.support.design.widget.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/reps_text_input_layout"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:hint="@string/activity_exercise_reps_hint">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:inputType="number"
           android:maxLength="5"/>
-      </android.support.design.widget.TextInputLayout>
+      </com.google.android.material.textfield.TextInputLayout>
 
       <Button
         android:id="@+id/increase_rep_button"
@@ -53,18 +53,18 @@
         android:layout_gravity="center_vertical"
         android:background="@drawable/ic_remove_circle_black_24dp"/>
 
-      <android.support.design.widget.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/weight_text_input_layout"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:hint="@string/activity_exercise_weight_hint">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:inputType="number"
           android:maxLength="5"/>
-      </android.support.design.widget.TextInputLayout>
+      </com.google.android.material.textfield.TextInputLayout>
 
       <Button
         android:id="@+id/increase_weight_button"

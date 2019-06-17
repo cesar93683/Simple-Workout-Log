@@ -85,4 +85,5 @@
   <string name="seatedDumbbellPress">Seated Dumbbell Press</string>
   <string name="dumbbellInclineRow">Dumbbell Incline Row</string>
   <string name="shoulders">Shoulders</string>
+  <string name="title_activity_exercise2">ExerciseActivity2</string>
 </resources>

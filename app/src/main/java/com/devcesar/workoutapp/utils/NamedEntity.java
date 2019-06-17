@@ -1,6 +1,6 @@
 package com.devcesar.workoutapp.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class NamedEntity implements Comparable<NamedEntity> {
 

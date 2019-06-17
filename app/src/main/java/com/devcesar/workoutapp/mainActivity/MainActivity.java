@@ -1,21 +1,19 @@
 package com.devcesar.workoutapp.mainActivity;
 
-import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityMainBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,16 +46,16 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    String IS_FIRST_RUN = "IS_FIRST_RUN";
-    boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
-    if (isFirstRun) {
-      initDatabase();
-      PreferenceManager.getDefaultSharedPreferences(this)
-          .edit()
-          .putBoolean(IS_FIRST_RUN, false)
-          .apply();
-    }
+//    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//    String IS_FIRST_RUN = "IS_FIRST_RUN";
+//    boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
+//    if (isFirstRun) {
+//      initDatabase();
+//      PreferenceManager.getDefaultSharedPreferences(this)
+//          .edit()
+//          .putBoolean(IS_FIRST_RUN, false)
+//          .apply();
+//    }
 
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);
@@ -81,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     CategoryOrRoutineLab.getCategoryLab(this).insertMultiple(categoryNames);
 
     insertExercisesIntoCategory(categoryAndExerciseNames);
-
   }
 
   private FragmentTransaction setTabStateFragment(int type) {

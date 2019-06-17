@@ -4,20 +4,19 @@ import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EX
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.databinding.FragmentSelectBinding;
@@ -27,6 +26,7 @@ import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntitiesUtils;
 import com.devcesar.workoutapp.utils.NamedEntity;
+import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +91,6 @@ public class ViewExercisesFragment extends Fragment {
       Bundle savedInstanceState) {
     FragmentSelectBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select, container, false);
-
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     binding.recyclerView.addItemDecoration(
         new DividerItemDecoration(binding.recyclerView.getContext(),
