@@ -1,5 +1,6 @@
 package com.devcesar.workoutapp.mainActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityMainBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
@@ -45,17 +47,16 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-//    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//    String IS_FIRST_RUN = "IS_FIRST_RUN";
-//    boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
-//    if (isFirstRun) {
-//      initDatabase();
-//      PreferenceManager.getDefaultSharedPreferences(this)
-//          .edit()
-//          .putBoolean(IS_FIRST_RUN, false)
-//          .apply();
-//    }
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    String IS_FIRST_RUN = "IS_FIRST_RUN";
+    boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
+    if (isFirstRun) {
+      initDatabase();
+      PreferenceManager.getDefaultSharedPreferences(this)
+          .edit()
+          .putBoolean(IS_FIRST_RUN, false)
+          .apply();
+    }
 
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);

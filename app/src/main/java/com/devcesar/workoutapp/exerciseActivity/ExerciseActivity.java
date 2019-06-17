@@ -82,7 +82,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
    * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the
    * sections/tabs/pages.
    */
-  public class SectionsPagerAdapter extends FragmentPagerAdapter {
+  class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private final int[] TAB_TITLES = new int[]{R.string.exercise, R.string.history};
