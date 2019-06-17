@@ -15,5 +15,4 @@ public interface NamedEntityLab {
 
   ArrayList<NamedEntity> getFiltered(String filter);
 
-
 }

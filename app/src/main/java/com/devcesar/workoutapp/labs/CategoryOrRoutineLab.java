@@ -112,7 +112,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   public ArrayList<NamedEntity> getFiltered(String filter) {
     ArrayList<NamedEntity> filtered = new ArrayList<>();
     for (NamedEntity namedEntity : namedEntities) {
-      if (namedEntity.getName().contains(filter)) {
+      if (namedEntity.getName().toLowerCase().contains(filter.toLowerCase())) {
         filtered.add(namedEntity);
       }
     }

@@ -3,6 +3,9 @@ package com.devcesar.workoutapp.mainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -30,16 +33,212 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
-  // should_render_error_when_trying_to_create_exercise_with_existing_name
-  // should_be_able_to_delete_exercise
-  // should_be_able_to_rename_exercise
   // should_be_able_to_create_and_delete_exercise
   // should_be_able_to_filter_exercises
-  //
 
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void should_be_able_to_rename_exercise() {
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.perform(longClick());
+
+    ViewInteraction linearLayout = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction textInputEditText = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("Alternating Dumbbell Curl2"));
+
+    ViewInteraction textInputEditText2 = onView(
+        allOf(withText("Alternating Dumbbell Curl2"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText2.perform(closeSoftKeyboard());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl2"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView2.check(matches(withText("Alternating Dumbbell Curl2")));
+
+    textView2.perform(longClick());
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
+
+    ViewInteraction textInputEditText3 = onView(
+        allOf(withText("Alternating Dumbbell Curl2"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText3.perform(replaceText("Alternating Dumbbell Curl"));
+
+    ViewInteraction textInputEditText4 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText4.perform(closeSoftKeyboard());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
+
+    ViewInteraction textView3 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView3.check(matches(withText("Alternating Dumbbell Curl")));
+  }
+
+  @Test
+  public void should_render_error_when_renaming_exercise_with_same_name() {
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.perform(longClick());
+
+    ViewInteraction linearLayout = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction textView2 = onView(
+        allOf(withId(R.id.textinput_error), withText("Same name."),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    0),
+                0),
+            isDisplayed()));
+    textView2.check(matches(withText("Same name.")));
+  }
+
+  @Test
+  public void should_render_error_when_trying_to_create_exercise_with_existing_name() {
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.textinput_error), withText("Exercise already exists."),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    0),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Exercise already exists.")));
+  }
 
   @Test
   public void should_default_to_exercise() {
@@ -129,7 +328,7 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
                         1)),
                 0),
             isDisplayed()));
@@ -140,7 +339,7 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
                         1)),
                 1),
             isDisplayed()));
@@ -196,7 +395,7 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
                         1)),
                 0),
             isDisplayed()));

@@ -115,7 +115,7 @@ public class ExerciseLab implements NamedEntityLab {
   public ArrayList<NamedEntity> getFiltered(String filter) {
     ArrayList<NamedEntity> filtered = new ArrayList<>();
     for (NamedEntity exercise : exercises) {
-      if (exercise.getName().contains(filter)) {
+      if (exercise.getName().toLowerCase().contains(filter.toLowerCase())) {
         filtered.add(exercise);
       }
     }

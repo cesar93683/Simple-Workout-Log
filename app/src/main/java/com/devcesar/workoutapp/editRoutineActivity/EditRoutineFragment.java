@@ -83,8 +83,8 @@ public class EditRoutineFragment extends Fragment {
     itemTouchHelper = new ItemTouchHelper(
         new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
           @Override
-          public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-              RecyclerView.ViewHolder target) {
+          public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+              @NonNull RecyclerView.ViewHolder target) {
             int viewHolderPosition = viewHolder.getAdapterPosition();
             int targetPosition = target.getAdapterPosition();
             Collections.swap(exercises, viewHolderPosition, targetPosition);
@@ -94,7 +94,7 @@ public class EditRoutineFragment extends Fragment {
           }
 
           @Override
-          public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+          public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
           }
 

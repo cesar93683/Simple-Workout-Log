@@ -1,6 +1,7 @@
 package com.devcesar.workoutapp.utils;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 
 public class ExerciseSet {
 
@@ -38,6 +39,7 @@ public class ExerciseSet {
     this.setNumber = setNumber;
   }
 
+  @NonNull
   @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
