@@ -15,12 +15,12 @@ public class NamedEntitiesUtilsTest {
 
   @Test
   public void shouldReturnIdsCorrectly() {
-    Integer[] vals = new Integer[]{1, 2, 3, 4, 5};
+    Integer[] values = new Integer[]{1, 2, 3, 4, 5};
     ArrayList<NamedEntity> namedEntities = new ArrayList<>();
-    for (Integer val : vals) {
-      namedEntities.add(new NamedEntity("asdf", val));
+    for (Integer val : values) {
+      namedEntities.add(new NamedEntity("name", val));
     }
-    assertArrayEquals(NamedEntitiesUtils.getIds(namedEntities).toArray(), vals);
+    assertArrayEquals(NamedEntitiesUtils.getIds(namedEntities).toArray(), values);
   }
 
 }

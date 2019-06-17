@@ -35,20 +35,30 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
+public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
 
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
   @Test
-  public void shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab() {
+  public void shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.fragment_container),
-                    0),
+                    2),
                 2),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -71,22 +81,22 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                 3)));
     appCompatButton.perform(scrollTo(), click());
 
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+    ViewInteraction bottomNavigationItemView2 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.bottom_navigation),
                     0),
-                1),
+                0),
             isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    bottomNavigationItemView2.perform(click());
 
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.fragment_container),
-                    2),
+                    0),
                 2),
             isDisplayed()));
     floatingActionButton2.perform(click());
@@ -109,7 +119,17 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                 3)));
     appCompatButton2.perform(scrollTo(), click());
 
-    ViewInteraction appCompatTextView = onView(
+    ViewInteraction bottomNavigationItemView3 = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView3.perform(click());
+
+    ViewInteraction appCompatTextView2 = onView(
         allOf(withText("A"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
@@ -118,7 +138,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                         1)),
                 0),
             isDisplayed()));
-    appCompatTextView.perform(click());
+    appCompatTextView2.perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
@@ -162,7 +182,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView2 = onView(
+    ViewInteraction bottomNavigationItemView4 = onView(
         allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
             childAtPosition(
                 childAtPosition(
@@ -170,9 +190,9 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                     0),
                 0),
             isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    bottomNavigationItemView4.perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
+    ViewInteraction appCompatTextView3 = onView(
         allOf(withText("A"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
@@ -181,7 +201,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                         1)),
                 0),
             isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    appCompatTextView3.perform(longClick());
 
     ViewInteraction linearLayout3 = onView(
         allOf(withId(R.id.delete_linear_layout),
@@ -202,7 +222,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                 3)));
     appCompatButton3.perform(scrollTo(), click());
 
-    ViewInteraction bottomNavigationItemView3 = onView(
+    ViewInteraction bottomNavigationItemView5 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
             childAtPosition(
                 childAtPosition(
@@ -210,31 +230,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                     0),
                 1),
             isDisplayed()));
-    bottomNavigationItemView3.perform(click());
-
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
-
-    ViewInteraction textView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
-
-    pressBack();
+    bottomNavigationItemView5.perform(click());
 
     ViewInteraction appCompatTextView4 = onView(
         allOf(withText("A"),
@@ -245,26 +241,20 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab {
                         1)),
                 0),
             isDisplayed()));
-    appCompatTextView4.perform(longClick());
+    appCompatTextView4.perform(click());
 
-    ViewInteraction linearLayout4 = onView(
-        allOf(withId(R.id.delete_linear_layout),
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                1),
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        0)),
+                0),
             isDisplayed()));
-    linearLayout4.perform(click());
+    textView.check(doesNotExist());
 
-    ViewInteraction appCompatButton4 = onView(
-        allOf(withId(android.R.id.button1), withText("Yes"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton4.perform(scrollTo(), click());
+    pressBack();
   }
 
   private static Matcher<View> childAtPosition(
