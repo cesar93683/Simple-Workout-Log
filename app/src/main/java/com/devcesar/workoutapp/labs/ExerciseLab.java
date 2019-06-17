@@ -10,6 +10,8 @@ import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.NamedEntityCursorWrapper;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ExerciseLab implements NamedEntityLab {
 
@@ -48,7 +50,20 @@ public class ExerciseLab implements NamedEntityLab {
     return exerciseLab;
   }
 
-  public NamedEntity findExercise(int id) {
+  public List<NamedEntity> findExercises(ArrayList<Integer> ids) {
+    List<NamedEntity> namedEntities = new LinkedList<>();
+    for (int exerciseId : ids) {
+      // todo remove try-catch
+      try {
+        namedEntities.add(findExercise(exerciseId));
+      } catch (RuntimeException ignored) {
+        // category still has id of deleted exercise
+      }
+    }
+    return namedEntities;
+  }
+
+  private NamedEntity findExercise(int id) {
     for (NamedEntity exercise : exercises) {
       if (exercise.getId() == id) {
         return exercise;
@@ -85,6 +100,7 @@ public class ExerciseLab implements NamedEntityLab {
 
   @Override
   public void delete(int id) {
+    // todo delete exercise from categories and routines
     String whereClause = ExerciseTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.delete(ExerciseTable.NAME, whereClause, whereArgs);

@@ -43,6 +43,10 @@ public class ExerciseSet {
   @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
-    return String.format("Set %d - %d Reps @ %s LB", setNumber, reps, weight > 0 ? weight : "-");
+    if (reps == 1) {
+      return String.format("Set %d - %d Rep @ %s LB", setNumber, reps, weight > 0 ? weight : "-");
+    } else {
+      return String.format("Set %d - %d Reps @ %s LB", setNumber, reps, weight > 0 ? weight : "-");
+    }
   }
 }

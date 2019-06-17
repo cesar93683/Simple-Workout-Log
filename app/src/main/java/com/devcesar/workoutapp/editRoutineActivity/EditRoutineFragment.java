@@ -23,7 +23,7 @@ import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.addExerciseActivity.AddExercisesActivity;
 import com.devcesar.workoutapp.databinding.FragmentSelectMultipleFabBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
-import com.devcesar.workoutapp.utils.NamedEntitiesUtils;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
@@ -130,7 +130,7 @@ public class EditRoutineFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
       ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
-      exercises.addAll(NamedEntitiesUtils.getNamedEntities(newExerciseIds, getContext()));
+      exercises.addAll(ExerciseLab.get(getContext()).findExercises(newExerciseIds));
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
       Snackbar.make(getActivity().findViewById(android.R.id.content),

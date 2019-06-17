@@ -2,7 +2,7 @@ package com.devcesar.workoutapp.database;
 
 import android.content.Context;
 import android.database.Cursor;
-import com.devcesar.workoutapp.utils.NamedEntitiesUtils;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +25,7 @@ public class CategoryOrRoutineCursorWrapper extends NamedEntityCursorWrapper {
     Type type = new TypeToken<ArrayList<Integer>>() {
     }.getType();
     ArrayList<Integer> exerciseIds = new Gson().fromJson(exerciseIdsString, type);
-    return NamedEntitiesUtils.getNamedEntities(exerciseIds, context);
+    return ExerciseLab.get(context).findExercises(exerciseIds);
   }
 
 }

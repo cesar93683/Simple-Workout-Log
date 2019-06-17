@@ -23,8 +23,8 @@ import com.devcesar.workoutapp.databinding.FragmentSelectBinding;
 import com.devcesar.workoutapp.editRoutineActivity.EditRoutineActivity;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.utils.Constants;
-import com.devcesar.workoutapp.utils.NamedEntitiesUtils;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
@@ -125,7 +125,7 @@ public class ViewExercisesFragment extends Fragment {
         exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
       } else if (requestCode == REQ_ADD) {
         ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
-        exercises.addAll(NamedEntitiesUtils.getNamedEntities(newExerciseIds, getContext()));
+        exercises.addAll(ExerciseLab.get(getContext()).findExercises(newExerciseIds));
         Collections.sort(exercises);
         lab.updateExercises(namedEntity.getId(), exercises);
       }

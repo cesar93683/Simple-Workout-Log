@@ -1,11 +1,7 @@
 package com.devcesar.workoutapp.utils;
 
-import android.content.Context;
-import com.devcesar.workoutapp.labs.ExerciseLab;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 public class NamedEntitiesUtils {
 
@@ -19,14 +15,6 @@ public class NamedEntitiesUtils {
       ids.add(namedEntity.getId());
     }
     return ids;
-  }
-
-  public static List<NamedEntity> getNamedEntities(ArrayList<Integer> ids, Context context) {
-    List<NamedEntity> namedEntities = new LinkedList<>();
-    for (int exerciseId : ids) {
-      namedEntities.add(ExerciseLab.get(context).findExercise(exerciseId));
-    }
-    return namedEntities;
   }
 
 }
