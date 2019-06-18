@@ -23,7 +23,7 @@ import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.devcesar.workoutapp.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -42,7 +42,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
       MainActivity.class);
 
   @Test
-  public void shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2() {
+  public void shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab() {
     ViewInteraction bottomNavigationItemView = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
             childAtPosition(

@@ -258,7 +258,7 @@ public class CategoryTests {
         allOf(withId(R.id.title), withText("Barbell Row"),
             childAtPosition(
                 childAtPosition(
-                    IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                     0),
                 0),
             isDisplayed()));
