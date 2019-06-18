@@ -30,8 +30,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,10 +42,7 @@ public class CategoryTests {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
-  // shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab
-
-  @Before
-  public void createCategory() {
+  public void createCategoryNamedA() {
     clickCategoryButtonInMainActivity();
 
     ViewInteraction floatingActionButton = onView(
@@ -69,14 +64,7 @@ public class CategoryTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
   }
 
   private void clickCategoryButtonInMainActivity() {
@@ -110,8 +98,35 @@ public class CategoryTests {
     };
   }
 
-  @After
-  public void deleteCategory() {
+  @Test
+  public void shouldBeAbleToSwitchToCategory() {
+    createCategoryNamedA();
+
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Category"),
+            childAtPosition(
+                allOf(withId(R.id.action_bar),
+                    childAtPosition(
+                        withId(R.id.action_bar_container),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Category")));
+
+    deleteCategoryNamedA();
+  }
+
+  public void deleteCategoryNamedA() {
     clickCategoryButtonInMainActivity();
 
     ViewInteraction appCompatTextView = onView(
@@ -146,6 +161,8 @@ public class CategoryTests {
   }
   @Test
   public void shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab() {
+    createCategoryNamedA();
+
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
@@ -338,10 +355,14 @@ public class CategoryTests {
     textView.check(doesNotExist());
 
     pressBack();
+
+    deleteCategoryNamedA();
   }
 
   @Test
   public void onlyExercisesThatAreNotInCategoryCanBeAdded() {
+    createCategoryNamedA();
+
     clickCategoryButtonInMainActivity();
 
     clickButtonNamedA();
@@ -371,6 +392,8 @@ public class CategoryTests {
 
     pressBack();
     pressBack();
+
+    deleteCategoryNamedA();
   }
 
   private void clickButtonNamedA() {
@@ -465,6 +488,8 @@ public class CategoryTests {
 
   @Test
   public void canDeleteExercisesFromCategory() {
+    createCategoryNamedA();
+
     clickCategoryButtonInMainActivity();
 
     clickButtonNamedA();
@@ -477,7 +502,6 @@ public class CategoryTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-
                         withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             1),
@@ -518,10 +542,14 @@ public class CategoryTests {
     textView.check(doesNotExist());
 
     pressBack();
+
+    deleteCategoryNamedA();
   }
 
   @Test
   public void canCheckCheckBoxByClickingCheckBoxOrText() {
+    createCategoryNamedA();
+
     clickCategoryButtonInMainActivity();
 
     clickButtonNamedA();
@@ -574,10 +602,14 @@ public class CategoryTests {
     textView2.check(matches(isDisplayed()));
 
     pressBack();
+
+    deleteCategoryNamedA();
   }
 
   @Test
   public void canAddMultipleCategoriesAndAreAlphabetized() {
+    createCategoryNamedA();
+
     clickCategoryButtonInMainActivity();
 
     clickButtonNamedA();
@@ -644,10 +676,14 @@ public class CategoryTests {
     textView3.check(matches(withText("Barbell Bench Press")));
 
     pressBack();
+
+    deleteCategoryNamedA();
   }
 
   @Test
   public void canAddExerciseToCategory() {
+    createCategoryNamedA();
+
     clickCategoryButtonInMainActivity();
 
     clickButtonNamedA();
@@ -670,10 +706,14 @@ public class CategoryTests {
     textView.check(matches(withText("Alternating Dumbbell Curl")));
 
     pressBack();
+
+    deleteCategoryNamedA();
   }
 
   @Test
   public void canAddExerciseGoBackToMainAndGoBackToCategoryAndIsStillThere() {
+    createCategoryNamedA();
+
     clickCategoryButtonInMainActivity();
 
     clickButtonNamedA();
@@ -700,5 +740,7 @@ public class CategoryTests {
     textView.check(matches(isDisplayed()));
 
     pressBack();
+
+    deleteCategoryNamedA();
   }
 }

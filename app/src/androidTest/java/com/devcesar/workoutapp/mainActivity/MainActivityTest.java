@@ -41,7 +41,7 @@ public class MainActivityTest {
       MainActivity.class);
 
   @Test
-  public void should_be_able_to_create_and_delete_exercise() {
+  public void shouldBeAbleToCreateAndDeleteExercise() {
     clickFabInExerciseFragment();
     writeTextIntoInputInDialog("Aa");
     clickSaveInDialog();
@@ -112,7 +112,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_be_able_to_rename_exercise() {
+  public void shouldBeAbleToRenameExercise() {
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
             childAtPosition(
@@ -198,7 +198,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_render_error_when_renaming_exercise_with_same_name() {
+  public void shouldRenderErrorWhenRenamingExerciseWithSameName() {
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
             childAtPosition(
@@ -229,7 +229,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_be_able_to_filter_exercises() {
+  public void shouldBeAbleToFilterExercises() {
     ViewInteraction appCompatEditText = onView(
         allOf(withId(R.id.filter_edit_text),
             childAtPosition(
@@ -253,7 +253,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_render_error_when_trying_to_create_exercise_with_existing_name() {
+  public void shouldRenderErrorWhenTryingToCreateExerciseWithExistingName() {
     clickFabInExerciseFragment();
 
     writeTextIntoInputInDialog("Alternating Dumbbell Curl");
@@ -274,13 +274,9 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_default_to_exercise() {
-    checkIfActionBarIsNamed("Exercise");
-  }
-
-  private void checkIfActionBarIsNamed(String exercise) {
+  public void shouldDefaultToExercise() {
     ViewInteraction textView = onView(
-        allOf(withText(exercise),
+        allOf(withText("Exercise"),
             childAtPosition(
                 allOf(withId(R.id.action_bar),
                     childAtPosition(
@@ -288,7 +284,7 @@ public class MainActivityTest {
                         0)),
                 0),
             isDisplayed()));
-    textView.check(matches(withText(exercise)));
+    textView.check(matches(withText("Exercise")));
   }
 
   private static Matcher<View> childAtPosition(
@@ -311,69 +307,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void should_be_able_to_switch_to_category() {
-    clickCategoryButtonInBottomNavigation();
-
-    checkIfActionBarIsNamed("Category");
-  }
-
-  private void clickCategoryButtonInBottomNavigation() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_category),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
-  }
-
-  @Test
-  public void should_be_able_to_switch_to_routine_category() {
-    clickRoutineButtonInBottomNavigation();
-    checkIfActionBarIsNamed("Routine");
-  }
-
-  private void clickRoutineButtonInBottomNavigation() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
-  }
-
-  @Test
-  public void should_start_with_at_least_2_exercises() {
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(isDisplayed()));
-
-    ViewInteraction textView2 = onView(
-        allOf(withText("Barbell Back Squat"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                1),
-            isDisplayed()));
-    textView2.check(matches(isDisplayed()));
-  }
-
-  @Test
-  public void should_render_error_when_no_name_entered_in_dialog_box() {
+  public void shouldRenderErrorWhenNoNameEnteredInDialogBox() {
     clickFabInExerciseFragment();
 
     clickSaveInDialog();
@@ -404,19 +338,4 @@ public class MainActivityTest {
     appCompatButton.perform(scrollTo(), click());
   }
 
-  @Test
-  public void should_have_at_least_1_category() {
-    clickCategoryButtonInBottomNavigation();
-
-    ViewInteraction textView = onView(
-        allOf(withText("Back"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(isDisplayed()));
-  }
 }
