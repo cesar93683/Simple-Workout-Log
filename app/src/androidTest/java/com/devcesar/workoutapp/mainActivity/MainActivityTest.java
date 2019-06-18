@@ -99,7 +99,6 @@ public class MainActivityTest {
     textView3.check(doesNotExist());
   }
 
-
   private void clickFabInExerciseFragment() {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),

@@ -119,7 +119,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -184,7 +184,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -208,7 +208,8 @@ public class CategoryTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             0),
             isDisplayed()));
@@ -231,35 +232,37 @@ public class CategoryTests {
   public void canVisitExerciseFromCategory() {
     clickCategoryButtonInMainActivity();
 
-    clickButtonNamedA();
-
-    clickFabInViewExercisesActivity();
-
-    clickFirstItemInListInAddExerciseActivity();
-
-    clickFabInAddExerciseActivity();
-
     ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
+        allOf(withText("Back"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
-                        0)),
-                0),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                1),
             isDisplayed()));
     appCompatTextView2.perform(click());
 
+    ViewInteraction appCompatTextView3 = onView(
+        allOf(withText("Barbell Row"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                0),
+            isDisplayed()));
+    appCompatTextView3.perform(click());
+
     ViewInteraction textView = onView(
-        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
+        allOf(withId(R.id.title), withText("Barbell Row"),
             childAtPosition(
                 childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
                     0),
                 0),
             isDisplayed()));
-    textView.check(matches(withText("Alternating Dumbbell Curl")));
-
+    textView.check(matches(withText("Barbell Row")));
     pressBack();
 
     pressBack();
@@ -279,7 +282,8 @@ public class CategoryTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             1),
             isDisplayed()));
@@ -292,7 +296,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
@@ -312,7 +316,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
@@ -343,7 +347,8 @@ public class CategoryTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             1),
             isDisplayed()));
@@ -356,7 +361,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
@@ -367,7 +372,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 1),
             isDisplayed()));
@@ -388,7 +393,8 @@ public class CategoryTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             1),
             isDisplayed()));
@@ -398,7 +404,8 @@ public class CategoryTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             2),
             isDisplayed()));
@@ -413,7 +420,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
@@ -424,7 +431,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 1),
             isDisplayed()));
@@ -435,7 +442,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 2),
             isDisplayed()));
@@ -461,7 +468,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
@@ -491,7 +498,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
