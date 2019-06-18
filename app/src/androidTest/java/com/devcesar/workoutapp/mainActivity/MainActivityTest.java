@@ -10,9 +10,11 @@ import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,40 +42,16 @@ public class MainActivityTest {
 
   @Test
   public void should_be_able_to_create_and_delete_exercise() {
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton.perform(click());
-
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("Aa"), closeSoftKeyboard());
-
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    clickFabInExerciseFragment();
+    writeTextIntoInputInDialog("Aa");
+    clickSaveInDialog();
 
     ViewInteraction textView = onView(
         allOf(withText("Aa"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -84,11 +62,10 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
-
     textView2.perform(longClick());
 
     ViewInteraction linearLayout = onView(
@@ -115,11 +92,24 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
     textView3.check(doesNotExist());
+  }
+
+
+  private void clickFabInExerciseFragment() {
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
   }
 
   @Test
@@ -129,21 +119,13 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
     textView.perform(longClick());
 
-    ViewInteraction linearLayout = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout.perform(click());
+    clickRenameInDialog();
 
     ViewInteraction textInputEditText = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -165,21 +147,14 @@ public class MainActivityTest {
             isDisplayed()));
     textInputEditText2.perform(closeSoftKeyboard());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    clickSaveInDialog();
 
     ViewInteraction textView2 = onView(
         allOf(withText("Alternating Dumbbell Curl2"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -187,15 +162,7 @@ public class MainActivityTest {
 
     textView2.perform(longClick());
 
-    ViewInteraction linearLayout2 = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout2.perform(click());
+    clickRenameInDialog();
 
     ViewInteraction textInputEditText3 = onView(
         allOf(withText("Alternating Dumbbell Curl2"),
@@ -217,21 +184,14 @@ public class MainActivityTest {
             isDisplayed()));
     textInputEditText4.perform(closeSoftKeyboard());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton2.perform(scrollTo(), click());
+    clickSaveInDialog();
 
     ViewInteraction textView3 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -245,12 +205,19 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
     textView.perform(longClick());
 
+    clickRenameInDialog();
+
+    clickSaveInDialog();
+    checkIfErrorIsRenderedInDialog();
+  }
+
+  private void clickRenameInDialog() {
     ViewInteraction linearLayout = onView(
         allOf(withId(R.id.edit_linear_layout),
             childAtPosition(
@@ -260,25 +227,6 @@ public class MainActivityTest {
                 0),
             isDisplayed()));
     linearLayout.perform(click());
-
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
-
-    ViewInteraction textView2 = onView(
-        allOf(withId(R.id.textinput_error), withText("Same name."),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView2.check(matches(withText("Same name.")));
   }
 
   @Test
@@ -298,7 +246,7 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -307,16 +255,15 @@ public class MainActivityTest {
 
   @Test
   public void should_render_error_when_trying_to_create_exercise_with_existing_name() {
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    clickFabInExerciseFragment();
 
+    writeTextIntoInputInDialog("Alternating Dumbbell Curl");
+
+    clickSaveInDialog();
+    checkIfErrorIsRenderedInDialog();
+  }
+
+  private void writeTextIntoInputInDialog(String s) {
     ViewInteraction textInputEditText = onView(
         allOf(childAtPosition(
             childAtPosition(
@@ -324,32 +271,17 @@ public class MainActivityTest {
                 0),
             0),
             isDisplayed()));
-    textInputEditText.perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
-
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
-
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.textinput_error), withText("Exercise already exists."),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Exercise already exists.")));
+    textInputEditText.perform(replaceText(s), closeSoftKeyboard());
   }
 
   @Test
   public void should_default_to_exercise() {
+    checkIfActionBarIsNamed("Exercise");
+  }
+
+  private void checkIfActionBarIsNamed(String exercise) {
     ViewInteraction textView = onView(
-        allOf(withText("Exercise"),
+        allOf(withText(exercise),
             childAtPosition(
                 allOf(withId(R.id.action_bar),
                     childAtPosition(
@@ -357,7 +289,7 @@ public class MainActivityTest {
                         0)),
                 0),
             isDisplayed()));
-    textView.check(matches(withText("Exercise")));
+    textView.check(matches(withText(exercise)));
   }
 
   private static Matcher<View> childAtPosition(
@@ -381,6 +313,12 @@ public class MainActivityTest {
 
   @Test
   public void should_be_able_to_switch_to_category() {
+    clickCategoryButtonInBottomNavigation();
+
+    checkIfActionBarIsNamed("Category");
+  }
+
+  private void clickCategoryButtonInBottomNavigation() {
     ViewInteraction bottomNavigationItemView = onView(
         allOf(withId(R.id.nav_category),
             childAtPosition(
@@ -390,21 +328,15 @@ public class MainActivityTest {
                 1),
             isDisplayed()));
     bottomNavigationItemView.perform(click());
-
-    ViewInteraction textView = onView(
-        allOf(withText("Category"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Category")));
   }
 
   @Test
   public void should_be_able_to_switch_to_routine_category() {
+    clickRoutineButtonInBottomNavigation();
+    checkIfActionBarIsNamed("Routine");
+  }
+
+  private void clickRoutineButtonInBottomNavigation() {
     ViewInteraction bottomNavigationItemView = onView(
         allOf(withId(R.id.nav_routine),
             childAtPosition(
@@ -414,17 +346,6 @@ public class MainActivityTest {
                 2),
             isDisplayed()));
     bottomNavigationItemView.perform(click());
-
-    ViewInteraction textView = onView(
-        allOf(withText("Routine"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Routine")));
   }
 
   @Test
@@ -434,7 +355,7 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -445,7 +366,7 @@ public class MainActivityTest {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 1),
             isDisplayed()));
@@ -454,16 +375,26 @@ public class MainActivityTest {
 
   @Test
   public void should_render_error_when_no_name_entered_in_dialog_box() {
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    clickFabInExerciseFragment();
 
+    clickSaveInDialog();
+
+    checkIfErrorIsRenderedInDialog();
+  }
+
+  private void checkIfErrorIsRenderedInDialog() {
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.text_input_layout),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
+                    0)),
+            1),
+            isDisplayed()));
+    linearLayout.check(matches(isDisplayed()));
+  }
+
+  private void clickSaveInDialog() {
     ViewInteraction appCompatButton = onView(
         allOf(withId(android.R.id.button1), withText("Save"),
             childAtPosition(
@@ -472,36 +403,18 @@ public class MainActivityTest {
                     0),
                 3)));
     appCompatButton.perform(scrollTo(), click());
-
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.text_input_layout),
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
-                    0)),
-            1),
-            isDisplayed()));
-    linearLayout.check(matches(isDisplayed()));
   }
 
   @Test
   public void should_have_at_least_1_category() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_category),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    clickCategoryButtonInBottomNavigation();
 
     ViewInteraction textView = onView(
         allOf(withText("Back"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
