@@ -130,11 +130,13 @@ public class EditRoutineFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK && requestCode == REQ_ADD_EXERCISE && data != null) {
       ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
-      exercises.addAll(ExerciseLab.get(getContext()).findExercises(newExerciseIds));
+      List<NamedEntity> newExercises = ExerciseLab.get(getContext()).findExercises(newExerciseIds);
+      Collections.sort(newExercises);
+      exercises.addAll(newExercises);
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
       Snackbar.make(getActivity().findViewById(android.R.id.content),
-          String.format(getString(R.string.item_updated), getString(R.string.exercise)),
+          String.format(getString(R.string.item_updated), getString(R.string.routine)),
           Snackbar.LENGTH_SHORT).show();
     }
   }

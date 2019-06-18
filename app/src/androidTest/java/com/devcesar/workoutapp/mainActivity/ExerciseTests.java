@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class ExerciseTests {
 
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
@@ -42,12 +42,10 @@ public class MainActivityTest {
 
   @Test
   public void shouldBeAbleToCreateAndDeleteExercise() {
-    clickFabInExerciseFragment();
-    writeTextIntoInputInDialog("Aa");
-    clickSaveInDialog();
+    createExerciseNamedA();
 
     ViewInteraction textView = onView(
-        allOf(withText("Aa"),
+        allOf(withText("A"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
@@ -57,8 +55,12 @@ public class MainActivityTest {
             isDisplayed()));
     textView.check(matches(isDisplayed()));
 
+    deleteExerciseNamedA();
+  }
+
+  private void deleteExerciseNamedA() {
     ViewInteraction textView2 = onView(
-        allOf(withText("Aa"),
+        allOf(withText("A"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
@@ -88,7 +90,7 @@ public class MainActivityTest {
     appCompatButton2.perform(scrollTo(), click());
 
     ViewInteraction textView3 = onView(
-        allOf(withText("Aa"),
+        allOf(withText("A"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
@@ -97,6 +99,12 @@ public class MainActivityTest {
                 0),
             isDisplayed()));
     textView3.check(doesNotExist());
+  }
+
+  private void createExerciseNamedA() {
+    clickFabInExerciseFragment();
+    writeTextIntoInputInDialog("A");
+    clickSaveInDialog();
   }
 
   private void clickFabInExerciseFragment() {

@@ -360,7 +360,7 @@ public class CategoryTests {
   }
 
   @Test
-  public void onlyExercisesThatAreNotInCategoryCanBeAdded() {
+  public void shouldNotBeAbleToAddCategoryThatAreAlreadyInCategory() {
     createCategoryNamedA();
 
     clickCategoryButtonInMainActivity();
