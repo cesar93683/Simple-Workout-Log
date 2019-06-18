@@ -310,7 +310,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -584,7 +584,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -1061,7 +1061,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -1252,7 +1252,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -1263,7 +1263,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 1),
             isDisplayed()));
@@ -1274,7 +1274,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 2),
             isDisplayed()));
@@ -1653,7 +1653,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -1931,7 +1931,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         1)),
                 0),
             isDisplayed()));
@@ -2084,7 +2084,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -2249,7 +2249,7 @@ public class RoutineTests {
         allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
             childAtPosition(
                 childAtPosition(
-                    IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                     0),
                 0),
             isDisplayed()));
@@ -2407,7 +2407,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
@@ -2563,7 +2563,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
                         0)),
                 0),
             isDisplayed()));
