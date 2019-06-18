@@ -134,7 +134,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -154,7 +154,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             0),
             isDisplayed()));
@@ -164,7 +164,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                     1)),
             1),
             isDisplayed()));
@@ -197,7 +197,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -237,7 +237,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         1)),
                 0),
             isDisplayed()));
@@ -248,7 +248,7 @@ public class shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab2 {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.RelativeLayout.class),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                         0)),
                 0),
             isDisplayed()));
