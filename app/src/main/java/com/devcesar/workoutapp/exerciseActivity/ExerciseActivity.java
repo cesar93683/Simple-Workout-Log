@@ -3,6 +3,7 @@ package com.devcesar.workoutapp.exerciseActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -72,6 +73,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     Fragment fragment = getSupportFragmentManager().findFragmentByTag(
         "android:switcher:" + R.id.container + ":" + mViewPager.getCurrentItem());
     if (fragment instanceof ExerciseFragment) {
+      // todo it is not getting instance of ExerciseFragment
       ((ExerciseFragment) fragment).onBackPressed();
     } else {
       super.onBackPressed();

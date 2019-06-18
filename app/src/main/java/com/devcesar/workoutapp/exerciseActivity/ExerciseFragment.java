@@ -2,6 +2,7 @@ package com.devcesar.workoutapp.exerciseActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,9 +69,9 @@ public class ExerciseFragment extends Fragment {
     hasBeenModified = false;
 
     exerciseSets = new ArrayList<>();
-    isEditing = timeStamp == NO_TIME_STAMP;
+    isEditing = timeStamp != NO_TIME_STAMP;
 
-    if (!isEditing) {
+    if (isEditing) {
       exerciseSets.addAll(
           WorkoutLab.get(getActivity()).getWorkout(exerciseId, timeStamp).getExerciseSets());
     }
