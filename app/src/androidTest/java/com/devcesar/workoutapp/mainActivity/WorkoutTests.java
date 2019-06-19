@@ -84,6 +84,12 @@ public class WorkoutTests {
                 3)));
     appCompatButton3.perform(scrollTo(), click());
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
             childAtPosition(
@@ -585,6 +591,12 @@ public class WorkoutTests {
     appCompatButton4.perform(click());
 
     pressBack();
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction appCompatButton5 = onView(
         allOf(withId(android.R.id.button1), withText("Save"),

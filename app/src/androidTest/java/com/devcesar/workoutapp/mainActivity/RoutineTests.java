@@ -186,15 +186,15 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton4.perform(click());
 
-    ViewInteraction appCompatCheckBox = onView(
-        allOf(withId(R.id.check_box),
-            childAtPosition(
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withId(R.id.recycler_view),
-                    0),
-                0),
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
             isDisplayed()));
-    appCompatCheckBox.perform(click());
+    linearLayout.perform(click());
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab),
@@ -205,6 +205,12 @@ public class RoutineTests {
                 2),
             isDisplayed()));
     floatingActionButton5.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab_action2),
@@ -239,7 +245,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView2.perform(longClick());
 
-    ViewInteraction linearLayout = onView(
+    ViewInteraction linearLayout2 = onView(
         allOf(withId(R.id.edit_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -247,7 +253,7 @@ public class RoutineTests {
                     0),
                 0),
             isDisplayed()));
-    linearLayout.perform(click());
+    linearLayout2.perform(click());
 
     ViewInteraction textInputEditText3 = onView(
         allOf(withText("A"),
@@ -339,7 +345,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView4.perform(longClick());
 
-    ViewInteraction linearLayout2 = onView(
+    ViewInteraction linearLayout3 = onView(
         allOf(withId(R.id.delete_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -347,7 +353,7 @@ public class RoutineTests {
                     0),
                 1),
             isDisplayed()));
-    linearLayout2.perform(click());
+    linearLayout3.perform(click());
 
     ViewInteraction appCompatButton4 = onView(
         allOf(withId(android.R.id.button1), withText("Yes"),
@@ -385,7 +391,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView5.perform(longClick());
 
-    ViewInteraction linearLayout3 = onView(
+    ViewInteraction linearLayout4 = onView(
         allOf(withId(R.id.delete_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -393,7 +399,7 @@ public class RoutineTests {
                     0),
                 1),
             isDisplayed()));
-    linearLayout3.perform(click());
+    linearLayout4.perform(click());
 
     ViewInteraction appCompatButton5 = onView(
         allOf(withId(android.R.id.button1), withText("Yes"),
@@ -731,6 +737,12 @@ public class RoutineTests {
             isDisplayed()));
     textView3.check(matches(isDisplayed()));
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
             childAtPosition(
@@ -874,6 +886,12 @@ public class RoutineTests {
                 2),
             isDisplayed()));
     floatingActionButton4.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -1049,6 +1067,12 @@ public class RoutineTests {
                 2),
             isDisplayed()));
     floatingActionButton4.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     // draw bottom up
     ViewInteraction imageView = onView(
@@ -1305,25 +1329,25 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton3.perform(click());
 
-    ViewInteraction appCompatCheckBox = onView(
-        allOf(withId(R.id.check_box),
-            childAtPosition(
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withId(R.id.recycler_view),
-                    0),
-                0),
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
             isDisplayed()));
-    appCompatCheckBox.perform(click());
+    linearLayout.perform(click());
 
-    ViewInteraction appCompatCheckBox2 = onView(
-        allOf(withId(R.id.check_box),
-            childAtPosition(
+    ViewInteraction linearLayout2 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withId(R.id.recycler_view),
-                    1),
-                0),
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            1),
             isDisplayed()));
-    appCompatCheckBox2.perform(click());
+    linearLayout2.perform(click());
 
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
@@ -1335,7 +1359,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton4.perform(click());
 
-    ViewInteraction linearLayout = onView(
+    ViewInteraction linearLayout3 = onView(
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
@@ -1343,7 +1367,7 @@ public class RoutineTests {
                     0)),
             0),
             isDisplayed()));
-    linearLayout.perform(longClick());
+    linearLayout3.perform(longClick());
 
     ViewInteraction appCompatButton2 = onView(
         allOf(withId(android.R.id.button1), withText("Yes"),
@@ -1397,7 +1421,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView2.perform(longClick());
 
-    ViewInteraction linearLayout2 = onView(
+    ViewInteraction linearLayout4 = onView(
         allOf(withId(R.id.delete_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -1405,7 +1429,7 @@ public class RoutineTests {
                     0),
                 1),
             isDisplayed()));
-    linearLayout2.perform(click());
+    linearLayout4.perform(click());
 
     ViewInteraction appCompatButton3 = onView(
         allOf(withId(android.R.id.button1), withText("Yes"),
@@ -1527,6 +1551,12 @@ public class RoutineTests {
                 2),
             isDisplayed()));
     floatingActionButton4.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -1727,6 +1757,12 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton4.perform(click());
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
             childAtPosition(
@@ -1736,6 +1772,12 @@ public class RoutineTests {
                 1),
             isDisplayed()));
     floatingActionButton5.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -2164,15 +2206,15 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton3.perform(click());
 
-    ViewInteraction appCompatCheckBox = onView(
-        allOf(withId(R.id.check_box),
-            childAtPosition(
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withId(R.id.recycler_view),
-                    0),
-                0),
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
             isDisplayed()));
-    appCompatCheckBox.perform(click());
+    linearLayout.perform(click());
 
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
@@ -2183,6 +2225,12 @@ public class RoutineTests {
                 2),
             isDisplayed()));
     floatingActionButton4.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -2207,7 +2255,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView2.perform(longClick());
 
-    ViewInteraction linearLayout = onView(
+    ViewInteraction linearLayout2 = onView(
         allOf(withId(R.id.edit_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -2215,7 +2263,7 @@ public class RoutineTests {
                     0),
                 0),
             isDisplayed()));
-    linearLayout.perform(click());
+    linearLayout2.perform(click());
 
     ViewInteraction textInputEditText2 = onView(
         allOf(withText("A"),
@@ -2281,7 +2329,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView4.perform(longClick());
 
-    ViewInteraction linearLayout2 = onView(
+    ViewInteraction linearLayout3 = onView(
         allOf(withId(R.id.delete_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -2289,7 +2337,7 @@ public class RoutineTests {
                     0),
                 1),
             isDisplayed()));
-    linearLayout2.perform(click());
+    linearLayout3.perform(click());
 
     ViewInteraction appCompatButton3 = onView(
         allOf(withId(android.R.id.button1), withText("Yes"),
@@ -2557,6 +2605,12 @@ public class RoutineTests {
                 2),
             isDisplayed()));
     floatingActionButton4.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),

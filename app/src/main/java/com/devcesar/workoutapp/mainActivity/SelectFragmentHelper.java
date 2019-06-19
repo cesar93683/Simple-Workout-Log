@@ -55,7 +55,7 @@ class SelectFragmentHelper {
     return this.lab;
   }
 
-  public void onClick(final NamedEntity namedEntity) {
+  void onClick(final NamedEntity namedEntity) {
     selectFragmentOnClick.onClick(namedEntity);
   }
 }
@@ -102,7 +102,7 @@ class HelperForFragments {
     this.namedEntityLab = namedEntityLab;
   }
 
-  public NamedEntityLab getNamedEntityLab() {
+  NamedEntityLab getNamedEntityLab() {
     return namedEntityLab;
   }
 
