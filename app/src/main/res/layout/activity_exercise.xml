@@ -41,30 +41,33 @@
     android:layout_gravity="bottom"
     android:background="@color/colorAccent"
     android:orientation="horizontal">
-    <Button
+    <ImageButton
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="Reset"/>
-    <Button
+      app:srcCompat="@drawable/ic_settings_backup_restore_black_24dp"/>
+    <ImageButton
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="-"/>
+      app:srcCompat="@drawable/ic_remove_black_24dp"/>
     <TextView
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:textSize="20sp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:text="2:00"/>
-    <Button
+    <ImageButton
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="+"/>
-    <Button
+      app:srcCompat="@drawable/ic_add_black_24dp"/>
+    <ImageButton
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="Play"/>
+      app:srcCompat="@drawable/ic_play_arrow_black_24dp"/>
   </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
