@@ -60,85 +60,11 @@ public class ViewExercisesFragment extends Fragment {
     return fragment;
   }
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    int id = getArguments().getInt(ARG_ID);
-    String name = getArguments().getString(ARG_NAME);
-    namedEntity = new NamedEntity(name, id);
-
-    type = getArguments().getInt(ARG_TYPE);
-    switch (type) {
-      case Constants.TYPE_ROUTINE:
-        nameType = getString(R.string.routine);
-        lab = CategoryOrRoutineLab.getRoutineLab(getActivity());
-        exercises = lab.getExercises(id, getContext());
-        break;
-      case Constants.TYPE_CATEGORY:
-        nameType = getString(R.string.category);
-        lab = CategoryOrRoutineLab.getCategoryLab(getActivity());
-        exercises = lab.getExercises(id, getContext());
-        Collections.sort(exercises);
-        break;
-      default:
-        throw new RuntimeException("ERROR: type is invalid");
-    }
-    exerciseAdapter = new ExerciseAdapter(exercises);
-  }
-
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    FragmentSelectBinding binding = DataBindingUtil
-        .inflate(inflater, R.layout.fragment_select, container, false);
-    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    binding.recyclerView.addItemDecoration(
-        new DividerItemDecoration(binding.recyclerView.getContext(),
-            DividerItemDecoration.VERTICAL));
-    binding.recyclerView.setAdapter(exerciseAdapter);
-
-    if (type == Constants.TYPE_ROUTINE) {
-      binding.fab.setImageDrawable(
-          ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
-    }
-    binding.fab.setOnClickListener(v -> edit());
-    return binding.getRoot();
-  }
-
-  private void edit() {
-    if (type == Constants.TYPE_ROUTINE) {
-      Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
-      startActivityForResult(intent, REQ_EDIT);
-    } else {
-      Intent intent = AddExercisesActivity
-          .newIntent(getActivity(), exercises, namedEntity.getName());
-      startActivityForResult(intent, REQ_ADD);
-    }
-  }
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == Activity.RESULT_OK) {
-      if (requestCode == REQ_EDIT) {
-        exercises.clear();
-        exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
-      } else if (requestCode == REQ_ADD) {
-        ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
-        exercises.addAll(ExerciseLab.get(getContext()).findExercises(newExerciseIds));
-        Collections.sort(exercises);
-        lab.updateExercises(namedEntity.getId(), exercises);
-      }
-      exerciseAdapter.notifyDataSetChanged();
-      Snackbar.make(getActivity().findViewById(android.R.id.content),
-          String.format(getString(R.string.item_updated), nameType), Snackbar.LENGTH_SHORT).show();
-    }
-  }
-
   private void showDeleteExerciseDialog(int exerciseId) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String
-            .format(getString(R.string.delete_item_confirmation), getString(R.string.exercise)))
+            .format(getString(R.string.delete_item_confirmation), getString(R.string.exercise))
+            .toLowerCase())
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExercise(exerciseId))
         .show();
@@ -192,11 +118,9 @@ public class ViewExercisesFragment extends Fragment {
       this.exercises = exercises;
     }
 
-    @NonNull
     @Override
-    public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-      return new ExerciseHolder(layoutInflater, parent);
+    public int getItemCount() {
+      return exercises.size();
     }
 
     @Override
@@ -205,9 +129,86 @@ public class ViewExercisesFragment extends Fragment {
       holder.bind(exercise);
     }
 
+    @NonNull
     @Override
-    public int getItemCount() {
-      return exercises.size();
+    public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+      return new ExerciseHolder(layoutInflater, parent);
+    }
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode == Activity.RESULT_OK) {
+      if (requestCode == REQ_EDIT) {
+        exercises.clear();
+        exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
+      } else if (requestCode == REQ_ADD) {
+        ArrayList<Integer> newExerciseIds = data.getIntegerArrayListExtra(EXTRA_NEW_EXERCISE_IDS);
+        exercises.addAll(ExerciseLab.get(getContext()).findExercises(newExerciseIds));
+        Collections.sort(exercises);
+        lab.updateExercises(namedEntity.getId(), exercises);
+      }
+      exerciseAdapter.notifyDataSetChanged();
+      Snackbar.make(getActivity().findViewById(android.R.id.content),
+          String.format(getString(R.string.item_updated), nameType), Snackbar.LENGTH_SHORT).show();
+    }
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    int id = getArguments().getInt(ARG_ID);
+    String name = getArguments().getString(ARG_NAME);
+    namedEntity = new NamedEntity(name, id);
+
+    type = getArguments().getInt(ARG_TYPE);
+    switch (type) {
+      case Constants.TYPE_ROUTINE:
+        nameType = getString(R.string.routine);
+        lab = CategoryOrRoutineLab.getRoutineLab(getActivity());
+        exercises = lab.getExercises(id, getContext());
+        break;
+      case Constants.TYPE_CATEGORY:
+        nameType = getString(R.string.category);
+        lab = CategoryOrRoutineLab.getCategoryLab(getActivity());
+        exercises = lab.getExercises(id, getContext());
+        Collections.sort(exercises);
+        break;
+      default:
+        throw new RuntimeException("ERROR: type is invalid");
+    }
+    exerciseAdapter = new ExerciseAdapter(exercises);
+  }
+
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    FragmentSelectBinding binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select, container, false);
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
+    binding.recyclerView.setAdapter(exerciseAdapter);
+
+    if (type == Constants.TYPE_ROUTINE) {
+      binding.fab.setImageDrawable(
+          ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
+    }
+    binding.fab.setOnClickListener(v -> edit());
+    return binding.getRoot();
+  }
+
+  private void edit() {
+    if (type == Constants.TYPE_ROUTINE) {
+      Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
+      startActivityForResult(intent, REQ_EDIT);
+    } else {
+      Intent intent = AddExercisesActivity
+          .newIntent(getActivity(), exercises, namedEntity.getName());
+      startActivityForResult(intent, REQ_ADD);
     }
   }
 

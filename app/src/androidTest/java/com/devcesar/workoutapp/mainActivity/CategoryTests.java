@@ -41,10 +41,6 @@ public class CategoryTests {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
-  // shouldKeepExercisesAfterRenameCategory
-  // shouldBeAbleToAddExerciseToCategory
-  // shouldBeAbleToDeleteExerciseFromCategory
-
   @Test
   public void canAddMultipleExercisesAndAreAlphabetized() {
     ViewInteraction bottomNavigationItemView1 = onView(
@@ -228,73 +224,6 @@ public class CategoryTests {
     appCompatButton.perform(scrollTo(), click());
   }
 
-  private static Matcher<View> childAtPosition(
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
-  }
-
-  @Test
-  public void canVisitExerciseFromCategory() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_category), withContentDescription("Category"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
-
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Back"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(click());
-
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("Barbell Row"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
-
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.title), withText("Barbell Row"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Barbell Row")));
-
-    pressBack();
-    pressBack();
-  }
-
   @Test
   public void canCheckCheckBoxByClickingCheckBoxOrText() {
     ViewInteraction bottomNavigationItemView1 = onView(
@@ -456,190 +385,19 @@ public class CategoryTests {
   }
 
   @Test
-  public void categoryShouldGetNewNameAfterExerciseInCategoryIsRenamed() {
+  public void canVisitExerciseFromCategory() {
     ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.bottom_navigation),
                     0),
-                2),
+                1),
             isDisplayed()));
     bottomNavigationItemView.perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
-            isDisplayed()));
-    floatingActionButton.perform(click());
-
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
-
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
-
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
-
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
-
-    ViewInteraction textInputEditText2 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
-
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton2.perform(scrollTo(), click());
-
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    ViewInteraction bottomNavigationItemView3 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView3.perform(click());
-
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
-
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
-
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
-
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
-
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
-    linearLayout.perform(click());
-
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
-
-    ViewInteraction floatingActionButton6 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton6.perform(click());
-
-    pressBack();
-
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
-
     ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
+        allOf(withText("Back"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
@@ -647,172 +405,50 @@ public class CategoryTests {
                         1)),
                 0),
             isDisplayed()));
-    appCompatTextView2.perform(longClick());
-
-    ViewInteraction linearLayout2 = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout2.perform(click());
-
-    ViewInteraction textInputEditText3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    textInputEditText3.perform(replaceText("Aa"));
-
-    ViewInteraction textInputEditText4 = onView(
-        allOf(withText("Aa"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    textInputEditText4.perform(closeSoftKeyboard());
-
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton3.perform(scrollTo(), click());
-
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    ViewInteraction bottomNavigationItemView5 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView5.perform(click());
+    appCompatTextView2.perform(click());
 
     ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
+        allOf(withText("Barbell Row"),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
                         withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
+                        0)),
                 0),
             isDisplayed()));
     appCompatTextView3.perform(click());
 
     ViewInteraction textView = onView(
-        allOf(withText("Aa"),
+        allOf(withId(R.id.title), withText("Barbell Row"),
             childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        0)),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    0),
                 0),
             isDisplayed()));
-    textView.check(matches(withText("Aa")));
+    textView.check(matches(withText("Barbell Row")));
 
     pressBack();
+    pressBack();
+  }
 
-    ViewInteraction bottomNavigationItemView6 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView6.perform(click());
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
 
-    ViewInteraction appCompatTextView4 = onView(
-        allOf(withText("Aa"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView4.perform(longClick());
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
 
-    ViewInteraction linearLayout3 = onView(
-        allOf(withId(R.id.delete_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                1),
-            isDisplayed()));
-    linearLayout3.perform(click());
-
-    ViewInteraction appCompatButton4 = onView(
-        allOf(withId(android.R.id.button1), withText("Yes"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton4.perform(scrollTo(), click());
-
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    ViewInteraction bottomNavigationItemView7 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView7.perform(click());
-
-    ViewInteraction appCompatTextView5 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView5.perform(longClick());
-
-    ViewInteraction linearLayout4 = onView(
-        allOf(withId(R.id.delete_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                1),
-            isDisplayed()));
-    linearLayout4.perform(click());
-
-    ViewInteraction appCompatButton5 = onView(
-        allOf(withId(android.R.id.button1), withText("Yes"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton5.perform(scrollTo(), click());
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
   }
 
   @Test
@@ -955,8 +591,8 @@ public class CategoryTests {
   }
 
   @Test
-  public void shouldBeAbleToDeleteExerciseFromCategoryInViewExercises() {
-    ViewInteraction bottomNavigationItemView1 = onView(
+  public void categoryShouldGetNewNameAfterExerciseInCategoryIsRenamed() {
+    ViewInteraction bottomNavigationItemView = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
             childAtPosition(
                 childAtPosition(
@@ -964,7 +600,7 @@ public class CategoryTests {
                     0),
                 1),
             isDisplayed()));
-    bottomNavigationItemView1.perform(click());
+    bottomNavigationItemView.perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -985,28 +621,30 @@ public class CategoryTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction bottomNavigationItemView2 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.bottom_navigation),
                     0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
-
-    ViewInteraction appCompatTextView1 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
                 0),
             isDisplayed()));
-    appCompatTextView1.perform(click());
+    bottomNavigationItemView2.perform(click());
 
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
@@ -1014,54 +652,21 @@ public class CategoryTests {
                 childAtPosition(
                     withId(R.id.fragment_container),
                     0),
-                1),
+                2),
             isDisplayed()));
     floatingActionButton2.perform(click());
 
-    ViewInteraction linearLayout1 = onView(
+    ViewInteraction textInputEditText2 = onView(
         allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
             0),
             isDisplayed()));
-    linearLayout1.perform(click());
-
-    ViewInteraction linearLayout2 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            1),
-            isDisplayed()));
-    linearLayout2.perform(click());
-
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
-
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
 
     ViewInteraction appCompatButton2 = onView(
-        allOf(withId(android.R.id.button1), withText("Yes"),
+        allOf(withId(android.R.id.button1), withText("Save"),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.buttonPanel),
@@ -1069,20 +674,13 @@ public class CategoryTests {
                 3)));
     appCompatButton2.perform(scrollTo(), click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
-    pressBack();
-
-    ViewInteraction bottomNavigationItemView2 = onView(
+    ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
             childAtPosition(
                 childAtPosition(
@@ -1090,7 +688,7 @@ public class CategoryTests {
                     0),
                 1),
             isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    bottomNavigationItemView3.perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1101,9 +699,162 @@ public class CategoryTests {
                         1)),
                 0),
             isDisplayed()));
-    appCompatTextView.perform(longClick());
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                1),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
 
     ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction floatingActionButton4 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton4.perform(click());
+
+    pressBack();
+
+    ViewInteraction bottomNavigationItemView4 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView4.perform(click());
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(longClick());
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
+
+    ViewInteraction textInputEditText3 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText3.perform(replaceText("Aa"));
+
+    ViewInteraction textInputEditText4 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText4.perform(closeSoftKeyboard());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction bottomNavigationItemView5 = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView5.perform(click());
+
+    ViewInteraction appCompatTextView3 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView3.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(isDisplayed()));
+
+    pressBack();
+
+    ViewInteraction bottomNavigationItemView6 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView6.perform(click());
+
+    ViewInteraction appCompatTextView5 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView5.perform(longClick());
+
+    ViewInteraction linearLayout3 = onView(
         allOf(withId(R.id.delete_linear_layout),
             childAtPosition(
                 childAtPosition(
@@ -1111,16 +862,62 @@ public class CategoryTests {
                     0),
                 1),
             isDisplayed()));
-    linearLayout.perform(click());
+    linearLayout3.perform(click());
 
-    ViewInteraction appCompatButton = onView(
+    ViewInteraction appCompatButton4 = onView(
         allOf(withId(android.R.id.button1), withText("Yes"),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.buttonPanel),
                     0),
                 3)));
-    appCompatButton.perform(scrollTo(), click());
+    appCompatButton4.perform(scrollTo(), click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction bottomNavigationItemView7 = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView7.perform(click());
+
+    ViewInteraction appCompatTextView6 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView6.perform(longClick());
+
+    ViewInteraction linearLayout4 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout4.perform(click());
+
+    ViewInteraction appCompatButton5 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton5.perform(scrollTo(), click());
   }
 
   @Test
@@ -1483,6 +1280,339 @@ public class CategoryTests {
                     0),
                 3)));
     appCompatButton.perform(scrollTo(), click());
+  }
+
+  @Test
+  public void shouldBeAbleToDeleteExerciseFromCategoryInViewExercises() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    2),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton2 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                1),
+            isDisplayed()));
+    floatingActionButton2.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(longClick());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(doesNotExist());
+
+    pressBack();
+
+    ViewInteraction appCompatTextView3 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView3.perform(longClick());
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout2.perform(click());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
+  }
+
+  @Test
+  public void shouldKeepExercisesAfterRenameCategory() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    2),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton2 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                1),
+            isDisplayed()));
+    floatingActionButton2.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
+
+    pressBack();
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(longClick());
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
+
+    ViewInteraction textInputEditText2 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText2.perform(replaceText("Aa"));
+
+    ViewInteraction textInputEditText3 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText3.perform(closeSoftKeyboard());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
+
+    ViewInteraction appCompatTextView3 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView3.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(isDisplayed()));
+
+    pressBack();
+
+    ViewInteraction appCompatTextView4 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView4.perform(longClick());
+
+    ViewInteraction linearLayout3 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout3.perform(click());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
   }
 
   @Test
