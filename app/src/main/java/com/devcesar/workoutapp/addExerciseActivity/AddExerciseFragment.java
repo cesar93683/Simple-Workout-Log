@@ -84,8 +84,8 @@ public class AddExerciseFragment extends Fragment {
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
     binding.fab.setOnClickListener(view -> save());
-    binding.fab.setImageDrawable(
-        ContextCompat.getDrawable(getContext(), R.drawable.ic_check_black_24dp));
+    binding.fab
+        .setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_black_24dp));
 
     binding.filterEditText.addTextChangedListener(filterEditTextListener());
 
@@ -99,10 +99,10 @@ public class AddExerciseFragment extends Fragment {
   }
 
   private void save() {
-      Intent intent = new Intent();
-      intent.putExtra(EXTRA_NEW_EXERCISE_IDS, getIds(exercisesToAdd));
-      getActivity().setResult(Activity.RESULT_OK, intent);
-      getActivity().finish();
+    Intent intent = new Intent();
+    intent.putExtra(EXTRA_NEW_EXERCISE_IDS, getIds(exercisesToAdd));
+    getActivity().setResult(Activity.RESULT_OK, intent);
+    getActivity().finish();
   }
 
   @NonNull
