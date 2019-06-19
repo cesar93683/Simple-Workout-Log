@@ -3,10 +3,12 @@ package com.devcesar.workoutapp.exerciseActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityExerciseBinding;
+import com.devcesar.workoutapp.databinding.DialogSetTimerBinding;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import com.devcesar.workoutapp.utils.NamedEntity;
@@ -63,6 +66,19 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     binding.timerDecrement.setOnClickListener(view -> decrement(binding.timerDisplay));
     binding.timerIncrement.setOnClickListener(view -> increment(binding.timerDisplay));
+    binding.timerDisplay.setOnClickListener(view -> showSetTimeDialog());
+  }
+
+  private void showSetTimeDialog() {
+    final DialogSetTimerBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
+
+    new AlertDialog.Builder(this)
+        .setTitle(getString(R.string.title))
+        .setView(dialogBinding.getRoot())
+        .setNegativeButton(R.string.cancel, null)
+        .setPositiveButton(R.string.save, null)
+        .show();
   }
 
   private void decrement(Button timerDisplay) {
