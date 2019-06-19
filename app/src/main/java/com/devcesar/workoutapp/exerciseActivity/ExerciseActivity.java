@@ -3,7 +3,6 @@ package com.devcesar.workoutapp.exerciseActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -25,8 +24,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-  private ViewPager mViewPager;
   private NamedEntity exercise;
+  private Fragment exerciseFragment;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -54,30 +53,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
         getSupportFragmentManager());
-    mViewPager = findViewById(R.id.view_pager);
+    ViewPager mViewPager = findViewById(R.id.view_pager);
     mViewPager.setAdapter(sectionsPagerAdapter);
     TabLayout tabs = findViewById(R.id.tabs);
     tabs.setupWithViewPager(mViewPager);
-  }
-
-  @Override
-  public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-    long timeStamp = new Date().getTime();
-    Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
-    WorkoutLab.get(this).insertWorkout(workout);
-    finish();
-  }
-
-  @Override
-  public void onBackPressed() {
-    Fragment fragment = getSupportFragmentManager().findFragmentByTag(
-        "android:switcher:" + R.id.container + ":" + mViewPager.getCurrentItem());
-    if (fragment instanceof ExerciseFragment) {
-      // todo it is not getting instance of ExerciseFragment
-      ((ExerciseFragment) fragment).onBackPressed();
-    } else {
-      super.onBackPressed();
-    }
   }
 
   /**
@@ -94,13 +73,20 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     }
 
     @Override
+    public int getCount() {
+      // Show 2 total pages.
+      return 2;
+    }
+
+    @Override
     public Fragment getItem(int position) {
       // getItem is called to instantiate the fragment for the given page.
       // Return a PlaceholderFragment (defined as a static inner class below).
       Fragment fragment = null;
       switch (position) {
         case 0:
-          fragment = ExerciseFragment.newInstance(exercise.getId());
+          exerciseFragment = ExerciseFragment.newInstance(exercise.getId());
+          fragment = exerciseFragment;
           break;
         case 1:
           fragment = WorkoutHistoryFragment.newInstance(exercise);
@@ -114,11 +100,18 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     public CharSequence getPageTitle(int position) {
       return getString(TAB_TITLES[position]);
     }
+  }
 
-    @Override
-    public int getCount() {
-      // Show 2 total pages.
-      return 2;
-    }
+  @Override
+  public void onBackPressed() {
+    ((ExerciseFragment) exerciseFragment).onBackPressed();
+  }
+
+  @Override
+  public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
+    long timeStamp = new Date().getTime();
+    Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
+    WorkoutLab.get(this).insertWorkout(workout);
+    finish();
   }
 }

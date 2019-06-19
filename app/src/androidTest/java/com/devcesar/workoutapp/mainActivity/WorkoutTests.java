@@ -40,7 +40,110 @@ public class WorkoutTests {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
-  // canAddWorkoutByClickingSaveInDiscardChangesDialog
+  @Test
+  public void canAddWorkoutByClickingSaveInDiscardChangesDialog() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    pressBack();
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction tabView = onView(
+        allOf(withContentDescription("History"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.tabs),
+                    0),
+                1),
+            isDisplayed()));
+    tabView.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout.check(matches(isDisplayed()));
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout2.perform(longClick());
+
+    ViewInteraction linearLayout3 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout3.perform(click());
+
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton4.perform(scrollTo(), click());
+  }
 
   @Test
   public void canAddWorkoutAndDeleteWorkout() {
