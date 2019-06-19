@@ -34,6 +34,7 @@ public class ViewExercisesActivity extends AppCompatActivity {
     if (id == invalid || type == invalid) {
       finish();
     }
+
     String name = getIntent().getStringExtra(EXTRA_NAME);
     setTitle(name);
 
