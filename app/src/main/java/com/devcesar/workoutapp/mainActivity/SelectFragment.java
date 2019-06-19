@@ -73,7 +73,7 @@ public class SelectFragment extends Fragment {
     FragmentSelectWithFilterBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
-    binding.fab.setOnClickListener(v -> showNewDialog());
+    binding.fab.setOnClickListener(view -> showNewDialog());
     binding.filterEditText.addTextChangedListener(filterEditTextListener());
 
     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

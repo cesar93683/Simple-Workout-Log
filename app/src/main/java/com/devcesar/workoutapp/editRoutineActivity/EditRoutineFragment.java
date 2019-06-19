@@ -106,10 +106,10 @@ public class EditRoutineFragment extends Fragment {
     itemTouchHelper.attachToRecyclerView(binding.recyclerView);
 
     binding.fabAction1.setTitle(getString(R.string.add_exercises));
-    binding.fabAction1.setOnClickListener(v -> addExercise());
+    binding.fabAction1.setOnClickListener(view -> addExercise());
 
     binding.fabAction2.setTitle(getString(R.string.save));
-    binding.fabAction2.setOnClickListener(v -> saveExercises());
+    binding.fabAction2.setOnClickListener(view -> saveExercises());
     return binding.getRoot();
   }
 

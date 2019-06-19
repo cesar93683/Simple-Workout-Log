@@ -83,7 +83,7 @@ public class AddExerciseFragment extends Fragment {
     FragmentSelectWithFilterBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_select_with_filter, container, false);
 
-    binding.fab.setOnClickListener(v -> save());
+    binding.fab.setOnClickListener(view -> save());
     binding.fab.setImageDrawable(
         ContextCompat.getDrawable(getContext(), R.drawable.ic_check_black_24dp));
 
@@ -155,7 +155,7 @@ public class AddExerciseFragment extends Fragment {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
       checkBox.setChecked(!checkBox.isChecked());
       checkBoxChanged(checkBox.isChecked());
     }

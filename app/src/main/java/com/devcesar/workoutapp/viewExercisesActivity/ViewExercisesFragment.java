@@ -80,34 +80,23 @@ public class ViewExercisesFragment extends Fragment {
         Snackbar.LENGTH_SHORT).show();
   }
 
-  private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-      View.OnLongClickListener {
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    FragmentSelectBinding binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select, container, false);
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
+    binding.recyclerView.setAdapter(exerciseAdapter);
 
-    private NamedEntity exercise;
-
-    ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
-      super(inflater.inflate(R.layout.simple_list_item, parent, false));
-      itemView.setOnClickListener(this);
-      itemView.setOnLongClickListener(this);
+    if (type == Constants.TYPE_ROUTINE) {
+      binding.fab.setImageDrawable(
+          ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
     }
-
-    void bind(NamedEntity exercise) {
-      this.exercise = exercise;
-      ((TextView) itemView).setText(exercise.getName());
-    }
-
-    @Override
-    public void onClick(View view) {
-      Intent intent = ExerciseActivity.newIntent(getActivity(), exercise);
-      startActivity(intent);
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-      showDeleteExerciseDialog(exercise.getId());
-      return true;
-    }
-
+    binding.fab.setOnClickListener(view -> edit());
+    return binding.getRoot();
   }
 
   private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
@@ -182,23 +171,34 @@ public class ViewExercisesFragment extends Fragment {
     exerciseAdapter = new ExerciseAdapter(exercises);
   }
 
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    FragmentSelectBinding binding = DataBindingUtil
-        .inflate(inflater, R.layout.fragment_select, container, false);
-    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    binding.recyclerView.addItemDecoration(
-        new DividerItemDecoration(binding.recyclerView.getContext(),
-            DividerItemDecoration.VERTICAL));
-    binding.recyclerView.setAdapter(exerciseAdapter);
+  private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+      View.OnLongClickListener {
 
-    if (type == Constants.TYPE_ROUTINE) {
-      binding.fab.setImageDrawable(
-          ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
+    private NamedEntity exercise;
+
+    ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
+      super(inflater.inflate(R.layout.simple_list_item, parent, false));
+      itemView.setOnClickListener(this);
+      itemView.setOnLongClickListener(this);
     }
-    binding.fab.setOnClickListener(v -> edit());
-    return binding.getRoot();
+
+    void bind(NamedEntity exercise) {
+      this.exercise = exercise;
+      ((TextView) itemView).setText(exercise.getName());
+    }
+
+    @Override
+    public void onClick(View view) {
+      Intent intent = ExerciseActivity.newIntent(getActivity(), exercise);
+      startActivity(intent);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+      showDeleteExerciseDialog(exercise.getId());
+      return true;
+    }
+
   }
 
   private void edit() {
