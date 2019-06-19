@@ -1,6 +1,7 @@
 package com.devcesar.workoutapp.mainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
@@ -8,7 +9,9 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
@@ -37,11 +40,491 @@ public class WorkoutTests {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
-  // canAddWorkoutAndDeleteWorkout
   // canAddWorkoutByClickingSaveInDiscardChangesDialog
-  // workoutIsNotSavedWhenClickDiscardInDiscardChangesDialog
-  // canEditWorkoutFromHistoryTab
-  // canSaveWorkoutFromHistoryTabByClickingSaveInDiscardChangesDialog
+
+  @Test
+  public void canAddWorkoutAndDeleteWorkout() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.finish_exercise_fab),
+            childAtPosition(
+                withParent(withId(R.id.view_pager)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction tabView = onView(
+        allOf(withContentDescription("History"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.tabs),
+                    0),
+                1),
+            isDisplayed()));
+    tabView.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout.check(matches(isDisplayed()));
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout2.perform(longClick());
+
+    ViewInteraction linearLayout3 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout3.perform(click());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
+
+    ViewInteraction linearLayout4 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout4.check(doesNotExist());
+  }
+
+  @Test
+  public void canEditWorkoutFromHistoryTab() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.finish_exercise_fab),
+            childAtPosition(
+                withParent(withId(R.id.view_pager)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction tabView = onView(
+        allOf(withContentDescription("History"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.tabs),
+                    0),
+                1),
+            isDisplayed()));
+    tabView.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(longClick());
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton3.perform(click());
+
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton4.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction floatingActionButton2 = onView(
+        allOf(withId(R.id.finish_exercise_fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                1),
+            isDisplayed()));
+    floatingActionButton2.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Set 1 - 1 Rep @ - LB"),
+            childAtPosition(
+                allOf(withId(R.id.exercise_sets_container),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Set 2 - 1 Rep @ - LB"),
+            childAtPosition(
+                allOf(withId(R.id.exercise_sets_container),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                        1)),
+                1),
+            isDisplayed()));
+    textView2.check(matches(withText("Set 2 - 1 Rep @ - LB")));
+
+    ViewInteraction linearLayout3 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout3.perform(longClick());
+
+    ViewInteraction linearLayout4 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout4.perform(click());
+
+    ViewInteraction appCompatButton5 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton5.perform(scrollTo(), click());
+  }
+
+  @Test
+  public void canSaveWorkoutFromHistoryTabByClickingSaveInDiscardChangesDialog() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.finish_exercise_fab),
+            childAtPosition(
+                withParent(withId(R.id.view_pager)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction tabView = onView(
+        allOf(withContentDescription("History"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.tabs),
+                    0),
+                1),
+            isDisplayed()));
+    tabView.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(longClick());
+
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton3.perform(click());
+
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton4.perform(click());
+
+    pressBack();
+
+    ViewInteraction appCompatButton5 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton5.perform(scrollTo(), click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Set 1 - 1 Rep @ - LB"),
+            childAtPosition(
+                allOf(withId(R.id.exercise_sets_container),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Set 2 - 1 Rep @ - LB"),
+            childAtPosition(
+                allOf(withId(R.id.exercise_sets_container),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                        1)),
+                1),
+            isDisplayed()));
+    textView2.check(matches(withText("Set 2 - 1 Rep @ - LB")));
+
+    ViewInteraction linearLayout3 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout3.perform(longClick());
+
+    ViewInteraction linearLayout4 = onView(
+        allOf(withId(R.id.delete_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                1),
+            isDisplayed()));
+    linearLayout4.perform(click());
+
+    ViewInteraction appCompatButton6 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton6.perform(scrollTo(), click());
+  }
+
   @Test
   public void canAddSet() {
     ViewInteraction appCompatTextView = onView(
