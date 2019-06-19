@@ -42,7 +42,31 @@ public class ExerciseTests {
 
   @Test
   public void shouldBeAbleToCreateAndDeleteExercise() {
-    createExerciseNamedA();
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("A"),
@@ -55,10 +79,6 @@ public class ExerciseTests {
             isDisplayed()));
     textView.check(matches(isDisplayed()));
 
-    deleteExerciseNamedA();
-  }
-
-  private void deleteExerciseNamedA() {
     ViewInteraction textView2 = onView(
         allOf(withText("A"),
             childAtPosition(
@@ -101,24 +121,6 @@ public class ExerciseTests {
     textView3.check(doesNotExist());
   }
 
-  private void createExerciseNamedA() {
-    clickFabInExerciseFragment();
-    writeTextIntoInputInDialog("A");
-    clickSaveInDialog();
-  }
-
-  private void clickFabInExerciseFragment() {
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton.perform(click());
-  }
-
   @Test
   public void shouldBeAbleToRenameExercise() {
     ViewInteraction textView = onView(
@@ -132,7 +134,15 @@ public class ExerciseTests {
             isDisplayed()));
     textView.perform(longClick());
 
-    clickRenameInDialog();
+    ViewInteraction linearLayout1 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout1.perform(click());
 
     ViewInteraction textInputEditText = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -154,7 +164,14 @@ public class ExerciseTests {
             isDisplayed()));
     textInputEditText2.perform(closeSoftKeyboard());
 
-    clickSaveInDialog();
+    ViewInteraction appCompatButton1 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton1.perform(scrollTo(), click());
 
     ViewInteraction textView2 = onView(
         allOf(withText("Alternating Dumbbell Curl2"),
@@ -169,7 +186,15 @@ public class ExerciseTests {
 
     textView2.perform(longClick());
 
-    clickRenameInDialog();
+    ViewInteraction linearLayout = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout.perform(click());
 
     ViewInteraction textInputEditText3 = onView(
         allOf(withText("Alternating Dumbbell Curl2"),
@@ -191,7 +216,14 @@ public class ExerciseTests {
             isDisplayed()));
     textInputEditText4.perform(closeSoftKeyboard());
 
-    clickSaveInDialog();
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction textView3 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -218,13 +250,6 @@ public class ExerciseTests {
             isDisplayed()));
     textView.perform(longClick());
 
-    clickRenameInDialog();
-
-    clickSaveInDialog();
-    checkIfErrorIsRenderedInDialog();
-  }
-
-  private void clickRenameInDialog() {
     ViewInteraction linearLayout = onView(
         allOf(withId(R.id.edit_linear_layout),
             childAtPosition(
@@ -234,6 +259,24 @@ public class ExerciseTests {
                 0),
             isDisplayed()));
     linearLayout.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+    ViewInteraction linearLayout1 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.text_input_layout),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
+                    0)),
+            1),
+            isDisplayed()));
+    linearLayout1.check(matches(isDisplayed()));
   }
 
   @Test
@@ -262,15 +305,16 @@ public class ExerciseTests {
 
   @Test
   public void shouldRenderErrorWhenTryingToCreateExerciseWithExistingName() {
-    clickFabInExerciseFragment();
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
-    writeTextIntoInputInDialog("Alternating Dumbbell Curl");
-
-    clickSaveInDialog();
-    checkIfErrorIsRenderedInDialog();
-  }
-
-  private void writeTextIntoInputInDialog(String s) {
     ViewInteraction textInputEditText = onView(
         allOf(childAtPosition(
             childAtPosition(
@@ -278,7 +322,25 @@ public class ExerciseTests {
                 0),
             0),
             isDisplayed()));
-    textInputEditText.perform(replaceText(s), closeSoftKeyboard());
+    textInputEditText.perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.text_input_layout),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
+                    0)),
+            1),
+            isDisplayed()));
+    linearLayout.check(matches(isDisplayed()));
   }
 
   @Test
@@ -316,14 +378,25 @@ public class ExerciseTests {
 
   @Test
   public void shouldRenderErrorWhenNoNameEnteredInDialogBox() {
-    clickFabInExerciseFragment();
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
-    clickSaveInDialog();
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
-    checkIfErrorIsRenderedInDialog();
-  }
-
-  private void checkIfErrorIsRenderedInDialog() {
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
             allOf(withId(R.id.text_input_layout),
@@ -333,17 +406,6 @@ public class ExerciseTests {
             1),
             isDisplayed()));
     linearLayout.check(matches(isDisplayed()));
-  }
-
-  private void clickSaveInDialog() {
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
   }
 
 }
