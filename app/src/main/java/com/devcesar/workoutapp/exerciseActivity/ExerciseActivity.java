@@ -3,6 +3,8 @@ package com.devcesar.workoutapp.exerciseActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,8 @@ import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
@@ -32,6 +36,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     intent.putExtra(EXTRA_EXERCISE_ID, exercise.getId());
     return intent;
   }
+
+  private static final String TAG = "ExerciseActivity";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,60 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         getSupportFragmentManager());
     binding.viewPager.setAdapter(sectionsPagerAdapter);
     binding.tabs.setupWithViewPager(binding.viewPager);
+
+    binding.timerDecrement.setOnClickListener(view -> decrement(binding.timerDisplay));
+    binding.timerIncrement.setOnClickListener(view -> increment(binding.timerDisplay));
+  }
+
+  private void decrement(Button timerDisplay) {
+    Matcher matcher = getMatcher(timerDisplay);
+    if (matcher.matches()) {
+      String minutesString = matcher.group(1);
+      String secondsString = matcher.group(2);
+      int minutes = Integer.parseInt(minutesString);
+      int seconds = Integer.parseInt(secondsString);
+      seconds--;
+      if (seconds == -1) {
+        seconds = 59;
+        minutes--;
+      }
+      if (minutes == -1) {
+        minutes = 0;
+        seconds = 0;
+      }
+      setTime(timerDisplay, minutes, seconds);
+    }
+  }
+
+  private void increment(TextView timerDisplay) {
+    Matcher matcher = getMatcher(timerDisplay);
+    if (matcher.matches()) {
+      String minutesString = matcher.group(1);
+      String secondsString = matcher.group(2);
+      int minutes = Integer.parseInt(minutesString);
+      int seconds = Integer.parseInt(secondsString);
+      seconds++;
+      if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+      }
+      if (minutes > 59) {
+        minutes = 59;
+        seconds = 59;
+      }
+      setTime(timerDisplay, minutes, seconds);
+    }
+  }
+
+  private Matcher getMatcher(TextView timerDisplay) {
+    String time = timerDisplay.getText().toString();
+    Pattern pattern = Pattern.compile("(\\d{1,2}):(\\d{2})");
+    return pattern.matcher(time);
+  }
+
+  private void setTime(TextView timerDisplay, int minutes, int seconds) {
+    String newTime = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    timerDisplay.setText(newTime);
   }
 
   /**

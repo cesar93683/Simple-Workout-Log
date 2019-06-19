@@ -10,6 +10,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -38,6 +39,200 @@ public class ExerciseTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void canDecrementAndIncrementTimerProperly() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatImageButton = onView(
+        allOf(withId(R.id.timer_decrement), withContentDescription("Decrement"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                1),
+            isDisplayed()));
+    appCompatImageButton.perform(click());
+
+    ViewInteraction button = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button.check(matches(withText("1:59")));
+
+    ViewInteraction appCompatImageButton2 = onView(
+        allOf(withId(R.id.timer_decrement), withContentDescription("Decrement"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                1),
+            isDisplayed()));
+    appCompatImageButton2.perform(click());
+
+    ViewInteraction button2 = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button2.check(matches(withText("1:58")));
+
+    ViewInteraction appCompatImageButton3 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton3.perform(click());
+
+    ViewInteraction appCompatImageButton4 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton4.perform(click());
+
+    ViewInteraction button3 = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button3.check(matches(withText("2:00")));
+
+    ViewInteraction appCompatImageButton5 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton5.perform(click());
+
+    ViewInteraction appCompatImageButton6 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton6.perform(click());
+
+    ViewInteraction appCompatImageButton7 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton7.perform(click());
+
+    ViewInteraction appCompatImageButton8 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton8.perform(click());
+
+    ViewInteraction appCompatImageButton9 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton9.perform(click());
+
+    ViewInteraction appCompatImageButton10 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton10.perform(click());
+
+    ViewInteraction appCompatImageButton11 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton11.perform(click());
+
+    ViewInteraction appCompatImageButton12 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton12.perform(click());
+
+    ViewInteraction appCompatImageButton13 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton13.perform(click());
+
+    ViewInteraction appCompatImageButton14 = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton14.perform(click());
+
+    ViewInteraction button4 = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button4.check(matches(withText("2:10")));
+  }
 
   @Test
   public void shouldGoToExerciseWhenClickingExercise() {
