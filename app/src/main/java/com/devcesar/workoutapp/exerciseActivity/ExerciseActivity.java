@@ -3,20 +3,19 @@ package com.devcesar.workoutapp.exerciseActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.databinding.ActivityExerciseBinding;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
-import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -37,7 +36,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_exercise);
+    ActivityExerciseBinding binding = DataBindingUtil
+        .setContentView(this, R.layout.activity_exercise);
 
     int invalid = -1;
     int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
@@ -48,15 +48,12 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
 
     exercise = new NamedEntity(exerciseName, exerciseId);
-    TextView titleTextView = findViewById(R.id.title);
-    titleTextView.setText(exerciseName);
+    binding.title.setText(exerciseName);
 
     SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
         getSupportFragmentManager());
-    ViewPager mViewPager = findViewById(R.id.view_pager);
-    mViewPager.setAdapter(sectionsPagerAdapter);
-    TabLayout tabs = findViewById(R.id.tabs);
-    tabs.setupWithViewPager(mViewPager);
+    binding.viewPager.setAdapter(sectionsPagerAdapter);
+    binding.tabs.setupWithViewPager(binding.viewPager);
   }
 
   /**
