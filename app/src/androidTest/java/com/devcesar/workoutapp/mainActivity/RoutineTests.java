@@ -1954,6 +1954,12 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton5.perform(click());
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab_action2),
             childAtPosition(
