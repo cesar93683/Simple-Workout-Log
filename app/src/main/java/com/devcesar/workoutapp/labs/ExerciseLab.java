@@ -17,13 +17,11 @@ public class ExerciseLab implements NamedEntityLab {
 
   private static ExerciseLab exerciseLab;
   private final SQLiteDatabase database;
-  private final WorkoutLab workoutLab;
   private ArrayList<NamedEntity> exercises;
 
   private ExerciseLab(Context context) {
     database = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
     exercises = new ArrayList<>();
-    workoutLab = WorkoutLab.get(context);
     updateExercises();
   }
 
@@ -53,12 +51,7 @@ public class ExerciseLab implements NamedEntityLab {
   public List<NamedEntity> findExercises(ArrayList<Integer> ids) {
     List<NamedEntity> namedEntities = new LinkedList<>();
     for (int exerciseId : ids) {
-      // todo remove try-catch
-      try {
-        namedEntities.add(findExercise(exerciseId));
-      } catch (RuntimeException ignored) {
-        // category still has id of deleted exercise
-      }
+      namedEntities.add(findExercise(exerciseId));
     }
     return namedEntities;
   }
@@ -99,12 +92,13 @@ public class ExerciseLab implements NamedEntityLab {
   }
 
   @Override
-  public void delete(int id) {
-    // todo delete exercise from categories and routines
+  public void delete(int id, Context context) {
     String whereClause = ExerciseTable._ID + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.delete(ExerciseTable.NAME, whereClause, whereArgs);
-    workoutLab.deleteWorkouts(id);
+    WorkoutLab.get(context).deleteWorkouts(id);
+    CategoryOrRoutineLab.getCategoryLab(context).deleteExerciseFromAll(id, context);
+    CategoryOrRoutineLab.getRoutineLab(context).deleteExerciseFromAll(id, context);
     updateExercises();
   }
 

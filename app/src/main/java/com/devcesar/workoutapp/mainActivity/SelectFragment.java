@@ -240,7 +240,7 @@ public class SelectFragment extends Fragment {
   }
 
   private void deleteNamedEntity(NamedEntity namedEntity) {
-    selectFragmentHelper.getLab().delete(namedEntity.getId());
+    selectFragmentHelper.getLab().delete(namedEntity.getId(), getContext());
     showSnackbar(
         String.format(getString(R.string.item_deleted), selectFragmentHelper.getName()));
     updateFiltered();

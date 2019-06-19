@@ -14,7 +14,6 @@ import com.devcesar.workoutapp.database.DbSchema.RoutineTable;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.google.gson.Gson;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CategoryOrRoutineLab implements NamedEntityLab {
@@ -81,7 +80,7 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   }
 
   @Override
-  public void delete(int id) {
+  public void delete(int id, Context context) {
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.delete(tableName, whereClause, whereArgs);
@@ -180,4 +179,9 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     updateNamedEntities();
   }
 
+  void deleteExerciseFromAll(int exerciseId, Context context) {
+    for (NamedEntity namedEntity : namedEntities) {
+      deleteExercise(namedEntity.getId(), exerciseId, context);
+    }
+  }
 }
