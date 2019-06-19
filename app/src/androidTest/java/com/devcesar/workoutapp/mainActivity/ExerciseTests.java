@@ -1,6 +1,5 @@
 package com.devcesar.workoutapp.mainActivity;
 
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -39,6 +38,44 @@ public class ExerciseTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void shouldGoToExerciseWhenClickingExercise() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    0),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
+  }
+
+  @Test
+  public void shouldDefaultToExercise() {
+    ViewInteraction textView = onView(
+        allOf(withText("Exercise"),
+            childAtPosition(
+                allOf(withId(R.id.action_bar),
+                    childAtPosition(
+                        withId(R.id.action_bar_container),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Exercise")));
+  }
 
   @Test
   public void shouldBeAbleToCreateAndDeleteExercise() {
@@ -238,48 +275,6 @@ public class ExerciseTests {
   }
 
   @Test
-  public void shouldRenderErrorWhenRenamingExerciseWithSameName() {
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.perform(longClick());
-
-    ViewInteraction linearLayout = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout.perform(click());
-
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
-    ViewInteraction linearLayout1 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.text_input_layout),
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
-                    0)),
-            1),
-            isDisplayed()));
-    linearLayout1.check(matches(isDisplayed()));
-  }
-
-  @Test
   public void shouldBeAbleToFilterExercises() {
     ViewInteraction appCompatEditText = onView(
         allOf(withId(R.id.filter_edit_text),
@@ -301,6 +296,38 @@ public class ExerciseTests {
                 0),
             isDisplayed()));
     textView.check(matches(isDisplayed()));
+  }
+
+  @Test
+  public void shouldRenderErrorWhenTryingToCreateExerciseWithNoName() {
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.fragment_container),
+                    0),
+                2),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.text_input_layout),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
+                    0)),
+            1),
+            isDisplayed()));
+    linearLayout.check(matches(isDisplayed()));
   }
 
   @Test
@@ -344,17 +371,45 @@ public class ExerciseTests {
   }
 
   @Test
-  public void shouldDefaultToExercise() {
+  public void shouldRenderErrorWhenRenamingExerciseWithSameName() {
     ViewInteraction textView = onView(
-        allOf(withText("Exercise"),
+        allOf(withText("Alternating Dumbbell Curl"),
             childAtPosition(
-                allOf(withId(R.id.action_bar),
+                allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
                 0),
             isDisplayed()));
-    textView.check(matches(withText("Exercise")));
+    textView.perform(longClick());
+
+    ViewInteraction linearLayout = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+    ViewInteraction linearLayout1 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.text_input_layout),
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
+                    0)),
+            1),
+            isDisplayed()));
+    linearLayout1.check(matches(isDisplayed()));
   }
 
   private static Matcher<View> childAtPosition(
@@ -374,38 +429,6 @@ public class ExerciseTests {
             && view.equals(((ViewGroup) parent).getChildAt(position));
       }
     };
-  }
-
-  @Test
-  public void shouldRenderErrorWhenNoNameEnteredInDialogBox() {
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
-            isDisplayed()));
-    floatingActionButton.perform(click());
-
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
-
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.text_input_layout),
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.FrameLayout.class),
-                    0)),
-            1),
-            isDisplayed()));
-    linearLayout.check(matches(isDisplayed()));
   }
 
 }
