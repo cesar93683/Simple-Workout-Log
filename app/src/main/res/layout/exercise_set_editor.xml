@@ -18,7 +18,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_remove_circle_black_24dp"/>
+        android:background="@drawable/ic_down_chevron"/>
 
       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/reps_text_input_layout"
@@ -38,7 +38,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_add_circle_black_24dp"/>
+        android:background="@drawable/ic_up_chevron"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +51,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_remove_circle_black_24dp"/>
+        android:background="@drawable/ic_down_chevron"/>
 
       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/weight_text_input_layout"
@@ -71,7 +71,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/ic_add_circle_black_24dp"/>
+        android:background="@drawable/ic_up_chevron"/>
     </LinearLayout>
   </LinearLayout>
 </layout>
