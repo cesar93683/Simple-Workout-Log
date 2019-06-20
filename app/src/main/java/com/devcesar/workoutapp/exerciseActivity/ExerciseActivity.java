@@ -72,9 +72,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     binding.viewPager.setAdapter(sectionsPagerAdapter);
     binding.tabs.setupWithViewPager(binding.viewPager);
 
-    binding.timerDecrement.setOnClickListener(view -> decrement());
-    binding.timerIncrement.setOnClickListener(view -> increment());
-
     timerDisplay = binding.timerDisplay;
     timerDisplay.setOnClickListener(view -> showSetTimeDialog());
 
@@ -164,41 +161,17 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
           int seconds = dialogBinding.secondsNumberPicker.getValue();
           int minutes = dialogBinding.minutesNumberPicker.getValue();
           startTime = minutes * 60 + seconds;
-          startTimeChanged();
+
+          PreferenceManager.getDefaultSharedPreferences(this)
+              .edit()
+              .putInt(START_TIME, startTime)
+              .apply();
+
+          timeLeftInMillis = startTime * 1000;
+          updateTimeDisplay();
         })
         .setView(dialogBinding.getRoot())
         .show();
-  }
-
-  private void decrement() {
-    if (isTimerRunning) {
-      return;
-    }
-    if (startTime == 0) {
-      return;
-    }
-    startTime--;
-    startTimeChanged();
-  }
-
-  private void increment() {
-    if (isTimerRunning) {
-      return;
-    }
-    if (startTime == 59 * 60 + 59) {
-      return;
-    }
-    startTime++;
-    startTimeChanged();
-  }
-
-  private void startTimeChanged() {
-    PreferenceManager.getDefaultSharedPreferences(this)
-        .edit()
-        .putInt(START_TIME, startTime)
-        .apply();
-    timeLeftInMillis = startTime * 1000;
-    updateTimeDisplay();
   }
 
   private void updateTimeDisplay() {

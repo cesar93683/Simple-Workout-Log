@@ -45,7 +45,6 @@
       android:layout_gravity="bottom"
       android:background="@color/colorPrimary"
       android:orientation="horizontal">
-      <!--todo remove increment and decrement-->
       <ImageView
         android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_reset"
@@ -54,14 +53,6 @@
         android:layout_weight="1"
         android:contentDescription="@string/reset"
         app:srcCompat="@drawable/ic_settings_backup_restore_white_24dp"/>
-      <ImageView
-        android:background="?attr/selectableItemBackground"
-        android:id="@+id/timer_decrement"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:contentDescription="@string/decrement"
-        app:srcCompat="@drawable/ic_remove_white_24dp"/>
       <TextView
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -73,14 +64,6 @@
         android:layout_weight="1"
         android:text="@string/timer_start_value"
         android:textSize="30sp"/>
-      <ImageView
-        android:background="?attr/selectableItemBackground"
-        android:id="@+id/timer_increment"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:contentDescription="@string/increment"
-        app:srcCompat="@drawable/ic_add_white_24dp"/>
       <ImageView
         android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_play"
