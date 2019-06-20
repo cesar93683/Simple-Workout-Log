@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,6 +34,7 @@ public class ExerciseFragment extends Fragment {
   private ExerciseSetAdapter exerciseSetsAdapter;
   private boolean isEditing;
   private boolean hasBeenModified;
+  private CoordinatorLayout coordinatorLayout;
 
   public ExerciseFragment() {
     // Required empty public constructor
@@ -106,6 +108,8 @@ public class ExerciseFragment extends Fragment {
             DividerItemDecoration.VERTICAL));
     binding.exerciseSetsRecyclerView.setAdapter(exerciseSetsAdapter);
 
+    coordinatorLayout = binding.coordinatorLayout;
+
     return binding.getRoot();
   }
 
@@ -150,8 +154,7 @@ public class ExerciseFragment extends Fragment {
     exerciseSets.add(exerciseSet);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
-    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.set_added,
-        Snackbar.LENGTH_SHORT).show();
+    makeSnackbar(getString(R.string.set_added));
   }
 
   private void saveSets() {
@@ -235,6 +238,10 @@ public class ExerciseFragment extends Fragment {
         .show();
   }
 
+  private void makeSnackbar(String text) {
+    Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
+  }
+
   private void editSet(final TextInputLayout repsTextInputLayout,
       final TextInputLayout weightTextInputLayout, AlertDialog alertDialog, int position) {
     if (!validateReps(repsTextInputLayout)) {
@@ -252,9 +259,7 @@ public class ExerciseFragment extends Fragment {
 
     alertDialog.dismiss();
     hasBeenModified = true;
-    Snackbar.make(getActivity().findViewById(android.R.id.content),
-        String.format(getString(R.string.item_updated), getString(R.string.set)),
-        Snackbar.LENGTH_SHORT).show();
+    makeSnackbar(String.format(getString(R.string.item_updated), getString(R.string.set)));
   }
 
   private void deleteExerciseSet(int position) {
@@ -262,9 +267,7 @@ public class ExerciseFragment extends Fragment {
     updateExerciseSetNumbers(position);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
-    Snackbar.make(getActivity().findViewById(android.R.id.content),
-        String.format(getString(R.string.item_deleted), getString(R.string.set)),
-        Snackbar.LENGTH_SHORT).show();
+    makeSnackbar(String.format(getString(R.string.item_deleted), getString(R.string.set)));
   }
 
   private void updateExerciseSetNumbers(int position) {

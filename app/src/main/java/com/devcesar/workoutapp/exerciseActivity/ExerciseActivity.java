@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -154,8 +154,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     dialogBinding.secondsNumberPicker.setValue(startTime % 60);
     dialogBinding.minutesNumberPicker.setValue(startTime / 60);
 
-    new AlertDialog.Builder(this)
-        .setTitle(getString(R.string.title))
+    new Builder(this)
+        .setTitle(getString(R.string.set_timer))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, (dialogInterface, i) -> {
           int seconds = dialogBinding.secondsNumberPicker.getValue();

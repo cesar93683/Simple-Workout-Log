@@ -91,4 +91,5 @@
   <string name="title">Title</string>
   <string name="colon">:</string>
   <string name="pause">Pause</string>
+  <string name="set_timer">Set Timer</string>
 </resources>
