@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog.Builder;
@@ -38,8 +38,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private Fragment exerciseFragment;
   private int startTime;
   private long timeLeftInMillis;
-  private Button timerDisplay;
-  private ImageButton startPauseButton;
+  private TextView timerDisplay;
+  private ImageView startPauseButton;
   private boolean isTimerRunning;
   private CountDownTimer mCountDownTimer;
 
@@ -112,7 +112,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   private void setIconToPlay() {
-    startPauseButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+    startPauseButton.setImageResource(R.drawable.ic_play_arrow_white_24dp);
     startPauseButton.setContentDescription(getString(R.string.play));
   }
 
@@ -137,7 +137,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   private void setIconToStop() {
-    startPauseButton.setImageResource(R.drawable.ic_stop_black_24dp);
+    startPauseButton.setImageResource(R.drawable.ic_stop_white_24dp);
     startPauseButton.setContentDescription(getString(R.string.pause));
   }
 

@@ -45,41 +45,49 @@
       android:layout_gravity="bottom"
       android:background="@color/colorPrimary"
       android:orientation="horizontal">
-      <ImageButton
+      <ImageView
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_reset"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/reset"
-        app:srcCompat="@drawable/ic_settings_backup_restore_black_24dp"/>
-      <ImageButton
+        app:srcCompat="@drawable/ic_settings_backup_restore_white_24dp"/>
+      <ImageView
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_decrement"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/decrement"
-        app:srcCompat="@drawable/ic_remove_black_24dp"/>
-      <Button
+        app:srcCompat="@drawable/ic_remove_white_24dp"/>
+      <TextView
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:id="@+id/timer_display"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:text="@string/timer_start_value"
-        android:textSize="20sp"/>
-      <ImageButton
+        android:textSize="30sp"/>
+      <ImageView
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_increment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/increment"
-        app:srcCompat="@drawable/ic_add_black_24dp"/>
-      <ImageButton
+        app:srcCompat="@drawable/ic_add_white_24dp"/>
+      <ImageView
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_play"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/play"
-        app:srcCompat="@drawable/ic_play_arrow_black_24dp"/>
+        app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
     </LinearLayout>
   </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
