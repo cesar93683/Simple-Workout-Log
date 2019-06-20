@@ -6,11 +6,11 @@
 
   </data>
   <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator_layout"
-    android:focusableInTouchMode="true"
-    android:paddingTop="20dp">
+    android:paddingTop="20dp"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -46,6 +46,12 @@
         android:layout_marginLeft="10dp"
         android:text="@string/activity_exercise_completed_text"
         android:textSize="20sp"/>
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="?android:attr/listDivider"/>
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exercise_sets_recycler_view"

@@ -45,6 +45,7 @@
       android:layout_gravity="bottom"
       android:background="@color/colorPrimary"
       android:orientation="horizontal">
+      <!--todo remove increment and decrement-->
       <ImageView
         android:background="?attr/selectableItemBackground"
         android:id="@+id/timer_reset"
