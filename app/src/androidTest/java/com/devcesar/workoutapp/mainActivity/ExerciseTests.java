@@ -19,7 +19,11 @@ import static org.hamcrest.Matchers.is;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.NumberPicker;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -39,6 +43,99 @@ public class ExerciseTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void canSetTimeInDialog() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.timer_display), withText("2:00"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction numberPicker = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.custom),
+                0),
+            0),
+            isDisplayed()));
+    numberPicker.perform(new ViewAction() {
+      @Override
+      public void perform(UiController uiController, View view) {
+        NumberPicker tp = (NumberPicker) view;
+        tp.setValue(3);
+      }
+
+      @Override
+      public String getDescription() {
+        return "Set the passed value into the NumberPicker";
+      }
+
+      @Override
+      public Matcher<View> getConstraints() {
+        return ViewMatchers.isAssignableFrom(NumberPicker.class);
+      }
+    });
+
+    ViewInteraction numberPicker2 = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.custom),
+                0),
+            2),
+            isDisplayed()));
+    numberPicker2.perform(new ViewAction() {
+      @Override
+      public void perform(UiController uiController, View view) {
+        NumberPicker tp = (NumberPicker) view;
+        tp.setValue(59);
+      }
+
+      @Override
+      public String getDescription() {
+        return "Set the passed value into the NumberPicker";
+      }
+
+      @Override
+      public Matcher<View> getConstraints() {
+        return ViewMatchers.isAssignableFrom(NumberPicker.class);
+      }
+    });
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
+
+    ViewInteraction button = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button.check(matches(withText("3:59")));
+  }
 
   @Test
   public void shouldSetTimeCorrectlyInDialog() {

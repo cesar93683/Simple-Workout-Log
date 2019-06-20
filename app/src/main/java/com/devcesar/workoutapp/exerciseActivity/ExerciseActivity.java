@@ -82,7 +82,11 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     new AlertDialog.Builder(this)
         .setTitle(getString(R.string.title))
         .setNegativeButton(R.string.cancel, null)
-        .setPositiveButton(R.string.save, null)
+        .setPositiveButton(R.string.save, (dialogInterface, i) -> {
+          int seconds = dialogBinding.secondsNumberPicker.getValue();
+          int minutes = dialogBinding.minutesNumberPicker.getValue();
+          setTime(timerDisplay, minutes, seconds);
+        })
         .setView(dialogBinding.getRoot())
         .show();
   }
