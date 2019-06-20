@@ -26,16 +26,16 @@ import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Locale;
 
 public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-  private static final String TAG = "ExerciseActivity";
   private NamedEntity exercise;
   private Fragment exerciseFragment;
+  private int time;
+  private Button timerDisplay;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -66,18 +66,20 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     binding.viewPager.setAdapter(sectionsPagerAdapter);
     binding.tabs.setupWithViewPager(binding.viewPager);
 
-    binding.timerDecrement.setOnClickListener(view -> decrement(binding.timerDisplay));
-    binding.timerIncrement.setOnClickListener(view -> increment(binding.timerDisplay));
-    binding.timerDisplay.setOnClickListener(view -> showSetTimeDialog(binding.timerDisplay));
+    binding.timerDecrement.setOnClickListener(view -> decrement());
+    binding.timerIncrement.setOnClickListener(view -> increment());
 
-    int time = PreferenceManager.getDefaultSharedPreferences(this)
+    timerDisplay = binding.timerDisplay;
+    timerDisplay.setOnClickListener(view -> showSetTimeDialog());
+
+    time = PreferenceManager.getDefaultSharedPreferences(this)
         .getInt(TIMER_TIME, DEFAULT_TIMER_TIME);
 
-    setTime(binding.timerDisplay, time / 60, time % 60);
+    updateTime();
   }
 
 
-  private void showSetTimeDialog(Button timerDisplay) {
+  private void showSetTimeDialog() {
     final DialogSetTimerBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
 
@@ -86,8 +88,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     dialogBinding.secondsNumberPicker.setMaxValue(59);
     dialogBinding.minutesNumberPicker.setMaxValue(59);
 
-    dialogBinding.secondsNumberPicker.setValue(getSeconds(timerDisplay));
-    dialogBinding.minutesNumberPicker.setValue(getMinutes(timerDisplay));
+    dialogBinding.secondsNumberPicker.setValue(time % 60);
+    dialogBinding.minutesNumberPicker.setValue(time / 60);
 
     new AlertDialog.Builder(this)
         .setTitle(getString(R.string.title))
@@ -95,74 +97,39 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setPositiveButton(R.string.save, (dialogInterface, i) -> {
           int seconds = dialogBinding.secondsNumberPicker.getValue();
           int minutes = dialogBinding.minutesNumberPicker.getValue();
-          updateTime(timerDisplay, minutes, seconds);
+          time = minutes * 60 + seconds;
+          timeChanged();
         })
         .setView(dialogBinding.getRoot())
         .show();
   }
 
-  private int getMinutes(Button timerDisplay) {
-    Matcher matcher = getMatcher(timerDisplay);
-    if (matcher.matches()) {
-      return Integer.parseInt(matcher.group(1));
+  private void decrement() {
+    if (time == 0) {
+      return;
     }
-    return 0;
+    time--;
+    timeChanged();
   }
 
-  private int getSeconds(Button timerDisplay) {
-    Matcher matcher = getMatcher(timerDisplay);
-    if (matcher.matches()) {
-      return Integer.parseInt(matcher.group(2));
+  private void increment() {
+    if (time == 59 * 60 + 59) {
+      return;
     }
-    return 0;
+    time++;
+    timeChanged();
   }
 
-  private void decrement(Button timerDisplay) {
-    int minutes = getMinutes(timerDisplay);
-    int seconds = getSeconds(timerDisplay);
-    seconds--;
-    if (seconds == -1) {
-      seconds = 59;
-      minutes--;
-    }
-    if (minutes == -1) {
-      minutes = 0;
-      seconds = 0;
-    }
-    updateTime(timerDisplay, minutes, seconds);
-  }
-
-  private void updateTime(Button timerDisplay, int minutes, int seconds) {
+  private void timeChanged() {
     PreferenceManager.getDefaultSharedPreferences(this)
         .edit()
-        .putInt(TIMER_TIME, minutes * 60 + seconds)
+        .putInt(TIMER_TIME, time)
         .apply();
-    setTime(timerDisplay, minutes, seconds);
+    updateTime();
   }
 
-  private void increment(Button timerDisplay) {
-    int minutes = getMinutes(timerDisplay);
-    int seconds = getSeconds(timerDisplay);
-    seconds++;
-    if (seconds == 60) {
-      seconds = 0;
-      minutes++;
-    }
-    if (minutes > 59) {
-      minutes = 59;
-      seconds = 59;
-    }
-    updateTime(timerDisplay, minutes, seconds);
-  }
-
-  private Matcher getMatcher(Button timerDisplay) {
-    String time = timerDisplay.getText().toString();
-    Pattern pattern = Pattern.compile("(\\d{1,2}):(\\d{2})");
-    return pattern.matcher(time);
-  }
-
-  private void setTime(Button timerDisplay, int minutes, int seconds) {
-    String newTime = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+  private void updateTime() {
+    String newTime = String.format(Locale.getDefault(), "%d:%02d", time / 60, time % 60);
     timerDisplay.setText(newTime);
   }
 

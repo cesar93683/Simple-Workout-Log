@@ -193,6 +193,94 @@ public class ExerciseTests {
                 2),
             isDisplayed()));
     button.check(matches(withText("3:59")));
+
+    ViewInteraction button2 = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button2.perform(click());
+
+    ViewInteraction numberPicker3 = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.custom),
+                0),
+            0),
+            isDisplayed()));
+    numberPicker3.perform(new ViewAction() {
+      @Override
+      public void perform(UiController uiController, View view) {
+        NumberPicker tp = (NumberPicker) view;
+        tp.setValue(2);
+      }
+
+      @Override
+      public String getDescription() {
+        return "Set the passed value into the NumberPicker";
+      }
+
+      @Override
+      public Matcher<View> getConstraints() {
+        return ViewMatchers.isAssignableFrom(NumberPicker.class);
+      }
+    });
+
+    ViewInteraction numberPicker4 = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.custom),
+                0),
+            2),
+            isDisplayed()));
+    numberPicker4.perform(new ViewAction() {
+      @Override
+      public void perform(UiController uiController, View view) {
+        NumberPicker tp = (NumberPicker) view;
+        tp.setValue(0);
+      }
+
+      @Override
+      public String getDescription() {
+        return "Set the passed value into the NumberPicker";
+      }
+
+      @Override
+      public Matcher<View> getConstraints() {
+        return ViewMatchers.isAssignableFrom(NumberPicker.class);
+      }
+    });
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
   }
 
   @Test
@@ -218,25 +306,11 @@ public class ExerciseTests {
             isDisplayed()));
     appCompatButton.perform(click());
 
-    ViewInteraction editText = onView(
-        allOf(IsInstanceOf.instanceOf(android.widget.EditText.class), withText("2"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    0),
-                1),
-            isDisplayed()));
-    editText.check(matches(withText("2")));
+    ViewInteraction editText = onView(withText("2"));
+    editText.check(matches(isDisplayed()));
 
-    ViewInteraction editText2 = onView(
-        allOf(IsInstanceOf.instanceOf(android.widget.EditText.class), withText("0"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    editText2.check(matches(withText("0")));
+    ViewInteraction editText2 = onView(withText("0"));
+    editText2.check(matches(isDisplayed()));
   }
 
   @Test
@@ -455,25 +529,6 @@ public class ExerciseTests {
                 0),
             isDisplayed()));
     textView.check(matches(withText("Alternating Dumbbell Curl")));
-  }
-
-  private static Matcher<View> childAtPosition(
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
   }
 
   @Test
