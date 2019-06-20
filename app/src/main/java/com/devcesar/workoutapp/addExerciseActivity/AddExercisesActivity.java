@@ -17,8 +17,7 @@ public class AddExercisesActivity extends AppCompatActivity {
   private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
   private static final String EXTRA_NAME = "EXTRA_NAME";
 
-  public static Intent newIntent(Context packageContext, List<NamedEntity> exercises,
-      String name) {
+  public static Intent newIntent(Context packageContext, List<NamedEntity> exercises, String name) {
     Intent intent = new Intent(packageContext, AddExercisesActivity.class);
     intent.putExtra(EXTRA_EXERCISE_IDS, NamedEntitiesUtils.getIds(exercises));
     intent.putExtra(EXTRA_NAME, name);

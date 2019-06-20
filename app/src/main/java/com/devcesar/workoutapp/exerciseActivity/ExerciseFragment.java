@@ -2,11 +2,9 @@ package com.devcesar.workoutapp.exerciseActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -200,9 +198,8 @@ public class ExerciseFragment extends Fragment {
         .setMessage(R.string.edit_set)
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
+        .setView(dialogBinding.getRoot())
         .create();
-
-    setViewToCenterInDialog(dialogBinding.getRoot(), alertDialog);
 
     int reps = exerciseSets.get(position).getReps();
     dialogBinding.repsTextInputLayout.getEditText().setText(String.valueOf(reps));
@@ -236,16 +233,6 @@ public class ExerciseFragment extends Fragment {
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExerciseSet(position))
         .setNegativeButton(R.string.no, null)
         .show();
-  }
-
-  private void setViewToCenterInDialog(View view, AlertDialog alertDialog) {
-    FrameLayout container = new FrameLayout(getActivity());
-    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    params.gravity = Gravity.CENTER_HORIZONTAL;
-    view.setLayoutParams(params);
-    container.addView(view);
-    alertDialog.setView(container);
   }
 
   private void editSet(final TextInputLayout repsTextInputLayout,
