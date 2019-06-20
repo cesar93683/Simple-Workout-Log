@@ -97,6 +97,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   private void resetTimer() {
+    if (mCountDownTimer == null) {
+      return;
+    }
     pauseTimer();
     timeLeftInMillis = startTime * 1000;
     updateTimeDisplay();
