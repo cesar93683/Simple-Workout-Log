@@ -1,6 +1,7 @@
 package com.devcesar.workoutapp.mainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -43,6 +44,63 @@ public class ExerciseTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void ifTimerChangedShouldUpdateTimerForAllExercises() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatImageButton = onView(
+        allOf(withId(R.id.timer_increment), withContentDescription("Increment"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                3),
+            isDisplayed()));
+    appCompatImageButton.perform(click());
+
+    pressBack();
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Barbell Back Squat"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                1),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction button = onView(
+        allOf(withId(R.id.timer_display),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    2),
+                2),
+            isDisplayed()));
+    button.check(matches(withText("2:01")));
+
+    ViewInteraction appCompatImageButton2 = onView(
+        allOf(withId(R.id.timer_decrement), withContentDescription("Decrement"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                1),
+            isDisplayed()));
+    appCompatImageButton2.perform(click());
+  }
 
   @Test
   public void canSetTimeInDialog() {

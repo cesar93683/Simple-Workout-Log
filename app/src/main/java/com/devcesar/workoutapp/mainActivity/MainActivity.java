@@ -22,6 +22,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+  // settings
+  // Clear All Workouts
+  // Delete All Exercises, Routines, Categories
+  // Import Default Exercises, Routines, Categories
+
   private final Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
   private final Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
   private final Fragment categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
@@ -55,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
       PreferenceManager.getDefaultSharedPreferences(this)
           .edit()
           .putBoolean(IS_FIRST_RUN, false)
+          .apply();
+      PreferenceManager.getDefaultSharedPreferences(this)
+          .edit()
+          .putInt(Constants.TIMER_TIME, Constants.DEFAULT_TIMER_TIME)
           .apply();
     }
 

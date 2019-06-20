@@ -1,5 +1,8 @@
 package com.devcesar.workoutapp.exerciseActivity;
 
+import static com.devcesar.workoutapp.utils.Constants.DEFAULT_TIMER_TIME;
+import static com.devcesar.workoutapp.utils.Constants.TIMER_TIME;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.PreferenceManager;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityExerciseBinding;
 import com.devcesar.workoutapp.databinding.DialogSetTimerBinding;
@@ -65,7 +69,13 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     binding.timerDecrement.setOnClickListener(view -> decrement(binding.timerDisplay));
     binding.timerIncrement.setOnClickListener(view -> increment(binding.timerDisplay));
     binding.timerDisplay.setOnClickListener(view -> showSetTimeDialog(binding.timerDisplay));
+
+    int time = PreferenceManager.getDefaultSharedPreferences(this)
+        .getInt(TIMER_TIME, DEFAULT_TIMER_TIME);
+
+    setTime(binding.timerDisplay, time / 60, time % 60);
   }
+
 
   private void showSetTimeDialog(Button timerDisplay) {
     final DialogSetTimerBinding dialogBinding = DataBindingUtil
@@ -85,13 +95,13 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setPositiveButton(R.string.save, (dialogInterface, i) -> {
           int seconds = dialogBinding.secondsNumberPicker.getValue();
           int minutes = dialogBinding.minutesNumberPicker.getValue();
-          setTime(timerDisplay, minutes, seconds);
+          updateTime(timerDisplay, minutes, seconds);
         })
         .setView(dialogBinding.getRoot())
         .show();
   }
 
-  public int getMinutes(Button timerDisplay) {
+  private int getMinutes(Button timerDisplay) {
     Matcher matcher = getMatcher(timerDisplay);
     if (matcher.matches()) {
       return Integer.parseInt(matcher.group(1));
@@ -99,7 +109,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     return 0;
   }
 
-  public int getSeconds(Button timerDisplay) {
+  private int getSeconds(Button timerDisplay) {
     Matcher matcher = getMatcher(timerDisplay);
     if (matcher.matches()) {
       return Integer.parseInt(matcher.group(2));
@@ -119,6 +129,14 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       minutes = 0;
       seconds = 0;
     }
+    updateTime(timerDisplay, minutes, seconds);
+  }
+
+  private void updateTime(Button timerDisplay, int minutes, int seconds) {
+    PreferenceManager.getDefaultSharedPreferences(this)
+        .edit()
+        .putInt(TIMER_TIME, minutes * 60 + seconds)
+        .apply();
     setTime(timerDisplay, minutes, seconds);
   }
 
@@ -134,7 +152,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       minutes = 59;
       seconds = 59;
     }
-    setTime(timerDisplay, minutes, seconds);
+    updateTime(timerDisplay, minutes, seconds);
   }
 
   private Matcher getMatcher(Button timerDisplay) {
