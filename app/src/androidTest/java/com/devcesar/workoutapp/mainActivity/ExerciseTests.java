@@ -41,6 +41,50 @@ public class ExerciseTests {
       MainActivity.class);
 
   @Test
+  public void shouldSetTimeCorrectlyInDialog() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.timer_display), withText("2:00"),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    2),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction editText = onView(
+        allOf(IsInstanceOf.instanceOf(android.widget.EditText.class), withText("2"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    0),
+                1),
+            isDisplayed()));
+    editText.check(matches(withText("2")));
+
+    ViewInteraction editText2 = onView(
+        allOf(IsInstanceOf.instanceOf(android.widget.EditText.class), withText("0"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    2),
+                1),
+            isDisplayed()));
+    editText2.check(matches(withText("0")));
+  }
+
+  @Test
   public void canDecrementAndIncrementTimerProperly() {
     ViewInteraction appCompatTextView = onView(
         allOf(withText("Alternating Dumbbell Curl"),

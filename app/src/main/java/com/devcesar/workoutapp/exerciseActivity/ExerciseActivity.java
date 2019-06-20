@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.Button;
-import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +29,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
+  private static final String TAG = "ExerciseActivity";
   private NamedEntity exercise;
   private Fragment exerciseFragment;
 
@@ -39,8 +39,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     intent.putExtra(EXTRA_EXERCISE_ID, exercise.getId());
     return intent;
   }
-
-  private static final String TAG = "ExerciseActivity";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +64,21 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     binding.timerDecrement.setOnClickListener(view -> decrement(binding.timerDisplay));
     binding.timerIncrement.setOnClickListener(view -> increment(binding.timerDisplay));
-    binding.timerDisplay.setOnClickListener(view -> showSetTimeDialog());
+    binding.timerDisplay.setOnClickListener(view -> showSetTimeDialog(binding.timerDisplay));
   }
 
-  private void showSetTimeDialog() {
+  private void showSetTimeDialog(Button timerDisplay) {
     final DialogSetTimerBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
+
+    dialogBinding.secondsNumberPicker.setMinValue(0);
+    dialogBinding.minutesNumberPicker.setMinValue(0);
+    dialogBinding.secondsNumberPicker.setMaxValue(59);
+    dialogBinding.minutesNumberPicker.setMaxValue(59);
+
+    dialogBinding.secondsNumberPicker.setValue(getSeconds(timerDisplay));
+    dialogBinding.minutesNumberPicker.setValue(getMinutes(timerDisplay));
+
     new AlertDialog.Builder(this)
         .setTitle(getString(R.string.title))
         .setNegativeButton(R.string.cancel, null)
@@ -80,55 +87,74 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .show();
   }
 
+  public int getMinutes(Button timerDisplay) {
+    Matcher matcher = getMatcher(timerDisplay);
+    if (matcher.matches()) {
+      return Integer.parseInt(matcher.group(1));
+    }
+    return 0;
+  }
+
+  public int getSeconds(Button timerDisplay) {
+    Matcher matcher = getMatcher(timerDisplay);
+    if (matcher.matches()) {
+      return Integer.parseInt(matcher.group(2));
+    }
+    return 0;
+  }
+
   private void decrement(Button timerDisplay) {
-    Matcher matcher = getMatcher(timerDisplay);
-    if (matcher.matches()) {
-      String minutesString = matcher.group(1);
-      String secondsString = matcher.group(2);
-      int minutes = Integer.parseInt(minutesString);
-      int seconds = Integer.parseInt(secondsString);
-      seconds--;
-      if (seconds == -1) {
-        seconds = 59;
-        minutes--;
-      }
-      if (minutes == -1) {
-        minutes = 0;
-        seconds = 0;
-      }
-      setTime(timerDisplay, minutes, seconds);
+    int minutes = getMinutes(timerDisplay);
+    int seconds = getSeconds(timerDisplay);
+    seconds--;
+    if (seconds == -1) {
+      seconds = 59;
+      minutes--;
     }
+    if (minutes == -1) {
+      minutes = 0;
+      seconds = 0;
+    }
+    setTime(timerDisplay, minutes, seconds);
   }
 
-  private void increment(TextView timerDisplay) {
-    Matcher matcher = getMatcher(timerDisplay);
-    if (matcher.matches()) {
-      String minutesString = matcher.group(1);
-      String secondsString = matcher.group(2);
-      int minutes = Integer.parseInt(minutesString);
-      int seconds = Integer.parseInt(secondsString);
-      seconds++;
-      if (seconds == 60) {
-        seconds = 0;
-        minutes++;
-      }
-      if (minutes > 59) {
-        minutes = 59;
-        seconds = 59;
-      }
-      setTime(timerDisplay, minutes, seconds);
+  private void increment(Button timerDisplay) {
+    int minutes = getMinutes(timerDisplay);
+    int seconds = getSeconds(timerDisplay);
+    seconds++;
+    if (seconds == 60) {
+      seconds = 0;
+      minutes++;
     }
+    if (minutes > 59) {
+      minutes = 59;
+      seconds = 59;
+    }
+    setTime(timerDisplay, minutes, seconds);
   }
 
-  private Matcher getMatcher(TextView timerDisplay) {
+  private Matcher getMatcher(Button timerDisplay) {
     String time = timerDisplay.getText().toString();
     Pattern pattern = Pattern.compile("(\\d{1,2}):(\\d{2})");
     return pattern.matcher(time);
   }
 
-  private void setTime(TextView timerDisplay, int minutes, int seconds) {
+  private void setTime(Button timerDisplay, int minutes, int seconds) {
     String newTime = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
     timerDisplay.setText(newTime);
+  }
+
+  @Override
+  public void onBackPressed() {
+    ((ExerciseFragment) exerciseFragment).onBackPressed();
+  }
+
+  @Override
+  public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
+    long timeStamp = new Date().getTime();
+    Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
+    WorkoutLab.get(this).insertWorkout(workout);
+    finish();
   }
 
   /**
@@ -172,18 +198,5 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     public CharSequence getPageTitle(int position) {
       return getString(TAB_TITLES[position]);
     }
-  }
-
-  @Override
-  public void onBackPressed() {
-    ((ExerciseFragment) exerciseFragment).onBackPressed();
-  }
-
-  @Override
-  public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
-    long timeStamp = new Date().getTime();
-    Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
-    WorkoutLab.get(this).insertWorkout(workout);
-    finish();
   }
 }
