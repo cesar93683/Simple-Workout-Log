@@ -63,9 +63,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     }
 
     String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
+    binding.title.setText(exerciseName);
 
     exercise = new NamedEntity(exerciseName, exerciseId);
-    binding.title.setText(exerciseName);
 
     SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
         getSupportFragmentManager());
@@ -78,10 +78,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     timerDisplay = binding.timerDisplay;
     timerDisplay.setOnClickListener(view -> showSetTimeDialog());
 
-    startTime = PreferenceManager.getDefaultSharedPreferences(this)
-        .getInt(START_TIME, DEFAULT_START_TIME);
+    binding.timerReset.setOnClickListener(view -> resetTimer());
 
-    isTimerRunning = false;
     startPauseButton = binding.timerPlay;
     startPauseButton.setOnClickListener(view -> {
       if (isTimerRunning) {
@@ -90,26 +88,27 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         startTimer();
       }
     });
-    binding.timerReset.setOnClickListener(view -> resetTimer());
+
+    startTime = PreferenceManager.getDefaultSharedPreferences(this)
+        .getInt(START_TIME, DEFAULT_START_TIME);
     timeLeftInMillis = startTime * 1000;
-    updateTime();
+    isTimerRunning = false;
+    updateTimeDisplay();
   }
 
   private void resetTimer() {
+    pauseTimer();
     timeLeftInMillis = startTime * 1000;
-    isTimerRunning = false;
-    mCountDownTimer.cancel();
-    updateTime();
-    setStartIcon();
+    updateTimeDisplay();
   }
 
   private void pauseTimer() {
     mCountDownTimer.cancel();
     isTimerRunning = false;
-    setStartIcon();
+    setIconToPlay();
   }
 
-  private void setStartIcon() {
+  private void setIconToPlay() {
     startPauseButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
     startPauseButton.setContentDescription(getString(R.string.play));
   }
@@ -119,31 +118,31 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       @Override
       public void onTick(long l) {
         timeLeftInMillis = l;
-        updateTime();
+        updateTimeDisplay();
       }
 
       @Override
       public void onFinish() {
         isTimerRunning = false;
-        setStartIcon();
+        setIconToPlay();
         timeLeftInMillis = startTime * 1000;
-        updateTime();
+        updateTimeDisplay();
       }
     }.start();
     isTimerRunning = true;
-    setStopIcon();
+    setIconToStop();
   }
 
-  private void setStopIcon() {
+  private void setIconToStop() {
     startPauseButton.setImageResource(R.drawable.ic_stop_black_24dp);
     startPauseButton.setContentDescription(getString(R.string.pause));
   }
-
 
   private void showSetTimeDialog() {
     if (isTimerRunning) {
       return;
     }
+
     final DialogSetTimerBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
 
@@ -196,10 +195,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .putInt(START_TIME, startTime)
         .apply();
     timeLeftInMillis = startTime * 1000;
-    updateTime();
+    updateTimeDisplay();
   }
 
-  private void updateTime() {
+  private void updateTimeDisplay() {
     int minutes = (int) (timeLeftInMillis / 1000) / 60;
     int seconds = (int) (timeLeftInMillis / 1000) % 60;
     String newTime = String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
