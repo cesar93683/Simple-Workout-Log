@@ -86,8 +86,9 @@
   <string name="reset">Reset</string>
   <string name="decrement">Decrement</string>
   <string name="increment">Increment</string>
-  <string name="play">play</string>
+  <string name="play">Play</string>
   <string name="timer_start_value">2:00</string>
   <string name="title">Title</string>
   <string name="colon">:</string>
+  <string name="pause">Pause</string>
 </resources>

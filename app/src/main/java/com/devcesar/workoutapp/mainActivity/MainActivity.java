@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
           .apply();
       PreferenceManager.getDefaultSharedPreferences(this)
           .edit()
-          .putInt(Constants.TIMER_TIME, Constants.DEFAULT_TIMER_TIME)
+          .putInt(Constants.START_TIME, Constants.DEFAULT_START_TIME)
           .apply();
     }
 

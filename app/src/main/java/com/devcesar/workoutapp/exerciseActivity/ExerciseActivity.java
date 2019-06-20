@@ -1,13 +1,15 @@
 package com.devcesar.workoutapp.exerciseActivity;
 
-import static com.devcesar.workoutapp.utils.Constants.DEFAULT_TIMER_TIME;
-import static com.devcesar.workoutapp.utils.Constants.TIMER_TIME;
+import static com.devcesar.workoutapp.utils.Constants.DEFAULT_START_TIME;
+import static com.devcesar.workoutapp.utils.Constants.START_TIME;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.widget.Button;
+import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -34,8 +36,12 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private NamedEntity exercise;
   private Fragment exerciseFragment;
-  private int time;
+  private int startTime;
+  private long timeLeftInMillis;
   private Button timerDisplay;
+  private ImageButton startPauseButton;
+  private boolean isTimerRunning;
+  private CountDownTimer mCountDownTimer;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -72,14 +78,72 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     timerDisplay = binding.timerDisplay;
     timerDisplay.setOnClickListener(view -> showSetTimeDialog());
 
-    time = PreferenceManager.getDefaultSharedPreferences(this)
-        .getInt(TIMER_TIME, DEFAULT_TIMER_TIME);
+    startTime = PreferenceManager.getDefaultSharedPreferences(this)
+        .getInt(START_TIME, DEFAULT_START_TIME);
 
+    isTimerRunning = false;
+    startPauseButton = binding.timerPlay;
+    startPauseButton.setOnClickListener(view -> {
+      if (isTimerRunning) {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    });
+    binding.timerReset.setOnClickListener(view -> resetTimer());
+    timeLeftInMillis = startTime * 1000;
     updateTime();
+  }
+
+  private void resetTimer() {
+    timeLeftInMillis = startTime * 1000;
+    isTimerRunning = false;
+    mCountDownTimer.cancel();
+    updateTime();
+    setStartIcon();
+  }
+
+  private void pauseTimer() {
+    mCountDownTimer.cancel();
+    isTimerRunning = false;
+    setStartIcon();
+  }
+
+  private void setStartIcon() {
+    startPauseButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+    startPauseButton.setContentDescription(getString(R.string.play));
+  }
+
+  private void startTimer() {
+    mCountDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+      @Override
+      public void onTick(long l) {
+        timeLeftInMillis = l;
+        updateTime();
+      }
+
+      @Override
+      public void onFinish() {
+        isTimerRunning = false;
+        setStartIcon();
+        timeLeftInMillis = startTime * 1000;
+        updateTime();
+      }
+    }.start();
+    isTimerRunning = true;
+    setStopIcon();
+  }
+
+  private void setStopIcon() {
+    startPauseButton.setImageResource(R.drawable.ic_stop_black_24dp);
+    startPauseButton.setContentDescription(getString(R.string.pause));
   }
 
 
   private void showSetTimeDialog() {
+    if (isTimerRunning) {
+      return;
+    }
     final DialogSetTimerBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
 
@@ -88,8 +152,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     dialogBinding.secondsNumberPicker.setMaxValue(59);
     dialogBinding.minutesNumberPicker.setMaxValue(59);
 
-    dialogBinding.secondsNumberPicker.setValue(time % 60);
-    dialogBinding.minutesNumberPicker.setValue(time / 60);
+    dialogBinding.secondsNumberPicker.setValue(startTime % 60);
+    dialogBinding.minutesNumberPicker.setValue(startTime / 60);
 
     new AlertDialog.Builder(this)
         .setTitle(getString(R.string.title))
@@ -97,39 +161,48 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setPositiveButton(R.string.save, (dialogInterface, i) -> {
           int seconds = dialogBinding.secondsNumberPicker.getValue();
           int minutes = dialogBinding.minutesNumberPicker.getValue();
-          time = minutes * 60 + seconds;
-          timeChanged();
+          startTime = minutes * 60 + seconds;
+          startTimeChanged();
         })
         .setView(dialogBinding.getRoot())
         .show();
   }
 
   private void decrement() {
-    if (time == 0) {
+    if (isTimerRunning) {
       return;
     }
-    time--;
-    timeChanged();
+    if (startTime == 0) {
+      return;
+    }
+    startTime--;
+    startTimeChanged();
   }
 
   private void increment() {
-    if (time == 59 * 60 + 59) {
+    if (isTimerRunning) {
       return;
     }
-    time++;
-    timeChanged();
+    if (startTime == 59 * 60 + 59) {
+      return;
+    }
+    startTime++;
+    startTimeChanged();
   }
 
-  private void timeChanged() {
+  private void startTimeChanged() {
     PreferenceManager.getDefaultSharedPreferences(this)
         .edit()
-        .putInt(TIMER_TIME, time)
+        .putInt(START_TIME, startTime)
         .apply();
+    timeLeftInMillis = startTime * 1000;
     updateTime();
   }
 
   private void updateTime() {
-    String newTime = String.format(Locale.getDefault(), "%d:%02d", time / 60, time % 60);
+    int minutes = (int) (timeLeftInMillis / 1000) / 60;
+    int seconds = (int) (timeLeftInMillis / 1000) % 60;
+    String newTime = String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
     timerDisplay.setText(newTime);
   }
 
