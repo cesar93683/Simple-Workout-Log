@@ -30,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
           case R.id.nav_exercise:
             setTitle(R.string.exercise);
-            setTabStateFragment(item.getItemId()).commit();
+            setTabStateFragment(item.getItemId());
             return true;
           case R.id.nav_category:
             setTitle(R.string.category);
-            setTabStateFragment(item.getItemId()).commit();
+            setTabStateFragment(item.getItemId());
             return true;
           case R.id.nav_routine:
             setTitle(R.string.routine);
-            setTabStateFragment(item.getItemId()).commit();
+            setTabStateFragment(item.getItemId());
             return true;
         }
         return false;
@@ -72,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
         .add(R.id.fragment_container, routineFragment)
         .add(R.id.fragment_container, categoryFragment)
         .commit();
-    setTabStateFragment(R.id.nav_exercise).commit();
+    setTabStateFragment(R.id.nav_exercise);
   }
 
-  private FragmentTransaction setTabStateFragment(int type) {
+  private void setTabStateFragment(int type) {
     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     switch (type) {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         break;
     }
 
-    return transaction;
+    transaction.commit();
   }
 
 }
