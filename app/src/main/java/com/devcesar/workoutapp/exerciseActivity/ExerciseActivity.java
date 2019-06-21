@@ -97,8 +97,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     startPauseButton.setOnClickListener(view -> {
       if (isTimerRunning) {
         pauseTimer();
+        setIconToPlay();
       } else {
         startTimer();
+        setIconToStop();
       }
     });
 
@@ -115,15 +117,15 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     if (mCountDownTimer == null) {
       return;
     }
-    pauseTimer();
     timeLeftInMillis = startTime * 1000;
+    pauseTimer();
+    setIconToPlay();
     updateTimeDisplay();
   }
 
   private void pauseTimer() {
     mCountDownTimer.cancel();
     isTimerRunning = false;
-    setIconToPlay();
   }
 
   private void setIconToPlay() {
@@ -223,22 +225,25 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
         intent, 0);
-    isShowingNotification = true;
+
     builder = new NotificationCompat.Builder(this, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_add_black_24dp)
         .setContentTitle(getString(R.string.time_left))
         .setContentText(getTimeString())
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setAutoCancel(false);
+        .setOngoing(true);
 
     notificationManagerCompat.notify(NOTIFICATION_TIMER_ID, builder.build());
+    isShowingNotification = true;
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    mCountDownTimer.cancel();
+    if (mCountDownTimer != null) {
+      mCountDownTimer.cancel();
+    }
     cancelAllNotifications();
   }
 
