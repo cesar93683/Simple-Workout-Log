@@ -56,10 +56,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -135,10 +136,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -223,7 +225,7 @@ public class CategoryTests {
         allOf(withId(R.id.filter_edit_text),
             childAtPosition(
                 childAtPosition(
-                    withId(R.id.fragment_container),
+                    withId(R.id.coordinator_layout),
                     0),
                 0),
             isDisplayed()));
@@ -255,10 +257,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -315,7 +318,7 @@ public class CategoryTests {
         allOf(withId(R.id.filter_edit_text),
             childAtPosition(
                 childAtPosition(
-                    withId(R.id.fragment_container),
+                    withId(R.id.coordinator_layout),
                     0),
                 0),
             isDisplayed()));
@@ -324,10 +327,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -390,10 +394,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -475,10 +480,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -592,10 +598,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -665,10 +672,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -800,10 +808,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -863,10 +872,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -939,10 +949,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -983,10 +994,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton2.perform(click());
 
@@ -1058,10 +1070,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1269,10 +1282,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1364,10 +1378,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1401,10 +1416,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton2.perform(click());
 
@@ -1486,10 +1502,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1631,10 +1648,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1690,10 +1708,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -1776,10 +1795,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1835,10 +1855,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
@@ -1964,10 +1985,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    2),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        2)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -2027,10 +2049,11 @@ public class CategoryTests {
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton3.perform(click());
 
