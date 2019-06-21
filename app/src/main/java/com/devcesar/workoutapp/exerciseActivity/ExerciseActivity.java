@@ -172,10 +172,11 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     NotificationCompat.Builder builderTimerFinished = new NotificationCompat.Builder(this,
         CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_add_black_24dp)
+        .setVibrate(new long[]{0L})
+        .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setContentTitle(getString(R.string.timer_finished))
         .setContentIntent(pendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(false);
 
     int NOTIFICATION_TIMER_FINISHED_ID = 2;
@@ -201,11 +202,11 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         intent, 0);
 
     builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.time_left))
         .setContentText(getTimeString())
         .setContentIntent(pendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setOngoing(true);
 
     notificationManagerCompat.notify(NOTIFICATION_TIMER_ID, builder.build());
