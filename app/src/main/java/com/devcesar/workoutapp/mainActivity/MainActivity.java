@@ -21,11 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+  // todo
   // settings
   // Clear All Workouts
-  // Delete All Exercises, Routines, Categories
-  // Import Default Exercises, Routines, Categories
+  // Delete All Exercises, Categories, Routines
+  // Import Default Exercises, Categories, Routines
+  // Start Timer After Adding Set - Switch
 
   private final Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
   private final Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);

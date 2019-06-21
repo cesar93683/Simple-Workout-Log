@@ -201,7 +201,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         intent, 0);
 
     builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_add_black_24dp)
+        .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.time_left))
         .setContentText(getTimeString())
         .setContentIntent(pendingIntent)
@@ -219,8 +219,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       int importance = NotificationManager.IMPORTANCE_DEFAULT;
       NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
       channel.setDescription(description);
-      // Register the channel with the system; you can't change the importance
-      // or other notification behaviors after this
       NotificationManager notificationManager = getSystemService(NotificationManager.class);
       notificationManager.createNotificationChannel(channel);
     }
