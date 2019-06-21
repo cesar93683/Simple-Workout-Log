@@ -708,7 +708,7 @@ public class WorkoutTests {
                 allOf(withId(R.id.exercise_sets_recycler_view),
                     childAtPosition(
                         IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        2)),
+                        3)),
                 0),
             isDisplayed()));
     textView.check(matches(isDisplayed()));
@@ -753,7 +753,7 @@ public class WorkoutTests {
                 allOf(withId(R.id.exercise_sets_recycler_view),
                     childAtPosition(
                         IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        2)),
+                        3)),
                 0),
             isDisplayed()));
     textView.check(matches(isDisplayed()));
@@ -798,7 +798,7 @@ public class WorkoutTests {
                 allOf(withId(R.id.exercise_sets_recycler_view),
                     childAtPosition(
                         withClassName(is("android.widget.LinearLayout")),
-                        2)),
+                        3)),
                 0),
             isDisplayed()));
     appCompatTextView2.perform(longClick());
@@ -828,7 +828,7 @@ public class WorkoutTests {
                 allOf(withId(R.id.exercise_sets_recycler_view),
                     childAtPosition(
                         IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        2)),
+                        3)),
                 0),
             isDisplayed()));
     textView.check(doesNotExist());
@@ -873,7 +873,7 @@ public class WorkoutTests {
                 allOf(withId(R.id.exercise_sets_recycler_view),
                     childAtPosition(
                         withClassName(is("android.widget.LinearLayout")),
-                        2)),
+                        3)),
                 0),
             isDisplayed()));
     appCompatTextView2.perform(longClick());
@@ -913,7 +913,7 @@ public class WorkoutTests {
                 allOf(withId(R.id.exercise_sets_recycler_view),
                     childAtPosition(
                         IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        2)),
+                        3)),
                 0),
             isDisplayed()));
     textView.check(matches(withText("Set 1 - 2 Reps @ - LB")));
