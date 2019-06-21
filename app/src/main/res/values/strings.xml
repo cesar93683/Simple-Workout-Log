@@ -3,7 +3,7 @@
   <string name="activity_exercise_reps_hint">REPS</string>
   <string name="activity_exercise_weight_hint">WEIGHT (LB)</string>
   <string name="add_exercises">Add Exercises</string>
-  <string name="app_name">WorkoutApp</string>
+  <string name="app_name">Simple Workout Log</string>
   <string name="are_you_sure_close_exercise">Are you sure you want to close this exercise? Any unsaved changes will be lost.</string>
   <string name="cancel">Cancel</string>
   <string name="category">Category</string>
