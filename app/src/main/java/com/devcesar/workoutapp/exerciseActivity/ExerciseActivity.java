@@ -46,9 +46,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private int startTime;
   private long timeLeftInMillis;
   private TextView timerDisplay;
-  private ImageView startPauseButton;
+  private ImageView timerStartPause;
   private boolean isTimerRunning;
-  private CountDownTimer mCountDownTimer;
+  private CountDownTimer countDownTimer;
   private NotificationCompat.Builder builder;
   private boolean isShowingNotification;
   private NotificationManagerCompat notificationManagerCompat;
@@ -92,8 +92,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     binding.timerReset.setOnClickListener(view -> resetTimer());
 
-    startPauseButton = binding.timerStartPause;
-    startPauseButton.setOnClickListener(view -> {
+    timerStartPause = binding.timerStartPause;
+    timerStartPause.setOnClickListener(view -> {
       if (isTimerRunning) {
         pauseTimer();
         setIconToPlay();
@@ -113,7 +113,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   private void resetTimer() {
-    if (mCountDownTimer == null) {
+    if (countDownTimer == null) {
       return;
     }
     timeLeftInMillis = startTime * 1000;
@@ -123,17 +123,17 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   private void pauseTimer() {
-    mCountDownTimer.cancel();
+    countDownTimer.cancel();
     isTimerRunning = false;
   }
 
   private void setIconToPlay() {
-    startPauseButton.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-    startPauseButton.setContentDescription(getString(R.string.play));
+    timerStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+    timerStartPause.setContentDescription(getString(R.string.play));
   }
 
   private void startTimer() {
-    mCountDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+    countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
       @Override
       public void onTick(long l) {
         timeLeftInMillis = l;
@@ -231,13 +231,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
   }
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    if (mCountDownTimer != null) {
-      mCountDownTimer.cancel();
-    }
-    cancelAllNotifications();
+  private void setIconToStop() {
+    timerStartPause.setImageResource(R.drawable.ic_stop_white_24dp);
+    timerStartPause.setContentDescription(getString(R.string.pause));
   }
 
   private void cancelAllNotifications() {
@@ -253,9 +249,13 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     isShowingNotification = false;
   }
 
-  private void setIconToStop() {
-    startPauseButton.setImageResource(R.drawable.ic_stop_white_24dp);
-    startPauseButton.setContentDescription(getString(R.string.pause));
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (countDownTimer != null) {
+      countDownTimer.cancel();
+    }
+    cancelAllNotifications();
   }
 
   private void showSetTimeDialog() {
