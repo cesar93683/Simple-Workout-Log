@@ -40,6 +40,7 @@ public class SettingsTests {
       MainActivity.class);
 
   // canDeleteAndImportAllExercisesCategoriesRoutines
+  // shouldNotImportDuplicatesIfImportMutipleTimes
 
   @Test
   public void canVisitSettingsTab() {

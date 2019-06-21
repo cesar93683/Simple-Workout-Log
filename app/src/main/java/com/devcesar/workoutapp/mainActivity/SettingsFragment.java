@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -51,6 +51,24 @@ public class SettingsFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+    List<SettingsFragmentHelper> settingsFragmentHelpers = getSettingsFragmentHelpers();
+
+    FragmentSelectNoFabBinding binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select_no_fab, container, false);
+
+    coordinatorLayout = binding.coordinatorLayout;
+
+    SettingsAdapter adapter = new SettingsAdapter(settingsFragmentHelpers);
+    binding.recyclerView.addItemDecoration(
+        new DividerItemDecoration(binding.recyclerView.getContext(),
+            DividerItemDecoration.VERTICAL));
+    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.recyclerView.setAdapter(adapter);
+
+    return binding.getRoot();
+  }
+
+  private List<SettingsFragmentHelper> getSettingsFragmentHelpers() {
     List<SettingsFragmentHelper> settingsFragmentHelpers = new ArrayList<>();
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
@@ -81,37 +99,25 @@ public class SettingsFragment extends Fragment {
     autoStartTimer.setCheckedByDefault(shouldAutoStartTimer);
 
     settingsFragmentHelpers.add(autoStartTimer);
-
-    FragmentSelectNoFabBinding binding = DataBindingUtil
-        .inflate(inflater, R.layout.fragment_select_no_fab, container, false);
-
-    coordinatorLayout = binding.coordinatorLayout;
-
-    SettingsAdapter adapter = new SettingsAdapter(settingsFragmentHelpers);
-    binding.recyclerView.addItemDecoration(
-        new DividerItemDecoration(binding.recyclerView.getContext(),
-            DividerItemDecoration.VERTICAL));
-    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    binding.recyclerView.setAdapter(adapter);
-
-    return binding.getRoot();
+    return settingsFragmentHelpers;
   }
 
   private void showDeleteAllWorkoutsDialog() {
-    new AlertDialog.Builder(getActivity())
-        .setMessage("Are you sure want to delete all workouts?")
+    new Builder(getActivity())
+        .setMessage(R.string.are_you_sure_delete_all_workouts)
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.yes,
             (dialogInterface, i) -> {
               WorkoutLab.get(getActivity()).deleteAll();
-              Snackbar.make(coordinatorLayout, "All workouts deleted", Snackbar.LENGTH_LONG).show();
+              Snackbar.make(coordinatorLayout, R.string.all_workouts_deleted,
+                  Snackbar.LENGTH_LONG).show();
             })
         .show();
   }
 
   private void showDeleteAllItemsDialog() {
-    new AlertDialog.Builder(getActivity())
-        .setMessage("Are you sure want to delete all exercises, categories, and routines?")
+    new Builder(getActivity())
+        .setMessage(R.string.are_you_sure_delete_all)
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.yes,
             (dialogInterface, i) -> {
@@ -120,21 +126,22 @@ public class SettingsFragment extends Fragment {
               CategoryOrRoutineLab.getRoutineLab(getActivity()).deleteAll();
               ExerciseLab.get(getActivity()).deleteAll();
               ((MainActivity) getActivity()).refreshFragments();
-              Snackbar.make(coordinatorLayout, "All exercises, categories, and routines deleted",
+              Snackbar.make(coordinatorLayout,
+                  R.string.all_exercises_categories_routines_deleted,
                   Snackbar.LENGTH_LONG).show();
             })
         .show();
   }
 
   private void showImportDefaultItemsDialog() {
-    new AlertDialog.Builder(getActivity())
-        .setMessage("Are you sure want to import the default exercises, categories, and routines?")
+    new Builder(getActivity())
+        .setMessage(R.string.are_you_sure_import_default)
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.yes,
             (dialogInterface, i) -> {
               InitDatabase.run(getActivity());
               ((MainActivity) getActivity()).refreshFragments();
-              Snackbar.make(coordinatorLayout, "All exercises, categories, and routines deleted",
+              Snackbar.make(coordinatorLayout, R.string.import_successful,
                   Snackbar.LENGTH_LONG).show();
             })
         .show();
@@ -162,12 +169,14 @@ public class SettingsFragment extends Fragment {
       CheckBox checkBox = itemView.findViewById(R.id.check_box);
       checkBox.setChecked(settingsFragmentHelper.isCheckedByDefault());
       checkBox.setClickable(false);
+
+      TextView textView = itemView.findViewById(R.id.text_view);
+      textView.setText(settingsFragmentHelper.text);
+
       itemView.setOnClickListener(view -> {
         checkBox.setChecked(!checkBox.isChecked());
         settingsFragmentHelper.onClickListener.onClick(itemView);
       });
-      TextView textView = itemView.findViewById(R.id.text_view);
-      textView.setText(settingsFragmentHelper.text);
     }
   }
 

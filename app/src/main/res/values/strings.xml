@@ -98,5 +98,11 @@
   <string name="delete_all_items">Delete All Exercises, Categories, and Routines</string>
   <string name="import_default_items">Import Default Exercises, Categories, Routines</string>
   <string name="auto_start_timer">Auto start timer after set is added.</string>
+  <string name="import_successful">Import Successful</string>
+  <string name="all_exercises_categories_routines_deleted">All exercises, categories, and routines deleted</string>
+  <string name="are_you_sure_import_default">Are you sure want to import the default exercises, categories, and routines?</string>
+  <string name="are_you_sure_delete_all">Are you sure want to delete all exercises, categories, and routines?</string>
+  <string name="all_workouts_deleted">All workouts deleted</string>
+  <string name="are_you_sure_delete_all_workouts">Are you sure want to delete all workouts?</string>
 
 </resources>
