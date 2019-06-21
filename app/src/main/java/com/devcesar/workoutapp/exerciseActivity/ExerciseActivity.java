@@ -161,18 +161,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     setIconToStop();
   }
 
-  private String getTimeString() {
-    int minutes = (int) (timeLeftInMillis / 1000) / 60;
-    int seconds = (int) (timeLeftInMillis / 1000) % 60;
-    return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
-  }
-
-  private void cancelAllNotifications() {
-    NotificationManager notificationManager = (NotificationManager) getSystemService(
-        Context.NOTIFICATION_SERVICE);
-    notificationManager.cancelAll();
-  }
-
   private void showTimerFinishedNotification() {
     createNotificationChannel();
 
@@ -192,20 +180,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setAutoCancel(false);
 
     notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, builderTimerFinished.build());
-  }
-
-  private void createNotificationChannel() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = getString(R.string.channel_name);
-      String description = getString(R.string.channel_description);
-      int importance = NotificationManager.IMPORTANCE_DEFAULT;
-      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-      channel.setDescription(description);
-      // Register the channel with the system; you can't change the importance
-      // or other notification behaviors after this
-      NotificationManager notificationManager = getSystemService(NotificationManager.class);
-      notificationManager.createNotificationChannel(channel);
-    }
   }
 
   @Override
@@ -238,6 +212,26 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     isShowingNotification = true;
   }
 
+  private void createNotificationChannel() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      CharSequence name = getString(R.string.channel_name);
+      String description = getString(R.string.channel_description);
+      int importance = NotificationManager.IMPORTANCE_DEFAULT;
+      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+      channel.setDescription(description);
+      // Register the channel with the system; you can't change the importance
+      // or other notification behaviors after this
+      NotificationManager notificationManager = getSystemService(NotificationManager.class);
+      notificationManager.createNotificationChannel(channel);
+    }
+  }
+
+  private String getTimeString() {
+    int minutes = (int) (timeLeftInMillis / 1000) / 60;
+    int seconds = (int) (timeLeftInMillis / 1000) % 60;
+    return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
+  }
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
@@ -245,6 +239,12 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       mCountDownTimer.cancel();
     }
     cancelAllNotifications();
+  }
+
+  private void cancelAllNotifications() {
+    NotificationManager notificationManager = (NotificationManager) getSystemService(
+        Context.NOTIFICATION_SERVICE);
+    notificationManager.cancelAll();
   }
 
   @Override
