@@ -137,15 +137,7 @@ public class AddExerciseFragment extends Fragment {
       itemView.setOnClickListener(this);
       textView = itemView.findViewById(R.id.text_view);
       checkBox = itemView.findViewById(R.id.check_box);
-      checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> checkBoxChanged(isChecked));
-    }
-
-    private void checkBoxChanged(boolean isChecked) {
-      if (isChecked) {
-        exercisesToAdd.add(exercise);
-      } else {
-        exercisesToAdd.remove(exercise);
-      }
+      checkBox.setClickable(false);
     }
 
     void bind(NamedEntity exercise) {
@@ -157,7 +149,11 @@ public class AddExerciseFragment extends Fragment {
     @Override
     public void onClick(View view) {
       checkBox.setChecked(!checkBox.isChecked());
-      checkBoxChanged(checkBox.isChecked());
+      if (checkBox.isChecked()) {
+        exercisesToAdd.add(exercise);
+      } else {
+        exercisesToAdd.remove(exercise);
+      }
     }
   }
 

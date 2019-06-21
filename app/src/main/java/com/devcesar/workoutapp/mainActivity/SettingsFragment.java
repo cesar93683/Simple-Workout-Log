@@ -111,6 +111,7 @@ public class SettingsFragment extends Fragment {
 
     void bind(SettingsFragmentHelper settingsFragmentHelper) {
       CheckBox checkBox = itemView.findViewById(R.id.check_box);
+      checkBox.setClickable(false);
       itemView.setOnClickListener(view -> {
         settingsFragmentHelper.onClickListener.onClick(itemView);
         checkBox.setChecked(!checkBox.isChecked());
