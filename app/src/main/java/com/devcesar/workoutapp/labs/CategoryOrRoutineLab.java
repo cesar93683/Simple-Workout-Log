@@ -171,4 +171,9 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
       deleteExercise(namedEntity.getId(), exerciseId, context);
     }
   }
+
+  public void deleteAll() {
+    database.delete(tableName, null, null);
+    updateNamedEntities();
+  }
 }

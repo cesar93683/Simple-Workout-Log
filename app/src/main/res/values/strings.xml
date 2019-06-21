@@ -95,7 +95,7 @@
   <string name="timer_finished">Timer Finished</string>
   <string name="settings">Settings</string>
   <string name="delete_all_workouts">Delete All Workouts</string>
-  <string name="delete_all_items">Delete All Exercises, Categories, Routines</string>
+  <string name="delete_all_items">Delete All Exercises, Categories, and Routines</string>
   <string name="import_default_items">Import Default Exercises, Categories, Routines</string>
   <string name="auto_start_timer">Auto start timer after set is added.</string>
 

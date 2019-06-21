@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.FragmentSelectNoFabBinding;
+import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
+import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
@@ -52,17 +54,17 @@ public class SettingsFragment extends Fragment {
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
         getString(R.string.delete_all_workouts),
-        view -> clearAllWorkouts(),
+        view -> showDeleteAllWorkoutsDialog(),
         TYPE_DEFAULT));
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
         getString(R.string.delete_all_items),
-        view -> deleteAll(),
+        view -> showDeleteAllItemsDialog(),
         TYPE_DEFAULT));
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
         getString(R.string.import_default_items),
-        view -> importDefault(),
+        view -> showImportDefaultItemsDialog(),
         TYPE_DEFAULT));
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
@@ -82,23 +84,36 @@ public class SettingsFragment extends Fragment {
     return binding.getRoot();
   }
 
-  private void clearAllWorkouts() {
+  private void showDeleteAllWorkoutsDialog() {
     new AlertDialog.Builder(getActivity())
-        .setTitle("Are you sure want to delete all workouts?")
+        .setMessage("Are you sure want to delete all workouts?")
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.yes,
             (dialogInterface, i) -> {
-              WorkoutLab.get(getActivity()).deleteAllWorkouts();
-              Snackbar.make(coordinatorLayout, "All Workouts deleted", Snackbar.LENGTH_LONG).show();
+              WorkoutLab.get(getActivity()).deleteAll();
+              Snackbar.make(coordinatorLayout, "All workouts deleted", Snackbar.LENGTH_LONG).show();
             })
         .show();
   }
 
-  private void deleteAll() {
-    Toast.makeText(getContext(), "deleteAll", Toast.LENGTH_SHORT).show();
+  private void showDeleteAllItemsDialog() {
+    new AlertDialog.Builder(getActivity())
+        .setMessage("Are you sure want to delete all exercises, categories, and routines?")
+        .setNegativeButton(R.string.cancel, null)
+        .setPositiveButton(R.string.yes,
+            (dialogInterface, i) -> {
+              WorkoutLab.get(getActivity()).deleteAll();
+              CategoryOrRoutineLab.getCategoryLab(getActivity()).deleteAll();
+              CategoryOrRoutineLab.getRoutineLab(getActivity()).deleteAll();
+              ExerciseLab.get(getActivity()).deleteAll();
+              ((MainActivity) getActivity()).refreshFragments();
+              Snackbar.make(coordinatorLayout, "All exercises, categories, and routines deleted",
+                  Snackbar.LENGTH_LONG).show();
+            })
+        .show();
   }
 
-  private void importDefault() {
+  private void showImportDefaultItemsDialog() {
     Toast.makeText(getContext(), "importDefault", Toast.LENGTH_SHORT).show();
   }
 

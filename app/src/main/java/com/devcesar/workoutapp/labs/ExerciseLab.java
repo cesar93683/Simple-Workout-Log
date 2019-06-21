@@ -138,4 +138,8 @@ public class ExerciseLab implements NamedEntityLab {
     throw new RuntimeException(String.format("ERROR: exercise name:%s does not exist", name));
   }
 
+  public void deleteAll() {
+    database.delete(ExerciseTable.NAME, null, null);
+    updateExercises();
+  }
 }

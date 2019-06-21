@@ -16,10 +16,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-  private final Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
-  private final Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
-  private final Fragment categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
-  private final Fragment settingsFragment = SettingsFragment.newInstance();
+  private Fragment settingsFragment;
+  private Fragment exerciseFragment;
+  private Fragment categoryFragment;
+  private Fragment routineFragment;
+
   private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
       item -> {
         switch (item.getItemId()) {
@@ -43,6 +44,28 @@ public class MainActivity extends AppCompatActivity {
         return false;
       };
 
+
+  public void refreshFragments() {
+    getSupportFragmentManager().beginTransaction()
+        .remove(exerciseFragment)
+        .remove(categoryFragment)
+        .remove(routineFragment)
+        .commit();
+
+    exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
+    categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
+    routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
+
+    getSupportFragmentManager().beginTransaction()
+        .add(R.id.fragment_container, exerciseFragment)
+        .add(R.id.fragment_container, routineFragment)
+        .add(R.id.fragment_container, categoryFragment)
+        .hide(exerciseFragment)
+        .hide(categoryFragment)
+        .hide(routineFragment)
+        .commit();
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -59,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
     setTitle(R.string.exercise);
+
+    exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
+    categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
+    routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
+    settingsFragment = SettingsFragment.newInstance();
+
     getSupportFragmentManager()
         .beginTransaction()
         .add(R.id.fragment_container, exerciseFragment)
