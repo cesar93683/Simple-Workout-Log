@@ -52,8 +52,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private NotificationCompat.Builder builder;
   private boolean isShowingNotification;
   private NotificationManagerCompat notificationManagerCompat;
-  private int NOTIFICATION_TIMER_ID = 1;
-  private int NOTIFICATION_TIMER_FINISHED_ID = 2;
+  private final int NOTIFICATION_TIMER_ID = 1;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -179,6 +178,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(false);
 
+    int NOTIFICATION_TIMER_FINISHED_ID = 2;
     notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, builderTimerFinished.build());
   }
 
