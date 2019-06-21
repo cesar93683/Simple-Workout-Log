@@ -137,20 +137,18 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     }.start();
     isTimerRunning = true;
     setIconToStop();
+  }
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = "getString(R.string.channel_name)";
-      String description = "getString(R.string.channel_description)";
-      int importance = NotificationManager.IMPORTANCE_DEFAULT;
-      NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
-      channel.setDescription(description);
-      // Register the channel with the system; you can't change the importance
-      // or other notification behaviors after this
-      NotificationManager notificationManager = getSystemService(NotificationManager.class);
-      notificationManager.createNotificationChannel(channel);
+  @Override
+  protected void onPause() {
+    super.onPause();
+    if (isTimerRunning) {
+      showNotification();
     }
-    NotificationManagerCompat mNotificationManagerCompat = NotificationManagerCompat
-        .from(getApplicationContext());
+  }
+
+  private void showNotification() {
+    createNotificationChannel();
 
     Intent intent = new Intent(this, ExerciseActivity.class);
     intent.setAction(Intent.ACTION_MAIN);
@@ -164,16 +162,44 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setContentTitle("textTitle")
         .setContentText("textContent")
         .setContentIntent(pendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    mNotificationManagerCompat.notify(1, builder.build());
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(false);
+
+    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat
+        .from(getApplicationContext());
+    notificationManagerCompat.notify(1, builder.build());
+  }
+
+  private void createNotificationChannel() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      CharSequence name = "getString(R.string.channel_name)";
+      String description = "getString(R.string.channel_description)";
+      int importance = NotificationManager.IMPORTANCE_DEFAULT;
+      NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
+      channel.setDescription(description);
+      // Register the channel with the system; you can't change the importance
+      // or other notification behaviors after this
+      NotificationManager notificationManager = getSystemService(NotificationManager.class);
+      notificationManager.createNotificationChannel(channel);
+    }
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    clearNotifications();
+  }
+
+  private void clearNotifications() {
     NotificationManager notificationManager = (NotificationManager) getSystemService(
         Context.NOTIFICATION_SERVICE);
     notificationManager.cancel(1);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    clearNotifications();
   }
 
   private void setIconToStop() {
