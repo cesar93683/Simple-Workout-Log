@@ -111,5 +111,8 @@ public class WorkoutLab {
     database.delete(WorkoutTable.NAME, whereClause, whereArgs);
   }
 
+  public void deleteAllWorkouts() {
+    database.delete(WorkoutTable.NAME, null, null);
+  }
 }
 

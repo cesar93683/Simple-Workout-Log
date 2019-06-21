@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -16,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.FragmentSelectNoFabBinding;
+import com.devcesar.workoutapp.labs.WorkoutLab;
+import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class SettingsFragment extends Fragment {
 
   private static final int TYPE_DEFAULT = 0;
   private static final int TYPE_CHECKABLE = 1;
+  private CoordinatorLayout coordinatorLayout;
 
   public SettingsFragment() {
     // Required empty public constructor
@@ -46,24 +51,26 @@ public class SettingsFragment extends Fragment {
     List<SettingsFragmentHelper> settingsFragmentHelpers = new ArrayList<>();
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        getString(R.string.clear_all_workouts),
+        getString(R.string.delete_all_workouts),
         view -> clearAllWorkouts(),
         TYPE_DEFAULT));
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        "Delete All Exercises, Categories, Routines",
+        getString(R.string.delete_all_items),
         view -> deleteAll(),
         TYPE_DEFAULT));
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        "Import Default Exercises, Categories, Routines",
+        getString(R.string.import_default_items),
         view -> importDefault(),
         TYPE_DEFAULT));
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        "Auto start timer after set is added.",
+        getString(R.string.auto_start_timer),
         view -> autoStartTimer(),
         TYPE_CHECKABLE));
+
+    coordinatorLayout = binding.coordinatorLayout;
 
     SettingsAdapter adapter = new SettingsAdapter(settingsFragmentHelpers);
     binding.recyclerView.addItemDecoration(
@@ -76,7 +83,15 @@ public class SettingsFragment extends Fragment {
   }
 
   private void clearAllWorkouts() {
-    Toast.makeText(getContext(), "clearAllWorkouts", Toast.LENGTH_SHORT).show();
+    new AlertDialog.Builder(getActivity())
+        .setTitle("Are you sure want to delete all workouts?")
+        .setNegativeButton(R.string.cancel, null)
+        .setPositiveButton(R.string.yes,
+            (dialogInterface, i) -> {
+              WorkoutLab.get(getActivity()).deleteAllWorkouts();
+              Snackbar.make(coordinatorLayout, "All Workouts deleted", Snackbar.LENGTH_LONG).show();
+            })
+        .show();
   }
 
   private void deleteAll() {
