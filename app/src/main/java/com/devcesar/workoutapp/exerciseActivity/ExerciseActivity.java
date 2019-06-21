@@ -49,6 +49,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private ImageView startPauseButton;
   private boolean isTimerRunning;
   private CountDownTimer mCountDownTimer;
+  private NotificationCompat.Builder builder;
+  private boolean isShowingNotification;
+  private NotificationManagerCompat notificationManagerCompat;
+  private int asdsf = 1;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -98,6 +102,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     timeLeftInMillis = startTime * 1000;
     isTimerRunning = false;
     updateTimeDisplay();
+    isShowingNotification = false;
+    notificationManagerCompat = NotificationManagerCompat
+        .from(getApplicationContext());
   }
 
   private void resetTimer() {
@@ -126,6 +133,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       public void onTick(long l) {
         timeLeftInMillis = l;
         updateTimeDisplay();
+        if(isShowingNotification) {
+          builder.setContentText(getTimeString());
+          notificationManagerCompat.notify(asdsf, builder.build());
+        }
       }
 
       @Override
@@ -157,8 +168,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
         intent, 0);
-
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+    isShowingNotification = true;
+    builder = new NotificationCompat.Builder(this, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_add_black_24dp)
         .setContentTitle(getString(R.string.time_left))
         .setContentText(getTimeString())
@@ -166,9 +177,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(false);
 
-    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat
-        .from(getApplicationContext());
-    notificationManagerCompat.notify(1, builder.build());
+    notificationManagerCompat.notify(asdsf, builder.build());
   }
 
   private void createNotificationChannel() {
