@@ -149,33 +149,20 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     database.update(tableName, values, whereClause, whereArgs);
   }
 
-  public void insertMultiple(List<String> names) {
-    for (String name : names) {
-      insertWithNoUpdate(name);
-    }
-    updateNamedEntities();
-  }
-
-  public NamedEntity findNamedEntity(String name) {
-    for (NamedEntity namedEntity : namedEntities) {
-      if (namedEntity.getName().equals(name)) {
-        return namedEntity;
-      }
-    }
-    throw new RuntimeException(
-        String.format("ERROR: category or routine name:%s does not exist", name));
-  }
-
-  private void insertWithNoUpdate(String name) {
+  public void insert(String name, List<NamedEntity> exercises) {
     ContentValues values = new ContentValues();
     values.put(colName, name);
-    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
+    values.put(colExercises, new Gson().toJson(getIds(exercises)));
     database.insert(tableName, null, values);
+    updateNamedEntities();
   }
 
   @Override
   public void insert(String name) {
-    insertWithNoUpdate(name);
+    ContentValues values = new ContentValues();
+    values.put(colName, name);
+    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
+    database.insert(tableName, null, values);
     updateNamedEntities();
   }
 

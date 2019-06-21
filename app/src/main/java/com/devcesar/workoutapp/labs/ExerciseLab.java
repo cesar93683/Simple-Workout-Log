@@ -77,13 +77,9 @@ public class ExerciseLab implements NamedEntityLab {
 
   @Override
   public void insert(String name) {
-    insertNoUpdate(name);
-    updateExercises();
-  }
-
-  private void insertNoUpdate(String name) {
     ContentValues values = getContentValues(name);
     database.insert(ExerciseTable.NAME, null, values);
+    updateExercises();
   }
 
   private ContentValues getContentValues(String name) {
@@ -131,13 +127,6 @@ public class ExerciseLab implements NamedEntityLab {
       }
     }
     return filtered;
-  }
-
-  public void insertMultiple(ArrayList<String> exerciseNames) {
-    for (String exerciseName : exerciseNames) {
-      insertNoUpdate(exerciseName);
-    }
-    updateExercises();
   }
 
   private NamedEntity findExercise(String name) {

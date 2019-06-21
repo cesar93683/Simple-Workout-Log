@@ -112,51 +112,45 @@ public class InitDatabase {
     exerciseLab.insert(dumbbellInclineRow);
 
     initCategories(activity);
-
   }
 
   private void initCategories(Activity activity) {
     ArrayList<String> chestExercises = new ArrayList<>(Arrays.asList(
         barbellBenchPress, barbellBenchPressIncline, dumbbellPress, dumbbellPressIncline,
         dumbbellChestFly));
-    insertExercisesToCategory(activity, activity.getString(R.string.chest), chestExercises);
+    initCategory(activity, activity.getString(R.string.chest), chestExercises);
 
     ArrayList<String> legExercises = new ArrayList<>(Arrays.asList(
         barbellBackSquat, barbellFrontSquat, barbellLunge, romanianDeadlift, legPressMachine));
-    insertExercisesToCategory(activity, activity.getString(R.string.legs), legExercises);
+    initCategory(activity, activity.getString(R.string.legs), legExercises);
 
     ArrayList<String> bicepExercises = new ArrayList<>(Arrays.asList(
         barbellCurl, eZBarBicepsCurl, alternatingDumbbellCurl, hammerDumbbellCurl, standingCableCurl
     ));
-    insertExercisesToCategory(activity, activity.getString(R.string.biceps), bicepExercises);
+    initCategory(activity, activity.getString(R.string.biceps), bicepExercises);
 
     ArrayList<String> tricepExercises = new ArrayList<>(Arrays.asList(
         benchPressCloseGrip, dumbbellOverheadTricepsPress, ezBarSkullCrushers, tricepsPushdown,
         dip));
-    insertExercisesToCategory(activity, activity.getString(R.string.triceps), tricepExercises);
+    initCategory(activity, activity.getString(R.string.triceps), tricepExercises);
 
     ArrayList<String> backExercises = new ArrayList<>(Arrays.asList(
         deadlift, barbellRow, dumbbellRow, tBarRow, latPulldown));
-    insertExercisesToCategory(activity, activity.getString(R.string.back), backExercises);
+    initCategory(activity, activity.getString(R.string.back), backExercises);
 
     ArrayList<String> shoulderExercises = new ArrayList<>(Arrays.asList(
         overheadPress, dumbbellFrontRaise, dumbbellSideLateralRaise, seatedDumbbellPress,
         dumbbellInclineRow));
-    insertExercisesToCategory(activity, activity.getString(R.string.shoulders), shoulderExercises);
+    initCategory(activity, activity.getString(R.string.shoulders), shoulderExercises);
   }
 
-  private void insertExercisesToCategory(Activity activity, String chest,
-      ArrayList<String> chestExercises) {
-    CategoryOrRoutineLab categoryLab = CategoryOrRoutineLab.getCategoryLab(activity);
-    categoryLab.insert(chest);
-    NamedEntity namedEntity = categoryLab.findNamedEntity(activity.getString(R.string.chest));
-    List<NamedEntity> exercises = ExerciseLab.get(activity).getExercises(chestExercises);
-    categoryLab.updateExercises(namedEntity.getId(), exercises);
+  private void initCategory(Activity activity, String categoryName,
+      ArrayList<String> exerciseNames) {
+    List<NamedEntity> exercises = ExerciseLab.get(activity).getExercises(exerciseNames);
+    CategoryOrRoutineLab.getCategoryLab(activity).insert(categoryName, exercises);
   }
 
   public static void run(Activity activity) {
     new InitDatabase(activity);
   }
-
-
 }
