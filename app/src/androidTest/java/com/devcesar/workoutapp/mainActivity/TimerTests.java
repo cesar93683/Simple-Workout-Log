@@ -866,4 +866,222 @@ public class TimerTests {
     editText2.check(matches(isDisplayed()));
   }
 
+  @Test
+  public void shouldNotAutoStartTimer() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton3.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.timer_display), withText("2:00"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    2),
+                1),
+            isDisplayed()));
+    textView.check(matches(withText("2:00")));
+  }
+
+  @Test
+  public void canTurnOnAndOffAutoStartTimer() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                3),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction constraintLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    0)),
+            3),
+            isDisplayed()));
+    constraintLayout.perform(click());
+
+    ViewInteraction bottomNavigationItemView2 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView2.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.timer_display), withText("1:57"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    2),
+                1),
+            isDisplayed()));
+    textView.check(matches(withText("1:57")));
+
+    pressBack();
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button2), withText("Discard"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                2)));
+    appCompatButton3.perform(scrollTo(), click());
+
+    ViewInteraction bottomNavigationItemView3 = onView(
+        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                3),
+            isDisplayed()));
+    bottomNavigationItemView3.perform(click());
+
+    ViewInteraction constraintLayout2 = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    0)),
+            3),
+            isDisplayed()));
+    constraintLayout2.perform(click());
+
+    ViewInteraction bottomNavigationItemView4 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView4.perform(click());
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton4.perform(click());
+
+    ViewInteraction appCompatButton5 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton5.perform(click());
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction textView2 = onView(
+        allOf(withId(R.id.timer_display), withText("2:00"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    2),
+                1),
+            isDisplayed()));
+    textView2.check(matches(withText("2:00")));
+  }
+
 }
