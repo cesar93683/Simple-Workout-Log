@@ -54,7 +54,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("2:00"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
@@ -123,7 +123,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -149,7 +149,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("0:02"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
@@ -251,7 +251,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("2:00"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
@@ -343,7 +343,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("1:00"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
@@ -426,7 +426,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -442,7 +442,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_reset), withContentDescription("Reset"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 0),
             isDisplayed()));
@@ -492,7 +492,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -508,7 +508,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("1:58"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
@@ -541,7 +541,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -557,7 +557,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -597,7 +597,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -617,7 +617,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -651,7 +651,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 2),
             isDisplayed()));
@@ -691,7 +691,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("2:00"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
@@ -853,7 +853,7 @@ public class TimerTests {
         allOf(withId(R.id.timer_display), withText("2:00"),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
+                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
                     2),
                 1),
             isDisplayed()));
