@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,6 +34,7 @@ public class SelectFragment extends Fragment {
   private String textFilter;
   private NamedEntityAdapter namedEntityAdapter;
   private SelectFragmentHelper selectFragmentHelper;
+  private CoordinatorLayout coordinatorLayout;
 
   public SelectFragment() {
     // Required empty public constructor
@@ -81,7 +83,7 @@ public class SelectFragment extends Fragment {
         new DividerItemDecoration(binding.recyclerView.getContext(),
             DividerItemDecoration.VERTICAL));
     binding.recyclerView.setAdapter(namedEntityAdapter);
-
+    coordinatorLayout = binding.coordinatorLayout;
     return binding.getRoot();
   }
 
@@ -161,7 +163,7 @@ public class SelectFragment extends Fragment {
   }
 
   private void showSnackbar(String message) {
-    Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+    Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT)
         .show();
   }
 

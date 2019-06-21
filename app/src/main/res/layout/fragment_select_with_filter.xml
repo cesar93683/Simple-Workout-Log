@@ -4,29 +4,35 @@
   <data>
 
   </data>
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusableInTouchMode="true">
-
-    <EditText
-      android:id="@+id/filter_edit_text"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:hint="@string/filter"
-      android:inputType="text"
-      android:textSize="20sp"
-      app:layout_constraintTop_toTopOf="parent"/>
+      android:layout_height="match_parent"
+      android:focusableInTouchMode="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/recycler_view"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:layout_below="@+id/filter_edit_text"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/filter_edit_text"/>
+      <EditText
+        android:id="@+id/filter_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/filter"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/filter_edit_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_edit_text"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/fab"
@@ -34,9 +40,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/fab_margin"
       android:tint="@color/white"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_gravity="bottom|end"
       app:srcCompat="@android:drawable/ic_input_add"/>
-
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
