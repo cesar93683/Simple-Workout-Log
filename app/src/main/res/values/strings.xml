@@ -94,4 +94,5 @@
   <string name="channel_name">Timer</string>
   <string name="channel_description">Timer countdown show in notifications.</string>
   <string name="time_left">Time Left.</string>
+  <string name="timer_finished">Timer Finished</string>
 </resources>

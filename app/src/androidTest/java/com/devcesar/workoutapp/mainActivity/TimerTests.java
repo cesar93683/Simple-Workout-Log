@@ -120,7 +120,7 @@ public class TimerTests {
     appCompatButton2.perform(scrollTo(), click());
 
     ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -423,7 +423,7 @@ public class TimerTests {
     appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -489,7 +489,7 @@ public class TimerTests {
     appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -538,7 +538,7 @@ public class TimerTests {
     appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -554,7 +554,7 @@ public class TimerTests {
     }
 
     ViewInteraction appCompatImageButton2 = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Pause"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -594,7 +594,7 @@ public class TimerTests {
     appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -604,7 +604,7 @@ public class TimerTests {
     appCompatImageButton.perform(click());
 
     ViewInteraction imageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Pause"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
             childAtPosition(
                 childAtPosition(
                     IsInstanceOf.instanceOf(android.view.ViewGroup.class),
@@ -614,7 +614,7 @@ public class TimerTests {
     imageButton.check(matches(isDisplayed()));
 
     ViewInteraction appCompatImageButton2 = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Pause"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
@@ -624,7 +624,7 @@ public class TimerTests {
     appCompatImageButton2.perform(click());
 
     ViewInteraction imageButton2 = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     IsInstanceOf.instanceOf(android.view.ViewGroup.class),
@@ -648,7 +648,7 @@ public class TimerTests {
     appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_play), withContentDescription("Play"),
+        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
             childAtPosition(
                 childAtPosition(
                     withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),

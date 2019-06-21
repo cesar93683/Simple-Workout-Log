@@ -52,7 +52,8 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private NotificationCompat.Builder builder;
   private boolean isShowingNotification;
   private NotificationManagerCompat notificationManagerCompat;
-  private int asdsf = 1;
+  private int NOTIFICATION_TIMER_ID = 1;
+  private int NOTIFICATION_TIMER_FINISHED_ID = 2;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -83,12 +84,16 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     binding.viewPager.setAdapter(sectionsPagerAdapter);
     binding.tabs.setupWithViewPager(binding.viewPager);
 
+    setUpTimer(binding);
+  }
+
+  private void setUpTimer(ActivityExerciseBinding binding) {
     timerDisplay = binding.timerDisplay;
     timerDisplay.setOnClickListener(view -> showSetTimeDialog());
 
     binding.timerReset.setOnClickListener(view -> resetTimer());
 
-    startPauseButton = binding.timerPlay;
+    startPauseButton = binding.timerStartPause;
     startPauseButton.setOnClickListener(view -> {
       if (isTimerRunning) {
         pauseTimer();
@@ -101,10 +106,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .getInt(START_TIME, DEFAULT_START_TIME);
     timeLeftInMillis = startTime * 1000;
     isTimerRunning = false;
-    updateTimeDisplay();
     isShowingNotification = false;
-    notificationManagerCompat = NotificationManagerCompat
-        .from(getApplicationContext());
+    notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+    updateTimeDisplay();
   }
 
   private void resetTimer() {
@@ -133,9 +137,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
       public void onTick(long l) {
         timeLeftInMillis = l;
         updateTimeDisplay();
-        if(isShowingNotification) {
+        if (isShowingNotification) {
           builder.setContentText(getTimeString());
-          notificationManagerCompat.notify(asdsf, builder.build());
+          notificationManagerCompat.notify(NOTIFICATION_TIMER_ID, builder.build());
         }
       }
 
@@ -145,21 +149,29 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         setIconToPlay();
         timeLeftInMillis = startTime * 1000;
         updateTimeDisplay();
+        if (isShowingNotification) {
+          cancelAllNotifications();
+          showTimerFinishedNotification();
+        }
       }
     }.start();
     isTimerRunning = true;
     setIconToStop();
   }
 
-  @Override
-  protected void onPause() {
-    super.onPause();
-    if (isTimerRunning) {
-      showNotification();
-    }
+  private String getTimeString() {
+    int minutes = (int) (timeLeftInMillis / 1000) / 60;
+    int seconds = (int) (timeLeftInMillis / 1000) % 60;
+    return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
   }
 
-  private void showNotification() {
+  private void cancelAllNotifications() {
+    NotificationManager notificationManager = (NotificationManager) getSystemService(
+        Context.NOTIFICATION_SERVICE);
+    notificationManager.cancelAll();
+  }
+
+  private void showTimerFinishedNotification() {
     createNotificationChannel();
 
     Intent intent = new Intent(this, ExerciseActivity.class);
@@ -168,16 +180,16 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
         intent, 0);
-    isShowingNotification = true;
-    builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+
+    NotificationCompat.Builder builderTimerFinished = new NotificationCompat.Builder(this,
+        CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_add_black_24dp)
-        .setContentTitle(getString(R.string.time_left))
-        .setContentText(getTimeString())
+        .setContentTitle(getString(R.string.timer_finished))
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(false);
 
-    notificationManagerCompat.notify(asdsf, builder.build());
+    notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, builderTimerFinished.build());
   }
 
   private void createNotificationChannel() {
@@ -195,21 +207,46 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    clearNotifications();
+  protected void onStop() {
+    super.onStop();
+    if (isTimerRunning) {
+      showTimerNotification();
+    }
   }
 
-  private void clearNotifications() {
-    NotificationManager notificationManager = (NotificationManager) getSystemService(
-        Context.NOTIFICATION_SERVICE);
-    notificationManager.cancel(1);
+  private void showTimerNotification() {
+    createNotificationChannel();
+
+    Intent intent = new Intent(this, ExerciseActivity.class);
+    intent.setAction(Intent.ACTION_MAIN);
+    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+        intent, 0);
+    isShowingNotification = true;
+    builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_add_black_24dp)
+        .setContentTitle(getString(R.string.time_left))
+        .setContentText(getTimeString())
+        .setContentIntent(pendingIntent)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(false);
+
+    notificationManagerCompat.notify(NOTIFICATION_TIMER_ID, builder.build());
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    mCountDownTimer.cancel();
+    cancelAllNotifications();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    clearNotifications();
+    cancelAllNotifications();
+    isShowingNotification = false;
   }
 
   private void setIconToStop() {
@@ -256,12 +293,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private void updateTimeDisplay() {
     String newTime = getTimeString();
     timerDisplay.setText(newTime);
-  }
-
-  private String getTimeString() {
-    int minutes = (int) (timeLeftInMillis / 1000) / 60;
-    int seconds = (int) (timeLeftInMillis / 1000) % 60;
-    return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
   }
 
   @Override
