@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
   private final Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
   private final Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
   private final Fragment categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
+  private final Fragment settingsFragment = SettingsFragment.newInstance();
   private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
       item -> {
         switch (item.getItemId()) {
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
           case R.id.nav_routine:
             setTitle(R.string.routine);
+            setTabStateFragment(item.getItemId());
+            return true;
+          case R.id.nav_settings:
+            setTitle(R.string.settings);
             setTabStateFragment(item.getItemId());
             return true;
         }
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         .add(R.id.fragment_container, exerciseFragment)
         .add(R.id.fragment_container, routineFragment)
         .add(R.id.fragment_container, categoryFragment)
+        .add(R.id.fragment_container, settingsFragment)
         .commit();
     setTabStateFragment(R.id.nav_exercise);
   }
@@ -83,17 +89,27 @@ public class MainActivity extends AppCompatActivity {
         transaction.show(categoryFragment);
         transaction.hide(exerciseFragment);
         transaction.hide(routineFragment);
+        transaction.hide(settingsFragment);
         break;
       case R.id.nav_exercise:
         transaction.hide(categoryFragment);
         transaction.show(exerciseFragment);
         transaction.hide(routineFragment);
+        transaction.hide(settingsFragment);
         break;
       case R.id.nav_routine:
         transaction.hide(categoryFragment);
         transaction.hide(exerciseFragment);
         transaction.show(routineFragment);
+        transaction.hide(settingsFragment);
         break;
+      case R.id.nav_settings:
+        transaction.hide(categoryFragment);
+        transaction.hide(exerciseFragment);
+        transaction.hide(routineFragment);
+        transaction.show(settingsFragment);
+        break;
+
     }
 
     transaction.commit();
