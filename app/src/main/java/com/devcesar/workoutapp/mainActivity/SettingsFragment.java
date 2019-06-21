@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.devcesar.workoutapp.R;
+import com.devcesar.workoutapp.database.InitDatabase;
 import com.devcesar.workoutapp.databinding.FragmentSelectNoFabBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
@@ -114,7 +115,17 @@ public class SettingsFragment extends Fragment {
   }
 
   private void showImportDefaultItemsDialog() {
-    Toast.makeText(getContext(), "importDefault", Toast.LENGTH_SHORT).show();
+    new AlertDialog.Builder(getActivity())
+        .setMessage("Are you sure want to import the default exercises, categories, and routines?")
+        .setNegativeButton(R.string.cancel, null)
+        .setPositiveButton(R.string.yes,
+            (dialogInterface, i) -> {
+              InitDatabase.run(getActivity());
+              ((MainActivity) getActivity()).refreshFragments();
+              Snackbar.make(coordinatorLayout, "All exercises, categories, and routines deleted",
+                  Snackbar.LENGTH_LONG).show();
+            })
+        .show();
   }
 
   private void autoStartTimer() {
