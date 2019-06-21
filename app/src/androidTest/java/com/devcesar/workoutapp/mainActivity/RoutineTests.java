@@ -60,10 +60,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -165,10 +166,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -244,10 +246,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -370,10 +373,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -459,10 +463,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -587,10 +592,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -631,10 +637,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton2.perform(click());
 
@@ -726,10 +733,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton5.perform(click());
 
@@ -972,10 +980,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1051,10 +1060,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1128,10 +1138,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1227,10 +1238,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1328,10 +1340,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1407,10 +1420,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1489,10 +1503,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1588,10 +1603,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1707,10 +1723,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1789,10 +1806,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -1878,10 +1896,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -1982,10 +2001,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -2071,10 +2091,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -2197,10 +2218,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -2276,10 +2298,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -2376,10 +2399,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -2420,10 +2444,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton2.perform(click());
 
@@ -2515,10 +2540,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton5.perform(click());
 
@@ -2666,10 +2692,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -2745,10 +2772,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -2890,10 +2918,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -2969,10 +2998,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
@@ -3046,10 +3076,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    1),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        1)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -3125,10 +3156,11 @@ public class RoutineTests {
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton4.perform(click());
 
