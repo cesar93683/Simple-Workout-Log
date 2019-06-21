@@ -91,4 +91,7 @@
   <string name="colon">:</string>
   <string name="pause">Pause</string>
   <string name="set_timer">Set Timer</string>
+  <string name="channel_name">Timer</string>
+  <string name="channel_description">Timer countdown show in notifications.</string>
+  <string name="time_left">Time Left.</string>
 </resources>

@@ -40,6 +40,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
+  private static final String CHANNEL_ID = "Workout App";
   private NamedEntity exercise;
   private Fragment exerciseFragment;
   private int startTime;
@@ -157,10 +158,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
         intent, 0);
 
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_add_black_24dp)
-        .setContentTitle("textTitle")
-        .setContentText("textContent")
+        .setContentTitle(getString(R.string.time_left))
+        .setContentText(getTimeString())
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(false);
@@ -172,10 +173,10 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
   private void createNotificationChannel() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = "getString(R.string.channel_name)";
-      String description = "getString(R.string.channel_description)";
+      CharSequence name = getString(R.string.channel_name);
+      String description = getString(R.string.channel_description);
       int importance = NotificationManager.IMPORTANCE_DEFAULT;
-      NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
+      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
       channel.setDescription(description);
       // Register the channel with the system; you can't change the importance
       // or other notification behaviors after this
@@ -244,10 +245,14 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   private void updateTimeDisplay() {
+    String newTime = getTimeString();
+    timerDisplay.setText(newTime);
+  }
+
+  private String getTimeString() {
     int minutes = (int) (timeLeftInMillis / 1000) / 60;
     int seconds = (int) (timeLeftInMillis / 1000) % 60;
-    String newTime = String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
-    timerDisplay.setText(newTime);
+    return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
   }
 
   @Override
