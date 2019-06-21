@@ -15,12 +15,6 @@ import com.devcesar.workoutapp.utils.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-  // todo
-  // settings
-  // Clear All Workouts
-  // Delete All Exercises, Categories, Routines
-  // Import Default Exercises, Categories, Routines
-  // Start Timer After Adding Set - Switch
 
   private final Fragment routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
   private final Fragment exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
@@ -57,14 +51,8 @@ public class MainActivity extends AppCompatActivity {
     boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
     if (isFirstRun) {
       InitDatabase.run(this);
-      PreferenceManager.getDefaultSharedPreferences(this)
-          .edit()
-          .putBoolean(IS_FIRST_RUN, false)
-          .apply();
-      PreferenceManager.getDefaultSharedPreferences(this)
-          .edit()
-          .putInt(Constants.START_TIME, Constants.DEFAULT_START_TIME)
-          .apply();
+      prefs.edit().putBoolean(IS_FIRST_RUN, false).apply();
+      prefs.edit().putInt(Constants.START_TIME, Constants.DEFAULT_START_TIME).apply();
     }
 
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -109,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.hide(routineFragment);
         transaction.show(settingsFragment);
         break;
-
     }
 
     transaction.commit();

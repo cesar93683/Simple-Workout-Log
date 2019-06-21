@@ -94,5 +94,6 @@
   <string name="time_left">Time Left:</string>
   <string name="timer_finished">Timer Finished</string>
   <string name="settings">Settings</string>
+  <string name="clear_all_workouts">Clear All Workouts</string>
 
 </resources>

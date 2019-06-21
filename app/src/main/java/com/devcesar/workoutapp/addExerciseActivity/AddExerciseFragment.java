@@ -133,7 +133,7 @@ public class AddExerciseFragment extends Fragment {
     private NamedEntity exercise;
 
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
-      super(inflater.inflate(R.layout.checkable_list_item, parent, false));
+      super(inflater.inflate(R.layout.simple_list_item_checkbox_left, parent, false));
       itemView.setOnClickListener(this);
       textView = itemView.findViewById(R.id.text_view);
       checkBox = itemView.findViewById(R.id.check_box);
