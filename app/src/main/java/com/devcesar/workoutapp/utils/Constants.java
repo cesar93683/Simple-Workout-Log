@@ -12,4 +12,5 @@ public class Constants {
   public static final int TYPE_ROUTINE = 2;
   public static final int TYPE_EXERCISE = 3;
   public static final String TYPE = "TYPE";
+  public static final String SHOULD_AUTO_START_TIMER = "SHOULD_AUTO_START_TIMER";
 }

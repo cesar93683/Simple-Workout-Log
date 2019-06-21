@@ -1,5 +1,7 @@
 package com.devcesar.workoutapp.exerciseActivity;
 
+import static com.devcesar.workoutapp.utils.Constants.SHOULD_AUTO_START_TIMER;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -154,6 +157,10 @@ public class ExerciseFragment extends Fragment {
     exerciseSets.add(exerciseSet);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
+    if (!isEditing && PreferenceManager.getDefaultSharedPreferences(getActivity())
+        .getBoolean(SHOULD_AUTO_START_TIMER, false)) {
+      ((ExerciseActivity) (getActivity())).startTimer();
+    }
     makeSnackbar(getString(R.string.set_added));
   }
 
@@ -169,6 +176,10 @@ public class ExerciseFragment extends Fragment {
     }
     repsTextInputLayout.setErrorEnabled(false);
     return true;
+  }
+
+  private void makeSnackbar(String text) {
+    Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
   }
 
   private void showEditOrDeleteDialog(final int position) {
@@ -236,10 +247,6 @@ public class ExerciseFragment extends Fragment {
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExerciseSet(position))
         .setNegativeButton(R.string.no, null)
         .show();
-  }
-
-  private void makeSnackbar(String text) {
-    Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
   }
 
   private void editSet(final TextInputLayout repsTextInputLayout,

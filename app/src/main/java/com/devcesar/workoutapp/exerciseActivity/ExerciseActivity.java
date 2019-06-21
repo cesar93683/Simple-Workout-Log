@@ -132,7 +132,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     timerStartPause.setContentDescription(getString(R.string.play));
   }
 
-  private void startTimer() {
+  public void startTimer() {
     countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
       @Override
       public void onTick(long l) {

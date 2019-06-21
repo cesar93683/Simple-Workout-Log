@@ -1,5 +1,8 @@
 package com.devcesar.workoutapp.mainActivity;
 
+import static com.devcesar.workoutapp.utils.Constants.SHOULD_AUTO_START_TIMER;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +10,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +51,6 @@ public class SettingsFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    FragmentSelectNoFabBinding binding = DataBindingUtil
-        .inflate(inflater, R.layout.fragment_select_no_fab, container, false);
-
     List<SettingsFragmentHelper> settingsFragmentHelpers = new ArrayList<>();
 
     settingsFragmentHelpers.add(new SettingsFragmentHelper(
@@ -68,10 +68,22 @@ public class SettingsFragment extends Fragment {
         view -> showImportDefaultItemsDialog(),
         TYPE_DEFAULT));
 
-    settingsFragmentHelpers.add(new SettingsFragmentHelper(
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    boolean shouldAutoStartTimer = prefs.getBoolean(SHOULD_AUTO_START_TIMER, false);
+
+    SettingsFragmentHelper autoStartTimer = new SettingsFragmentHelper(
         getString(R.string.auto_start_timer),
-        view -> autoStartTimer(),
-        TYPE_CHECKABLE));
+        view -> prefs.edit()
+            .putBoolean(SHOULD_AUTO_START_TIMER,
+                ((CheckBox) (view.findViewById(R.id.check_box))).isChecked())
+            .apply(),
+        TYPE_CHECKABLE);
+    autoStartTimer.setCheckedByDefault(shouldAutoStartTimer);
+
+    settingsFragmentHelpers.add(autoStartTimer);
+
+    FragmentSelectNoFabBinding binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_select_no_fab, container, false);
 
     coordinatorLayout = binding.coordinatorLayout;
 
@@ -128,10 +140,6 @@ public class SettingsFragment extends Fragment {
         .show();
   }
 
-  private void autoStartTimer() {
-    Toast.makeText(getContext(), "autoStartTimer", Toast.LENGTH_SHORT).show();
-  }
-
   private class SimpleViewHolder extends RecyclerView.ViewHolder {
 
     SimpleViewHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -152,10 +160,11 @@ public class SettingsFragment extends Fragment {
 
     void bind(SettingsFragmentHelper settingsFragmentHelper) {
       CheckBox checkBox = itemView.findViewById(R.id.check_box);
+      checkBox.setChecked(settingsFragmentHelper.isCheckedByDefault());
       checkBox.setClickable(false);
       itemView.setOnClickListener(view -> {
-        settingsFragmentHelper.onClickListener.onClick(itemView);
         checkBox.setChecked(!checkBox.isChecked());
+        settingsFragmentHelper.onClickListener.onClick(itemView);
       });
       TextView textView = itemView.findViewById(R.id.text_view);
       textView.setText(settingsFragmentHelper.text);
@@ -213,6 +222,7 @@ public class SettingsFragment extends Fragment {
     private final String text;
     private final View.OnClickListener onClickListener;
     private final int type;
+    private boolean isCheckedByDefault;
 
     SettingsFragmentHelper(String text, OnClickListener onClickListener, int type) {
       this.text = text;
@@ -220,6 +230,12 @@ public class SettingsFragment extends Fragment {
       this.type = type;
     }
 
-  }
+    boolean isCheckedByDefault() {
+      return isCheckedByDefault;
+    }
 
+    void setCheckedByDefault(boolean checkedByDefault) {
+      isCheckedByDefault = checkedByDefault;
+    }
+  }
 }
