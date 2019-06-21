@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import androidx.annotation.NonNull;
 import com.devcesar.workoutapp.database.DatabaseHelper;
 import com.devcesar.workoutapp.database.DbSchema.ExerciseTable;
 import com.devcesar.workoutapp.database.NamedEntityCursorWrapper;
@@ -65,13 +66,13 @@ public class ExerciseLab implements NamedEntityLab {
     throw new RuntimeException(String.format("ERROR: exercise id:%d does not exist", id));
   }
 
-  public NamedEntity findExercise(String name) {
-    for (NamedEntity exercise : exercises) {
-      if (exercise.getName().equals(name)) {
-        return exercise;
-      }
+  @NonNull
+  public List<NamedEntity> getExercises(ArrayList<String> exerciseNames) {
+    List<NamedEntity> exercises = new ArrayList<>();
+    for (String exerciseName : exerciseNames) {
+      exercises.add(findExercise(exerciseName));
     }
-    throw new RuntimeException(String.format("ERROR: exercise name:%s does not exist", name));
+    return exercises;
   }
 
   @Override
@@ -138,4 +139,14 @@ public class ExerciseLab implements NamedEntityLab {
     }
     updateExercises();
   }
+
+  private NamedEntity findExercise(String name) {
+    for (NamedEntity exercise : exercises) {
+      if (exercise.getName().equals(name)) {
+        return exercise;
+      }
+    }
+    throw new RuntimeException(String.format("ERROR: exercise name:%s does not exist", name));
+  }
+
 }

@@ -40,46 +40,46 @@
   <string name="would_save_changes_routine">Would you like to save changes made to the routine?</string>
   <string name="yes">Yes</string>
 
-  <string name="barbellBenchPress">Barbell Bench Press</string>
-  <string name="barbellBenchPressIncline">Barbell Bench Press (Incline)</string>
-  <string name="dumbbellPress">Dumbbell Press</string>
-  <string name="dumbbellPressIncline">Dumbbell Press Incline</string>
-  <string name="dumbbellChestFly">Dumbbell Chest Fly</string>
+  <string name="barbell_bench_press">Barbell Bench Press</string>
+  <string name="barbell_bench_press_incline">Barbell Bench Press (Incline)</string>
+  <string name="dumbbell_press">Dumbbell Press</string>
+  <string name="dumbbell_press_incline">Dumbbell Press Incline</string>
+  <string name="dumbbell_chest_fly">Dumbbell Chest Fly</string>
   <string name="chest">Chest</string>
 
-  <string name="barbellBackSquat">Barbell Back Squat</string>
-  <string name="barbellFrontSquat">Barbell Front Squat</string>
-  <string name="barbellLunge">Barbell Lunge</string>
-  <string name="romanianDeadlift">Romanian Deadlift</string>
-  <string name="legPressMachine">Leg Press Machine</string>
+  <string name="barbell_back_squat">Barbell Back Squat</string>
+  <string name="barbell_front_squat">Barbell Front Squat</string>
+  <string name="barbell_lunge">Barbell Lunge</string>
+  <string name="romanian_deadlift">Romanian Deadlift</string>
+  <string name="leg_press_machine">Leg Press Machine</string>
   <string name="legs">Legs</string>
 
-  <string name="barbellCurl">Barbell Curl</string>
-  <string name="eZBarBicepsCurl">E-Z Bar Biceps Curl</string>
-  <string name="alternatingDumbbellCurl">Alternating Dumbbell Curl</string>
-  <string name="hammerDumbbellCurl">Hammer Dumbbell Curl</string>
-  <string name="standingCableCurl">Standing Cable Curl</string>
+  <string name="barbell_curl">Barbell Curl</string>
+  <string name="ez_bar_biceps_curl">E-Z Bar Biceps Curl</string>
+  <string name="alternating_dumbbell_curl">Alternating Dumbbell Curl</string>
+  <string name="hammer_dumbbell_curl">Hammer Dumbbell Curl</string>
+  <string name="standing_cable_curl">Standing Cable Curl</string>
   <string name="biceps">Biceps</string>
 
-  <string name="benchPressCloseGrip">Bench Press (Close Grip)</string>
+  <string name="bench_press_close_grip">Bench Press (Close Grip)</string>
   <string name="dip">Dip</string>
-  <string name="tricepsPushdown">Triceps Pushdown</string>
-  <string name="ezBarSkullCrushers">E-Z Bar Skull Crushers</string>
-  <string name="dumbbellOverheadTricepsPress">Dumbbell Overhead Triceps Press</string>
+  <string name="triceps_pushdown">Triceps Pushdown</string>
+  <string name="ez_bar_skull_crushers">E-Z Bar Skull Crushers</string>
+  <string name="dumbbell_overhead_triceps_press">Dumbbell Overhead Triceps Press</string>
 
   <string name="triceps">Triceps</string>
   <string name="deadlift">Deadlift</string>
-  <string name="barbellRow">Barbell Row</string>
+  <string name="barbell_row">Barbell Row</string>
   <string name="dumbbellRow">Dumbbell Row</string>
-  <string name="tBarRow">T-Bar Row</string>
-  <string name="latPulldown">Lat Pulldown</string>
+  <string name="t_bar_row">T-Bar Row</string>
+  <string name="lat_pulldown">Lat Pulldown</string>
   <string name="back">Back</string>
 
-  <string name="overheadPress">Overhead Press</string>
-  <string name="dumbbellFrontRaise">Dumbbell Front Raise</string>
-  <string name="dumbbellSideLateralRaise">Dumbbell Side Lateral Raise</string>
-  <string name="seatedDumbbellPress">Seated Dumbbell Press</string>
-  <string name="dumbbellInclineRow">Dumbbell Incline Row</string>
+  <string name="overhead_press">Overhead Press</string>
+  <string name="dumbbell_front_raise">Dumbbell Front Raise</string>
+  <string name="dumbbell_side_lateral_raise">Dumbbell Side Lateral Raise</string>
+  <string name="seated_dumbbell_press">Seated Dumbbell Press</string>
+  <string name="dumbbell_incline_row">Dumbbell Incline Row</string>
   <string name="shoulders">Shoulders</string>
 
   <string name="title_activity_exercise">ExerciseActivity</string>
