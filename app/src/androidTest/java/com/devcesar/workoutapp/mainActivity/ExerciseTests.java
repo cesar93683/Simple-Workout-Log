@@ -101,12 +101,14 @@ public class ExerciseTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
+
     ViewInteraction textInputEditText = onView(
         allOf(childAtPosition(
             childAtPosition(
@@ -115,6 +117,7 @@ public class ExerciseTests {
             0),
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+
     ViewInteraction appCompatButton = onView(
         allOf(withId(android.R.id.button1), withText("Save"),
             childAtPosition(
@@ -299,7 +302,7 @@ public class ExerciseTests {
         allOf(withId(R.id.filter_edit_text),
             childAtPosition(
                 childAtPosition(
-                    withId(R.id.fragment_container),
+                    withId(R.id.coordinator_layout),
                     0),
                 0),
             isDisplayed()));
@@ -322,10 +325,11 @@ public class ExerciseTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
@@ -354,10 +358,11 @@ public class ExerciseTests {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
             childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                2),
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
             isDisplayed()));
     floatingActionButton.perform(click());
 
