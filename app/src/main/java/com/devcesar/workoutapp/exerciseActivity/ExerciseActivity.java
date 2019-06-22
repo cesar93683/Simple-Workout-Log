@@ -28,6 +28,7 @@ import androidx.preference.PreferenceManager;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.ActivityExerciseBinding;
 import com.devcesar.workoutapp.databinding.DialogSetTimerBinding;
+import com.devcesar.workoutapp.exerciseActivity.ExerciseFragment.OnSaveSetsListener;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import com.devcesar.workoutapp.utils.NamedEntity;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class ExerciseActivity extends AppCompatActivity implements SaveSets {
+public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsListener {
 
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
@@ -303,7 +304,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   }
 
   @Override
-  public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
+  public void onSaveSets(ArrayList<ExerciseSet> exerciseSets) {
     long timeStamp = new Date().getTime();
     Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
     WorkoutLab.get(this).insertWorkout(workout);

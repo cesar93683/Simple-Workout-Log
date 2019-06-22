@@ -8,14 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.exerciseActivity.ExerciseFragment;
-import com.devcesar.workoutapp.exerciseActivity.SaveSets;
+import com.devcesar.workoutapp.exerciseActivity.ExerciseFragment.OnSaveSetsListener;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import com.devcesar.workoutapp.utils.NamedEntity;
 import com.devcesar.workoutapp.utils.Workout;
 import java.util.ArrayList;
 
-public class EditExerciseActivity extends AppCompatActivity implements SaveSets {
+public class EditExerciseActivity extends AppCompatActivity implements OnSaveSetsListener {
 
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private static final String EXTRA_TIME_STAMP = "EXTRA_TIME_STAMP";
@@ -58,7 +58,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   }
 
   @Override
-  public void saveSets(ArrayList<ExerciseSet> exerciseSets) {
+  public void onSaveSets(ArrayList<ExerciseSet> exerciseSets) {
     Workout workout = new Workout(exerciseId, exerciseSets, timeStamp);
     WorkoutLab.get(this).updateWorkout(workout);
     setResult(RESULT_OK);

@@ -81,21 +81,22 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
-    setTitle(R.string.exercise);
+    if (savedInstanceState == null) {
+      exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
+      categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
+      routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
+      settingsFragment = SettingsFragment.newInstance();
 
-    exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
-    categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
-    routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
-    settingsFragment = SettingsFragment.newInstance();
-
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(R.id.fragment_container, exerciseFragment)
-        .add(R.id.fragment_container, routineFragment)
-        .add(R.id.fragment_container, categoryFragment)
-        .add(R.id.fragment_container, settingsFragment)
-        .commit();
-    setTabStateFragment(R.id.nav_exercise);
+      getSupportFragmentManager()
+          .beginTransaction()
+          .add(R.id.fragment_container, exerciseFragment)
+          .add(R.id.fragment_container, routineFragment)
+          .add(R.id.fragment_container, categoryFragment)
+          .add(R.id.fragment_container, settingsFragment)
+          .commit();
+      setTitle(R.string.exercise);
+      setTabStateFragment(R.id.nav_exercise);
+    }
   }
 
   private void setTabStateFragment(int type) {

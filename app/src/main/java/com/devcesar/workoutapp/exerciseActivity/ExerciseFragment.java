@@ -166,7 +166,7 @@ public class ExerciseFragment extends Fragment {
   }
 
   private void saveSets() {
-    ((SaveSets) getActivity()).saveSets(exerciseSets);
+    ((OnSaveSetsListener) getActivity()).onSaveSets(exerciseSets);
   }
 
   private boolean validateReps(TextInputLayout repsTextInputLayout) {
@@ -302,6 +302,12 @@ public class ExerciseFragment extends Fragment {
         .setNegativeButton(R.string.discard, (dialog, which) -> getActivity().finish())
         .setPositiveButton(R.string.save, (dialog, which) -> saveSets())
         .show();
+  }
+
+  // Container Activity must implement this interface
+  public interface OnSaveSetsListener {
+
+    void onSaveSets(ArrayList<ExerciseSet> exerciseSets);
   }
 
   class ExerciseSetHolder extends RecyclerView.ViewHolder {
