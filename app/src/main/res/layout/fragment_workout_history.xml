@@ -3,7 +3,8 @@
   <data>
 
   </data>
-  <LinearLayout
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,5 +13,5 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:overScrollMode="never"/>
-  </LinearLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

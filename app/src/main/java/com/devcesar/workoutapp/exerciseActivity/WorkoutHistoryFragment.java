@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -39,6 +40,7 @@ public class WorkoutHistoryFragment extends Fragment {
   private ArrayList<Workout> workouts;
   private WorkoutHistoryAdapter workoutHistoryAdapter;
   private NamedEntity exercise;
+  private CoordinatorLayout coordinatorLayout;
 
   public WorkoutHistoryFragment() {
     // Required empty public constructor
@@ -77,6 +79,8 @@ public class WorkoutHistoryFragment extends Fragment {
         new DividerItemDecoration(binding.recyclerView.getContext(),
             DividerItemDecoration.VERTICAL));
     binding.recyclerView.setAdapter(workoutHistoryAdapter);
+
+    coordinatorLayout = binding.coordinatorLayout;
 
     return binding.getRoot();
   }
@@ -125,6 +129,12 @@ public class WorkoutHistoryFragment extends Fragment {
     workoutHistoryAdapter.notifyDataSetChanged();
   }
 
+  private void showSnackbar(int item_action) {
+    Snackbar
+        .make(coordinatorLayout, String.format(getString(item_action), getString(R.string.workout)),
+            Snackbar.LENGTH_SHORT).show();
+  }
+
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -132,13 +142,6 @@ public class WorkoutHistoryFragment extends Fragment {
       updateWorkouts();
       showSnackbar(R.string.item_updated);
     }
-  }
-
-  // todo fix snackbar so shows above timer
-  private void showSnackbar(int item_action) {
-    Snackbar.make(getActivity().findViewById(android.R.id.content),
-        String.format(getString(item_action), getString(R.string.workout)), Snackbar.LENGTH_SHORT)
-        .show();
   }
 
   private class WorkoutHistoryHolder extends RecyclerView.ViewHolder {

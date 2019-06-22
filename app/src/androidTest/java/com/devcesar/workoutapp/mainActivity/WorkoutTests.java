@@ -115,7 +115,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -125,7 +125,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -248,7 +248,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -258,7 +258,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -287,7 +287,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -372,7 +372,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -450,7 +450,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -554,7 +554,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -633,7 +633,7 @@ public class WorkoutTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
