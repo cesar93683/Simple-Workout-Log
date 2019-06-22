@@ -39,8 +39,323 @@ public class SettingsTests {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
-  // canDeleteAndImportAllExercisesCategoriesRoutines
-  // shouldNotImportDuplicatesIfImportMutipleTimes
+  @Test
+  public void shouldNotImportDuplicatesIfImportMultipleTimes() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                3),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Import Default Exercises, Categories, Routines"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                2),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction bottomNavigationItemView2 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView2.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Barbell Back Squat"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                1),
+            isDisplayed()));
+    textView2.check(matches(withText("Barbell Back Squat")));
+
+    ViewInteraction bottomNavigationItemView3 = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView3.perform(click());
+
+    ViewInteraction textView3 = onView(
+        allOf(withText("Back"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView3.check(matches(withText("Back")));
+
+    ViewInteraction textView4 = onView(
+        allOf(withText("Biceps"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                1),
+            isDisplayed()));
+    textView4.check(matches(withText("Biceps")));
+
+    ViewInteraction bottomNavigationItemView4 = onView(
+        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                2),
+            isDisplayed()));
+    bottomNavigationItemView4.perform(click());
+
+    ViewInteraction textView5 = onView(
+        allOf(withText("Strong 5x5 - Workout A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView5.check(matches(withText("Strong 5x5 - Workout A")));
+
+    ViewInteraction textView6 = onView(
+        allOf(withText("Strong 5x5 - Workout B"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                1),
+            isDisplayed()));
+    textView6.check(matches(withText("Strong 5x5 - Workout B")));
+  }
+
+  @Test
+  public void canDeleteAndImportAllExercisesCategoriesRoutines() {
+    ViewInteraction bottomNavigationItemView3 = onView(
+        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                3),
+            isDisplayed()));
+    bottomNavigationItemView3.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Delete All Exercises, Categories, and Routines"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                1),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    ViewInteraction bottomNavigationItemView4 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView4.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView.check(doesNotExist());
+
+    ViewInteraction bottomNavigationItemView5 = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView5.perform(click());
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Back"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView2.check(doesNotExist());
+
+    ViewInteraction bottomNavigationItemView6 = onView(
+        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                2),
+            isDisplayed()));
+    bottomNavigationItemView6.perform(click());
+
+    ViewInteraction textView3 = onView(
+        allOf(withText("Strong 5x5 - Workout A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView3.check(doesNotExist());
+
+    ViewInteraction bottomNavigationItemView7 = onView(
+        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                3),
+            isDisplayed()));
+    bottomNavigationItemView7.perform(click());
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Import Default Exercises, Categories, Routines"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                2),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
+
+    ViewInteraction bottomNavigationItemView8 = onView(
+        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                0),
+            isDisplayed()));
+    bottomNavigationItemView8.perform(click());
+
+    ViewInteraction textView4 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView4.check(matches(isDisplayed()));
+
+    ViewInteraction bottomNavigationItemView9 = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView9.perform(click());
+
+    ViewInteraction textView5 = onView(
+        allOf(withText("Back"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView5.check(matches(isDisplayed()));
+
+    ViewInteraction bottomNavigationItemView10 = onView(
+        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                2),
+            isDisplayed()));
+    bottomNavigationItemView10.perform(click());
+
+    ViewInteraction textView6 = onView(
+        allOf(withText("Strong 5x5 - Workout A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                        1)),
+                0),
+            isDisplayed()));
+    textView6.check(matches(isDisplayed()));
+  }
 
   @Test
   public void canVisitSettingsTab() {
