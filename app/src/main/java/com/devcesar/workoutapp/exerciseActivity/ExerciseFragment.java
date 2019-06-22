@@ -3,6 +3,7 @@ package com.devcesar.workoutapp.exerciseActivity;
 import static com.devcesar.workoutapp.utils.Constants.SHOULD_AUTO_START_TIMER;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class ExerciseFragment extends Fragment {
   private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
   private static final String ARGS_TIME_STAMP = "ARGS_TIME_STAMP";
   private static final long NO_TIME_STAMP = -1;
+  private OnSaveSetsListener listener;
   private ArrayList<ExerciseSet> exerciseSets;
   private ExerciseSetAdapter exerciseSetsAdapter;
   private boolean isEditing;
@@ -166,7 +168,7 @@ public class ExerciseFragment extends Fragment {
   }
 
   private void saveSets() {
-    ((OnSaveSetsListener) getActivity()).onSaveSets(exerciseSets);
+    listener.onSaveSets(exerciseSets);
   }
 
   private boolean validateReps(TextInputLayout repsTextInputLayout) {
@@ -181,6 +183,16 @@ public class ExerciseFragment extends Fragment {
 
   private void showSnackbar(String text) {
     Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
+  }
+
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    try {
+      listener = (OnSaveSetsListener) context;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(context.toString() + " must implement OnSaveSetsListener");
+    }
   }
 
   private void showEditOrDeleteDialog(final int position) {
