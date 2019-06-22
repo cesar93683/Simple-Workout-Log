@@ -217,7 +217,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -227,7 +227,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -264,7 +264,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -290,7 +290,7 @@ public class RoutineTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -424,7 +424,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -434,7 +434,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -481,7 +481,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -704,7 +704,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -714,7 +714,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -751,7 +751,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -1031,7 +1031,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -1041,7 +1041,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -1189,7 +1189,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -1199,7 +1199,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -1286,7 +1286,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -1391,7 +1391,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -1401,7 +1401,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -1438,7 +1438,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -1554,7 +1554,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -1564,7 +1564,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -1636,7 +1636,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -1857,7 +1857,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -1867,7 +1867,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -1908,7 +1908,7 @@ public class RoutineTests {
         allOf(childAtPosition(
             allOf(withId(R.id.recycler_view),
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     0)),
             0),
             isDisplayed()));
@@ -1937,7 +1937,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -2052,7 +2052,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -2062,7 +2062,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -2109,7 +2109,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -2120,7 +2120,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -2269,7 +2269,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -2279,7 +2279,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -2316,7 +2316,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -2333,7 +2333,7 @@ public class RoutineTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -2511,7 +2511,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -2521,7 +2521,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -2558,7 +2558,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -2743,7 +2743,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -2753,7 +2753,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -2790,7 +2790,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -2969,7 +2969,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -2979,7 +2979,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -3127,7 +3127,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -3137,7 +3137,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));
@@ -3174,7 +3174,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action2),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 1),
             isDisplayed()));
@@ -3200,7 +3200,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_expand_menu_button),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 2),
             isDisplayed()));
@@ -3210,7 +3210,7 @@ public class RoutineTests {
         allOf(withId(R.id.fab_action1),
             childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    withId(R.id.coordinator_layout),
                     1),
                 0),
             isDisplayed()));

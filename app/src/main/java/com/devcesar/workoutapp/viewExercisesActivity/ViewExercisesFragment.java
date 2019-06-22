@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -45,6 +46,7 @@ public class ViewExercisesFragment extends Fragment {
   private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
   private NamedEntity namedEntity;
+  private CoordinatorLayout coordinatorLayout;
 
   public ViewExercisesFragment() {
     // Required empty public constructor
@@ -103,6 +105,9 @@ public class ViewExercisesFragment extends Fragment {
           ContextCompat.getDrawable(getContext(), R.drawable.ic_mode_edit_black_24dp));
     }
     binding.fab.setOnClickListener(view -> edit());
+
+    coordinatorLayout = binding.coordinatorLayout;
+
     return binding.getRoot();
   }
 
@@ -136,8 +141,7 @@ public class ViewExercisesFragment extends Fragment {
   }
 
   private void showSnackbar(String text) {
-    Snackbar.make(getActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT)
-        .show();
+    Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
   }
 
   private void showDeleteExerciseDialog(int exerciseId) {

@@ -5,31 +5,25 @@
   <data>
 
   </data>
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    app:layout_constraintTop_toTopOf="parent">
+    android:id="@+id/coordinator_layout"
+    android:focusableInTouchMode="true">
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recycler_view"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:overScrollMode="never"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:overScrollMode="never"/>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      app:fab_addButtonColorNormal="@color/pink"
-      app:fab_addButtonColorPressed="@color/pink_dark"
+      android:layout_gravity="bottom|end"
+      app:fab_addButtonColorNormal="@color/colorAccent"
       app:fab_addButtonPlusIconColor="@color/white"
-      app:fab_labelStyle="@style/custom_fab_label"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent">
+      app:fab_labelStyle="@style/custom_fab_label">
 
       <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_action1"
@@ -52,5 +46,5 @@
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -42,6 +43,7 @@ public class EditRoutineFragment extends Fragment {
   private boolean hasBeenModified;
   private ItemTouchHelper itemTouchHelper;
   private NamedEntity routine;
+  private CoordinatorLayout coordinatorLayout;
 
   public EditRoutineFragment() {
     // Required empty public constructor
@@ -112,6 +114,8 @@ public class EditRoutineFragment extends Fragment {
     binding.fabAction2.setTitle(getString(R.string.save));
     binding.fabAction2.setOnClickListener(view -> saveExercises());
 
+    coordinatorLayout = binding.coordinatorLayout;
+
     return binding.getRoot();
   }
 
@@ -142,8 +146,7 @@ public class EditRoutineFragment extends Fragment {
   }
 
   private void showSnackbar(String text) {
-    Snackbar.make(getActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT)
-        .show();
+    Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
   }
 
   void onBackPressed() {
