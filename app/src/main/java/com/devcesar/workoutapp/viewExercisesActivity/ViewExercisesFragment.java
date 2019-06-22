@@ -115,7 +115,7 @@ public class ViewExercisesFragment extends Fragment {
     if (type == Constants.TYPE_ROUTINE) {
       Intent intent = EditRoutineActivity.newIntent(getActivity(), namedEntity);
       startActivityForResult(intent, REQ_EDIT);
-    } else {
+    } else if (type == Constants.TYPE_CATEGORY) {
       Intent intent = AddExercisesActivity
           .newIntent(getActivity(), exercises, namedEntity.getName());
       startActivityForResult(intent, REQ_ADD);
