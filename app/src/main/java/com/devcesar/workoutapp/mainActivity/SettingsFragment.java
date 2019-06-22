@@ -51,6 +51,7 @@ public class SettingsFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+
     List<SettingsFragmentHelper> settingsFragmentHelpers = getSettingsFragmentHelpers();
 
     FragmentSelectNoFabBinding binding = DataBindingUtil

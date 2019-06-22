@@ -41,6 +41,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private static final String CHANNEL_ID = "Workout App";
+  private final int NOTIFICATION_TIMER_ID = 1;
   private NamedEntity exercise;
   private Fragment exerciseFragment;
   private int startTime;
@@ -52,7 +53,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
   private NotificationCompat.Builder builder;
   private boolean isShowingNotification;
   private NotificationManagerCompat notificationManagerCompat;
-  private final int NOTIFICATION_TIMER_ID = 1;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -167,10 +167,9 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     intent.setAction(Intent.ACTION_MAIN);
     intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-        intent, 0);
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-    NotificationCompat.Builder builderTimerFinished = new NotificationCompat.Builder(this,
+    NotificationCompat.Builder timerFinishedBuilder = new NotificationCompat.Builder(this,
         CHANNEL_ID)
         .setVibrate(new long[]{0L})
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
@@ -180,7 +179,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
         .setAutoCancel(false);
 
     int NOTIFICATION_TIMER_FINISHED_ID = 2;
-    notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, builderTimerFinished.build());
+    notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, timerFinishedBuilder.build());
   }
 
   @Override
@@ -198,8 +197,7 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     intent.setAction(Intent.ACTION_MAIN);
     intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-        intent, 0);
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
     builder = new NotificationCompat.Builder(this, CHANNEL_ID)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -236,17 +234,17 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     timerStartPause.setContentDescription(getString(R.string.pause));
   }
 
-  private void cancelAllNotifications() {
-    NotificationManager notificationManager = (NotificationManager) getSystemService(
-        Context.NOTIFICATION_SERVICE);
-    notificationManager.cancelAll();
-  }
-
   @Override
   protected void onResume() {
     super.onResume();
     cancelAllNotifications();
     isShowingNotification = false;
+  }
+
+  private void cancelAllNotifications() {
+    NotificationManager notificationManager = (NotificationManager) getSystemService(
+        Context.NOTIFICATION_SERVICE);
+    notificationManager.cancelAll();
   }
 
   @Override
@@ -312,10 +310,6 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
     finish();
   }
 
-  /**
-   * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the
-   * sections/tabs/pages.
-   */
   class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
@@ -327,14 +321,11 @@ public class ExerciseActivity extends AppCompatActivity implements SaveSets {
 
     @Override
     public int getCount() {
-      // Show 2 total pages.
       return 2;
     }
 
     @Override
     public Fragment getItem(int position) {
-      // getItem is called to instantiate the fragment for the given page.
-      // Return a PlaceholderFragment (defined as a static inner class below).
       Fragment fragment = null;
       switch (position) {
         case 0:

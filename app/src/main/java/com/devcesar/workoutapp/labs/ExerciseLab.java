@@ -27,7 +27,6 @@ public class ExerciseLab implements NamedEntityLab {
   }
 
   private void updateExercises() {
-    exercises.clear();
     NamedEntityCursorWrapper cursor = queryExercises();
     exercises = new ArrayList<>();
     while (cursor.moveToNext()) {

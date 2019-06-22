@@ -157,8 +157,9 @@ public class ExerciseFragment extends Fragment {
     exerciseSets.add(exerciseSet);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
-    if (!isEditing && PreferenceManager.getDefaultSharedPreferences(getActivity())
-        .getBoolean(SHOULD_AUTO_START_TIMER, false)) {
+    boolean shouldStartTimer = PreferenceManager.getDefaultSharedPreferences(getActivity())
+        .getBoolean(SHOULD_AUTO_START_TIMER, false);
+    if (!isEditing && shouldStartTimer) {
       ((ExerciseActivity) (getActivity())).startTimer();
     }
     showSnackbar(getString(R.string.set_added));

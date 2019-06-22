@@ -28,6 +28,7 @@ public class AddExercisesActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
+
     String name = getIntent().getStringExtra(EXTRA_NAME);
     setTitle(name);
 

@@ -46,12 +46,12 @@ public class InitDatabase {
   private final String biceps;
   private final String triceps;
   private final String back;
+  private final String strong5x5WorkoutA;
+  private final String strong5x5WorkoutB;
   private final String shoulders;
   private final ExerciseLab exerciseLab;
   private final CategoryOrRoutineLab categoryLab;
   private final CategoryOrRoutineLab routineLab;
-  private final String strong5x5WorkoutA;
-  private final String strong5x5WorkoutB;
 
   private InitDatabase(Activity activity) {
     exerciseLab = ExerciseLab.get(activity);
@@ -104,7 +104,6 @@ public class InitDatabase {
 
     strong5x5WorkoutA = activity.getString(R.string.strong_5x5_workout_a);
     strong5x5WorkoutB = activity.getString(R.string.strong_5x5_workout_b);
-
     initRoutines();
   }
 
@@ -156,9 +155,9 @@ public class InitDatabase {
     initRoutine(strong5x5WorkoutB, strong5x5workoutBExercises);
   }
 
-  private void initExercises(ArrayList<String> exercises) {
-    for (String exercise : exercises) {
-      tryToAddExercise(exercise);
+  private void initExercises(ArrayList<String> exerciseNames) {
+    for (String exerciseName : exerciseNames) {
+      initExercise(exerciseName);
     }
   }
 
@@ -178,7 +177,7 @@ public class InitDatabase {
     routineLab.insert(routineName, exercises);
   }
 
-  private void tryToAddExercise(String name) {
+  private void initExercise(String name) {
     if (exerciseLab.contains(name)) {
       return;
     }

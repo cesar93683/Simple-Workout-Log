@@ -39,7 +39,6 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
   }
 
   private void updateNamedEntities() {
-    namedEntities.clear();
     String[] columns = new String[]{colId, colName};
     CategoryOrRoutineCursorWrapper cursor = queryNamedEntities(columns, null, null);
     namedEntities = new ArrayList<>();
@@ -118,6 +117,29 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     return filtered;
   }
 
+  public void insert(String name, List<NamedEntity> exercises) {
+    ContentValues values = new ContentValues();
+    values.put(colName, name);
+    values.put(colExercises, new Gson().toJson(getIds(exercises)));
+    database.insert(tableName, null, values);
+    updateNamedEntities();
+  }
+
+  @Override
+  public void insert(String name) {
+    ContentValues values = new ContentValues();
+    values.put(colName, name);
+    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
+    database.insert(tableName, null, values);
+    updateNamedEntities();
+  }
+
+  void deleteExerciseFromAll(int exerciseId, Context context) {
+    for (NamedEntity namedEntity : namedEntities) {
+      deleteExercise(namedEntity.getId(), exerciseId, context);
+    }
+  }
+
   public void deleteExercise(int id, int exerciseId, Context context) {
     List<NamedEntity> exercises = getExercises(id, context);
     for (int i = 0; i < exercises.size(); i++) {
@@ -147,29 +169,6 @@ public class CategoryOrRoutineLab implements NamedEntityLab {
     String whereClause = colId + "=?";
     String[] whereArgs = new String[]{String.valueOf(id)};
     database.update(tableName, values, whereClause, whereArgs);
-  }
-
-  public void insert(String name, List<NamedEntity> exercises) {
-    ContentValues values = new ContentValues();
-    values.put(colName, name);
-    values.put(colExercises, new Gson().toJson(getIds(exercises)));
-    database.insert(tableName, null, values);
-    updateNamedEntities();
-  }
-
-  @Override
-  public void insert(String name) {
-    ContentValues values = new ContentValues();
-    values.put(colName, name);
-    values.put(colExercises, new Gson().toJson(new ArrayList<NamedEntity>()));
-    database.insert(tableName, null, values);
-    updateNamedEntities();
-  }
-
-  void deleteExerciseFromAll(int exerciseId, Context context) {
-    for (NamedEntity namedEntity : namedEntities) {
-      deleteExercise(namedEntity.getId(), exerciseId, context);
-    }
   }
 
   public void deleteAll() {

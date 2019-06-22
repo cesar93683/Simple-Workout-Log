@@ -111,6 +111,7 @@ public class EditRoutineFragment extends Fragment {
 
     binding.fabAction2.setTitle(getString(R.string.save));
     binding.fabAction2.setOnClickListener(view -> saveExercises());
+
     return binding.getRoot();
   }
 
@@ -168,19 +169,20 @@ public class EditRoutineFragment extends Fragment {
         .setMessage(String.format(getString(R.string.delete_item_confirmation),
             getString(R.string.exercise).toLowerCase()))
         .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-          for (int j = 0; j < exercises.size(); j++) {
-            if (exercises.get(j).getId() == exerciseId) {
-              exercises.remove(j);
-              break;
-            }
-          }
-          hasBeenModified = true;
-          exerciseAdapter.notifyDataSetChanged();
-          showSnackbar(
-              String.format(getString(R.string.item_deleted), getString(R.string.exercise)));
-        })
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExercise(exerciseId))
         .show();
+  }
+
+  private void deleteExercise(int exerciseId) {
+    for (int j = 0; j < exercises.size(); j++) {
+      if (exercises.get(j).getId() == exerciseId) {
+        exercises.remove(j);
+        break;
+      }
+    }
+    hasBeenModified = true;
+    exerciseAdapter.notifyDataSetChanged();
+    showSnackbar(String.format(getString(R.string.item_deleted), getString(R.string.exercise)));
   }
 
   private class ExerciseHolder extends RecyclerView.ViewHolder {

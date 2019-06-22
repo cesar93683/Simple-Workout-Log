@@ -31,7 +31,7 @@ import java.util.List;
 public class AddExerciseFragment extends Fragment {
 
   public static final String EXTRA_NEW_EXERCISE_IDS = "EXTRA_NEW_EXERCISE_IDS";
-  private static final String ARGS_EXERCISE_IDS = "ARGS_EXERCISE_IDS";
+  private static final String ARGS_EXERCISE_IDS_TO_EXCLUDE = "ARGS_EXERCISE_IDS_TO_EXCLUDE";
   private HashSet<NamedEntity> exercisesToAdd;
   private HashSet<Integer> exerciseIdsToExclude;
   private String textFilter;
@@ -45,7 +45,7 @@ public class AddExerciseFragment extends Fragment {
   public static AddExerciseFragment newInstance(ArrayList<Integer> exerciseIdsToExclude) {
     AddExerciseFragment fragment = new AddExerciseFragment();
     Bundle args = new Bundle();
-    args.putIntegerArrayList(ARGS_EXERCISE_IDS, exerciseIdsToExclude);
+    args.putIntegerArrayList(ARGS_EXERCISE_IDS_TO_EXCLUDE, exerciseIdsToExclude);
     fragment.setArguments(args);
     return fragment;
   }
@@ -54,7 +54,8 @@ public class AddExerciseFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    exerciseIdsToExclude = new HashSet<>(getArguments().getIntegerArrayList(ARGS_EXERCISE_IDS));
+    exerciseIdsToExclude = new HashSet<>(
+        getArguments().getIntegerArrayList(ARGS_EXERCISE_IDS_TO_EXCLUDE));
     exercisesToAdd = new HashSet<>();
 
     textFilter = "";

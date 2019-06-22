@@ -27,8 +27,8 @@ public class ViewExercisesActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
-    int invalid = -1;
 
+    int invalid = -1;
     int id = getIntent().getIntExtra(EXTRA_ID, invalid);
     int type = getIntent().getIntExtra(EXTRA_TYPE, invalid);
     if (id == invalid || type == invalid) {

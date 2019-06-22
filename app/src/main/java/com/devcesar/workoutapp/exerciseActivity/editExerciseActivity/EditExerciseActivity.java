@@ -36,6 +36,7 @@ public class EditExerciseActivity extends AppCompatActivity implements SaveSets 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
+
     int invalid = -1;
     exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
     timeStamp = getIntent().getLongExtra(EXTRA_TIME_STAMP, invalid);

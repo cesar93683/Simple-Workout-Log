@@ -56,6 +56,7 @@ public class WorkoutHistoryFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     int exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
     String exerciseName = getArguments().getString(ARGS_EXERCISE_NAME);
     exercise = new NamedEntity(exerciseName, exerciseId);
@@ -122,13 +123,6 @@ public class WorkoutHistoryFragment extends Fragment {
     workouts.clear();
     workouts.addAll(WorkoutLab.get(getActivity()).getWorkouts(exercise.getId()));
     workoutHistoryAdapter.notifyDataSetChanged();
-    showSnackbar(R.string.item_updated);
-  }
-
-  private void showSnackbar(int item_action) {
-    Snackbar.make(getActivity().findViewById(android.R.id.content),
-        String.format(getString(item_action), getString(R.string.workout)), Snackbar.LENGTH_SHORT)
-        .show();
   }
 
   @Override
@@ -136,7 +130,15 @@ public class WorkoutHistoryFragment extends Fragment {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_WORKOUT) {
       updateWorkouts();
+      showSnackbar(R.string.item_updated);
     }
+  }
+
+  // todo fix snackbar so shows above timer
+  private void showSnackbar(int item_action) {
+    Snackbar.make(getActivity().findViewById(android.R.id.content),
+        String.format(getString(item_action), getString(R.string.workout)), Snackbar.LENGTH_SHORT)
+        .show();
   }
 
   private class WorkoutHistoryHolder extends RecyclerView.ViewHolder {

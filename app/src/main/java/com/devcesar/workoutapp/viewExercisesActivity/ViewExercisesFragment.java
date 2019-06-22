@@ -63,6 +63,7 @@ public class ViewExercisesFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     int id = getArguments().getInt(ARG_ID);
     String name = getArguments().getString(ARG_NAME);
     namedEntity = new NamedEntity(name, id);
@@ -142,8 +143,8 @@ public class ViewExercisesFragment extends Fragment {
   private void showDeleteExerciseDialog(int exerciseId) {
     new AlertDialog.Builder(getActivity())
         .setMessage(String
-            .format(getString(R.string.delete_item_confirmation), getString(R.string.exercise))
-            .toLowerCase())
+            .format(getString(R.string.delete_item_confirmation),
+                getString(R.string.exercise).toLowerCase()))
         .setNegativeButton(R.string.no, null)
         .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteExercise(exerciseId))
         .show();

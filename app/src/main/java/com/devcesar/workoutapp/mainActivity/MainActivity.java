@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.show(settingsFragment);
         break;
     }
-
     transaction.commit();
   }
 

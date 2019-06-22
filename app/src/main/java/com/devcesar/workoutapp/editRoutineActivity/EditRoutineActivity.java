@@ -26,11 +26,13 @@ public class EditRoutineActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fragment);
+
     int invalid = -1;
     int routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, invalid);
     if (routineId == invalid) {
       finish();
     }
+
     String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);
     setTitle(routineName);
 
