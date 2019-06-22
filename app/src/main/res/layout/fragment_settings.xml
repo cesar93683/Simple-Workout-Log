@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  >
+  <data>
+
+  </data>
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:divider="?android:dividerHorizontal"
+      android:orientation="vertical"
+      android:showDividers="middle|end">
+      <include
+        android:id="@+id/delete_all_workouts"
+        layout="@layout/simple_list_item"/>
+      <include
+        android:id="@+id/delete_all_items"
+        layout="@layout/simple_list_item"/>
+      <include
+        android:id="@+id/import_default_items"
+        layout="@layout/simple_list_item"/>
+      <include
+        android:id="@+id/auto_start_timer"
+        layout="@layout/simple_list_item_checkbox_right"/>
+    </LinearLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

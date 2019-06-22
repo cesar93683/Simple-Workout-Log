@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog.Builder;
@@ -16,18 +14,13 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.database.InitDatabase;
-import com.devcesar.workoutapp.databinding.FragmentSelectNoFabBinding;
+import com.devcesar.workoutapp.databinding.FragmentSettingsBinding;
 import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
 import com.devcesar.workoutapp.labs.ExerciseLab;
 import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.google.android.material.snackbar.Snackbar;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SettingsFragment extends Fragment {
 
@@ -51,56 +44,33 @@ public class SettingsFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
-    List<SettingsFragmentHelper> settingsFragmentHelpers = getSettingsFragmentHelpers();
-
-    FragmentSelectNoFabBinding binding = DataBindingUtil
-        .inflate(inflater, R.layout.fragment_select_no_fab, container, false);
+    FragmentSettingsBinding binding = DataBindingUtil
+        .inflate(inflater, R.layout.fragment_settings, container, false);
 
     coordinatorLayout = binding.coordinatorLayout;
 
-    SettingsAdapter adapter = new SettingsAdapter(settingsFragmentHelpers);
-    binding.recyclerView.addItemDecoration(
-        new DividerItemDecoration(binding.recyclerView.getContext(),
-            DividerItemDecoration.VERTICAL));
-    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    binding.recyclerView.setAdapter(adapter);
+    binding.deleteAllWorkouts.setOnClickListener(view -> showDeleteAllWorkoutsDialog());
+    ((TextView) (binding.deleteAllWorkouts)).setText(R.string.delete_all_workouts);
 
-    return binding.getRoot();
-  }
+    binding.deleteAllItems.setOnClickListener(view -> showDeleteAllItemsDialog());
+    ((TextView) (binding.deleteAllItems)).setText(R.string.delete_all_items);
 
-  private List<SettingsFragmentHelper> getSettingsFragmentHelpers() {
-    List<SettingsFragmentHelper> settingsFragmentHelpers = new ArrayList<>();
-
-    settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        getString(R.string.delete_all_workouts),
-        view -> showDeleteAllWorkoutsDialog(),
-        TYPE_DEFAULT));
-
-    settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        getString(R.string.delete_all_items),
-        view -> showDeleteAllItemsDialog(),
-        TYPE_DEFAULT));
-
-    settingsFragmentHelpers.add(new SettingsFragmentHelper(
-        getString(R.string.import_default_items),
-        view -> showImportDefaultItemsDialog(),
-        TYPE_DEFAULT));
+    binding.importDefaultItems.setOnClickListener(view -> showImportDefaultItemsDialog());
+    ((TextView) (binding.importDefaultItems)).setText(R.string.import_default_items);
 
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
     boolean shouldAutoStartTimer = prefs.getBoolean(SHOULD_AUTO_START_TIMER, false);
 
-    SettingsFragmentHelper autoStartTimer = new SettingsFragmentHelper(
-        getString(R.string.auto_start_timer),
-        view -> prefs.edit()
-            .putBoolean(SHOULD_AUTO_START_TIMER,
-                ((CheckBox) (view.findViewById(R.id.check_box))).isChecked())
-            .apply(),
-        TYPE_CHECKABLE);
-    autoStartTimer.setCheckedByDefault(shouldAutoStartTimer);
+    binding.autoStartTimer.textView.setText(R.string.auto_start_timer);
+    binding.autoStartTimer.checkBox.setChecked(shouldAutoStartTimer);
+    binding.autoStartTimer.checkBox.setClickable(false);
+    binding.autoStartTimer.constraintLayout.setOnClickListener(view -> {
+      binding.autoStartTimer.checkBox.setChecked(!binding.autoStartTimer.checkBox.isChecked());
+      prefs.edit().putBoolean(SHOULD_AUTO_START_TIMER, binding.autoStartTimer.checkBox.isChecked())
+          .apply();
+    });
 
-    settingsFragmentHelpers.add(autoStartTimer);
-    return settingsFragmentHelpers;
+    return binding.getRoot();
   }
 
   private void showDeleteAllWorkoutsDialog() {
@@ -113,10 +83,6 @@ public class SettingsFragment extends Fragment {
               showSnackbar(R.string.all_workouts_deleted);
             })
         .show();
-  }
-
-  private void showSnackbar(int resId) {
-    Snackbar.make(coordinatorLayout, resId, Snackbar.LENGTH_SHORT).show();
   }
 
   private void showDeleteAllItemsDialog() {
@@ -148,104 +114,8 @@ public class SettingsFragment extends Fragment {
         .show();
   }
 
-  private class SimpleViewHolder extends RecyclerView.ViewHolder {
-
-    SimpleViewHolder(LayoutInflater inflater, ViewGroup parent) {
-      super(inflater.inflate(R.layout.simple_list_item, parent, false));
-    }
-
-    void bind(SettingsFragmentHelper settingsFragmentHelper) {
-      ((TextView) itemView).setText(settingsFragmentHelper.text);
-      itemView.setOnClickListener(settingsFragmentHelper.onClickListener);
-    }
+  private void showSnackbar(int resId) {
+    Snackbar.make(coordinatorLayout, resId, Snackbar.LENGTH_SHORT).show();
   }
 
-  private class CheckableViewHolder extends RecyclerView.ViewHolder {
-
-    CheckableViewHolder(LayoutInflater inflater, ViewGroup parent) {
-      super(inflater.inflate(R.layout.simple_list_item_checkbox_right, parent, false));
-    }
-
-    void bind(SettingsFragmentHelper settingsFragmentHelper) {
-      CheckBox checkBox = itemView.findViewById(R.id.check_box);
-      checkBox.setChecked(settingsFragmentHelper.isCheckedByDefault());
-      checkBox.setClickable(false);
-
-      TextView textView = itemView.findViewById(R.id.text_view);
-      textView.setText(settingsFragmentHelper.text);
-
-      itemView.setOnClickListener(view -> {
-        checkBox.setChecked(!checkBox.isChecked());
-        settingsFragmentHelper.onClickListener.onClick(itemView);
-      });
-    }
-  }
-
-  private class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private final List<SettingsFragmentHelper> list;
-
-    SettingsAdapter(List<SettingsFragmentHelper> list) {
-      this.list = list;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-      switch (viewType) {
-        case TYPE_DEFAULT:
-          return new SimpleViewHolder(layoutInflater, parent);
-        case TYPE_CHECKABLE:
-          return new CheckableViewHolder(layoutInflater, parent);
-      }
-      throw new RuntimeException();
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-      SettingsFragmentHelper item = list.get(position);
-      switch (holder.getItemViewType()) {
-        case TYPE_DEFAULT:
-          ((SimpleViewHolder) holder).bind(item);
-          break;
-        case TYPE_CHECKABLE:
-          ((CheckableViewHolder) holder).bind(item);
-          break;
-      }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-      return list.get(position).type;
-    }
-
-    @Override
-    public int getItemCount() {
-      return list.size();
-    }
-
-  }
-
-  class SettingsFragmentHelper {
-
-    private final String text;
-    private final View.OnClickListener onClickListener;
-    private final int type;
-    private boolean isCheckedByDefault;
-
-    SettingsFragmentHelper(String text, OnClickListener onClickListener, int type) {
-      this.text = text;
-      this.onClickListener = onClickListener;
-      this.type = type;
-    }
-
-    boolean isCheckedByDefault() {
-      return isCheckedByDefault;
-    }
-
-    void setCheckedByDefault(boolean checkedByDefault) {
-      isCheckedByDefault = checkedByDefault;
-    }
-  }
 }

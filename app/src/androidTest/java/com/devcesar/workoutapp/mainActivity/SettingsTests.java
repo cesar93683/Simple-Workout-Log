@@ -52,12 +52,12 @@ public class SettingsTests {
     bottomNavigationItemView.perform(click());
 
     ViewInteraction appCompatTextView = onView(
-        allOf(withText("Import Default Exercises, Categories, Routines"),
+        allOf(withId(R.id.import_default_items),
+            withText("Import Default Exercises, Categories, Routines"),
             childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
                 2),
             isDisplayed()));
     appCompatTextView.perform(click());
@@ -181,12 +181,12 @@ public class SettingsTests {
     bottomNavigationItemView3.perform(click());
 
     ViewInteraction appCompatTextView = onView(
-        allOf(withText("Delete All Exercises, Categories, and Routines"),
+        allOf(withId(R.id.delete_all_items),
+            withText("Delete All Exercises, Categories, and Routines"),
             childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
                 1),
             isDisplayed()));
     appCompatTextView.perform(click());
@@ -274,12 +274,12 @@ public class SettingsTests {
     bottomNavigationItemView7.perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Import Default Exercises, Categories, Routines"),
+        allOf(withId(R.id.import_default_items),
+            withText("Import Default Exercises, Categories, Routines"),
             childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
                 2),
             isDisplayed()));
     appCompatTextView2.perform(click());
@@ -423,6 +423,12 @@ public class SettingsTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction bottomNavigationItemView = onView(
         allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
             childAtPosition(
@@ -434,12 +440,11 @@ public class SettingsTests {
     bottomNavigationItemView.perform(click());
 
     ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("Delete All Workouts"),
+        allOf(withId(R.id.delete_all_workouts), withText("Delete All Workouts"),
             childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        0)),
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
                 0),
             isDisplayed()));
     appCompatTextView3.perform(click());

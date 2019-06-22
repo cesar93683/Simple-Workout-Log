@@ -929,12 +929,12 @@ public class TimerTests {
     bottomNavigationItemView.perform(click());
 
     ViewInteraction constraintLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
+        allOf(withId(R.id.auto_start_timer),
+            childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    0)),
-            3),
+                    withId(R.id.coordinator_layout),
+                    0),
+                3),
             isDisplayed()));
     constraintLayout.perform(click());
 
@@ -1006,6 +1006,12 @@ public class TimerTests {
                 2)));
     appCompatButton3.perform(scrollTo(), click());
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
             childAtPosition(
@@ -1017,12 +1023,12 @@ public class TimerTests {
     bottomNavigationItemView3.perform(click());
 
     ViewInteraction constraintLayout2 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
+        allOf(withId(R.id.auto_start_timer),
+            childAtPosition(
                 childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    0)),
-            3),
+                    withId(R.id.coordinator_layout),
+                    0),
+                3),
             isDisplayed()));
     constraintLayout2.perform(click());
 
