@@ -493,7 +493,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -504,7 +504,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 1),
             isDisplayed()));
@@ -515,7 +515,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 2),
             isDisplayed()));
@@ -685,7 +685,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -696,7 +696,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 1),
             isDisplayed()));
@@ -773,7 +773,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -885,7 +885,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -1584,7 +1584,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
@@ -1721,7 +1721,7 @@ public class CategoryTests {
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        withId(R.id.coordinator_layout),
                         0)),
                 0),
             isDisplayed()));
