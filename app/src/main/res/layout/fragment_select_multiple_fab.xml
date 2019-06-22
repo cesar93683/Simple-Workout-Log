@@ -22,6 +22,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom|end"
       app:fab_addButtonColorNormal="@color/colorAccent"
+      app:fab_addButtonColorPressed="@color/colorAccentDark"
+      app:layout_behavior=".utils.FloatingActionButtonBehavior"
       app:fab_addButtonPlusIconColor="@color/white"
       app:fab_labelStyle="@style/custom_fab_label">
 
