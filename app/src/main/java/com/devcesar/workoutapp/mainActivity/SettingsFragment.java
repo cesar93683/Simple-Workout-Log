@@ -109,10 +109,13 @@ public class SettingsFragment extends Fragment {
         .setPositiveButton(R.string.yes,
             (dialogInterface, i) -> {
               WorkoutLab.get(getActivity()).deleteAll();
-              Snackbar.make(coordinatorLayout, R.string.all_workouts_deleted,
-                  Snackbar.LENGTH_LONG).show();
+              showSnackbar(R.string.all_workouts_deleted);
             })
         .show();
+  }
+
+  private void showSnackbar(int resId) {
+    Snackbar.make(coordinatorLayout, resId, Snackbar.LENGTH_SHORT).show();
   }
 
   private void showDeleteAllItemsDialog() {
@@ -126,9 +129,7 @@ public class SettingsFragment extends Fragment {
               CategoryOrRoutineLab.getRoutineLab(getActivity()).deleteAll();
               ExerciseLab.get(getActivity()).deleteAll();
               ((MainActivity) getActivity()).refreshFragments();
-              Snackbar.make(coordinatorLayout,
-                  R.string.all_exercises_categories_routines_deleted,
-                  Snackbar.LENGTH_LONG).show();
+              showSnackbar(R.string.all_exercises_categories_routines_deleted);
             })
         .show();
   }
@@ -141,8 +142,7 @@ public class SettingsFragment extends Fragment {
             (dialogInterface, i) -> {
               InitDatabase.run(getActivity());
               ((MainActivity) getActivity()).refreshFragments();
-              Snackbar.make(coordinatorLayout, R.string.import_successful,
-                  Snackbar.LENGTH_LONG).show();
+              showSnackbar(R.string.import_successful);
             })
         .show();
   }

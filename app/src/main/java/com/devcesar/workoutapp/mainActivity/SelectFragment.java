@@ -1,5 +1,6 @@
 package com.devcesar.workoutapp.mainActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,8 +21,13 @@ import com.devcesar.workoutapp.R;
 import com.devcesar.workoutapp.databinding.DialogEditOrDeleteBinding;
 import com.devcesar.workoutapp.databinding.DialogInputBinding;
 import com.devcesar.workoutapp.databinding.FragmentSelectWithFilterBinding;
+import com.devcesar.workoutapp.exerciseActivity.ExerciseActivity;
+import com.devcesar.workoutapp.labs.CategoryOrRoutineLab;
+import com.devcesar.workoutapp.labs.ExerciseLab;
+import com.devcesar.workoutapp.labs.NamedEntityLab;
 import com.devcesar.workoutapp.utils.Constants;
 import com.devcesar.workoutapp.utils.NamedEntity;
+import com.devcesar.workoutapp.viewExercisesActivity.ViewExercisesActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
@@ -33,8 +39,10 @@ public class SelectFragment extends Fragment {
   private ArrayList<NamedEntity> filtered;
   private String textFilter;
   private NamedEntityAdapter namedEntityAdapter;
-  private SelectFragmentHelper selectFragmentHelper;
   private CoordinatorLayout coordinatorLayout;
+  private int type;
+  private String name;
+  private NamedEntityLab lab;
 
   public SelectFragment() {
     // Required empty public constructor
@@ -51,9 +59,24 @@ public class SelectFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    int type = getArguments().getInt(Constants.TYPE);
+    type = getArguments().getInt(Constants.TYPE);
 
-    selectFragmentHelper = SelectFragmentFactoryHelper.getSelectFragmentHelper(type, getActivity());
+    switch (type) {
+      case Constants.TYPE_EXERCISE:
+        name = getString(R.string.exercise);
+        lab = ExerciseLab.get(getActivity());
+        break;
+      case Constants.TYPE_CATEGORY:
+        name = getString(R.string.category);
+        lab = CategoryOrRoutineLab.getCategoryLab(getActivity());
+        break;
+      case Constants.TYPE_ROUTINE:
+        name = getString(R.string.routine);
+        lab = CategoryOrRoutineLab.getRoutineLab(getActivity());
+        break;
+      default:
+        throw new RuntimeException("Error: type does not exists");
+    }
 
     textFilter = "";
     filtered = new ArrayList<>();
@@ -63,7 +86,7 @@ public class SelectFragment extends Fragment {
 
   private void updateFiltered() {
     filtered.clear();
-    filtered.addAll(selectFragmentHelper.getLab().getFiltered(textFilter));
+    filtered.addAll(lab.getFiltered(textFilter));
     Collections.sort(filtered);
     namedEntityAdapter.notifyDataSetChanged();
   }
@@ -87,14 +110,13 @@ public class SelectFragment extends Fragment {
     return binding.getRoot();
   }
 
-
   private void showNewDialog() {
     final DialogInputBinding dialogBinding = DataBindingUtil
         .inflate(LayoutInflater.from(getContext()), R.layout.dialog_input, null, false);
 
     final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setView(dialogBinding.getRoot())
-        .setMessage(String.format(getString(R.string.new_item), selectFragmentHelper.getName()))
+        .setMessage(String.format(getString(R.string.new_item), name))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -139,10 +161,10 @@ public class SelectFragment extends Fragment {
   }
 
   private void createNewNamedEntity(String newName) {
-    selectFragmentHelper.getLab().insert(newName);
+    lab.insert(newName);
     updateFiltered();
     showSnackbar(String.format(getString(R.string.new_item_created),
-        selectFragmentHelper.getName().toLowerCase()));
+        name.toLowerCase()));
   }
 
   private boolean validateNotEmpty(String name, TextInputLayout textInputLayout) {
@@ -154,9 +176,9 @@ public class SelectFragment extends Fragment {
   }
 
   private boolean validateUniqueName(String name, TextInputLayout textInputLayout) {
-    if (selectFragmentHelper.getLab().contains(name)) {
+    if (lab.contains(name)) {
       textInputLayout.setError(
-          String.format(getString(R.string.item_already_exists), selectFragmentHelper.getName()));
+          String.format(getString(R.string.item_already_exists), name));
       return false;
     }
     return true;
@@ -196,7 +218,7 @@ public class SelectFragment extends Fragment {
 
     final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setView(dialogBinding.getRoot())
-        .setMessage(String.format(getString(R.string.rename_item), selectFragmentHelper.getName()))
+        .setMessage(String.format(getString(R.string.rename_item), name))
         .setNegativeButton(R.string.cancel, null)
         .setPositiveButton(R.string.save, null)
         .create();
@@ -219,9 +241,20 @@ public class SelectFragment extends Fragment {
     alertDialog.show();
   }
 
+  private void renameNamedEntity(NamedEntity namedEntity, String newName) {
+    lab.updateName(namedEntity.getId(), newName);
+    updateFiltered();
+    showSnackbar(getString(R.string.rename_successful));
+  }
+
+  private boolean validateRename(String oldName, String newName, TextInputLayout textInputLayout) {
+    return validateNotEmpty(newName, textInputLayout) && validateNotSameName(oldName, newName,
+        textInputLayout) && validateUniqueName(newName, textInputLayout);
+  }
+
   private void showDeleteDialog(final NamedEntity namedEntity) {
     String deleteConfirmationMsg = String.format(getString(R.string.delete_item_confirmation),
-        selectFragmentHelper.getName().toLowerCase());
+        name.toLowerCase());
 
     new AlertDialog.Builder(getActivity())
         .setMessage(deleteConfirmationMsg)
@@ -230,21 +263,10 @@ public class SelectFragment extends Fragment {
         .show();
   }
 
-  private boolean validateRename(String oldName, String newName, TextInputLayout textInputLayout) {
-    return validateNotEmpty(newName, textInputLayout) && validateNotSameName(oldName, newName,
-        textInputLayout) && validateUniqueName(newName, textInputLayout);
-  }
-
-  private void renameNamedEntity(NamedEntity namedEntity, String newName) {
-    selectFragmentHelper.getLab().updateName(namedEntity.getId(), newName);
-    updateFiltered();
-    showSnackbar(getString(R.string.rename_successful));
-  }
-
   private void deleteNamedEntity(NamedEntity namedEntity) {
-    selectFragmentHelper.getLab().delete(namedEntity.getId(), getContext());
+    lab.delete(namedEntity.getId(), getContext());
     showSnackbar(
-        String.format(getString(R.string.item_deleted), selectFragmentHelper.getName()));
+        String.format(getString(R.string.item_deleted), name));
     updateFiltered();
   }
 
@@ -275,7 +297,19 @@ public class SelectFragment extends Fragment {
 
     @Override
     public void onClick(View view) {
-      selectFragmentHelper.onClick(namedEntity);
+      Intent intent;
+      switch (type) {
+        case Constants.TYPE_EXERCISE:
+          intent = ExerciseActivity.newIntent(getActivity(), namedEntity);
+          break;
+        case Constants.TYPE_CATEGORY:
+        case Constants.TYPE_ROUTINE:
+          intent = ViewExercisesActivity.newIntent(getActivity(), namedEntity, type);
+          break;
+        default:
+          throw new RuntimeException("Error: type does not exists");
+      }
+      startActivity(intent);
     }
 
     @Override
@@ -312,6 +346,4 @@ public class SelectFragment extends Fragment {
       return namedEntities.size();
     }
   }
-
-
 }
