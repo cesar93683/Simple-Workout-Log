@@ -83,7 +83,8 @@ public class EditRoutineFragment extends Fragment {
     itemTouchHelper = new ItemTouchHelper(
         new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
           @Override
-          public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+          public boolean onMove(@NonNull RecyclerView recyclerView,
+              @NonNull RecyclerView.ViewHolder viewHolder,
               @NonNull RecyclerView.ViewHolder target) {
             int viewHolderPosition = viewHolder.getAdapterPosition();
             int targetPosition = target.getAdapterPosition();
@@ -135,10 +136,13 @@ public class EditRoutineFragment extends Fragment {
       exercises.addAll(newExercises);
       exerciseAdapter.notifyDataSetChanged();
       hasBeenModified = true;
-      Snackbar.make(getActivity().findViewById(android.R.id.content),
-          String.format(getString(R.string.item_updated), getString(R.string.routine)),
-          Snackbar.LENGTH_SHORT).show();
+      showSnackbar(String.format(getString(R.string.item_updated), getString(R.string.routine)));
     }
+  }
+
+  private void showSnackbar(String text) {
+    Snackbar.make(getActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT)
+        .show();
   }
 
   void onBackPressed() {
@@ -173,9 +177,8 @@ public class EditRoutineFragment extends Fragment {
           }
           hasBeenModified = true;
           exerciseAdapter.notifyDataSetChanged();
-          Snackbar.make(getActivity().findViewById(android.R.id.content),
-              String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
-              Snackbar.LENGTH_SHORT).show();
+          showSnackbar(
+              String.format(getString(R.string.item_deleted), getString(R.string.exercise)));
         })
         .show();
   }

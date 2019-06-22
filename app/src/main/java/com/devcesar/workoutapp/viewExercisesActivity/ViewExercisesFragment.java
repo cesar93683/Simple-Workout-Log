@@ -130,9 +130,13 @@ public class ViewExercisesFragment extends Fragment {
         lab.updateExercises(namedEntity.getId(), exercises);
       }
       exerciseAdapter.notifyDataSetChanged();
-      Snackbar.make(getActivity().findViewById(android.R.id.content),
-          String.format(getString(R.string.item_updated), nameType), Snackbar.LENGTH_SHORT).show();
+      showSnackbar(String.format(getString(R.string.item_updated), nameType));
     }
+  }
+
+  private void showSnackbar(String text) {
+    Snackbar.make(getActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT)
+        .show();
   }
 
   private void showDeleteExerciseDialog(int exerciseId) {
@@ -150,9 +154,7 @@ public class ViewExercisesFragment extends Fragment {
     exercises.clear();
     exercises.addAll(lab.getExercises(namedEntity.getId(), getContext()));
     exerciseAdapter.notifyDataSetChanged();
-    Snackbar.make(getActivity().findViewById(android.R.id.content),
-        String.format(getString(R.string.item_deleted), getString(R.string.exercise)),
-        Snackbar.LENGTH_SHORT).show();
+    showSnackbar(String.format(getString(R.string.item_deleted), getString(R.string.exercise)));
   }
 
   private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {

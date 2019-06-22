@@ -161,7 +161,7 @@ public class ExerciseFragment extends Fragment {
         .getBoolean(SHOULD_AUTO_START_TIMER, false)) {
       ((ExerciseActivity) (getActivity())).startTimer();
     }
-    makeSnackbar(getString(R.string.set_added));
+    showSnackbar(getString(R.string.set_added));
   }
 
   private void saveSets() {
@@ -178,7 +178,7 @@ public class ExerciseFragment extends Fragment {
     return true;
   }
 
-  private void makeSnackbar(String text) {
+  private void showSnackbar(String text) {
     Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT).show();
   }
 
@@ -266,7 +266,7 @@ public class ExerciseFragment extends Fragment {
 
     alertDialog.dismiss();
     hasBeenModified = true;
-    makeSnackbar(String.format(getString(R.string.item_updated), getString(R.string.set)));
+    showSnackbar(String.format(getString(R.string.item_updated), getString(R.string.set)));
   }
 
   private void deleteExerciseSet(int position) {
@@ -274,7 +274,7 @@ public class ExerciseFragment extends Fragment {
     updateExerciseSetNumbers(position);
     exerciseSetsAdapter.notifyDataSetChanged();
     hasBeenModified = true;
-    makeSnackbar(String.format(getString(R.string.item_deleted), getString(R.string.set)));
+    showSnackbar(String.format(getString(R.string.item_deleted), getString(R.string.set)));
   }
 
   private void updateExerciseSetNumbers(int position) {
