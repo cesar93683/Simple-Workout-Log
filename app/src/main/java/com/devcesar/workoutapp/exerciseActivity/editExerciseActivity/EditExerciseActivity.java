@@ -41,7 +41,7 @@ public class EditExerciseActivity extends AppCompatActivity implements OnSaveSet
     exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
     timeStamp = getIntent().getLongExtra(EXTRA_TIME_STAMP, invalid);
     if (exerciseId == invalid || timeStamp == invalid) {
-      finish();
+      throw new RuntimeException("No id or timeStamp given");
     }
 
     String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);

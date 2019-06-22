@@ -30,7 +30,7 @@ public class EditRoutineActivity extends AppCompatActivity {
     int invalid = -1;
     int routineId = getIntent().getIntExtra(EXTRA_ROUTINE_ID, invalid);
     if (routineId == invalid) {
-      finish();
+      throw new RuntimeException("No id given");
     }
 
     String routineName = getIntent().getStringExtra(EXTRA_ROUTINE_NAME);

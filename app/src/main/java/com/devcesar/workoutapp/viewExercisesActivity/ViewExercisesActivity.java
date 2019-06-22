@@ -32,7 +32,7 @@ public class ViewExercisesActivity extends AppCompatActivity {
     int id = getIntent().getIntExtra(EXTRA_ID, invalid);
     int type = getIntent().getIntExtra(EXTRA_TYPE, invalid);
     if (id == invalid || type == invalid) {
-      finish();
+      throw new RuntimeException("No id or type given");
     }
 
     String name = getIntent().getStringExtra(EXTRA_NAME);

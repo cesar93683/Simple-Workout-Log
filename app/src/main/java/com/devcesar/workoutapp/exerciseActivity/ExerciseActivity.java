@@ -71,7 +71,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     int invalid = -1;
     int exerciseId = getIntent().getIntExtra(EXTRA_EXERCISE_ID, invalid);
     if (exerciseId == invalid) {
-      finish();
+      throw new RuntimeException("No id given");
     }
 
     String exerciseName = getIntent().getStringExtra(EXTRA_EXERCISE_NAME);
