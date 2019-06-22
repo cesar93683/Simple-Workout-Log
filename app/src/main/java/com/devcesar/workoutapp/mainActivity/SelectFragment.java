@@ -163,8 +163,7 @@ public class SelectFragment extends Fragment {
   private void createNewNamedEntity(String newName) {
     lab.insert(newName);
     updateFiltered();
-    showSnackbar(String.format(getString(R.string.new_item_created),
-        name.toLowerCase()));
+    showSnackbar(String.format(getString(R.string.new_item_created), name.toLowerCase()));
   }
 
   private boolean validateNotEmpty(String name, TextInputLayout textInputLayout) {
@@ -175,17 +174,18 @@ public class SelectFragment extends Fragment {
     return true;
   }
 
-  private boolean validateUniqueName(String name, TextInputLayout textInputLayout) {
-    if (lab.contains(name)) {
-      textInputLayout.setError(
-          String.format(getString(R.string.item_already_exists), name));
-      return false;
-    }
-    return true;
+  private void showSnackbar(String message) {
+    Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
   }
 
-  private void showSnackbar(String message) {
-    Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT)
+  private void showDeleteDialog(final NamedEntity namedEntity) {
+    String deleteConfirmationMsg = String
+        .format(getString(R.string.delete_item_confirmation), name.toLowerCase());
+
+    new AlertDialog.Builder(getActivity())
+        .setMessage(deleteConfirmationMsg)
+        .setNegativeButton(R.string.no, null)
+        .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteNamedEntity(namedEntity))
         .show();
   }
 
@@ -241,33 +241,30 @@ public class SelectFragment extends Fragment {
     alertDialog.show();
   }
 
+  private void deleteNamedEntity(NamedEntity namedEntity) {
+    lab.delete(namedEntity.getId(), getContext());
+    showSnackbar(String.format(getString(R.string.item_deleted), name));
+    updateFiltered();
+  }
+
+  private boolean validateRename(String oldName, String newName, TextInputLayout textInputLayout) {
+    return validateNotEmpty(newName, textInputLayout)
+        && validateNotSameName(oldName, newName, textInputLayout)
+        && validateUniqueName(newName, textInputLayout);
+  }
+
+  private boolean validateUniqueName(String name, TextInputLayout textInputLayout) {
+    if (lab.contains(name)) {
+      textInputLayout.setError(String.format(getString(R.string.item_already_exists), name));
+      return false;
+    }
+    return true;
+  }
+
   private void renameNamedEntity(NamedEntity namedEntity, String newName) {
     lab.updateName(namedEntity.getId(), newName);
     updateFiltered();
     showSnackbar(getString(R.string.rename_successful));
-  }
-
-  private boolean validateRename(String oldName, String newName, TextInputLayout textInputLayout) {
-    return validateNotEmpty(newName, textInputLayout) && validateNotSameName(oldName, newName,
-        textInputLayout) && validateUniqueName(newName, textInputLayout);
-  }
-
-  private void showDeleteDialog(final NamedEntity namedEntity) {
-    String deleteConfirmationMsg = String.format(getString(R.string.delete_item_confirmation),
-        name.toLowerCase());
-
-    new AlertDialog.Builder(getActivity())
-        .setMessage(deleteConfirmationMsg)
-        .setNegativeButton(R.string.no, null)
-        .setPositiveButton(R.string.yes, (dialogInterface, i) -> deleteNamedEntity(namedEntity))
-        .show();
-  }
-
-  private void deleteNamedEntity(NamedEntity namedEntity) {
-    lab.delete(namedEntity.getId(), getContext());
-    showSnackbar(
-        String.format(getString(R.string.item_deleted), name));
-    updateFiltered();
   }
 
   private boolean validateNotSameName(String oldName, String newName,
