@@ -49,76 +49,50 @@ public class InitDatabase {
   private final String shoulders;
   private final ExerciseLab exerciseLab;
   private final CategoryOrRoutineLab categoryLab;
+  private final CategoryOrRoutineLab routineLab;
+  private final String strong5x5WorkoutA;
+  private final String strong5x5WorkoutB;
 
   private InitDatabase(Activity activity) {
     exerciseLab = ExerciseLab.get(activity);
     categoryLab = CategoryOrRoutineLab.getCategoryLab(activity);
+    routineLab = CategoryOrRoutineLab.getRoutineLab(activity);
 
     barbellBenchPress = activity.getString(R.string.barbell_bench_press);
-    tryToAddExercise(barbellBenchPress);
     barbellBenchPressIncline = activity.getString(R.string.barbell_bench_press_incline);
-    tryToAddExercise(barbellBenchPressIncline);
     dumbbellPress = activity.getString(R.string.dumbbell_press);
-    tryToAddExercise(dumbbellPress);
     dumbbellPressIncline = activity.getString(R.string.dumbbell_press_incline);
-    tryToAddExercise(dumbbellPressIncline);
     dumbbellChestFly = activity.getString(R.string.dumbbell_chest_fly);
-    tryToAddExercise(dumbbellChestFly);
 
     barbellBackSquat = activity.getString(R.string.barbell_back_squat);
-    tryToAddExercise(barbellBackSquat);
     barbellFrontSquat = activity.getString(R.string.barbell_front_squat);
-    tryToAddExercise(barbellFrontSquat);
     barbellLunge = activity.getString(R.string.barbell_lunge);
-    tryToAddExercise(barbellLunge);
     romanianDeadlift = activity.getString(R.string.romanian_deadlift);
-    tryToAddExercise(romanianDeadlift);
     legPressMachine = activity.getString(R.string.leg_press_machine);
-    tryToAddExercise(legPressMachine);
 
     barbellCurl = activity.getString(R.string.barbell_curl);
-    tryToAddExercise(barbellCurl);
     eZBarBicepsCurl = activity.getString(R.string.ez_bar_biceps_curl);
-    tryToAddExercise(eZBarBicepsCurl);
     alternatingDumbbellCurl = activity.getString(R.string.alternating_dumbbell_curl);
-    tryToAddExercise(alternatingDumbbellCurl);
     hammerDumbbellCurl = activity.getString(R.string.hammer_dumbbell_curl);
-    tryToAddExercise(hammerDumbbellCurl);
     standingCableCurl = activity.getString(R.string.standing_cable_curl);
-    tryToAddExercise(standingCableCurl);
 
     benchPressCloseGrip = activity.getString(R.string.bench_press_close_grip);
-    tryToAddExercise(benchPressCloseGrip);
     dumbbellOverheadTricepsPress = activity.getString(R.string.dumbbell_overhead_triceps_press);
-    tryToAddExercise(dumbbellOverheadTricepsPress);
     ezBarSkullCrushers = activity.getString(R.string.ez_bar_skull_crushers);
-    tryToAddExercise(ezBarSkullCrushers);
     dip = activity.getString(R.string.dip);
-    tryToAddExercise(dip);
     tricepsPushdown = activity.getString(R.string.triceps_pushdown);
-    tryToAddExercise(tricepsPushdown);
 
     deadlift = activity.getString(R.string.deadlift);
-    tryToAddExercise(deadlift);
     barbellRow = activity.getString(R.string.barbell_row);
-    tryToAddExercise(barbellRow);
     dumbbellRow = activity.getString(R.string.dumbbellRow);
-    tryToAddExercise(dumbbellRow);
     tBarRow = activity.getString(R.string.t_bar_row);
-    tryToAddExercise(tBarRow);
     latPulldown = activity.getString(R.string.lat_pulldown);
-    tryToAddExercise(latPulldown);
 
     overheadPress = activity.getString(R.string.overhead_press);
-    tryToAddExercise(overheadPress);
     dumbbellFrontRaise = activity.getString(R.string.dumbbell_front_raise);
-    tryToAddExercise(dumbbellFrontRaise);
     dumbbellSideLateralRaise = activity.getString(R.string.dumbbell_side_lateral_raise);
-    tryToAddExercise(dumbbellSideLateralRaise);
     seatedDumbbellPress = activity.getString(R.string.seated_dumbbell_press);
-    tryToAddExercise(seatedDumbbellPress);
     dumbbellInclineRow = activity.getString(R.string.dumbbell_incline_row);
-    tryToAddExercise(dumbbellInclineRow);
 
     chest = activity.getString(R.string.chest);
     legs = activity.getString(R.string.legs);
@@ -126,45 +100,66 @@ public class InitDatabase {
     triceps = activity.getString(R.string.triceps);
     back = activity.getString(R.string.back);
     shoulders = activity.getString(R.string.shoulders);
-
     initCategories();
-  }
 
-  private void tryToAddExercise(String name) {
-    if (exerciseLab.contains(name)) {
-      return;
-    }
-    exerciseLab.insert(name);
+    strong5x5WorkoutA = activity.getString(R.string.strong_5x5_workout_a);
+    strong5x5WorkoutB = activity.getString(R.string.strong_5x5_workout_b);
+
+    initRoutines();
   }
 
   private void initCategories() {
     ArrayList<String> chestExercises = new ArrayList<>(Arrays.asList(
         barbellBenchPress, barbellBenchPressIncline, dumbbellPress, dumbbellPressIncline,
         dumbbellChestFly));
+    initExercises(chestExercises);
     initCategory(chest, chestExercises);
 
     ArrayList<String> legExercises = new ArrayList<>(Arrays.asList(
         barbellBackSquat, barbellFrontSquat, barbellLunge, romanianDeadlift, legPressMachine));
+    initExercises(legExercises);
     initCategory(legs, legExercises);
 
     ArrayList<String> bicepExercises = new ArrayList<>(Arrays.asList(
         barbellCurl, eZBarBicepsCurl, alternatingDumbbellCurl, hammerDumbbellCurl, standingCableCurl
     ));
+    initExercises(bicepExercises);
     initCategory(biceps, bicepExercises);
 
     ArrayList<String> tricepExercises = new ArrayList<>(Arrays.asList(
         benchPressCloseGrip, dumbbellOverheadTricepsPress, ezBarSkullCrushers, tricepsPushdown,
         dip));
+    initExercises(tricepExercises);
     initCategory(triceps, tricepExercises);
 
     ArrayList<String> backExercises = new ArrayList<>(Arrays.asList(
         deadlift, barbellRow, dumbbellRow, tBarRow, latPulldown));
+    initExercises(backExercises);
     initCategory(back, backExercises);
 
     ArrayList<String> shoulderExercises = new ArrayList<>(Arrays.asList(
         overheadPress, dumbbellFrontRaise, dumbbellSideLateralRaise, seatedDumbbellPress,
         dumbbellInclineRow));
+    initExercises(shoulderExercises);
     initCategory(shoulders, shoulderExercises);
+  }
+
+  private void initRoutines() {
+    ArrayList<String> strong5x5workoutAExercises = new ArrayList<>(Arrays.asList(
+        barbellBackSquat, barbellBenchPress, barbellRow
+    ));
+    initRoutine(strong5x5WorkoutA, strong5x5workoutAExercises);
+
+    ArrayList<String> strong5x5workoutBExercises = new ArrayList<>(Arrays.asList(
+        barbellBackSquat, overheadPress, deadlift
+    ));
+    initRoutine(strong5x5WorkoutB, strong5x5workoutBExercises);
+  }
+
+  private void initExercises(ArrayList<String> exercises) {
+    for (String exercise : exercises) {
+      tryToAddExercise(exercise);
+    }
   }
 
   private void initCategory(String categoryName, ArrayList<String> exerciseNames) {
@@ -173,6 +168,21 @@ public class InitDatabase {
     }
     List<NamedEntity> exercises = exerciseLab.getExercises(exerciseNames);
     categoryLab.insert(categoryName, exercises);
+  }
+
+  private void initRoutine(String routineName, ArrayList<String> exerciseNames) {
+    if (routineLab.contains(routineName)) {
+      return;
+    }
+    List<NamedEntity> exercises = exerciseLab.getExercises(exerciseNames);
+    routineLab.insert(routineName, exercises);
+  }
+
+  private void tryToAddExercise(String name) {
+    if (exerciseLab.contains(name)) {
+      return;
+    }
+    exerciseLab.insert(name);
   }
 
   public static void run(Activity activity) {

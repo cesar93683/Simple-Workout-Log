@@ -104,5 +104,7 @@
   <string name="are_you_sure_delete_all">Are you sure want to delete all exercises, categories, and routines?</string>
   <string name="all_workouts_deleted">All workouts deleted</string>
   <string name="are_you_sure_delete_all_workouts">Are you sure want to delete all workouts?</string>
+  <string name="strong_5x5_workout_a">Strong 5x5 - Workout A</string>
+  <string name="strong_5x5_workout_b">Strong 5x5 - Workout B</string>
 
 </resources>
