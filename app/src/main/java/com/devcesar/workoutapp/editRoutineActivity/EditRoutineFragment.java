@@ -19,6 +19,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.devcesar.workoutapp.R;
@@ -39,6 +40,7 @@ public class EditRoutineFragment extends Fragment {
 
   private static final int REQ_ADD_EXERCISE = 1;
   private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
+  private static final String EXTRA_HAS_BEEN_MODIFIED = "EXTRA_HAS_BEEN_MODIFIED";
 
   private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
@@ -63,18 +65,22 @@ public class EditRoutineFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     int routineId = getArguments().getInt(ARG_ROUTINE_ID);
     String routineName = getArguments().getString(ARG_ROUTINE_NAME);
     routine = new NamedEntity(routineName, routineId);
+
     if (savedInstanceState == null) {
       CategoryOrRoutineLab routineLab = CategoryOrRoutineLab.getRoutineLab(getContext());
       exercises = routineLab.getExercises(routineId, getContext());
+      hasBeenModified = false;
     } else {
       ArrayList<Integer> exerciseIds = savedInstanceState.getIntegerArrayList(EXTRA_EXERCISE_IDS);
       exercises = ExerciseLab.get(getContext()).findExercises(exerciseIds);
+      hasBeenModified = savedInstanceState.getBoolean(EXTRA_HAS_BEEN_MODIFIED);
     }
+
     exerciseAdapter = new ExerciseAdapter(exercises);
-    hasBeenModified = false;
   }
 
   @Override
@@ -89,30 +95,7 @@ public class EditRoutineFragment extends Fragment {
             DividerItemDecoration.VERTICAL));
     binding.recyclerView.setAdapter(exerciseAdapter);
 
-    itemTouchHelper = new ItemTouchHelper(
-        new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-          @Override
-          public boolean onMove(@NonNull RecyclerView recyclerView,
-              @NonNull RecyclerView.ViewHolder viewHolder,
-              @NonNull RecyclerView.ViewHolder target) {
-            int viewHolderPosition = viewHolder.getAdapterPosition();
-            int targetPosition = target.getAdapterPosition();
-            Collections.swap(exercises, viewHolderPosition, targetPosition);
-            exerciseAdapter.notifyItemMoved(viewHolderPosition, targetPosition);
-            hasBeenModified = true;
-            return false;
-          }
-
-          @Override
-          public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-          }
-
-          @Override
-          public boolean isLongPressDragEnabled() {
-            return false;
-          }
-        });
+    itemTouchHelper = new ItemTouchHelper(getItemTouchHelperCallback());
     itemTouchHelper.attachToRecyclerView(binding.recyclerView);
 
     binding.fabAction1.setTitle(getString(R.string.add_exercises));
@@ -124,6 +107,31 @@ public class EditRoutineFragment extends Fragment {
     coordinatorLayout = binding.coordinatorLayout;
 
     return binding.getRoot();
+  }
+
+  private SimpleCallback getItemTouchHelperCallback() {
+    return new SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+      @Override
+      public boolean onMove(@NonNull RecyclerView recyclerView,
+          @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        int viewHolderPosition = viewHolder.getAdapterPosition();
+        int targetPosition = target.getAdapterPosition();
+        Collections.swap(exercises, viewHolderPosition, targetPosition);
+        exerciseAdapter.notifyItemMoved(viewHolderPosition, targetPosition);
+        hasBeenModified = true;
+        return false;
+      }
+
+      @Override
+      public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+      }
+
+      @Override
+      public boolean isLongPressDragEnabled() {
+        return false;
+      }
+    };
   }
 
   private void addExercise() {
@@ -141,6 +149,7 @@ public class EditRoutineFragment extends Fragment {
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     outState.putIntegerArrayList(EXTRA_EXERCISE_IDS, getIds(exercises));
+    outState.putBoolean(EXTRA_HAS_BEEN_MODIFIED, hasBeenModified);
     super.onSaveInstanceState(outState);
   }
 
@@ -209,12 +218,15 @@ public class EditRoutineFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     ExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
       super(inflater.inflate(R.layout.draggable_list_item, parent, false));
+
       textView = itemView.findViewById(R.id.text_view);
+
       ImageView imageView = itemView.findViewById(R.id.drag_image_view);
       imageView.setOnTouchListener((view, event) -> {
         itemTouchHelper.startDrag(ExerciseHolder.this);
         return true;
       });
+
       itemView.setOnLongClickListener(view -> {
         showDeleteExerciseDialog(exercise.getId());
         return false;
