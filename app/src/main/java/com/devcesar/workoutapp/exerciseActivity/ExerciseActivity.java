@@ -45,8 +45,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   private static final String EXTRA_IS_TIMER_RUNNING = "EXTRA_IS_TIMER_RUNNING";
   private static final String EXTRA_TIME_LEFT_IN_MILLIS = "EXTRA_TIME_LEFT_IN_MILLIS";
   private final int NOTIFICATION_TIMER_ID = 1;
-  private boolean isTimerRunning;
+  private final int EXERCISE_FRAGMENT_POSITION = 0;
   private boolean isShowingNotification;
+  private boolean isTimerRunning;
   private int startTime;
   private long timeLeftInMillis;
   private CountDownTimer countDownTimer;
@@ -307,9 +308,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
   @Override
   public void onBackPressed() {
-    Fragment page = getSupportFragmentManager()
-        .findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + 0);
-    ((ExerciseFragment) page).onBackPressed();
+    Fragment exerciseFragment = getSupportFragmentManager().findFragmentByTag(
+        "android:switcher:" + R.id.view_pager + ":" + EXERCISE_FRAGMENT_POSITION);
+    ((ExerciseFragment) exerciseFragment).onBackPressed();
   }
 
   @Override
@@ -345,7 +346,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     public Fragment getItem(int position) {
       Fragment fragment = null;
       switch (position) {
-        case 0:
+        case EXERCISE_FRAGMENT_POSITION:
           fragment = ExerciseFragment.newInstance(exercise.getId());
           break;
         case 1:
