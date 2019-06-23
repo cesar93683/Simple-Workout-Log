@@ -74,9 +74,15 @@ public class ExerciseFragment extends Fragment {
     int exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
     long timeStamp = getArguments().getLong(ARGS_TIME_STAMP);
 
+    isEditing = timeStamp != NO_TIME_STAMP;
+
     if (savedInstanceState == null) {
       hasBeenModified = false;
       exerciseSets = new ArrayList<>();
+      if (isEditing) {
+        exerciseSets.addAll(
+            WorkoutLab.get(getActivity()).getWorkout(exerciseId, timeStamp).getExerciseSets());
+      }
     } else {
       hasBeenModified = savedInstanceState.getBoolean(EXTRA_HAS_BEEN_MODIFIED);
       exerciseSets = new Gson().fromJson(savedInstanceState.getString(EXTRA_EXERCISE_SETS),
@@ -84,12 +90,6 @@ public class ExerciseFragment extends Fragment {
           }.getType());
     }
 
-    isEditing = timeStamp != NO_TIME_STAMP;
-
-    if (isEditing) {
-      exerciseSets.addAll(
-          WorkoutLab.get(getActivity()).getWorkout(exerciseId, timeStamp).getExerciseSets());
-    }
     exerciseSetsAdapter = new ExerciseSetAdapter(exerciseSets);
   }
 
@@ -104,6 +104,7 @@ public class ExerciseFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
+
     FragmentExerciseBinding binding = DataBindingUtil
         .inflate(inflater, R.layout.fragment_exercise, container, false);
 
