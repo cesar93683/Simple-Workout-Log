@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+  private static final String ACTIVE_FRAGMENT_TAG = "ACTIVE_FRAGMENT_TAG";
   private Fragment settingsFragment;
   private Fragment exerciseFragment;
   private Fragment categoryFragment;
@@ -86,25 +87,47 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
-    exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
-    categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
-    routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
-    settingsFragment = SettingsFragment.newInstance();
+    if (savedInstanceState != null) {
+      exerciseFragment = getSupportFragmentManager()
+          .findFragmentByTag(getString(R.string.exercise));
 
-    activeFragment = exerciseFragment;
+      categoryFragment = getSupportFragmentManager()
+          .findFragmentByTag(getString(R.string.category));
 
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(R.id.fragment_container, exerciseFragment)
-        .add(R.id.fragment_container, categoryFragment)
-        .hide(categoryFragment)
-        .add(R.id.fragment_container, routineFragment)
-        .hide(routineFragment)
-        .add(R.id.fragment_container, settingsFragment)
-        .hide(settingsFragment)
-        .commit();
+      routineFragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.routine));
 
-    setTitle(R.string.exercise);
+      settingsFragment = getSupportFragmentManager()
+          .findFragmentByTag(getString(R.string.settings));
+
+      String activeFragmentTag = savedInstanceState.getString(ACTIVE_FRAGMENT_TAG);
+      activeFragment = getSupportFragmentManager().findFragmentByTag(activeFragmentTag);
+      setTitle(activeFragmentTag);
+    } else {
+      exerciseFragment = SelectFragment.newInstance(Constants.TYPE_EXERCISE);
+      categoryFragment = SelectFragment.newInstance(Constants.TYPE_CATEGORY);
+      routineFragment = SelectFragment.newInstance(Constants.TYPE_ROUTINE);
+      settingsFragment = SettingsFragment.newInstance();
+
+      activeFragment = exerciseFragment;
+
+      getSupportFragmentManager()
+          .beginTransaction()
+          .add(R.id.fragment_container, exerciseFragment, getString(R.string.exercise))
+          .add(R.id.fragment_container, categoryFragment, getString(R.string.category))
+          .hide(categoryFragment)
+          .add(R.id.fragment_container, routineFragment, getString(R.string.routine))
+          .hide(routineFragment)
+          .add(R.id.fragment_container, settingsFragment, getString(R.string.settings))
+          .hide(settingsFragment)
+          .commit();
+
+      setTitle(R.string.exercise);
+    }
   }
 
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    outState.putString(ACTIVE_FRAGMENT_TAG, activeFragment.getTag());
+    super.onSaveInstanceState(outState);
+  }
 }

@@ -24,8 +24,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsFragment extends Fragment {
 
-  private static final int TYPE_DEFAULT = 0;
-  private static final int TYPE_CHECKABLE = 1;
   private CoordinatorLayout coordinatorLayout;
 
   public SettingsFragment() {
