@@ -26,6 +26,8 @@ import com.devcesar.workoutapp.labs.WorkoutLab;
 import com.devcesar.workoutapp.utils.ExerciseSet;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class ExerciseFragment extends Fragment {
   private static final String ARGS_EXERCISE_ID = "ARGS_EXERCISE_ID";
   private static final String ARGS_TIME_STAMP = "ARGS_TIME_STAMP";
   private static final long NO_TIME_STAMP = -1;
+  private static final String EXTRA_HAS_BEEN_MODIFIED = "EXTRA_HAS_BEEN_MODIFIED";
+  private static final String EXTRA_EXERCISE_SETS = "EXTRA_EXERCISE_SETS";
   private OnSaveSetsListener listener;
   private ArrayList<ExerciseSet> exerciseSets;
   private ExerciseSetAdapter exerciseSetsAdapter;
@@ -70,9 +74,16 @@ public class ExerciseFragment extends Fragment {
     int exerciseId = getArguments().getInt(ARGS_EXERCISE_ID);
     long timeStamp = getArguments().getLong(ARGS_TIME_STAMP);
 
-    hasBeenModified = false;
+    if (savedInstanceState == null) {
+      hasBeenModified = false;
+      exerciseSets = new ArrayList<>();
+    } else {
+      hasBeenModified = savedInstanceState.getBoolean(EXTRA_HAS_BEEN_MODIFIED);
+      exerciseSets = new Gson().fromJson(savedInstanceState.getString(EXTRA_EXERCISE_SETS),
+          new TypeToken<ArrayList<ExerciseSet>>() {
+          }.getType());
+    }
 
-    exerciseSets = new ArrayList<>();
     isEditing = timeStamp != NO_TIME_STAMP;
 
     if (isEditing) {
@@ -80,6 +91,13 @@ public class ExerciseFragment extends Fragment {
           WorkoutLab.get(getActivity()).getWorkout(exerciseId, timeStamp).getExerciseSets());
     }
     exerciseSetsAdapter = new ExerciseSetAdapter(exerciseSets);
+  }
+
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(EXTRA_HAS_BEEN_MODIFIED, hasBeenModified);
+    outState.putString(EXTRA_EXERCISE_SETS, new Gson().toJson(exerciseSets));
   }
 
   @Nullable

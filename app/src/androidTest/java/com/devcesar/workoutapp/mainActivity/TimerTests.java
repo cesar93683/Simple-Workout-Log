@@ -32,6 +32,25 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class TimerTests {
+  // MainActivity
+  // shouldKeepFilterAfterRotating
+
+  // ifTimerRunningShouldContinueAfterRotate
+  // ifTimerStartedThenPausedThenRotatedTimerShouldKeepSameTimeAsBefore
+
+  // AddExercises
+  // exercisesShouldRemainedCheckedAndCanBeAddedAfterRotating
+  // shouldKeepFilterAfterRotating
+
+  // EditRoutine
+  // shouldShowDiscardChangesDialogIfModifiedThenRotatedThenPressBack
+  // shouldSaveNewOrderIfChangedOrderThenRotated
+  // shouldKeepNewExercisesAddedAfterAddingThenRotating
+
+  // Workout
+  // shouldKeepRepsAndWeightAfterRotating
+  // shouldKeepSetsAndSaveAfterRotating
+  // shouldShowDiscardChangesDialogIfAddSetThenRotatedThenPressBack
 
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
