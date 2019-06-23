@@ -50,7 +50,6 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   private int startTime;
   private long timeLeftInMillis;
   private CountDownTimer countDownTimer;
-  private Fragment exerciseFragment;
   private ImageView timerStartPause;
   private NamedEntity exercise;
   private NotificationCompat.Builder builder;
@@ -84,6 +83,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
     SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
         getSupportFragmentManager());
+
     binding.viewPager.setAdapter(sectionsPagerAdapter);
     binding.tabs.setupWithViewPager(binding.viewPager);
 
@@ -307,7 +307,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
   @Override
   public void onBackPressed() {
-    ((ExerciseFragment) exerciseFragment).onBackPressed();
+    Fragment page = getSupportFragmentManager()
+        .findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + 0);
+    ((ExerciseFragment) page).onBackPressed();
   }
 
   @Override
@@ -344,8 +346,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
       Fragment fragment = null;
       switch (position) {
         case 0:
-          exerciseFragment = ExerciseFragment.newInstance(exercise.getId());
-          fragment = exerciseFragment;
+          fragment = ExerciseFragment.newInstance(exercise.getId());
           break;
         case 1:
           fragment = WorkoutHistoryFragment.newInstance(exercise);
