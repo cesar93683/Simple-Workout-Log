@@ -329,6 +329,12 @@ public class MainActivityTests {
     mActivityTestRule.getActivity()
         .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     ViewInteraction editText = onView(
         allOf(withId(R.id.filter_edit_text), withText("sq"),
             childAtPosition(
