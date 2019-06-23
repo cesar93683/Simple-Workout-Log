@@ -87,10 +87,6 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     binding.viewPager.setAdapter(sectionsPagerAdapter);
     binding.tabs.setupWithViewPager(binding.viewPager);
 
-    setUpTimer(binding);
-  }
-
-  private void setUpTimer(ActivityExerciseBinding binding) {
     timerDisplay = binding.timerDisplay;
     timerDisplay.setOnClickListener(view -> showSetTimeDialog());
 
@@ -109,20 +105,18 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
     startTime = PreferenceManager.getDefaultSharedPreferences(this)
         .getInt(START_TIME, DEFAULT_START_TIME);
-    timeLeftInMillis = startTime * 1000;
-    isTimerRunning = false;
     isShowingNotification = false;
     notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-    updateTimeDisplay();
-  }
 
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    isTimerRunning = savedInstanceState.getBoolean(EXTRA_IS_TIMER_RUNNING);
-    timeLeftInMillis = savedInstanceState.getLong(EXTRA_TIME_LEFT_IN_MILLIS);
-    if (isTimerRunning) {
-      startTimer();
+    if (savedInstanceState == null) {
+      isTimerRunning = false;
+      timeLeftInMillis = startTime * 1000;
+    } else {
+      isTimerRunning = savedInstanceState.getBoolean(EXTRA_IS_TIMER_RUNNING);
+      timeLeftInMillis = savedInstanceState.getLong(EXTRA_TIME_LEFT_IN_MILLIS);
+      if (isTimerRunning) {
+        startTimer();
+      }
     }
     updateTimeDisplay();
   }
@@ -308,8 +302,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   }
 
   private void updateTimeDisplay() {
-    String newTime = getTimeString();
-    timerDisplay.setText(newTime);
+    timerDisplay.setText(getTimeString());
   }
 
   @Override
