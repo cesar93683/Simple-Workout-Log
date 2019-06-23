@@ -42,6 +42,8 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private static final String CHANNEL_ID = "Workout App";
+  private static final String EXTRA_IS_TIMER_RUNNING = "EXTRA_IS_TIMER_RUNNING";
+  private static final String EXTRA_TIME_LEFT_IN_MILLIS = "EXTRA_TIME_LEFT_IN_MILLIS";
   private final int NOTIFICATION_TIMER_ID = 1;
   private boolean isTimerRunning;
   private boolean isShowingNotification;
@@ -111,6 +113,17 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     isTimerRunning = false;
     isShowingNotification = false;
     notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+    updateTimeDisplay();
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    isTimerRunning = savedInstanceState.getBoolean(EXTRA_IS_TIMER_RUNNING);
+    timeLeftInMillis = savedInstanceState.getLong(EXTRA_TIME_LEFT_IN_MILLIS);
+    if (isTimerRunning) {
+      startTimer();
+    }
     updateTimeDisplay();
   }
 
@@ -310,6 +323,13 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     Workout workout = new Workout(exercise.getId(), exerciseSets, timeStamp);
     WorkoutLab.get(this).insertWorkout(workout);
     finish();
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(EXTRA_IS_TIMER_RUNNING, isTimerRunning);
+    outState.putLong(EXTRA_TIME_LEFT_IN_MILLIS, timeLeftInMillis);
   }
 
   class SectionsPagerAdapter extends FragmentPagerAdapter {
