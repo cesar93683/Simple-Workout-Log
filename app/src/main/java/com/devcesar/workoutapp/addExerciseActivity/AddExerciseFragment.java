@@ -32,6 +32,7 @@ public class AddExerciseFragment extends Fragment {
 
   public static final String EXTRA_NEW_EXERCISE_IDS = "EXTRA_NEW_EXERCISE_IDS";
   private static final String ARGS_EXERCISE_IDS_TO_EXCLUDE = "ARGS_EXERCISE_IDS_TO_EXCLUDE";
+  private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
   private HashSet<NamedEntity> exercisesToAdd;
   private HashSet<Integer> exerciseIdsToExclude;
   private String textFilter;
@@ -51,12 +52,24 @@ public class AddExerciseFragment extends Fragment {
   }
 
   @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    outState.putIntegerArrayList(EXTRA_EXERCISE_IDS, getIds(exercisesToAdd));
+    super.onSaveInstanceState(outState);
+  }
+
+  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     exerciseIdsToExclude = new HashSet<>(
         getArguments().getIntegerArrayList(ARGS_EXERCISE_IDS_TO_EXCLUDE));
-    exercisesToAdd = new HashSet<>();
+
+    if (savedInstanceState == null) {
+      exercisesToAdd = new HashSet<>();
+    } else {
+      exercisesToAdd = new HashSet<>(ExerciseLab.get(getContext())
+          .findExercises(savedInstanceState.getIntegerArrayList(EXTRA_EXERCISE_IDS)));
+    }
 
     textFilter = "";
     filteredExercises = new ArrayList<>();

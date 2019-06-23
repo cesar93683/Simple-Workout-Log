@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-  private static final String ACTIVE_FRAGMENT_TAG = "ACTIVE_FRAGMENT_TAG";
+  private static final String EXTRA_ACTIVE_FRAGMENT_TAG = "EXTRA_ACTIVE_FRAGMENT_TAG";
   private Fragment settingsFragment;
   private Fragment exerciseFragment;
   private Fragment categoryFragment;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
       settingsFragment = getSupportFragmentManager()
           .findFragmentByTag(getString(R.string.settings));
 
-      String activeFragmentTag = savedInstanceState.getString(ACTIVE_FRAGMENT_TAG);
+      String activeFragmentTag = savedInstanceState.getString(EXTRA_ACTIVE_FRAGMENT_TAG);
       activeFragment = getSupportFragmentManager().findFragmentByTag(activeFragmentTag);
       setTitle(activeFragmentTag);
     } else {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-    outState.putString(ACTIVE_FRAGMENT_TAG, activeFragment.getTag());
+    outState.putString(EXTRA_ACTIVE_FRAGMENT_TAG, activeFragment.getTag());
     super.onSaveInstanceState(outState);
   }
 }
