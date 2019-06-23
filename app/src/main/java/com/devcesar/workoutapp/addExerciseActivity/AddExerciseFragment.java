@@ -67,8 +67,8 @@ public class AddExerciseFragment extends Fragment {
     if (savedInstanceState == null) {
       exercisesToAdd = new HashSet<>();
     } else {
-      exercisesToAdd = new HashSet<>(ExerciseLab.get(getContext())
-          .findExercises(savedInstanceState.getIntegerArrayList(EXTRA_EXERCISE_IDS)));
+      ArrayList<Integer> exerciseIds = savedInstanceState.getIntegerArrayList(EXTRA_EXERCISE_IDS);
+      exercisesToAdd = new HashSet<>(ExerciseLab.get(getContext()).findExercises(exerciseIds));
     }
 
     textFilter = "";

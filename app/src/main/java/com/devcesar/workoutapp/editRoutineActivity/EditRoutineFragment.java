@@ -1,6 +1,7 @@
 package com.devcesar.workoutapp.editRoutineActivity;
 
 import static com.devcesar.workoutapp.addExerciseActivity.AddExerciseFragment.EXTRA_NEW_EXERCISE_IDS;
+import static com.devcesar.workoutapp.utils.NamedEntitiesUtils.getIds;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,6 +38,7 @@ public class EditRoutineFragment extends Fragment {
   private static final String ARG_ROUTINE_NAME = "ARG_ROUTINE_NAME";
 
   private static final int REQ_ADD_EXERCISE = 1;
+  private static final String EXTRA_EXERCISE_IDS = "EXTRA_EXERCISE_IDS";
 
   private List<NamedEntity> exercises;
   private ExerciseAdapter exerciseAdapter;
@@ -64,8 +66,13 @@ public class EditRoutineFragment extends Fragment {
     int routineId = getArguments().getInt(ARG_ROUTINE_ID);
     String routineName = getArguments().getString(ARG_ROUTINE_NAME);
     routine = new NamedEntity(routineName, routineId);
-    exercises = CategoryOrRoutineLab.getRoutineLab(getActivity())
-        .getExercises(routineId, getContext());
+    if (savedInstanceState == null) {
+      CategoryOrRoutineLab routineLab = CategoryOrRoutineLab.getRoutineLab(getContext());
+      exercises = routineLab.getExercises(routineId, getContext());
+    } else {
+      ArrayList<Integer> exerciseIds = savedInstanceState.getIntegerArrayList(EXTRA_EXERCISE_IDS);
+      exercises = ExerciseLab.get(getContext()).findExercises(exerciseIds);
+    }
     exerciseAdapter = new ExerciseAdapter(exercises);
     hasBeenModified = false;
   }
@@ -129,6 +136,12 @@ public class EditRoutineFragment extends Fragment {
     Intent intent = new Intent();
     getActivity().setResult(Activity.RESULT_OK, intent);
     getActivity().finish();
+  }
+
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    outState.putIntegerArrayList(EXTRA_EXERCISE_IDS, getIds(exercises));
+    super.onSaveInstanceState(outState);
   }
 
   @Override
