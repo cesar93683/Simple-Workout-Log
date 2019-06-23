@@ -13,16 +13,22 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -39,6 +45,186 @@ public class WorkoutTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+
+  @Test
+  public void shouldShowDiscardChangesDialogIfAddSetThenRotatedThenPressBack() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    pressBack();
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.alertTitle), withText("Discard changes?")));
+    textView.check(matches(withText("Discard changes?")));
+  }
+
+  private Activity getCurrentActivity() {
+    getInstrumentation().waitForIdleSync();
+    final Activity[] activity = new Activity[1];
+    try {
+      mActivityTestRule.runOnUiThread(() -> {
+        java.util.Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance()
+            .getActivitiesInStage(
+                Stage.RESUMED);
+        activity[0] = Iterables.getOnlyElement(activities);
+      });
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
+    return activity[0];
+  }
+
+  @Test
+  public void shouldKeepSetsAndSaveAfterRotating() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.add_set_button),
+            childAtPosition(
+                childAtPosition(
+                    withClassName(is("android.widget.LinearLayout")),
+                    0),
+                1),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction textView = onView(
+        allOf(withText("Set 1 - 1 Rep @ - LB"),
+            childAtPosition(
+                allOf(withId(R.id.exercise_sets_recycler_view),
+                    childAtPosition(
+                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
+                        3)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+  }
+
+  @Test
+  public void shouldKeepRepsAndWeightAfterRotating() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(R.id.increase_rep_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    0),
+                2),
+            isDisplayed()));
+    appCompatButton.perform(click());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(R.id.increase_weight_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.exercise_set_editor),
+                    1),
+                2),
+            isDisplayed()));
+    appCompatButton2.perform(click());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction editText = onView(
+        allOf(withId(R.id.reps_text_input_edit_text), withText("1"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.reps_text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    editText.check(matches(withText("1")));
+
+    ViewInteraction editText2 = onView(
+        allOf(withId(R.id.weight_text_input_edit_text), withText("1"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.weight_text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    editText2.check(matches(withText("1")));
+  }
 
   @Test
   public void canAddWorkoutByClickingSaveInDiscardChangesDialog() {

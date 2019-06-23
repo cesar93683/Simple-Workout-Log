@@ -7,7 +7,10 @@
 // shouldSaveNewOrderIfChangedOrderThenRotated
 // shouldKeepNewExercisesAddedAfterAddingThenRotating
 
-// Workout
-// shouldKeepRepsAndWeightAfterRotating
-// shouldKeepSetsAndSaveAfterRotating
-// shouldShowDiscardChangesDialogIfAddSetThenRotatedThenPressBack
+//  getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//
+//    try {
+//    Thread.sleep(2000);
+//  } catch (InterruptedException e) {
+//    e.printStackTrace();
+//  }
