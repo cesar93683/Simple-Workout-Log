@@ -43,17 +43,17 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private static final String CHANNEL_ID = "Workout App";
   private final int NOTIFICATION_TIMER_ID = 1;
-  private NamedEntity exercise;
-  private Fragment exerciseFragment;
+  private boolean isTimerRunning;
+  private boolean isShowingNotification;
   private int startTime;
   private long timeLeftInMillis;
-  private TextView timerDisplay;
-  private ImageView timerStartPause;
-  private boolean isTimerRunning;
   private CountDownTimer countDownTimer;
+  private Fragment exerciseFragment;
+  private ImageView timerStartPause;
+  private NamedEntity exercise;
   private NotificationCompat.Builder builder;
-  private boolean isShowingNotification;
   private NotificationManagerCompat notificationManagerCompat;
+  private TextView timerDisplay;
 
   public static Intent newIntent(Context packageContext, NamedEntity exercise) {
     Intent intent = new Intent(packageContext, ExerciseActivity.class);
@@ -65,6 +65,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     ActivityExerciseBinding binding = DataBindingUtil
         .setContentView(this, R.layout.activity_exercise);
 
