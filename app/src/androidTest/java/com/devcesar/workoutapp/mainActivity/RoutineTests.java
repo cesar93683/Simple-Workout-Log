@@ -15,10 +15,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFabFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getTextInputEditTextFromDialogInput;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -94,7 +90,16 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -134,7 +139,16 @@ public class RoutineTests {
       e.printStackTrace();
     }
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
@@ -189,7 +203,16 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
     ViewInteraction imageView = onView(
         allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
@@ -267,7 +290,16 @@ public class RoutineTests {
             isDisplayed()));
     textView3.check(matches(withText("Barbell Bench Press")));
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
 
     ViewInteraction imageView2 = onView(
         allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
@@ -329,7 +361,16 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -398,7 +439,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -423,7 +471,14 @@ public class RoutineTests {
 
     pressBack();
 
-    getSaveFromDialog().check(doesNotExist());
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.check(doesNotExist());
 
     pressBack();
 
@@ -490,7 +545,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -543,7 +605,16 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton4 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton4.perform(click());
 
     try {
       Thread.sleep(2000);
@@ -598,9 +669,23 @@ public class RoutineTests {
 
     pressBack();
 
-    getSaveFromDialog().check(matches(isDisplayed()));
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.check(matches(isDisplayed()));
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton4.perform(scrollTo(), click());
 
     pressBack();
 
@@ -667,7 +752,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -730,7 +822,16 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout2.perform(click());
 
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton4 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton4.perform(click());
 
     try {
       Thread.sleep(2000);
@@ -787,9 +888,23 @@ public class RoutineTests {
       e.printStackTrace();
     }
 
-    getSaveFromDialog().check(matches(isDisplayed()));
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.check(matches(isDisplayed()));
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
 
     pressBack();
 
@@ -856,7 +971,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     try {
       Thread.sleep(2000);
@@ -894,7 +1016,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
 
     try {
       Thread.sleep(2000);
@@ -1013,11 +1142,44 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView2.perform(longClick());
 
-    getEditFromEditOrDeleteDialog().perform(click());
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("Aa"), closeSoftKeyboard());
+    ViewInteraction textInputEditText3 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText3.perform(replaceText("Aa"));
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction textInputEditText4 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText4.perform(closeSoftKeyboard());
+
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
 
     try {
       Thread.sleep(2000);
@@ -1178,7 +1340,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1244,7 +1413,14 @@ public class RoutineTests {
 
     pressBack();
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -1322,7 +1498,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1517,7 +1700,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1673,7 +1863,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1886,7 +2083,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("A"),
@@ -1962,7 +2166,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -2150,7 +2361,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -2360,7 +2578,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -2534,7 +2759,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     try {
       Thread.sleep(2000);
@@ -2572,7 +2804,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
 
     try {
       Thread.sleep(2000);
@@ -2813,7 +3052,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -2906,11 +3152,44 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView2.perform(longClick());
 
-    getEditFromEditOrDeleteDialog().perform(click());
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("Aa"), closeSoftKeyboard());
+    ViewInteraction textInputEditText2 = onView(
+        allOf(withText("A"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText2.perform(replaceText("Aa"));
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction textInputEditText3 = onView(
+        allOf(withText("Aa"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.text_input_layout),
+                    0),
+                0),
+            isDisplayed()));
+    textInputEditText3.perform(closeSoftKeyboard());
+
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView3 = onView(
         allOf(withText("Aa"),
@@ -2999,7 +3278,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -3150,7 +3436,14 @@ public class RoutineTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),

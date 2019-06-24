@@ -14,9 +14,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -52,7 +49,16 @@ public class WorkoutTests {
 
   @Test
   public void shouldShowDiscardChangesDialogIfAddSetThenRotatedThenPressBack() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -126,7 +132,16 @@ public class WorkoutTests {
 
   @Test
   public void shouldKeepSetsAndSaveAfterRotating() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -170,7 +185,16 @@ public class WorkoutTests {
 
   @Test
   public void shouldKeepRepsAndWeightAfterRotating() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -223,7 +247,16 @@ public class WorkoutTests {
 
   @Test
   public void canAddWorkoutByClickingSaveInDiscardChangesDialog() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -247,7 +280,14 @@ public class WorkoutTests {
 
     pressBack();
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton3 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton3.perform(scrollTo(), click());
 
     try {
       Thread.sleep(2000);
@@ -255,7 +295,16 @@ public class WorkoutTests {
       e.printStackTrace();
     }
 
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
 
     ViewInteraction tabView = onView(
         allOf(withContentDescription("History"),
@@ -309,7 +358,16 @@ public class WorkoutTests {
 
   @Test
   public void canAddWorkoutAndDeleteWorkout() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -351,7 +409,16 @@ public class WorkoutTests {
       e.printStackTrace();
     }
 
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
 
     ViewInteraction tabView = onView(
         allOf(withContentDescription("History"),
@@ -415,7 +482,16 @@ public class WorkoutTests {
 
   @Test
   public void canEditWorkoutFromHistoryTab() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -457,7 +533,16 @@ public class WorkoutTests {
       e.printStackTrace();
     }
 
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
 
     ViewInteraction tabView = onView(
         allOf(withContentDescription("History"),
@@ -479,7 +564,15 @@ public class WorkoutTests {
             isDisplayed()));
     linearLayout.perform(longClick());
 
-    getEditFromEditOrDeleteDialog().perform(click());
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
 
     ViewInteraction appCompatButton3 = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -571,7 +664,16 @@ public class WorkoutTests {
 
   @Test
   public void canSaveWorkoutFromHistoryTabByClickingSaveInDiscardChangesDialog() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -613,7 +715,16 @@ public class WorkoutTests {
       e.printStackTrace();
     }
 
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
 
     ViewInteraction tabView = onView(
         allOf(withContentDescription("History"),
@@ -635,7 +746,15 @@ public class WorkoutTests {
             isDisplayed()));
     linearLayout.perform(longClick());
 
-    getEditFromEditOrDeleteDialog().perform(click());
+    ViewInteraction linearLayout2 = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout2.perform(click());
 
     ViewInteraction appCompatButton3 = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -665,7 +784,14 @@ public class WorkoutTests {
       e.printStackTrace();
     }
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton5 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton5.perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -721,7 +847,16 @@ public class WorkoutTests {
 
   @Test
   public void canAddSet() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -767,7 +902,16 @@ public class WorkoutTests {
 
   @Test
   public void canAddSetWithNoWeight() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -803,7 +947,16 @@ public class WorkoutTests {
 
   @Test
   public void canDeleteSet() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -869,7 +1022,16 @@ public class WorkoutTests {
 
   @Test
   public void canModifySet() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -902,7 +1064,15 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatTextView2.perform(longClick());
 
-    getEditFromEditOrDeleteDialog().perform(click());
+    ViewInteraction linearLayout = onView(
+        allOf(withId(R.id.edit_linear_layout),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.custom),
+                    0),
+                0),
+            isDisplayed()));
+    linearLayout.perform(click());
 
     ViewInteraction appCompatButton3 = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -914,7 +1084,14 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton3.perform(click());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton4.perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 2 Reps @ - LB"),
@@ -930,7 +1107,16 @@ public class WorkoutTests {
 
   @Test
   public void givesErrorIfTryToAddSetWithRepsInputEmptyOrAtZero() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.add_set_button),
@@ -985,7 +1171,16 @@ public class WorkoutTests {
 
   @Test
   public void setAndWeightInputIncrementAndDecrementProperly() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.decrease_rep_button),

@@ -12,8 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -52,7 +50,16 @@ public class TimerTests {
 
   @Test
   public void ifTimerStartedThenPausedThenRotatedTimerShouldKeepSameTimeAsBefore() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageView = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -136,7 +143,16 @@ public class TimerTests {
 
   @Test
   public void ifTimerRunningShouldContinueAfterRotate() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageView = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -175,7 +191,16 @@ public class TimerTests {
 
   @Test
   public void afterTimerIsDoneShouldReset() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.timer_display), withText("2:00"),
@@ -237,7 +262,14 @@ public class TimerTests {
       }
     });
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton2 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton2.perform(scrollTo(), click());
 
     ViewInteraction appCompatImageButton = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -325,12 +357,28 @@ public class TimerTests {
       }
     });
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton4 = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton4.perform(scrollTo(), click());
   }
 
   @Test
   public void ifTimerChangedShouldUpdateTimerForAllExercises() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withId(R.id.timer_display), withText("2:00"),
@@ -392,7 +440,14 @@ public class TimerTests {
       }
     });
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     pressBack();
 
@@ -489,7 +544,16 @@ public class TimerTests {
 
   @Test
   public void canResetTimer() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -546,7 +610,16 @@ public class TimerTests {
 
   @Test
   public void canNotSetTimerWhileRunning() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -586,7 +659,16 @@ public class TimerTests {
 
   @Test
   public void canPauseTimer() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -633,7 +715,16 @@ public class TimerTests {
 
   @Test
   public void timerIconChangesWhenStartedAndStopped() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -678,7 +769,16 @@ public class TimerTests {
 
   @Test
   public void canStartTimer() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatImageButton = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
@@ -709,7 +809,16 @@ public class TimerTests {
 
   @Test
   public void canSetTimeInDialog() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.timer_display), withText("2:00"),
@@ -862,7 +971,16 @@ public class TimerTests {
 
   @Test
   public void shouldSetTimeCorrectlyInDialog() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.timer_display), withText("2:00"),
@@ -883,7 +1001,16 @@ public class TimerTests {
 
   @Test
   public void shouldNotAutoStartTimer() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton2 = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -954,7 +1081,16 @@ public class TimerTests {
             isDisplayed()));
     bottomNavigationItemView2.perform(click());
 
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -1039,7 +1175,16 @@ public class TimerTests {
             isDisplayed()));
     bottomNavigationItemView4.perform(click());
 
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(click());
 
     ViewInteraction appCompatButton4 = onView(
         allOf(withId(R.id.increase_rep_button),
