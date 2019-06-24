@@ -12,16 +12,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.NumberPicker;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -34,7 +34,9 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,7 +64,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatImageView.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction appCompatImageView2 = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
@@ -76,7 +82,11 @@ public class TimerTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.timer_display), withText("1:57"),
@@ -87,6 +97,25 @@ public class TimerTests {
                 1),
             isDisplayed()));
     textView.check(matches(withText("1:57")));
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
   }
 
   private Activity getCurrentActivity() {
@@ -119,11 +148,19 @@ public class TimerTests {
             isDisplayed()));
     appCompatImageView.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.timer_display), withText("1:56"),
@@ -464,7 +501,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatImageButton.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction appCompatImageButton2 = onView(
         allOf(withId(R.id.timer_reset), withContentDescription("Reset"),
@@ -486,7 +527,11 @@ public class TimerTests {
             isDisplayed()));
     button.check(matches(withText("2:00")));
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction button2 = onView(
         allOf(withId(R.id.timer_display),
@@ -553,7 +598,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatImageButton.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction appCompatImageButton2 = onView(
         allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
@@ -565,7 +614,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatImageButton2.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction button = onView(
         allOf(withId(R.id.timer_display),
@@ -637,7 +690,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatImageButton.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction button = onView(
         allOf(withId(R.id.timer_display),
@@ -848,7 +905,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatButton3.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.timer_display), withText("2:00"),
@@ -915,7 +976,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatButton2.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.timer_display), withText("1:57"),
@@ -938,7 +1003,11 @@ public class TimerTests {
                 2)));
     appCompatButton3.perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
@@ -992,7 +1061,11 @@ public class TimerTests {
             isDisplayed()));
     appCompatButton5.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction textView2 = onView(
         allOf(withId(R.id.timer_display), withText("2:00"),

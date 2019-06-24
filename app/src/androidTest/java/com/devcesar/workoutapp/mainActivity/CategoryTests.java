@@ -15,18 +15,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFabFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFilterEditText;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getTextInputEditTextFromDialogInput;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -35,6 +35,9 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
@@ -87,7 +90,11 @@ public class CategoryTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -126,6 +133,25 @@ public class CategoryTests {
     return activity[0];
   }
 
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
+  }
+
   @Test
   public void shouldKeepFilterAfterRotating() {
     ViewInteraction bottomNavigationItemView = onView(
@@ -151,11 +177,23 @@ public class CategoryTests {
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
-    getFilterEditText().perform(replaceText("sq"), closeSoftKeyboard());
+    ViewInteraction appCompatEditText = onView(
+        allOf(withId(R.id.filter_edit_text),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    appCompatEditText.perform(replaceText("sq"), closeSoftKeyboard());
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction editText = onView(
         allOf(withId(R.id.filter_edit_text), withText("sq"),
@@ -201,7 +239,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -335,7 +380,15 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getFilterEditText().perform(replaceText("z"), closeSoftKeyboard());
+    ViewInteraction appCompatEditText = onView(
+        allOf(withId(R.id.filter_edit_text),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    appCompatEditText.perform(replaceText("z"), closeSoftKeyboard());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
@@ -371,7 +424,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -406,7 +466,15 @@ public class CategoryTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    getFilterEditText().perform(replaceText("z"), closeSoftKeyboard());
+    ViewInteraction appCompatEditText = onView(
+        allOf(withId(R.id.filter_edit_text),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    appCompatEditText.perform(replaceText("z"), closeSoftKeyboard());
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
@@ -477,7 +545,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
@@ -646,7 +721,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
@@ -840,7 +922,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
@@ -965,11 +1054,22 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView2 = onView(
         allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
@@ -983,11 +1083,22 @@ public class CategoryTests {
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText2 = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
@@ -1061,7 +1172,11 @@ public class CategoryTests {
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView5 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
@@ -1137,7 +1252,11 @@ public class CategoryTests {
                 3)));
     appCompatButton4.perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView7 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
@@ -1203,7 +1322,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
@@ -1292,11 +1418,22 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView2 = onView(
         allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
@@ -1310,11 +1447,22 @@ public class CategoryTests {
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText2 = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
@@ -1411,7 +1559,11 @@ public class CategoryTests {
                 3)));
     appCompatButton3.perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction bottomNavigationItemView5 = onView(
         allOf(withId(R.id.nav_category), withContentDescription("Category"),
@@ -1511,7 +1663,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1635,7 +1794,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1769,7 +1935,14 @@ public class CategoryTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
@@ -1817,7 +1990,11 @@ public class CategoryTests {
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab),
             childAtPosition(

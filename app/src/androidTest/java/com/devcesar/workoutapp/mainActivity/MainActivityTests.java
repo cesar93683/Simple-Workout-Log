@@ -12,24 +12,26 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.AlternatingDumbbellCurl;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFabFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFilterEditText;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getTextInputEditTextFromDialogInput;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 import android.content.pm.ActivityInfo;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import com.devcesar.workoutapp.R;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,7 +58,15 @@ public class MainActivityTests {
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    ViewInteraction textView2 = onView(withText(alternatingDumbbellCurl2));
+    ViewInteraction textView2 = onView(
+        allOf(withText(alternatingDumbbellCurl2),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
     textView2.check(matches(withText(alternatingDumbbellCurl2)));
 
     textView2.perform(longClick());
@@ -72,9 +82,36 @@ public class MainActivityTests {
         AlternatingDumbbellCurl)));
   }
 
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
+  }
+
   @Test
   public void shouldBeAbleToFilterExercises() {
-    getFilterEditText().perform(replaceText("barbell"), closeSoftKeyboard());
+    ViewInteraction appCompatEditText = onView(
+        allOf(withId(R.id.filter_edit_text),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    appCompatEditText.perform(replaceText("barbell"), closeSoftKeyboard());
 
     ViewInteraction textView = onView(
         allOf(withText("Barbell Back Squat"),
@@ -107,10 +144,25 @@ public class MainActivityTests {
 
   @Test
   public void shouldRenderErrorWhenTryingToCreateExerciseWithExistingName() {
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput()
-        .perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -146,14 +198,34 @@ public class MainActivityTests {
 
   @Test
   public void shouldKeepFilterAfterRotating() {
-    getFilterEditText().perform(replaceText("sq"), closeSoftKeyboard());
+    ViewInteraction appCompatEditText = onView(
+        allOf(withId(R.id.filter_edit_text),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    appCompatEditText.perform(replaceText("sq"), closeSoftKeyboard());
 
     mActivityTestRule.getActivity()
         .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
-    getFilterEditText().check(matches(withText("sq")));
+    ViewInteraction editText = onView(
+        allOf(withId(R.id.filter_edit_text), withText("sq"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    editText.check(matches(withText("sq")));
 
     ViewInteraction textView = onView(
         allOf(withText("Barbell Back Squat"),

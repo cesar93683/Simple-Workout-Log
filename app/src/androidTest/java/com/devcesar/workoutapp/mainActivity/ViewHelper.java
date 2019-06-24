@@ -21,17 +21,6 @@ class ViewHelper {
 
   static final String AlternatingDumbbellCurl = "Alternating Dumbbell Curl";
 
-  static ViewInteraction getFilterEditText() {
-    return onView(
-        allOf(withId(R.id.filter_edit_text),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                0),
-            isDisplayed()));
-  }
-
   static ViewInteraction getFabFromExerciseTabInMainActivity() {
     return onView(
         allOf(withId(R.id.fab),
@@ -42,6 +31,25 @@ class ViewHelper {
                         0)),
                 1),
             isDisplayed()));
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
   }
 
   static ViewInteraction getSaveFromDialog() {
@@ -86,33 +94,6 @@ class ViewHelper {
                     0),
                 0),
             isDisplayed()));
-  }
-
-  static Matcher<View> childAtPosition(
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
-  }
-
-  static void sleepFor2Seconds() {
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
   }
 
 }

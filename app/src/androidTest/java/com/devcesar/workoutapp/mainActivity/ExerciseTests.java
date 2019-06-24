@@ -12,19 +12,22 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFabFromExerciseTabInMainActivity;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getTextInputEditTextFromDialogInput;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import com.devcesar.workoutapp.R;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,39 +42,26 @@ public class ExerciseTests {
       MainActivity.class);
 
   @Test
-  public void shouldGoToExerciseWhenClickingExercise() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
-
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Alternating Dumbbell Curl")));
-  }
-
-  @Test
-  public void shouldDefaultToExercise() {
-    ViewInteraction textView = onView(
-        allOf(withText("Exercise"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Exercise")));
-  }
-
-  @Test
   public void shouldBeAbleToCreateAndDeleteExercise() {
-    getFabFromExerciseTabInMainActivity().perform(click());
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
-    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
+    ViewInteraction textInputEditText = onView(
+        allOf(childAtPosition(
+            childAtPosition(
+                withId(R.id.text_input_layout),
+                0),
+            0),
+            isDisplayed()));
+    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -126,6 +116,54 @@ public class ExerciseTests {
                 0),
             isDisplayed()));
     textView3.check(doesNotExist());
+  }
+
+  @Test
+  public void shouldGoToExerciseWhenClickingExercise() {
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    0),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
+  }
+
+  @Test
+  public void shouldDefaultToExercise() {
+    ViewInteraction textView = onView(
+        allOf(withText("Exercise"),
+            childAtPosition(
+                allOf(withId(R.id.action_bar),
+                    childAtPosition(
+                        withId(R.id.action_bar_container),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Exercise")));
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
   }
 
 }

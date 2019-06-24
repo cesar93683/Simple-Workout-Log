@@ -14,16 +14,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -32,6 +33,9 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
@@ -72,7 +76,11 @@ public class WorkoutTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     pressBack();
 
@@ -95,6 +103,25 @@ public class WorkoutTests {
       throwable.printStackTrace();
     }
     return activity[0];
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
   }
 
   @Test
@@ -123,7 +150,11 @@ public class WorkoutTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -163,7 +194,11 @@ public class WorkoutTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction editText = onView(
         allOf(withId(R.id.reps_text_input_edit_text), withText("1"),
@@ -214,7 +249,11 @@ public class WorkoutTests {
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
@@ -292,7 +331,11 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton2.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.finish_exercise_fab),
@@ -302,7 +345,11 @@ public class WorkoutTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
@@ -390,7 +437,11 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton2.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.finish_exercise_fab),
@@ -400,7 +451,11 @@ public class WorkoutTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
@@ -446,7 +501,11 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton4.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.finish_exercise_fab),
@@ -534,7 +593,11 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton2.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.finish_exercise_fab),
@@ -544,7 +607,11 @@ public class WorkoutTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
@@ -592,7 +659,11 @@ public class WorkoutTests {
 
     pressBack();
 
-    sleepFor2Seconds();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     getSaveFromDialog().perform(scrollTo(), click());
 
