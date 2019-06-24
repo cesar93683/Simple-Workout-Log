@@ -14,9 +14,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -25,9 +28,12 @@ import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.action.GeneralSwipeAction;
 import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Swipe;
+import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -44,6 +50,343 @@ public class RoutineTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  private Activity getCurrentActivity() {
+    getInstrumentation().waitForIdleSync();
+    final Activity[] activity = new Activity[1];
+    try {
+      mActivityTestRule.runOnUiThread(() -> {
+        java.util.Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance()
+            .getActivitiesInStage(
+                Stage.RESUMED);
+        activity[0] = Iterables.getOnlyElement(activities);
+      });
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
+    return activity[0];
+  }
+
+  @Test
+  public void shouldKeepNewExercisesAddedAfterAddingThemThenRotating() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                2),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Strong 5x5 - Workout A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction viewInteraction = onView(
+        allOf(withId(R.id.fab_expand_menu_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    1),
+                2),
+            isDisplayed()));
+    viewInteraction.perform(click());
+
+    ViewInteraction floatingActionButton2 = onView(
+        allOf(withId(R.id.fab_action1),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    1),
+                0),
+            isDisplayed()));
+    floatingActionButton2.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.recycler_view),
+                    3),
+                1),
+            isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
+  }
+
+  @Test
+  public void shouldSaveNewOrderIfChangedOrderThenRotated() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                2),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Strong 5x5 - Workout A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction imageView = onView(
+        allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.recycler_view),
+                    2),
+                0),
+            isDisplayed()));
+    imageView.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
+        view -> {
+          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
+          coordinates[1] = 0;
+          return coordinates;
+        }, Press.FINGER));
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction viewInteraction = onView(
+        allOf(withId(R.id.fab_expand_menu_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    1),
+                2),
+            isDisplayed()));
+    viewInteraction.perform(click());
+
+    ViewInteraction floatingActionButton2 = onView(
+        allOf(withId(R.id.fab_action2),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    1),
+                1),
+            isDisplayed()));
+    floatingActionButton2.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withText("Barbell Row"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withId(R.id.coordinator_layout),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Barbell Row")));
+
+    ViewInteraction textView2 = onView(
+        allOf(withText("Barbell Back Squat"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withId(R.id.coordinator_layout),
+                        0)),
+                1),
+            isDisplayed()));
+    textView2.check(matches(withText("Barbell Back Squat")));
+
+    ViewInteraction textView3 = onView(
+        allOf(withText("Barbell Bench Press"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withId(R.id.coordinator_layout),
+                        0)),
+                2),
+            isDisplayed()));
+    textView3.check(matches(withText("Barbell Bench Press")));
+
+    ViewInteraction floatingActionButton3 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton3.perform(click());
+
+    ViewInteraction imageView2 = onView(
+        allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.recycler_view),
+                    0),
+                0),
+            isDisplayed()));
+
+    imageView2.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
+        view -> {
+          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
+          coordinates[1] = 1000;
+          return coordinates;
+        }, Press.FINGER));
+
+    ViewInteraction viewInteraction2 = onView(
+        allOf(withId(R.id.fab_expand_menu_button),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    1),
+                2),
+            isDisplayed()));
+    viewInteraction2.perform(click());
+
+    ViewInteraction floatingActionButton4 = onView(
+        allOf(withId(R.id.fab_action2),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    1),
+                1),
+            isDisplayed()));
+    floatingActionButton4.perform(click());
+  }
+
+  @Test
+  public void shouldShowSaveChangesDialogIfModifiedThenRotatedThenPressBack() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                2),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Strong 5x5 - Workout A"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(longClick());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    pressBack();
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.alertTitle), withText("Save changes?"),
+            isDisplayed()));
+    textView.check(matches(withText("Save changes?")));
+  }
 
   @Test
   public void shouldNotShowSaveChangesDialogIfNoChangesMade() {
