@@ -14,16 +14,22 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -40,6 +46,179 @@ public class CategoryTests {
   @Rule
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
+
+  @Test
+  public void exercisesShouldRemainedCheckedAndCanBeAddedAfterRotating() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Back"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction linearLayout = onView(
+        allOf(childAtPosition(
+            allOf(withId(R.id.recycler_view),
+                childAtPosition(
+                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                    1)),
+            0),
+            isDisplayed()));
+    linearLayout.perform(click());
+
+    ViewInteraction floatingActionButton2 = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton2.perform(click());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction appCompatTextView2 = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withId(R.id.coordinator_layout),
+                        0)),
+                0),
+            isDisplayed()));
+    appCompatTextView2.perform(longClick());
+
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Yes"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
+  }
+
+  private Activity getCurrentActivity() {
+    getInstrumentation().waitForIdleSync();
+    final Activity[] activity = new Activity[1];
+    try {
+      mActivityTestRule.runOnUiThread(() -> {
+        java.util.Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance()
+            .getActivitiesInStage(
+                Stage.RESUMED);
+        activity[0] = Iterables.getOnlyElement(activities);
+      });
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
+    return activity[0];
+  }
+
+  @Test
+  public void shouldKeepFilterAfterRotating() {
+    ViewInteraction bottomNavigationItemView = onView(
+        allOf(withId(R.id.nav_category), withContentDescription("Category"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.bottom_navigation),
+                    0),
+                1),
+            isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Back"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab),
+            childAtPosition(
+                allOf(withId(R.id.coordinator_layout),
+                    childAtPosition(
+                        withId(R.id.fragment_container),
+                        0)),
+                1),
+            isDisplayed()));
+    floatingActionButton.perform(click());
+
+    ViewInteraction appCompatEditText = onView(
+        allOf(withId(R.id.filter_edit_text),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    appCompatEditText.perform(replaceText("sq"), closeSoftKeyboard());
+
+    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    ViewInteraction editText = onView(
+        allOf(withId(R.id.filter_edit_text), withText("sq"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.coordinator_layout),
+                    0),
+                0),
+            isDisplayed()));
+    editText.check(matches(withText("sq")));
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.text_view), withText("Barbell Back Squat"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.recycler_view),
+                    0),
+                1),
+            isDisplayed()));
+    textView.check(matches(withText("Barbell Back Squat")));
+  }
 
   @Test
   public void exerciseThatIsCheckedThenUncheckedShouldNotBeAdded() {
