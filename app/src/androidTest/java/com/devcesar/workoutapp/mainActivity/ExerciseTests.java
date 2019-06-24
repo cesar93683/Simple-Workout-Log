@@ -12,8 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -42,6 +40,63 @@ public class ExerciseTests {
       MainActivity.class);
 
   @Test
+  public void shouldGoToExerciseWhenClickingExercise() {
+    ViewInteraction appCompatTextView = onView(
+        allOf(withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                allOf(withId(R.id.recycler_view),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        1)),
+                0),
+            isDisplayed()));
+    appCompatTextView.perform(click());
+
+    ViewInteraction textView = onView(
+        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
+            childAtPosition(
+                childAtPosition(
+                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
+                    0),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
+  }
+
+  private static Matcher<View> childAtPosition(
+      final Matcher<View> parentMatcher, final int position) {
+
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
+
+      @Override
+      public boolean matchesSafely(View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
+  }
+
+  @Test
+  public void shouldDefaultToExercise() {
+    ViewInteraction textView = onView(
+        allOf(withText("Exercise"),
+            childAtPosition(
+                allOf(withId(R.id.action_bar),
+                    childAtPosition(
+                        withId(R.id.action_bar_container),
+                        0)),
+                0),
+            isDisplayed()));
+    textView.check(matches(withText("Exercise")));
+  }
+
+  @Test
   public void shouldBeAbleToCreateAndDeleteExercise() {
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -63,7 +118,14 @@ public class ExerciseTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    getSaveFromDialog().perform(scrollTo(), click());
+    ViewInteraction appCompatButton = onView(
+        allOf(withId(android.R.id.button1), withText("Save"),
+            childAtPosition(
+                childAtPosition(
+                    withId(R.id.buttonPanel),
+                    0),
+                3)));
+    appCompatButton.perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("A"),
@@ -116,54 +178,6 @@ public class ExerciseTests {
                 0),
             isDisplayed()));
     textView3.check(doesNotExist());
-  }
-
-  @Test
-  public void shouldGoToExerciseWhenClickingExercise() {
-    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
-
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Alternating Dumbbell Curl")));
-  }
-
-  @Test
-  public void shouldDefaultToExercise() {
-    ViewInteraction textView = onView(
-        allOf(withText("Exercise"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Exercise")));
-  }
-
-  private static Matcher<View> childAtPosition(
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
   }
 
 }
