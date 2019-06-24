@@ -406,7 +406,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -512,7 +512,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -719,7 +719,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -938,7 +938,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1326,7 +1326,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1484,7 +1484,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1686,7 +1686,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1849,7 +1849,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -2069,7 +2069,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -2152,7 +2152,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -2347,7 +2347,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -2564,7 +2564,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -2745,7 +2745,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -3038,7 +3038,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -3264,7 +3264,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -3422,7 +3422,7 @@ public class RoutineTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        1)),
+                        2)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
