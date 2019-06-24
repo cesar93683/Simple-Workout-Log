@@ -12,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -383,16 +384,7 @@ public class SettingsTests {
 
   @Test
   public void shouldBeAbleToDeleteAllWorkouts() {
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
     ViewInteraction appCompatButton = onView(
         allOf(withId(R.id.increase_rep_button),
@@ -468,16 +460,7 @@ public class SettingsTests {
             isDisplayed()));
     bottomNavigationItemView2.perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(click());
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
     ViewInteraction tabView = onView(
         allOf(withContentDescription("History"),

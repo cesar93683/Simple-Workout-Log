@@ -12,6 +12,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -60,16 +62,7 @@ public class ExerciseTests {
 
   @Test
   public void shouldGoToExerciseWhenClickingExercise() {
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(click());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
@@ -118,14 +111,7 @@ public class ExerciseTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    getSaveFromDialog().perform(scrollTo(), click());
 
     ViewInteraction textView = onView(
         allOf(withText("A"),

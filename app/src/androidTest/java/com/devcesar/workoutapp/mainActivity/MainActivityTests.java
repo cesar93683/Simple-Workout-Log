@@ -11,6 +11,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.AlternatingDumbbellCurl;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getAlternatingDumbbellCurlFromExerciseTabInMainActivity;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFabFromExerciseTabInMainActivity;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.getTextInputEditTextFromDialogInput;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -41,58 +47,18 @@ public class MainActivityTests {
 
   @Test
   public void shouldBeAbleToRenameExercise() {
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.perform(longClick());
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(longClick());
 
-    ViewInteraction linearLayout1 = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout1.perform(click());
+    getEditFromEditOrDeleteDialog().perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("Alternating Dumbbell Curl2"));
+    String alternatingDumbbellCurl2 = "Alternating Dumbbell Curl2";
 
-    ViewInteraction textInputEditText2 = onView(
-        allOf(withText("Alternating Dumbbell Curl2"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    textInputEditText2.perform(closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText(alternatingDumbbellCurl2), closeSoftKeyboard());
 
-    ViewInteraction appCompatButton1 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton1.perform(scrollTo(), click());
+    getSaveFromDialog().perform(scrollTo(), click());
 
     ViewInteraction textView2 = onView(
-        allOf(withText("Alternating Dumbbell Curl2"),
+        allOf(withText(alternatingDumbbellCurl2),
             childAtPosition(
                 allOf(withId(R.id.recycler_view),
                     childAtPosition(
@@ -100,59 +66,18 @@ public class MainActivityTests {
                         1)),
                 0),
             isDisplayed()));
-    textView2.check(matches(withText("Alternating Dumbbell Curl2")));
+    textView2.check(matches(withText(alternatingDumbbellCurl2)));
 
     textView2.perform(longClick());
 
-    ViewInteraction linearLayout = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout.perform(click());
+    getEditFromEditOrDeleteDialog().perform(click());
 
-    ViewInteraction textInputEditText3 = onView(
-        allOf(withText("Alternating Dumbbell Curl2"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    textInputEditText3.perform(replaceText("Alternating Dumbbell Curl"));
+    getTextInputEditTextFromDialogInput().perform(replaceText(AlternatingDumbbellCurl), closeSoftKeyboard());
 
-    ViewInteraction textInputEditText4 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    textInputEditText4.perform(closeSoftKeyboard());
+    getSaveFromDialog().perform(scrollTo(), click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
-
-    ViewInteraction textView3 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView3.check(matches(withText("Alternating Dumbbell Curl")));
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().check(matches(withText(
+        AlternatingDumbbellCurl)));
   }
 
   private static Matcher<View> childAtPosition(
@@ -200,25 +125,9 @@ public class MainActivityTests {
 
   @Test
   public void shouldRenderErrorWhenTryingToCreateExerciseWithNoName() {
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    getSaveFromDialog().perform(scrollTo(), click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -253,14 +162,8 @@ public class MainActivityTests {
             isDisplayed()));
     textInputEditText.perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    getSaveFromDialog().perform(scrollTo(), click());
+
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
             allOf(withId(R.id.text_input_layout),
@@ -274,35 +177,12 @@ public class MainActivityTests {
 
   @Test
   public void shouldRenderErrorWhenRenamingExerciseWithSameName() {
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.perform(longClick());
+    getAlternatingDumbbellCurlFromExerciseTabInMainActivity().perform(longClick());
 
-    ViewInteraction linearLayout = onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
-    linearLayout.perform(click());
+    getEditFromEditOrDeleteDialog().perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton.perform(scrollTo(), click());
+    getSaveFromDialog().perform(scrollTo(), click());
+
     ViewInteraction linearLayout1 = onView(
         allOf(childAtPosition(
             allOf(withId(R.id.text_input_layout),
