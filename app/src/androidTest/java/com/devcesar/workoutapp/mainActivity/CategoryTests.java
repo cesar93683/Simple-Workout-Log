@@ -238,7 +238,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -439,7 +439,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -576,7 +576,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -780,7 +780,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -990,7 +990,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1131,7 +1131,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1464,7 +1464,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1560,7 +1560,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1830,7 +1830,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -1977,7 +1977,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
@@ -2167,7 +2167,7 @@ public class CategoryTests {
                 allOf(withId(R.id.coordinator_layout),
                     childAtPosition(
                         withId(R.id.fragment_container),
-                        2)),
+                        1)),
                 1),
             isDisplayed()));
     floatingActionButton.perform(click());
