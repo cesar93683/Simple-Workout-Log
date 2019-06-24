@@ -15,18 +15,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getEditFromEditOrDeleteDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getFabFromExerciseTabInMainActivity;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getSaveFromDialog;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.getTextInputEditTextFromDialogInput;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.action.GeneralSwipeAction;
@@ -39,9 +38,6 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
@@ -128,11 +124,7 @@ public class RoutineTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
@@ -189,11 +181,7 @@ public class RoutineTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -333,11 +321,7 @@ public class RoutineTests {
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     pressBack();
 
@@ -370,14 +354,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -462,14 +439,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -526,11 +496,7 @@ public class RoutineTests {
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -542,11 +508,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton5.perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab),
@@ -639,14 +601,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -713,11 +668,7 @@ public class RoutineTests {
 
     getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -729,11 +680,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton5.perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab),
@@ -762,11 +709,7 @@ public class RoutineTests {
 
     pressBack();
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     getSaveFromDialog().check(matches(isDisplayed()));
 
@@ -828,22 +771,11 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView2 = onView(
         allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
@@ -855,33 +787,13 @@ public class RoutineTests {
             isDisplayed()));
     bottomNavigationItemView2.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    ViewInteraction textInputEditText2 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
@@ -944,22 +856,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab_action2),
@@ -1000,11 +899,7 @@ public class RoutineTests {
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView5 = onView(
         allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
@@ -1080,11 +975,7 @@ public class RoutineTests {
                 3)));
     appCompatButton4.perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView7 = onView(
         allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
@@ -1127,25 +1018,6 @@ public class RoutineTests {
     appCompatButton5.perform(scrollTo(), click());
   }
 
-  private static Matcher<View> childAtPosition(
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
-  }
-
   @Test
   public void shouldAddExercisesToRoutineFromClickingSaveInDiscardDialog() {
     ViewInteraction bottomNavigationItemView = onView(
@@ -1169,14 +1041,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1231,16 +1096,7 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
     pressBack();
 
@@ -1313,14 +1169,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1395,16 +1244,7 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout3.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
@@ -1436,11 +1276,7 @@ public class RoutineTests {
             isDisplayed()));
     textView3.check(matches(isDisplayed()));
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -1508,14 +1344,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1570,22 +1399,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -1664,14 +1480,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1746,22 +1555,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout3.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction imageView = onView(
         allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
@@ -1877,14 +1673,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -1953,14 +1742,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -2025,16 +1807,7 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout2.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
     ViewInteraction linearLayout3 = onView(
         allOf(childAtPosition(
@@ -2141,14 +1914,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -2213,22 +1979,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout2.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -2351,14 +2104,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -2413,22 +2159,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -2440,11 +2173,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton5.perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -2525,22 +2254,11 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView2 = onView(
         allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
@@ -2552,33 +2270,13 @@ public class RoutineTests {
             isDisplayed()));
     bottomNavigationItemView2.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    ViewInteraction textInputEditText2 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText2.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView3 = onView(
         allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
@@ -2641,22 +2339,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab_action2),
@@ -2710,11 +2395,7 @@ public class RoutineTests {
                 3)));
     appCompatButton3.perform(scrollTo(), click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction bottomNavigationItemView5 = onView(
         allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
@@ -2804,14 +2485,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -2866,22 +2540,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -2990,14 +2651,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -3052,16 +2706,7 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
     pressBack();
 
@@ -3141,14 +2786,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton.perform(click());
 
-    ViewInteraction textInputEditText = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.text_input_layout),
-                0),
-            0),
-            isDisplayed()));
-    textInputEditText.perform(replaceText("A"), closeSoftKeyboard());
+    getTextInputEditTextFromDialogInput().perform(replaceText("A"), closeSoftKeyboard());
 
     getSaveFromDialog().perform(scrollTo(), click());
 
@@ -3203,22 +2841,9 @@ public class RoutineTests {
             isDisplayed()));
     linearLayout.perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    getFabFromExerciseTabInMainActivity().perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton5 = onView(
         allOf(withId(R.id.fab_action2),
@@ -3230,11 +2855,7 @@ public class RoutineTests {
             isDisplayed()));
     floatingActionButton5.perform(click());
 
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleepFor2Seconds();
 
     ViewInteraction floatingActionButton6 = onView(
         allOf(withId(R.id.fab),
