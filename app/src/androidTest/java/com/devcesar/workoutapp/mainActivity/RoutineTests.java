@@ -150,15 +150,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Barbell Row"),
@@ -213,15 +205,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
   }
 
   @Test
@@ -351,15 +335,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     sleepFor2Seconds();
 
@@ -452,15 +428,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     sleepFor2Seconds();
 
@@ -562,15 +530,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton6 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton6.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     pressBack();
 
@@ -821,15 +781,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     pressBack();
 
@@ -890,15 +842,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -1005,15 +949,7 @@ public class RoutineTests {
           return coordinates;
         }, Press.FINGER));
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Barbell Bench Press"),
@@ -1174,15 +1110,7 @@ public class RoutineTests {
             isDisplayed()));
     textView.check(doesNotExist());
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     ViewInteraction textView2 = onView(
         allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
@@ -1263,15 +1191,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -1380,15 +1300,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     sleepFor2Seconds();
 
@@ -1488,15 +1400,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton6 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton6.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     pressBack();
 
@@ -1602,15 +1506,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     pressBack();
 
@@ -1791,15 +1687,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton5 = onView(
-        allOf(withId(R.id.fab_action2),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                1),
-            isDisplayed()));
-    floatingActionButton5.perform(click());
+    onView(withId(R.id.fab_action2)).perform(click());
 
     sleepFor2Seconds();
 
