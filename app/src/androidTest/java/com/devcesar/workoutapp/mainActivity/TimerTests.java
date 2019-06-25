@@ -33,7 +33,6 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
 import org.hamcrest.Matcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,41 +49,17 @@ public class TimerTests {
   public void ifTimerStartedThenPausedThenRotatedTimerShouldKeepSameTimeAsBefore() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageView = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageView.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction appCompatImageView2 = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageView2.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
     sleepFor2Seconds();
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.timer_display), withText("1:57"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    textView.check(matches(withText("1:57")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:57")));
   }
 
   private Activity getCurrentActivity() {
@@ -107,15 +82,7 @@ public class TimerTests {
   public void ifTimerRunningShouldContinueAfterRotate() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageView = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageView.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     sleepFor2Seconds();
 
@@ -123,30 +90,14 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.timer_display), withText("1:56"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    textView.check(matches(withText("1:56")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:56")));
   }
 
   @Test
   public void afterTimerIsDoneShouldReset() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.timer_display), withText("2:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker = onView(
         allOf(childAtPosition(
@@ -200,15 +151,7 @@ public class TimerTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
 
-    ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     try {
       Thread.sleep(3000);
@@ -216,25 +159,9 @@ public class TimerTests {
       e.printStackTrace();
     }
 
-    ViewInteraction button = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button.check(matches(withText("0:02")));
+    onView(withId(R.id.timer_display)).check(matches(withText("0:02")));
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.timer_display), withText("0:02"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker3 = onView(
         allOf(childAtPosition(
@@ -293,15 +220,7 @@ public class TimerTests {
   public void ifTimerChangedShouldUpdateTimerForAllExercises() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withId(R.id.timer_display), withText("2:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatTextView2.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker = onView(
         allOf(childAtPosition(
@@ -368,25 +287,9 @@ public class TimerTests {
             isDisplayed()));
     appCompatTextView3.perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.timer_display), withText("1:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    textView.check(matches(withText("1:00")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:00")));
 
-    ViewInteraction appCompatTextView4 = onView(
-        allOf(withId(R.id.timer_display), withText("1:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatTextView4.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker3 = onView(
         allOf(childAtPosition(
@@ -438,78 +341,31 @@ public class TimerTests {
       }
     });
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton2.perform(scrollTo(), click());
+    onView(withText("Save")).perform(scrollTo(), click());
   }
 
   @Test
   public void canResetTimer() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction appCompatImageButton2 = onView(
-        allOf(withId(R.id.timer_reset), withContentDescription("Reset"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                0),
-            isDisplayed()));
-    appCompatImageButton2.perform(click());
+    onView(withId(R.id.timer_reset)).perform(click());
 
-    ViewInteraction button = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button.check(matches(withText("2:00")));
+    onView(withId(R.id.timer_display)).check(matches(withText("2:00")));
 
     sleepFor2Seconds();
 
-    ViewInteraction button2 = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button2.check(matches(withText("2:00")));
+    onView(withId(R.id.timer_display)).check(matches(withText("2:00")));
   }
 
   @Test
   public void canNotSetTimerWhileRunning() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     try {
       Thread.sleep(900);
@@ -517,15 +373,7 @@ public class TimerTests {
       e.printStackTrace();
     }
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.timer_display), withText("1:58"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker = onView(
         allOf(childAtPosition(
@@ -541,126 +389,48 @@ public class TimerTests {
   public void canPauseTimer() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction appCompatImageButton2 = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton2.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction button = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button.check(matches(withText("1:57")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:57")));
   }
 
   @Test
   public void timerIconChangesWhenStartedAndStopped() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
-    ViewInteraction imageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                2),
-            isDisplayed()));
-    imageButton.check(matches(isDisplayed()));
+    onView(allOf(withId(R.id.timer_start_pause), withContentDescription("Pause")))
+        .check(matches(isDisplayed()));
 
-    ViewInteraction appCompatImageButton2 = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Pause"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton2.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
-    ViewInteraction imageButton2 = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                2),
-            isDisplayed()));
-    imageButton2.check(matches(isDisplayed()));
+    onView(allOf(withId(R.id.timer_start_pause), withContentDescription("Play")))
+        .check(matches(isDisplayed()));
   }
 
   @Test
   public void canStartTimer() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatImageButton = onView(
-        allOf(withId(R.id.timer_start_pause), withContentDescription("Play"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                2),
-            isDisplayed()));
-    appCompatImageButton.perform(click());
+    onView(withId(R.id.timer_start_pause)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction button = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button.check(matches(withText("1:57")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:57")));
   }
 
   @Test
   public void canSetTimeInDialog() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.timer_display), withText("2:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker = onView(
         allOf(childAtPosition(
@@ -712,34 +482,11 @@ public class TimerTests {
       }
     });
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton2.perform(scrollTo(), click());
+    onView(withText("Save")).perform(click());
 
-    ViewInteraction button = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button.check(matches(withText("3:59")));
+    onView(withId(R.id.timer_display)).check(matches(withText("3:59")));
 
-    ViewInteraction button2 = onView(
-        allOf(withId(R.id.timer_display),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    2),
-                1),
-            isDisplayed()));
-    button2.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
     ViewInteraction numberPicker3 = onView(
         allOf(childAtPosition(
@@ -791,35 +538,18 @@ public class TimerTests {
       }
     });
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-    appCompatButton3.perform(scrollTo(), click());
+    onView(withText("Save")).perform(click());
   }
 
   @Test
   public void shouldSetTimeCorrectlyInDialog() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.timer_display), withText("2:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction editText = onView(withText("2"));
-    editText.check(matches(isDisplayed()));
+    onView(withText("2")).check(matches(isDisplayed()));
 
-    ViewInteraction editText2 = onView(withText("0"));
-    editText2.check(matches(isDisplayed()));
+    onView(withText("0")).check(matches(isDisplayed()));
   }
 
   @Test
@@ -832,30 +562,14 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.timer_display), withText("2:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    textView.check(matches(withText("2:00")));
+    onView(withId(R.id.timer_display)).check(matches(withText("2:00")));
   }
 
   @Test
   public void canTurnOnAndOffAutoStartTimer() {
     onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction constraintLayout = onView(
-        allOf(withId(R.id.auto_start_timer),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                3),
-            isDisplayed()));
-    constraintLayout.perform(click());
+    onView(withId(R.id.auto_start_timer)).perform(click());
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
@@ -867,40 +581,17 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.timer_display), withText("1:57"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    textView.check(matches(withText("1:57")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:57")));
 
     pressBack();
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(android.R.id.button2), withText("Discard"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                2)));
-    appCompatButton3.perform(scrollTo(), click());
+    onView(withText("Discard")).perform(click());
 
     sleepFor2Seconds();
 
     onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction constraintLayout2 = onView(
-        allOf(withId(R.id.auto_start_timer),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                3),
-            isDisplayed()));
-    constraintLayout2.perform(click());
+    onView(withId(R.id.auto_start_timer)).perform(click());
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
@@ -912,15 +603,7 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction textView2 = onView(
-        allOf(withId(R.id.timer_display), withText("2:00"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    2),
-                1),
-            isDisplayed()));
-    textView2.check(matches(withText("2:00")));
+    onView(withId(R.id.timer_display)).check(matches(withText("2:00")));
   }
 
 }
