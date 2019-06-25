@@ -93,15 +93,7 @@ public class SettingsTests {
             isDisplayed()));
     textView2.check(matches(withText("Barbell Back Squat")));
 
-    ViewInteraction bottomNavigationItemView3 = onView(
-        allOf(withId(R.id.nav_category), withContentDescription("Category"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView3.perform(click());
+onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView3 = onView(
         allOf(withText("Back"),
@@ -204,15 +196,7 @@ public class SettingsTests {
             isDisplayed()));
     textView.check(doesNotExist());
 
-    ViewInteraction bottomNavigationItemView5 = onView(
-        allOf(withId(R.id.nav_category), withContentDescription("Category"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView5.perform(click());
+onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView2 = onView(
         allOf(withText("Back"),
@@ -290,15 +274,7 @@ public class SettingsTests {
             isDisplayed()));
     textView4.check(matches(isDisplayed()));
 
-    ViewInteraction bottomNavigationItemView9 = onView(
-        allOf(withId(R.id.nav_category), withContentDescription("Category"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView9.perform(click());
+onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView5 = onView(
         allOf(withText("Back"),
