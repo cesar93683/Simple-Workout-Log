@@ -243,10 +243,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.alertTitle), withText("Save changes?"),
-            isDisplayed()));
-    textView.check(matches(withText("Save changes?")));
+    onView(withId(R.id.alertTitle)).check(matches(withText("Save changes?")));
   }
 
   @Test
@@ -1237,15 +1234,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToSwitchToRoutineCategory() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Routine"),
@@ -1315,15 +1304,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView2.perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.title), withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Alternating Dumbbell Curl")));
+    onView(withId(R.id.title)).check(matches(withText("Alternating Dumbbell Curl")));
 
     pressBack();
 
