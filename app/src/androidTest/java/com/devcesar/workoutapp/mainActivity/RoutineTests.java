@@ -83,15 +83,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -343,15 +335,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -442,15 +426,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -570,15 +546,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -715,15 +683,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -795,15 +755,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -922,15 +874,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1010,15 +954,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1192,15 +1128,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1309,15 +1237,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1444,15 +1364,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1560,15 +1472,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton4 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton4.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1682,15 +1586,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1800,15 +1696,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1887,15 +1775,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1927,15 +1807,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
-    ViewInteraction floatingActionButton7 = onView(
-        allOf(withId(R.id.fab_action1),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                0),
-            isDisplayed()));
-    floatingActionButton7.perform(click());
+    onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
