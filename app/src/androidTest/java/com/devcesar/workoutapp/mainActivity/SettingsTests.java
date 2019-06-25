@@ -6,15 +6,12 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -37,26 +34,9 @@ public class SettingsTests {
 
   @Test
   public void shouldNotImportDuplicatesIfImportMultipleTimes() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withId(R.id.import_default_items),
-            withText("Import Default Exercises, Categories, Routines"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withId(R.id.import_default_items)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
@@ -84,7 +64,7 @@ public class SettingsTests {
             isDisplayed()));
     textView2.check(matches(withText("Barbell Back Squat")));
 
-onView(withId(R.id.nav_category)).perform(click());
+    onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView3 = onView(
         allOf(withText("Back"),
@@ -135,26 +115,9 @@ onView(withId(R.id.nav_category)).perform(click());
 
   @Test
   public void canDeleteAndImportAllExercisesCategoriesRoutines() {
-    ViewInteraction bottomNavigationItemView3 = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView3.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withId(R.id.delete_all_items),
-            withText("Delete All Exercises, Categories, and Routines"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withId(R.id.delete_all_items)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
@@ -171,7 +134,7 @@ onView(withId(R.id.nav_category)).perform(click());
             isDisplayed()));
     textView.check(doesNotExist());
 
-onView(withId(R.id.nav_category)).perform(click());
+    onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView2 = onView(
         allOf(withText("Back"),
@@ -197,26 +160,9 @@ onView(withId(R.id.nav_category)).perform(click());
             isDisplayed()));
     textView3.check(doesNotExist());
 
-    ViewInteraction bottomNavigationItemView7 = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView7.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withId(R.id.import_default_items),
-            withText("Import Default Exercises, Categories, Routines"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatTextView2.perform(click());
+    onView(withId(R.id.import_default_items)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
@@ -233,7 +179,7 @@ onView(withId(R.id.nav_category)).perform(click());
             isDisplayed()));
     textView4.check(matches(isDisplayed()));
 
-onView(withId(R.id.nav_category)).perform(click());
+    onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView5 = onView(
         allOf(withText("Back"),
@@ -262,25 +208,12 @@ onView(withId(R.id.nav_category)).perform(click());
 
   @Test
   public void canVisitSettingsTab() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
     ViewInteraction textView = onView(
-        allOf(withText("Settings"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.action_bar),
+            0));
     textView.check(matches(withText("Settings")));
   }
 
@@ -288,56 +221,17 @@ onView(withId(R.id.nav_category)).perform(click());
   public void shouldBeAbleToDeleteAllWorkouts() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.finish_exercise_fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    withParent(withId(R.id.view_pager))),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(withId(R.id.finish_exercise_fab)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withId(R.id.delete_all_workouts), withText("Delete All Workouts"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
+    onView(withId(R.id.delete_all_workouts)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 

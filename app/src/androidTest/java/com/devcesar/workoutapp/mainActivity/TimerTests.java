@@ -826,25 +826,9 @@ public class TimerTests {
   public void shouldNotAutoStartTimer() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 
@@ -861,15 +845,7 @@ public class TimerTests {
 
   @Test
   public void canTurnOnAndOffAutoStartTimer() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
     ViewInteraction constraintLayout = onView(
         allOf(withId(R.id.auto_start_timer),
@@ -885,25 +861,9 @@ public class TimerTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 
@@ -930,15 +890,7 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView3 = onView(
-        allOf(withId(R.id.nav_settings), withContentDescription("Settings"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                3),
-            isDisplayed()));
-    bottomNavigationItemView3.perform(click());
+    onView(withId(R.id.nav_settings)).perform(click());
 
     ViewInteraction constraintLayout2 = onView(
         allOf(withId(R.id.auto_start_timer),
@@ -954,25 +906,9 @@ public class TimerTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton4 = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton4.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton5 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton5.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 

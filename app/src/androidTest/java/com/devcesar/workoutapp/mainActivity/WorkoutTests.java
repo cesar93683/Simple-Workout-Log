@@ -11,7 +11,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
@@ -48,25 +47,9 @@ public class WorkoutTests {
   public void shouldShowDiscardChangesDialogIfAddSetThenRotatedThenPressBack() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -99,25 +82,9 @@ public class WorkoutTests {
   public void shouldKeepSetsAndSaveAfterRotating() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -139,15 +106,7 @@ public class WorkoutTests {
   public void shouldKeepRepsAndWeightAfterRotating() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
     ViewInteraction appCompatButton2 = onView(
         allOf(withId(R.id.increase_weight_button),
@@ -188,26 +147,9 @@ public class WorkoutTests {
   public void canAddWorkoutByClickingSaveInDiscardChangesDialog() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
-
+    onView(withId(R.id.add_set_button)).perform(click());
     pressBack();
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
@@ -255,35 +197,13 @@ public class WorkoutTests {
   public void canAddWorkoutAndDeleteWorkout() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.finish_exercise_fab),
-            childAtPosition(
-                withParent(withId(R.id.view_pager)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(withId(R.id.finish_exercise_fab)).perform(click());
 
     sleepFor2Seconds();
 
@@ -338,35 +258,13 @@ public class WorkoutTests {
   public void canEditWorkoutFromHistoryTab() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.finish_exercise_fab),
-            childAtPosition(
-                withParent(withId(R.id.view_pager)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(withId(R.id.finish_exercise_fab)).perform(click());
 
     sleepFor2Seconds();
 
@@ -394,37 +292,13 @@ public class WorkoutTests {
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton4 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton4.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.finish_exercise_fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(withId(R.id.finish_exercise_fab)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -467,35 +341,13 @@ public class WorkoutTests {
   public void canSaveWorkoutFromHistoryTabByClickingSaveInDiscardChangesDialog() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.finish_exercise_fab),
-            childAtPosition(
-                withParent(withId(R.id.view_pager)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(withId(R.id.finish_exercise_fab)).perform(click());
 
     sleepFor2Seconds();
 
@@ -523,25 +375,9 @@ public class WorkoutTests {
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton4 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton4.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     pressBack();
 
@@ -590,15 +426,7 @@ public class WorkoutTests {
   public void canAddSet() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
     ViewInteraction appCompatButton2 = onView(
         allOf(withId(R.id.increase_weight_button),
@@ -610,15 +438,7 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton2.perform(click());
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 1 Rep @ 1 LB"),
@@ -636,25 +456,9 @@ public class WorkoutTests {
   public void canAddSetWithNoWeight() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -672,25 +476,9 @@ public class WorkoutTests {
   public void canDeleteSet() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -723,25 +511,9 @@ public class WorkoutTests {
   public void canModifySet() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -784,15 +556,7 @@ public class WorkoutTests {
   public void givesErrorIfTryToAddSetWithRepsInputEmptyOrAtZero() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.textinput_error), withText("Please enter at least 1 rep"),
@@ -814,15 +578,7 @@ public class WorkoutTests {
             isDisplayed()));
     appCompatButton2.perform(click());
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.add_set_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                1),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.add_set_button)).perform(click());
 
     ViewInteraction textView2 = onView(
         allOf(withId(R.id.textinput_error), withText("Please enter at least 1 rep"),
@@ -879,15 +635,7 @@ public class WorkoutTests {
             isDisplayed()));
     editText2.check(matches(withText("1")));
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
     ViewInteraction editText3 = onView(
         allOf(withText("1"),

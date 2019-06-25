@@ -553,15 +553,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView3.perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.title), withText("Barbell Row"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Barbell Row")));
+    onView(withId(R.id.title)).check(matches(withText("Barbell Row")));
 
     pressBack();
     pressBack();

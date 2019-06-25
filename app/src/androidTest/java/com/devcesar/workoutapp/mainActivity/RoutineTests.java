@@ -1589,14 +1589,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(android.R.id.button2), withText("Discard"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                2)));
-    appCompatButton2.perform(scrollTo(), click());
+    onView(withText("Discard")).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -1678,15 +1671,8 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_action1)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.recycler_view),
-                    0),
-                1),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl")))
+        .check(doesNotExist());
 
     pressBack();
 
