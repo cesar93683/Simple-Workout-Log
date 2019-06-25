@@ -57,9 +57,7 @@ public class WorkoutTests {
 
     pressBack();
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.alertTitle), withText("Discard changes?")));
-    textView.check(matches(withText("Discard changes?")));
+    onView(withId(R.id.alertTitle)).check(matches(withText("Discard changes?")));
   }
 
   private Activity getCurrentActivity() {
@@ -108,39 +106,15 @@ public class WorkoutTests {
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.increase_weight_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    1),
-                2),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.increase_weight_button)).perform(click());
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
     sleepFor2Seconds();
 
-    ViewInteraction editText = onView(
-        allOf(withId(R.id.reps_text_input_edit_text), withText("1"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.reps_text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText.check(matches(withText("1")));
+    onView(withId(R.id.reps_text_input_edit_text)).check(matches(withText("1")));
 
-    ViewInteraction editText2 = onView(
-        allOf(withId(R.id.weight_text_input_edit_text), withText("1"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.weight_text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText2.check(matches(withText("1")));
+    onView(withId(R.id.weight_text_input_edit_text)).check(matches(withText("1")));
   }
 
   @Test
@@ -428,15 +402,7 @@ public class WorkoutTests {
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.increase_weight_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    1),
-                2),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.increase_weight_button)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
 
@@ -528,15 +494,7 @@ public class WorkoutTests {
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.increase_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withClassName(is("android.widget.LinearLayout")),
-                    0),
-                2),
-            isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(withId(R.id.increase_rep_button)).perform(click());
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
 
@@ -558,52 +516,20 @@ public class WorkoutTests {
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.textinput_error), withText("Please enter at least 1 rep"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    onView(withId(R.id.textinput_error)).check(matches(isDisplayed()));
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.decrease_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                0),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.decrease_rep_button)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction textView2 = onView(
-        allOf(withId(R.id.textinput_error), withText("Please enter at least 1 rep"),
-            childAtPosition(
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    0),
-                0),
-            isDisplayed()));
-    textView2.check(matches(isDisplayed()));
+    onView(withId(R.id.textinput_error)).check(matches(isDisplayed()));
   }
 
   @Test
   public void setAndWeightInputIncrementAndDecrementProperly() {
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.decrease_rep_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    0),
-                0),
-            isDisplayed()));
-    appCompatButton.perform(click());
+    onView(withId(R.id.decrease_rep_button)).perform(click());
 
     ViewInteraction editText = onView(
         allOf(withText("0"),
@@ -615,15 +541,7 @@ public class WorkoutTests {
             isDisplayed()));
     editText.check(matches(withText("0")));
 
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.increase_weight_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    1),
-                2),
-            isDisplayed()));
-    appCompatButton2.perform(click());
+    onView(withId(R.id.increase_weight_button)).perform(click());
 
     ViewInteraction editText2 = onView(
         allOf(withText("1"),
@@ -647,15 +565,7 @@ public class WorkoutTests {
             isDisplayed()));
     editText3.check(matches(withText("1")));
 
-    ViewInteraction appCompatButton4 = onView(
-        allOf(withId(R.id.decrease_weight_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.exercise_set_editor),
-                    1),
-                0),
-            isDisplayed()));
-    appCompatButton4.perform(click());
+    onView(withId(R.id.decrease_weight_button)).perform(click());
 
     ViewInteraction editText4 = onView(
         allOf(withText("0"),
