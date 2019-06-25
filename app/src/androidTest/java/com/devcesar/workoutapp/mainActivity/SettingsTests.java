@@ -108,15 +108,7 @@ onView(withId(R.id.nav_category)).perform(click());
             isDisplayed()));
     textView4.check(matches(withText("Biceps")));
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction textView5 = onView(
         allOf(withText("Strong 5x5 - Workout A"),
@@ -192,15 +184,7 @@ onView(withId(R.id.nav_category)).perform(click());
             isDisplayed()));
     textView2.check(doesNotExist());
 
-    ViewInteraction bottomNavigationItemView6 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView6.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction textView3 = onView(
         allOf(withText("Strong 5x5 - Workout A"),
@@ -262,15 +246,7 @@ onView(withId(R.id.nav_category)).perform(click());
             isDisplayed()));
     textView5.check(matches(isDisplayed()));
 
-    ViewInteraction bottomNavigationItemView10 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView10.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction textView6 = onView(
         allOf(withText("Strong 5x5 - Workout A"),

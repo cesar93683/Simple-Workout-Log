@@ -66,15 +66,7 @@ public class RoutineTests {
 
   @Test
   public void shouldKeepNewExercisesAddedAfterAddingThemThenRotating() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("Strong 5x5 - Workout A"),
@@ -138,15 +130,7 @@ public class RoutineTests {
 
   @Test
   public void shouldSaveNewOrderIfChangedOrderThenRotated() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("Strong 5x5 - Workout A"),
@@ -274,15 +258,7 @@ public class RoutineTests {
 
   @Test
   public void shouldShowSaveChangesDialogIfModifiedThenRotatedThenPressBack() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("Strong 5x5 - Workout A"),
@@ -323,15 +299,7 @@ public class RoutineTests {
 
   @Test
   public void shouldNotShowSaveChangesDialogIfNoChangesMade() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -385,15 +353,7 @@ public class RoutineTests {
 
   @Test
   public void shouldShowSaveChangesDialogIfDeleteExercise() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -509,15 +469,7 @@ public class RoutineTests {
 
   @Test
   public void shouldShowSaveChangesDialogIfRearrangeOrder() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -648,15 +600,7 @@ public class RoutineTests {
 
   @Test
   public void routineShouldGetNewNameAfterExerciseInRoutineIsRenamed() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -685,15 +629,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView3 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView3.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -775,15 +711,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView5 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView5.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView3 = onView(
         allOf(withText("A"),
@@ -828,15 +756,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView7 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView7.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView5 = onView(
         allOf(withText("A"),
@@ -856,15 +776,7 @@ public class RoutineTests {
 
   @Test
   public void shouldAddExercisesToRoutineFromClickingSaveInDiscardDialog() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -961,15 +873,7 @@ public class RoutineTests {
 
   @Test
   public void shouldAddMultipleExercisesToRoutineAlphabetically() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1113,15 +1017,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToAddExerciseToRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1226,15 +1122,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToChangeExerciseOrderInRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1396,15 +1284,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToCreateAndDeleteRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1450,15 +1330,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToDeleteExerciseFromRoutineInEditRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1592,15 +1464,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToDeleteExerciseFromRoutineInViewExercises() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1752,15 +1616,7 @@ public class RoutineTests {
 
   @Test
   public void shouldBeAbleToVisitExerciseFromRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1879,15 +1735,7 @@ public class RoutineTests {
 
   @Test
   public void shouldDeleteExerciseFromRoutineIfExerciseDeletedInExerciseTab() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -1916,15 +1764,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView3 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView3.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -2004,15 +1844,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView5 = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView5.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction appCompatTextView3 = onView(
         allOf(withText("A"),
@@ -2056,15 +1888,7 @@ public class RoutineTests {
 
   @Test
   public void shouldKeepExercisesAfterRenameRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -2199,15 +2023,7 @@ public class RoutineTests {
 
   @Test
   public void shouldNotAddExercisesToRoutineFromClickingDiscardInDiscardDialog() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
@@ -2311,15 +2127,7 @@ public class RoutineTests {
 
   @Test
   public void shouldNotBeAbleToAddExerciseToRoutineIfAlreadyInRoutine() {
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_routine), withContentDescription("Routine"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                2),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_routine)).perform(click());
 
     ViewInteraction floatingActionButton = onView(
         allOf(withId(R.id.fab),
