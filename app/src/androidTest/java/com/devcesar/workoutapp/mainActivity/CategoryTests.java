@@ -156,16 +156,7 @@ public class CategoryTests {
   public void exerciseThatIsCheckedThenUncheckedShouldNotBeAdded() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -296,16 +287,7 @@ public class CategoryTests {
   public void canAddExerciseThatIsHiddenByFilter() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -380,16 +362,7 @@ public class CategoryTests {
   public void canAddMultipleExercisesAndAreAlphabetized() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -510,16 +483,7 @@ public class CategoryTests {
   public void canAddExerciseByClickingCheckBoxOrText() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -657,16 +621,7 @@ public class CategoryTests {
   public void shouldBeAbleToAddExerciseToCategory() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -743,16 +698,7 @@ public class CategoryTests {
   public void categoryShouldGetNewNameAfterExerciseInCategoryIsRenamed() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -919,16 +865,7 @@ public class CategoryTests {
   public void shouldBeAbleToSwitchToCategory() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -977,16 +914,7 @@ public class CategoryTests {
   public void shouldDeleteExerciseFromCategoryIfExerciseDeletedInExerciseTab() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1134,16 +1062,7 @@ public class CategoryTests {
   public void shouldBeAbleToDeleteExerciseFromCategoryInViewExercises() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1228,16 +1147,7 @@ public class CategoryTests {
   public void shouldKeepExercisesAfterRenameCategory() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1339,16 +1249,7 @@ public class CategoryTests {
   public void shouldNotBeAbleToAddExerciseToCategoryIfAlreadyInCategory() {
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        1)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
