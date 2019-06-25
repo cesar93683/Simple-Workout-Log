@@ -81,15 +81,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab_action1),
@@ -164,15 +156,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton2 = onView(
         allOf(withId(R.id.fab_action2),
@@ -235,15 +219,7 @@ public class RoutineTests {
           return coordinates;
         }, Press.FINGER));
 
-    ViewInteraction viewInteraction2 = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction2.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab_action2),
@@ -301,16 +277,7 @@ public class RoutineTests {
   public void shouldNotShowSaveChangesDialogIfNoChangesMade() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -355,16 +322,7 @@ public class RoutineTests {
   public void shouldShowSaveChangesDialogIfDeleteExercise() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -383,15 +341,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -471,16 +421,7 @@ public class RoutineTests {
   public void shouldShowSaveChangesDialogIfRearrangeOrder() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -499,15 +440,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -602,16 +535,7 @@ public class RoutineTests {
   public void routineShouldGetNewNameAfterExerciseInRoutineIsRenamed() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -644,15 +568,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab_action1),
@@ -778,16 +694,7 @@ public class RoutineTests {
   public void shouldAddExercisesToRoutineFromClickingSaveInDiscardDialog() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -806,15 +713,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -875,16 +774,7 @@ public class RoutineTests {
   public void shouldAddMultipleExercisesToRoutineAlphabetically() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -903,15 +793,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1019,16 +901,7 @@ public class RoutineTests {
   public void shouldBeAbleToAddExerciseToRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1047,15 +920,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1124,16 +989,7 @@ public class RoutineTests {
   public void shouldBeAbleToChangeExerciseOrderInRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1152,15 +1008,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1286,16 +1134,7 @@ public class RoutineTests {
   public void shouldBeAbleToCreateAndDeleteRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1332,16 +1171,7 @@ public class RoutineTests {
   public void shouldBeAbleToDeleteExerciseFromRoutineInEditRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1360,15 +1190,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1466,16 +1288,7 @@ public class RoutineTests {
   public void shouldBeAbleToDeleteExerciseFromRoutineInViewExercises() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1494,15 +1307,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1618,16 +1423,7 @@ public class RoutineTests {
   public void shouldBeAbleToVisitExerciseFromRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1646,15 +1442,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1737,16 +1525,7 @@ public class RoutineTests {
   public void shouldDeleteExerciseFromRoutineIfExerciseDeletedInExerciseTab() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1779,15 +1558,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton4 = onView(
         allOf(withId(R.id.fab_action1),
@@ -1890,16 +1661,7 @@ public class RoutineTests {
   public void shouldKeepExercisesAfterRenameRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -1918,15 +1680,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -2025,16 +1779,7 @@ public class RoutineTests {
   public void shouldNotAddExercisesToRoutineFromClickingDiscardInDiscardDialog() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -2053,15 +1798,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -2129,16 +1866,7 @@ public class RoutineTests {
   public void shouldNotBeAbleToAddExerciseToRoutineIfAlreadyInRoutine() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        2)),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
@@ -2157,15 +1885,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton3 = onView(
         allOf(withId(R.id.fab_action1),
@@ -2205,15 +1925,7 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction viewInteraction2 = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    1),
-                2),
-            isDisplayed()));
-    viewInteraction2.perform(click());
+    onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     ViewInteraction floatingActionButton7 = onView(
         allOf(withId(R.id.fab_action1),
