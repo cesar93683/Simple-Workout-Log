@@ -19,21 +19,11 @@ import org.hamcrest.TypeSafeMatcher;
 
 class ViewHelper {
 
-  static final String AlternatingDumbbellCurl = "Alternating Dumbbell Curl";
+  static final String str_AlternatingDumbbellCurl = "Alternating Dumbbell Curl";
+  static final String str_Save = "Save";
+  static final String str_Yes = "Yes";
 
-  static ViewInteraction getFabFromExerciseTabInMainActivity() {
-    return onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                allOf(withId(R.id.coordinator_layout),
-                    childAtPosition(
-                        withId(R.id.fragment_container),
-                        0)),
-                1),
-            isDisplayed()));
-  }
-
-  private static Matcher<View> childAtPosition(
+  static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {
 
     return new TypeSafeMatcher<View>() {
@@ -52,48 +42,12 @@ class ViewHelper {
     };
   }
 
-  static ViewInteraction getSaveFromDialog() {
-    return onView(
-        allOf(withId(android.R.id.button1), withText("Save"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.buttonPanel),
-                    0),
-                3)));
-  }
-
-  static ViewInteraction getTextInputEditTextFromDialogInput() {
-    return onView(
-        allOf(
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-  }
-
-  static ViewInteraction getAlternatingDumbbellCurlFromExerciseTabInMainActivity() {
-    return onView(
-        allOf(withText(AlternatingDumbbellCurl),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-  }
-
-  static ViewInteraction getEditFromEditOrDeleteDialog() {
-    return onView(
-        allOf(withId(R.id.edit_linear_layout),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.custom),
-                    0),
-                0),
-            isDisplayed()));
+  static void sleepFor2Seconds() {
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
 }
