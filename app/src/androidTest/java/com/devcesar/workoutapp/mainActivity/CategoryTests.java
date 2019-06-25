@@ -173,15 +173,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -259,15 +251,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(allOf(withId(R.id.filter_edit_text), isDisplayed()))
         .perform(replaceText("z"), closeSoftKeyboard());
@@ -304,15 +288,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -381,15 +357,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView1.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -502,15 +470,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView1.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction appCompatCheckBox = onView(
         allOf(withId(R.id.check_box),
@@ -640,15 +600,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView1.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout1 = onView(
         allOf(childAtPosition(
@@ -737,15 +689,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -953,15 +897,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView2.perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1079,15 +1015,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1164,15 +1092,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -1268,15 +1188,7 @@ public class CategoryTests {
             isDisplayed()));
     appCompatTextView1.perform(click());
 
-    ViewInteraction floatingActionButton21 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton21.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout1 = onView(
         allOf(childAtPosition(
@@ -1292,15 +1204,7 @@ public class CategoryTests {
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     sleepFor2Seconds();
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),

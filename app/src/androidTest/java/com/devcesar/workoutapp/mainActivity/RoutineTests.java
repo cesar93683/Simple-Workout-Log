@@ -359,15 +359,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     pressBack();
 
@@ -429,15 +421,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -485,15 +469,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton6 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton6.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction linearLayout2 = onView(
         allOf(childAtPosition(
@@ -569,15 +545,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -635,15 +603,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton6 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton6.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction imageView = onView(
         allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
@@ -754,15 +714,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -964,15 +916,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -1077,15 +1021,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -1237,15 +1173,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -1358,15 +1286,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -1590,15 +1510,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -1740,15 +1652,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -1908,15 +1812,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -2073,15 +1969,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton3 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton3.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -2244,15 +2132,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -2395,15 +2275,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -2515,15 +2387,7 @@ public class RoutineTests {
             isDisplayed()));
     appCompatTextView.perform(click());
 
-    ViewInteraction floatingActionButton2 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton2.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),
@@ -2571,15 +2435,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction floatingActionButton6 = onView(
-        allOf(withId(R.id.fab),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.fragment_container),
-                    0),
-                1),
-            isDisplayed()));
-    floatingActionButton6.perform(click());
+    onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction viewInteraction2 = onView(
         allOf(withId(R.id.fab_expand_menu_button),
