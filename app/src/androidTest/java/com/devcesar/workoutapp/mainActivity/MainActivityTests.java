@@ -5,15 +5,14 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -49,7 +48,7 @@ public class MainActivityTests {
     onView(withId(R.id.text_input_edit_text))
         .perform(replaceText(alternatingDumbbellCurl2), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction textView2 = onView(withText(alternatingDumbbellCurl2));
     textView2.check(matches(withText(alternatingDumbbellCurl2)));
@@ -60,7 +59,7 @@ public class MainActivityTests {
     onView(withId(R.id.text_input_edit_text))
         .perform(replaceText(str_AlternatingDumbbellCurl), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     onView(withText(str_AlternatingDumbbellCurl)).check(matches(withText(
         str_AlternatingDumbbellCurl)));
@@ -80,14 +79,14 @@ public class MainActivityTests {
                         1)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Barbell Back Squat")));
   }
 
   @Test
   public void shouldRenderErrorWhenTryingToCreateExerciseWithNoName() {
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -107,7 +106,7 @@ public class MainActivityTests {
     onView(withId(R.id.text_input_edit_text))
         .perform(replaceText("Alternating Dumbbell Curl"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -126,7 +125,7 @@ public class MainActivityTests {
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction linearLayout1 = onView(
         allOf(childAtPosition(

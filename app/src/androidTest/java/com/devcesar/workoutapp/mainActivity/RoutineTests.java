@@ -6,7 +6,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -48,22 +47,6 @@ public class RoutineTests {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
       MainActivity.class);
 
-  private Activity getCurrentActivity() {
-    getInstrumentation().waitForIdleSync();
-    final Activity[] activity = new Activity[1];
-    try {
-      mActivityTestRule.runOnUiThread(() -> {
-        java.util.Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance()
-            .getActivitiesInStage(
-                Stage.RESUMED);
-        activity[0] = Iterables.getOnlyElement(activities);
-      });
-    } catch (Throwable throwable) {
-      throwable.printStackTrace();
-    }
-    return activity[0];
-  }
-
   @Test
   public void shouldKeepNewExercisesAddedAfterAddingThemThenRotating() {
     onView(withId(R.id.nav_routine)).perform(click());
@@ -86,16 +69,12 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -110,6 +89,22 @@ public class RoutineTests {
                 1),
             isDisplayed()));
     textView.check(matches(withText("Alternating Dumbbell Curl")));
+  }
+
+  private void rotateLandscape() {
+    getInstrumentation().waitForIdleSync();
+    final Activity[] activity = new Activity[1];
+    try {
+      mActivityTestRule.runOnUiThread(() -> {
+        java.util.Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance()
+            .getActivitiesInStage(
+                Stage.RESUMED);
+        activity[0] = Iterables.getOnlyElement(activities);
+      });
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
+    activity[0].setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
   }
 
   @Test
@@ -144,7 +139,7 @@ public class RoutineTests {
           return coordinates;
         }, Press.FINGER));
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -237,7 +232,7 @@ public class RoutineTests {
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -254,7 +249,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -299,7 +294,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -319,13 +314,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -352,9 +343,9 @@ public class RoutineTests {
 
     pressBack();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).check(matches(isDisplayed()));
+    onView(withText(ViewHelper.str_Save)).check(matches(isDisplayed()));
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(withText(ViewHelper.str_Save)).perform(click());
 
     pressBack();
 
@@ -382,7 +373,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -402,13 +393,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     ViewInteraction linearLayout2 = onView(
@@ -450,9 +437,9 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).check(matches(isDisplayed()));
+    onView(withText(ViewHelper.str_Save)).check(matches(isDisplayed()));
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(withText(ViewHelper.str_Save)).perform(click());
 
     pressBack();
 
@@ -480,7 +467,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -490,7 +477,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -514,13 +501,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -548,7 +531,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("Aa"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -623,7 +606,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -643,20 +626,16 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     pressBack();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -667,7 +646,7 @@ public class RoutineTests {
                         0)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
 
     pressBack();
 
@@ -695,7 +674,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -735,13 +714,9 @@ public class RoutineTests {
     linearLayout2.perform(click());
 
     ViewInteraction linearLayout3 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout3.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -754,7 +729,7 @@ public class RoutineTests {
                     0),
                 1),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
 
     ViewInteraction textView2 = onView(
         allOf(withId(R.id.text_view), withText("Barbell Back Squat"),
@@ -764,7 +739,7 @@ public class RoutineTests {
                     1),
                 1),
             isDisplayed()));
-    textView2.check(matches(isDisplayed()));
+    textView2.check(matches(withText("Barbell Back Squat")));
 
     ViewInteraction textView3 = onView(
         allOf(withId(R.id.text_view), withText("Barbell Bench Press"),
@@ -774,7 +749,7 @@ public class RoutineTests {
                     2),
                 1),
             isDisplayed()));
-    textView3.check(matches(isDisplayed()));
+    textView3.check(matches(withText("Barbell Bench Press")));
 
     sleepFor2Seconds();
 
@@ -806,7 +781,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -826,13 +801,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -850,7 +821,7 @@ public class RoutineTests {
                         0)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Alternating Dumbbell Curl")));
 
     pressBack();
 
@@ -878,7 +849,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -898,13 +869,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     ViewInteraction linearLayout2 = onView(
@@ -957,7 +924,7 @@ public class RoutineTests {
                         0)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Barbell Bench Press")));
 
     ViewInteraction textView2 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -968,7 +935,7 @@ public class RoutineTests {
                         0)),
                 1),
             isDisplayed()));
-    textView2.check(matches(isDisplayed()));
+    textView2.check(matches(withText("Alternating Dumbbell Curl")));
 
     ViewInteraction textView3 = onView(
         allOf(withText("Barbell Back Squat"),
@@ -979,7 +946,7 @@ public class RoutineTests {
                         0)),
                 2),
             isDisplayed()));
-    textView3.check(matches(isDisplayed()));
+    textView3.check(matches(withText("Barbell Back Squat")));
 
     pressBack();
 
@@ -1007,7 +974,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("A"),
@@ -1018,7 +985,7 @@ public class RoutineTests {
                         1)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("A")));
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1044,7 +1011,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1064,13 +1031,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     ViewInteraction linearLayout2 = onView(
@@ -1145,7 +1108,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1165,13 +1128,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     ViewInteraction linearLayout2 = onView(
@@ -1190,16 +1149,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_action2)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withId(R.id.coordinator_layout),
-                        0)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(longClick());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
@@ -1256,7 +1206,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1276,13 +1226,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -1293,16 +1239,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withId(R.id.coordinator_layout),
-                        0)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(click());
+    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.title)).check(matches(withText("Alternating Dumbbell Curl")));
 
@@ -1334,7 +1271,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -1344,7 +1281,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -1368,13 +1305,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -1454,7 +1387,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1474,13 +1407,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -1506,7 +1435,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("Aa"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView3 = onView(
         allOf(withText("Aa"),
@@ -1556,7 +1485,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1576,13 +1505,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
@@ -1591,16 +1516,7 @@ public class RoutineTests {
 
     onView(withText("Discard")).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     pressBack();
 
@@ -1628,7 +1544,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction appCompatTextView = onView(
         allOf(withText("A"),
@@ -1648,13 +1564,9 @@ public class RoutineTests {
     onView(withId(R.id.fab_action1)).perform(click());
 
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());

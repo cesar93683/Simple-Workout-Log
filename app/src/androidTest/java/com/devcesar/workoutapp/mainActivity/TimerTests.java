@@ -3,7 +3,6 @@ package com.devcesar.workoutapp.mainActivity;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -55,14 +54,14 @@ public class TimerTests {
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
     onView(withId(R.id.timer_display)).check(matches(withText("1:57")));
   }
 
-  private Activity getCurrentActivity() {
+  private void rotateLandscape() {
     getInstrumentation().waitForIdleSync();
     final Activity[] activity = new Activity[1];
     try {
@@ -75,7 +74,7 @@ public class TimerTests {
     } catch (Throwable throwable) {
       throwable.printStackTrace();
     }
-    return activity[0];
+    activity[0].setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
   }
 
   @Test
@@ -86,7 +85,7 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -149,7 +148,7 @@ public class TimerTests {
       }
     });
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -213,7 +212,7 @@ public class TimerTests {
       }
     });
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
   }
 
   @Test
@@ -272,7 +271,7 @@ public class TimerTests {
       }
     });
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     pressBack();
 
@@ -341,7 +340,7 @@ public class TimerTests {
       }
     });
 
-    onView(withText("Save")).perform(scrollTo(), click());
+    onView(withText("Save")).perform(click());
   }
 
   @Test
@@ -406,13 +405,11 @@ public class TimerTests {
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
-    onView(allOf(withId(R.id.timer_start_pause), withContentDescription("Pause")))
-        .check(matches(isDisplayed()));
+    onView(withId(R.id.timer_start_pause)).check(matches(withContentDescription("Pause")));
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
-    onView(allOf(withId(R.id.timer_start_pause), withContentDescription("Play")))
-        .check(matches(isDisplayed()));
+    onView(withId(R.id.timer_start_pause)).check(matches(withContentDescription("Play")));
   }
 
   @Test
@@ -547,9 +544,9 @@ public class TimerTests {
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    onView(withText("2")).check(matches(isDisplayed()));
+    onView(withText("2")).check(matches(withText("2")));
 
-    onView(withText("0")).check(matches(isDisplayed()));
+    onView(withText("0")).check(matches(withText("0")));
   }
 
   @Test

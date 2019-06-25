@@ -5,7 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -22,7 +21,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import com.devcesar.workoutapp.R;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,14 +43,10 @@ public class ExerciseTests {
   @Test
   public void shouldDefaultToExercise() {
     ViewInteraction textView = onView(
-        allOf(withText("Exercise"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.action_bar),
+            0)
+    );
     textView.check(matches(withText("Exercise")));
   }
 
@@ -62,7 +56,7 @@ public class ExerciseTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("A"),
@@ -73,7 +67,7 @@ public class ExerciseTests {
                         1)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("A")));
 
     ViewInteraction textView2 = onView(
         allOf(withText("A"),

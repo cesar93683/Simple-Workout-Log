@@ -4,7 +4,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -51,7 +50,7 @@ public class WorkoutTests {
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -60,7 +59,7 @@ public class WorkoutTests {
     onView(withId(R.id.alertTitle)).check(matches(withText("Discard changes?")));
   }
 
-  private Activity getCurrentActivity() {
+  private void rotateLandscape() {
     getInstrumentation().waitForIdleSync();
     final Activity[] activity = new Activity[1];
     try {
@@ -73,7 +72,7 @@ public class WorkoutTests {
     } catch (Throwable throwable) {
       throwable.printStackTrace();
     }
-    return activity[0];
+    activity[0].setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
   }
 
   @Test
@@ -84,7 +83,7 @@ public class WorkoutTests {
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -108,7 +107,7 @@ public class WorkoutTests {
 
     onView(withId(R.id.increase_weight_button)).perform(click());
 
-    getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    rotateLandscape();
 
     sleepFor2Seconds();
 
@@ -126,7 +125,7 @@ public class WorkoutTests {
     onView(withId(R.id.add_set_button)).perform(click());
     pressBack();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -357,7 +356,7 @@ public class WorkoutTests {
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 1 Rep @ - LB"),
@@ -415,7 +414,7 @@ public class WorkoutTests {
                         3)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Set 1 - 1 Rep @ 1 LB")));
   }
 
   @Test
@@ -435,7 +434,7 @@ public class WorkoutTests {
                         3)),
                 0),
             isDisplayed()));
-    textView.check(matches(isDisplayed()));
+    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
   }
 
   @Test
@@ -496,7 +495,7 @@ public class WorkoutTests {
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(scrollTo(), click());
+    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Set 1 - 2 Reps @ - LB"),

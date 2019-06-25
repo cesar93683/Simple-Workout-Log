@@ -123,16 +123,7 @@ public class SettingsTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     onView(withId(R.id.nav_category)).perform(click());
 
@@ -177,7 +168,7 @@ public class SettingsTests {
                         1)),
                 0),
             isDisplayed()));
-    textView4.check(matches(isDisplayed()));
+    textView4.check(matches(withText("Alternating Dumbbell Curl")));
 
     onView(withId(R.id.nav_category)).perform(click());
 
@@ -190,7 +181,7 @@ public class SettingsTests {
                         1)),
                 0),
             isDisplayed()));
-    textView5.check(matches(isDisplayed()));
+    textView5.check(matches(withText("Back")));
 
     onView(withId(R.id.nav_routine)).perform(click());
 
@@ -203,7 +194,7 @@ public class SettingsTests {
                         1)),
                 0),
             isDisplayed()));
-    textView6.check(matches(isDisplayed()));
+    textView6.check(matches(withText("Strong 5x5 - Workout A")));
   }
 
   @Test
