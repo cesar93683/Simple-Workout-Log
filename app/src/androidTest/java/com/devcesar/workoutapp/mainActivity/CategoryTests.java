@@ -11,7 +11,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -124,22 +123,13 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(allOf(withId(R.id.filter_edit_text), isDisplayed()))
-        .perform(replaceText("sq"), closeSoftKeyboard());
+    onView(withId(R.id.filter_edit_text)).perform(replaceText("sq"), closeSoftKeyboard());
 
     getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
     sleepFor2Seconds();
 
-    ViewInteraction editText = onView(
-        allOf(withId(R.id.filter_edit_text), withText("sq"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText.check(matches(withText("sq")));
+    onView(withId(R.id.filter_edit_text)).check(matches(withText("sq")));
 
     ViewInteraction textView = onView(
         allOf(withId(R.id.text_view), withText("Barbell Back Squat"),
@@ -658,15 +648,7 @@ public class CategoryTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -705,15 +687,7 @@ public class CategoryTests {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("A"),
@@ -760,15 +734,7 @@ public class CategoryTests {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView6 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView6.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction appCompatTextView5 = onView(
         allOf(withText("Aa"),
@@ -815,15 +781,7 @@ public class CategoryTests {
 
     onView(allOf(withId(android.R.id.button1), withText("Save"))).perform(scrollTo(), click());
 
-    ViewInteraction bottomNavigationItemView = onView(
-        allOf(withId(R.id.nav_category),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                1),
-            isDisplayed()));
-    bottomNavigationItemView.perform(click());
+    onView(withId(R.id.nav_category)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Category"),
@@ -866,15 +824,7 @@ public class CategoryTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -923,15 +873,7 @@ public class CategoryTests {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction appCompatTextView3 = onView(
         allOf(withText("A"),

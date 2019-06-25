@@ -3,7 +3,6 @@ package com.devcesar.workoutapp.mainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -61,15 +60,7 @@ public class SettingsTests {
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -175,15 +166,7 @@ onView(withId(R.id.nav_category)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -253,15 +236,7 @@ onView(withId(R.id.nav_category)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
-    ViewInteraction bottomNavigationItemView8 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView8.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction textView4 = onView(
         allOf(withText("Alternating Dumbbell Curl"),
@@ -390,15 +365,7 @@ onView(withId(R.id.nav_category)).perform(click());
 
     onView(withText(ViewHelper.str_Yes)).perform(click());
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 

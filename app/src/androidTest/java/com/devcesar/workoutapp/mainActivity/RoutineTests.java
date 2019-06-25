@@ -675,15 +675,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -762,15 +754,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("A"),
@@ -825,15 +809,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView6 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView6.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction appCompatTextView4 = onView(
         allOf(withText("Aa"),
@@ -1930,15 +1906,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -2017,15 +1985,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     ViewInteraction appCompatTextView2 = onView(
         allOf(withText("A"),

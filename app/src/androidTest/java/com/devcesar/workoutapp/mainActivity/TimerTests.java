@@ -881,15 +881,7 @@ public class TimerTests {
             isDisplayed()));
     constraintLayout.perform(click());
 
-    ViewInteraction bottomNavigationItemView2 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView2.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
@@ -958,15 +950,7 @@ public class TimerTests {
             isDisplayed()));
     constraintLayout2.perform(click());
 
-    ViewInteraction bottomNavigationItemView4 = onView(
-        allOf(withId(R.id.nav_exercise), withContentDescription("Exercise"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.bottom_navigation),
-                    0),
-                0),
-            isDisplayed()));
-    bottomNavigationItemView4.perform(click());
+    onView(withId(R.id.nav_exercise)).perform(click());
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
