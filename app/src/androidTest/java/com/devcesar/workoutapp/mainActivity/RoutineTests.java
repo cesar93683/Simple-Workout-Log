@@ -227,16 +227,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -297,16 +288,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -382,16 +364,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -446,16 +419,7 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
@@ -467,16 +431,7 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
+    onView(withText("A")).perform(click());
 
     ViewInteraction textView = onView(
         allOf(withText("Aa"),
@@ -512,16 +467,7 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView5 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView5.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -571,16 +517,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -669,16 +606,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -728,16 +656,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -844,16 +763,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -870,16 +780,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("A")));
+    onView(withText("A")).check(matches(withText("A")));
 
     onView(withText("A")).perform(longClick());
 
@@ -960,16 +861,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -1033,16 +925,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -1105,16 +988,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -1169,16 +1043,7 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -1188,40 +1053,13 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
+    onView(withText("A")).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(withText("A")).check(doesNotExist());
 
     pressBack();
 
-    ViewInteraction appCompatTextView4 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView4.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -1260,16 +1098,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
@@ -1351,16 +1180,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -1414,16 +1234,7 @@ public class RoutineTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 

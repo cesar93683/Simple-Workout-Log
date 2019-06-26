@@ -10,7 +10,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -21,9 +20,9 @@ import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Back;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBackSquat;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBenchPress;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellRow;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Category;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -36,7 +35,6 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 import com.devcesar.workoutapp.R;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -359,7 +357,7 @@ public class CategoryTests {
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
-    onView(withId(R.id.text_input_edit_text)).perform(replaceText("AAA"), closeSoftKeyboard());
+    onView(withId(R.id.text_input_edit_text)).perform(replaceText("AAa"), closeSoftKeyboard());
 
     onView(ViewMatchers.withText(str_Save)).perform(click());
 
@@ -369,13 +367,13 @@ public class CategoryTests {
 
     onView(withText("A")).perform(click());
 
-    onView(childAtPosition((withId(R.id.recycler_view)), 0)).check(matches(withText("AAA")));
+    onView(childAtPosition((withId(R.id.recycler_view)), 0)).check(matches(withText("AAa")));
 
     pressBack();
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    onView(withText("AAA")).perform(longClick());
+    onView(withText("AAa")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -404,16 +402,7 @@ public class CategoryTests {
 
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Category"),
-            childAtPosition(
-                allOf(withId(R.id.action_bar),
-                    childAtPosition(
-                        withId(R.id.action_bar_container),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Category")));
+    onView(childAtPosition(withId(R.id.action_bar), 0)).check(matches(withText(str_Category)));
 
     onView(withId(R.id.nav_category)).perform(click());
 
@@ -440,7 +429,7 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
+    onView(withId(R.id.text_input_edit_text)).perform(replaceText("AA"), closeSoftKeyboard());
 
     onView(ViewMatchers.withText(str_Save)).perform(click());
 
@@ -448,34 +437,13 @@ public class CategoryTests {
 
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout.perform(click());
+    onView(withText("AA")).perform(click());
 
-    ViewInteraction linearLayout2 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                    1)),
-            1),
-            isDisplayed()));
-    linearLayout2.perform(click());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -483,16 +451,7 @@ public class CategoryTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(longClick());
+    onView(withText("AA")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -502,27 +461,9 @@ public class CategoryTests {
 
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction appCompatTextView4 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView4.perform(click());
+    onView(withText("A")).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withId(R.id.coordinator_layout),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(withText("AA")).check(doesNotExist());
 
     pressBack();
 
@@ -549,11 +490,7 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout.perform(click());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -565,16 +502,7 @@ public class CategoryTests {
 
     pressBack();
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -595,26 +523,13 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout.perform(click());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     pressBack();
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
@@ -622,40 +537,14 @@ public class CategoryTests {
 
     onView(ViewMatchers.withText(str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("Aa"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
+    onView(withText("Aa")).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText(str_AlternatingDumbbellCurl),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        0)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText(str_AlternatingDumbbellCurl)));
+    onView(childAtPosition(withId(R.id.recycler_view), 0))
+        .check(matches(withText(str_AlternatingDumbbellCurl)));
 
     pressBack();
 
-    ViewInteraction appCompatTextView4 = onView(
-        allOf(withText("Aa"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView4.perform(longClick());
+    onView(withText("Aa")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -678,11 +567,7 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction linearLayout1 = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout1.perform(click());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -690,15 +575,7 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.text_view), withText(str_AlternatingDumbbellCurl),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.recycler_view),
-                    0),
-                1),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     pressBack();
 

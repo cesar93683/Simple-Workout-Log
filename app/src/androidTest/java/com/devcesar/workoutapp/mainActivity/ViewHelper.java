@@ -18,6 +18,7 @@ class ViewHelper {
   static final String str_BarbellRow = "Barbell Row";
   static final String str_BarbellBackSquat = "Barbell Back Squat";
   static final String str_BarbellBenchPress = "Barbell Bench Press";
+  static final String str_Category = "Category";
 
   static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {
