@@ -14,6 +14,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_DiscardChanges;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_History;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -56,7 +58,7 @@ public class WorkoutTests {
 
     pressBack();
 
-    onView(withId(R.id.alertTitle)).check(matches(withText("Discard changes?")));
+    onView(withId(R.id.alertTitle)).check(matches(withText(str_DiscardChanges)));
   }
 
   private void rotateLandscape() {
@@ -87,16 +89,8 @@ public class WorkoutTests {
 
     sleepFor2Seconds();
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        3)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_recycler_view), 0))
+        .check(matches(withText("Set 1 - 1 Rep @ - LB")));
   }
 
   @Test
@@ -123,6 +117,7 @@ public class WorkoutTests {
     onView(withId(R.id.increase_rep_button)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
+
     pressBack();
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
@@ -131,34 +126,18 @@ public class WorkoutTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction tabView = onView(
-        allOf(withContentDescription("History"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.tabs),
-                    0),
-                1),
-            isDisplayed()));
-    tabView.perform(click());
-
+    onView(withContentDescription(str_History)).perform(click());
+//todo
     ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout.check(matches(isDisplayed()));
 
     ViewInteraction linearLayout2 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
+        childAtPosition(
+            withId(R.id.recycler_view),
+            0));
     linearLayout2.perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
@@ -182,15 +161,7 @@ public class WorkoutTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction tabView = onView(
-        allOf(withContentDescription("History"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.tabs),
-                    0),
-                1),
-            isDisplayed()));
-    tabView.perform(click());
+    onView(withContentDescription(str_History)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -243,15 +214,7 @@ public class WorkoutTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction tabView = onView(
-        allOf(withContentDescription("History"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.tabs),
-                    0),
-                1),
-            isDisplayed()));
-    tabView.perform(click());
+    onView(withContentDescription(str_History)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(
@@ -326,15 +289,7 @@ public class WorkoutTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction tabView = onView(
-        allOf(withContentDescription("History"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.tabs),
-                    0),
-                1),
-            isDisplayed()));
-    tabView.perform(click());
+    onView(withContentDescription(str_History)).perform(click());
 
     ViewInteraction linearLayout = onView(
         allOf(childAtPosition(

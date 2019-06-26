@@ -24,6 +24,8 @@ class ViewHelper {
   static final String str_Discard = "Discard";
   static final String str_SaveChanges = "Save changes?";
   static final String str_Routine = "Routine";
+  static final String str_DiscardChanges = "Discard changes?";
+  static final String str_History = "History";
 
   static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {
