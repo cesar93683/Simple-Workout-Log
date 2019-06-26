@@ -22,6 +22,7 @@ import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBenchPr
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellRow;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Category;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Yes;
 import static org.hamcrest.Matchers.allOf;
 
 import android.app.Activity;
@@ -63,9 +64,9 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(longClick());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(longClick());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   private void rotateLandscape() {
@@ -132,7 +133,7 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
+    onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     pressBack();
 
@@ -140,7 +141,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -154,7 +155,7 @@ public class CategoryTests {
     onView(allOf(withId(R.id.filter_edit_text), isDisplayed()))
         .perform(replaceText("z"), closeSoftKeyboard());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
+    onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
   }
 
   @Test
@@ -187,7 +188,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -229,7 +230,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -267,7 +268,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -314,7 +315,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -377,7 +378,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     sleepFor2Seconds();
 
@@ -387,7 +388,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -410,7 +411,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -455,7 +456,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     sleepFor2Seconds();
 
@@ -473,7 +474,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -494,11 +495,11 @@ public class CategoryTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(longClick());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(longClick());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
+    onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     pressBack();
 
@@ -506,7 +507,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -548,7 +549,7 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -587,6 +588,6 @@ public class CategoryTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 }
