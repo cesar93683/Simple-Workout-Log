@@ -13,6 +13,7 @@ import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBackSquat;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.pm.ActivityInfo;
@@ -44,7 +45,7 @@ public class MainActivityTests {
     onView(withId(R.id.text_input_edit_text))
         .perform(replaceText(alternatingDumbbellCurl2), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(childAtPosition(withId(R.id.recycler_view), 0))
         .check(matches(withText(alternatingDumbbellCurl2)));
@@ -56,7 +57,7 @@ public class MainActivityTests {
     onView(withId(R.id.text_input_edit_text))
         .perform(replaceText(str_AlternatingDumbbellCurl), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
   }
 
   @Test
@@ -72,7 +73,7 @@ public class MainActivityTests {
   public void shouldRenderErrorWhenTryingToCreateExerciseWithNoName() {
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withId(R.id.textinput_error)).check(matches(withText("Please enter a name.")));
   }
@@ -84,7 +85,7 @@ public class MainActivityTests {
     onView(withId(R.id.text_input_edit_text))
         .perform(replaceText(str_AlternatingDumbbellCurl), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withId(R.id.textinput_error))
         .check(matches(withText(str_AlternatingDumbbellCurl + " already exists.")));
@@ -96,7 +97,7 @@ public class MainActivityTests {
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withId(R.id.textinput_error)).check(matches(withText("Same name.")));
   }

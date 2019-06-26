@@ -9,7 +9,6 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -21,7 +20,10 @@ import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBenchPr
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellRow;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Discard;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Routine;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_SaveChanges;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutA;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Yes;
 import static org.hamcrest.Matchers.allOf;
 
 import android.app.Activity;
@@ -55,7 +57,7 @@ public class RoutineTests {
   public void shouldKeepNewExercisesAddedAfterAddingThemThenRotating() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    onView(withText(ViewHelper.str_Strong5x5WorkoutA)).perform(click());
+    onView(withText(str_Strong5x5WorkoutA)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -95,7 +97,7 @@ public class RoutineTests {
   public void shouldSaveNewOrderIfChangedOrderThenRotated() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    onView(withText(ViewHelper.str_Strong5x5WorkoutA)).perform(click());
+    onView(withText(str_Strong5x5WorkoutA)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -106,12 +108,7 @@ public class RoutineTests {
                     withId(R.id.recycler_view),
                     2),
                 0)));
-    imageView.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-        view -> {
-          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
-          coordinates[1] = 0;
-          return coordinates;
-        }, Press.FINGER));
+    imageView.perform(dragUp());
 
     rotateLandscape();
 
@@ -150,17 +147,26 @@ public class RoutineTests {
     onView(withId(R.id.fab_action2)).perform(click());
   }
 
+  private GeneralSwipeAction dragUp() {
+    return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
+        view -> {
+          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
+          coordinates[1] = 0;
+          return coordinates;
+        }, Press.FINGER);
+  }
+
   @Test
   public void shouldShowSaveChangesDialogIfModifiedThenRotatedThenPressBack() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    onView(withText(ViewHelper.str_Strong5x5WorkoutA)).perform(click());
+    onView(withText(str_Strong5x5WorkoutA)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     onView(withText(str_BarbellBackSquat)).perform(longClick());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     rotateLandscape();
 
@@ -179,7 +185,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -187,7 +193,7 @@ public class RoutineTests {
 
     pressBack();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).check(doesNotExist());
+    onView(ViewMatchers.withText(str_Save)).check(doesNotExist());
 
     pressBack();
 
@@ -195,7 +201,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -206,7 +212,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -230,13 +236,13 @@ public class RoutineTests {
 
     onView(withText(str_AlternatingDumbbellCurl)).perform(longClick());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     pressBack();
 
-    onView(withText(ViewHelper.str_Save)).check(matches(isDisplayed()));
+    onView(withText(str_Save)).check(matches(isDisplayed()));
 
-    onView(withText(ViewHelper.str_Save)).perform(click());
+    onView(withText(str_Save)).perform(click());
 
     pressBack();
 
@@ -244,7 +250,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -255,7 +261,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -280,27 +286,21 @@ public class RoutineTests {
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction imageView = onView(
-        allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
+        allOf(withId(R.id.drag_image_view),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.recycler_view),
                     1),
-                0),
-            isDisplayed()));
-    imageView.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-        view -> {
-          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
-          coordinates[1] = 0;
-          return coordinates;
-        }, Press.FINGER));
+                0)));
+    imageView.perform(dragUp());
 
     pressBack();
 
     sleepFor2Seconds();
 
-    onView(withText(ViewHelper.str_Save)).check(matches(isDisplayed()));
+    onView(withText(str_Save)).check(matches(isDisplayed()));
 
-    onView(withText(ViewHelper.str_Save)).perform(click());
+    onView(withText(str_Save)).perform(click());
 
     pressBack();
 
@@ -308,7 +308,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -319,7 +319,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -329,7 +329,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("AA"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -361,7 +361,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("AAa"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -379,7 +379,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     sleepFor2Seconds();
 
@@ -389,7 +389,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -400,7 +400,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -416,7 +416,7 @@ public class RoutineTests {
 
     pressBack();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(childAtPosition(withId(R.id.recycler_view), 0))
         .check(matches(withText(str_AlternatingDumbbellCurl)));
@@ -427,7 +427,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -438,7 +438,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -475,7 +475,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -486,7 +486,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -513,7 +513,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -524,7 +524,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -545,19 +545,13 @@ public class RoutineTests {
     sleepFor2Seconds();
 
     ViewInteraction imageView = onView(
-        allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
+        allOf(withId(R.id.drag_image_view),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.recycler_view),
                     2),
-                0),
-            isDisplayed()));
-    imageView.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-        view -> {
-          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
-          coordinates[1] = 0;
-          return coordinates;
-        }, Press.FINGER));
+                0)));
+    imageView.perform(dragUp());
 
     onView(withId(R.id.fab_action2)).perform(click());
 
@@ -576,7 +570,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -587,7 +581,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
         .check(matches(withText("A")));
@@ -596,7 +590,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -607,7 +601,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -623,7 +617,7 @@ public class RoutineTests {
 
     onView(withText(str_AlternatingDumbbellCurl)).perform(longClick());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
@@ -637,7 +631,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -648,7 +642,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -666,9 +660,9 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_action2)).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(longClick());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(longClick());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
@@ -678,7 +672,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -696,7 +690,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -716,7 +710,7 @@ public class RoutineTests {
 
     sleepFor2Seconds();
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.title)).check(matches(withText(str_AlternatingDumbbellCurl)));
 
@@ -728,7 +722,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -739,7 +733,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -749,7 +743,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("AA"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     sleepFor2Seconds();
 
@@ -779,7 +773,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     sleepFor2Seconds();
 
@@ -795,7 +789,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -806,7 +800,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -832,7 +826,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("Aa"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("Aa")).perform(click());
 
@@ -845,7 +839,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -856,7 +850,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -874,7 +868,7 @@ public class RoutineTests {
 
     onView(withText(str_Discard)).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
+    onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     pressBack();
 
@@ -882,7 +876,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
@@ -893,7 +887,7 @@ public class RoutineTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withText("A")).perform(click());
 
@@ -931,7 +925,7 @@ public class RoutineTests {
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
 }

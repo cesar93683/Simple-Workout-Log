@@ -18,6 +18,7 @@ import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Biceps;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_History;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutA;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutB;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Yes;
 import static org.hamcrest.Matchers.allOf;
 
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -43,7 +44,7 @@ public class SettingsTests {
 
     onView(withId(R.id.import_default_items)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
@@ -77,11 +78,11 @@ public class SettingsTests {
 
     onView(withId(R.id.delete_all_items)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    onView(withText(ViewHelper.str_AlternatingDumbbellCurl)).check(doesNotExist());
+    onView(withText(str_AlternatingDumbbellCurl)).check(doesNotExist());
 
     onView(withId(R.id.nav_category)).perform(click());
 
@@ -95,7 +96,7 @@ public class SettingsTests {
 
     onView(withId(R.id.import_default_items)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
@@ -122,7 +123,7 @@ public class SettingsTests {
 
   @Test
   public void shouldBeAbleToDeleteAllWorkouts() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -136,11 +137,11 @@ public class SettingsTests {
 
     onView(withId(R.id.delete_all_workouts)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withContentDescription(str_History)).perform(click());
 
