@@ -71,14 +71,8 @@ public class RoutineTests {
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.text_view),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.recycler_view),
-                    3),
-                1)));
-    textView.check(matches(withText(str_AlternatingDumbbellCurl)));
+    onView(childAtPosition(childAtPosition(withId(R.id.recycler_view), 3), 1))
+        .check(matches(withText(str_AlternatingDumbbellCurl)));
   }
 
   private void rotateLandscape() {

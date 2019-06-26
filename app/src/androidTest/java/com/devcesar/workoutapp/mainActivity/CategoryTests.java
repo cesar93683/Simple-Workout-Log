@@ -101,14 +101,8 @@ public class CategoryTests {
 
     onView(withId(R.id.filter_edit_text)).check(matches(withText("sq")));
 
-    ViewInteraction textView = onView(
-        allOf(withId(R.id.text_view),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.recycler_view),
-                    0),
-                1)));
-    textView.check(matches(withText(str_BarbellBackSquat)));
+    onView(childAtPosition(childAtPosition(withId(R.id.recycler_view), 0),
+        1)).check(matches(withText(str_BarbellBackSquat)));
   }
 
   @Test

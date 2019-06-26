@@ -14,8 +14,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_DiscardChanges;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_History;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Yes;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -46,7 +49,7 @@ public class WorkoutTests {
 
   @Test
   public void shouldShowDiscardChangesDialogIfAddSetThenRotatedThenPressBack() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -79,7 +82,7 @@ public class WorkoutTests {
 
   @Test
   public void shouldKeepSetsAndSaveAfterRotating() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -95,7 +98,7 @@ public class WorkoutTests {
 
   @Test
   public void shouldKeepRepsAndWeightAfterRotating() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -112,7 +115,7 @@ public class WorkoutTests {
 
   @Test
   public void canAddWorkoutByClickingSaveInDiscardChangesDialog() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -120,34 +123,26 @@ public class WorkoutTests {
 
     pressBack();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withContentDescription(str_History)).perform(click());
-//todo
-    ViewInteraction linearLayout = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout.check(matches(isDisplayed()));
 
-    ViewInteraction linearLayout2 = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout2.perform(longClick());
+    onView(withId(R.id.history_list_item)).check(matches(isDisplayed()));
+
+    onView(withId(R.id.history_list_item)).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
   public void canAddWorkoutAndDeleteWorkout() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -159,48 +154,24 @@ public class WorkoutTests {
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withContentDescription(str_History)).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout.check(matches(isDisplayed()));
+    onView(withId(R.id.history_list_item)).check(matches(isDisplayed()));
 
-    ViewInteraction linearLayout2 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout2.perform(longClick());
+    onView(withId(R.id.history_list_item)).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
-    ViewInteraction linearLayout4 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout4.check(doesNotExist());
+    onView(withId(R.id.history_list_item)).check(doesNotExist());
   }
 
   @Test
   public void canEditWorkoutFromHistoryTab() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -212,19 +183,11 @@ public class WorkoutTests {
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withContentDescription(str_History)).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout.perform(longClick());
+    onView(withId(R.id.history_list_item)).perform(longClick());
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
@@ -236,46 +199,22 @@ public class WorkoutTests {
 
     onView(withId(R.id.finish_exercise_fab)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_container),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_container), 0))
+        .check(matches(withText("Set 1 - 1 Rep @ - LB")));
 
-    ViewInteraction textView2 = onView(
-        allOf(withText("Set 2 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_container),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        1)),
-                1),
-            isDisplayed()));
-    textView2.check(matches(withText("Set 2 - 1 Rep @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_container), 1))
+        .check(matches(withText("Set 2 - 1 Rep @ - LB")));
 
-    ViewInteraction linearLayout3 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout3.perform(longClick());
+    onView(withId(R.id.history_list_item)).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
   public void canSaveWorkoutFromHistoryTabByClickingSaveInDiscardChangesDialog() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -287,19 +226,11 @@ public class WorkoutTests {
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withContentDescription(str_History)).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout.perform(longClick());
+    onView(withId(R.id.history_list_item)).perform(longClick());
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
@@ -311,48 +242,24 @@ public class WorkoutTests {
 
     sleepFor2Seconds();
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_container),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_container), 0))
+        .check(matches(withText("Set 1 - 1 Rep @ - LB")));
 
-    ViewInteraction textView2 = onView(
-        allOf(withText("Set 2 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_container),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        1)),
-                1),
-            isDisplayed()));
-    textView2.check(matches(withText("Set 2 - 1 Rep @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_container), 1))
+        .check(matches(withText("Set 2 - 1 Rep @ - LB")));
 
-    ViewInteraction linearLayout3 = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    withId(R.id.coordinator_layout),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout3.perform(longClick());
+    onView(withId(R.id.history_list_item)).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
   }
 
   @Test
   public void canAddSet() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -360,113 +267,62 @@ public class WorkoutTests {
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 1 Rep @ 1 LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        3)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Set 1 - 1 Rep @ 1 LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_recycler_view), 0))
+        .check(matches(withText("Set 1 - 1 Rep @ 1 LB")));
   }
 
   @Test
   public void canAddSetWithNoWeight() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        3)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Set 1 - 1 Rep @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_recycler_view), 0))
+        .check(matches(withText("Set 1 - 1 Rep @ - LB")));
   }
 
   @Test
   public void canDeleteSet() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        withClassName(is("android.widget.LinearLayout")),
-                        3)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("Set 1 - 1 Rep @ - LB")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        3)),
-                0),
-            isDisplayed()));
-    textView.check(doesNotExist());
+    onView(withText("Set 1 - 1 Rep @ - LB")).check(doesNotExist());
   }
 
   @Test
   public void canModifySet() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
 
-    ViewInteraction appCompatTextView2 = onView(
-        allOf(withText("Set 1 - 1 Rep @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        withClassName(is("android.widget.LinearLayout")),
-                        3)),
-                0),
-            isDisplayed()));
-    appCompatTextView2.perform(longClick());
+    onView(withText("Set 1 - 1 Rep @ - LB")).perform(longClick());
 
     onView(withId(R.id.edit_linear_layout)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Set 1 - 2 Reps @ - LB"),
-            childAtPosition(
-                allOf(withId(R.id.exercise_sets_recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                        3)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Set 1 - 2 Reps @ - LB")));
+    onView(childAtPosition(withId(R.id.exercise_sets_recycler_view), 0))
+        .check(matches(withText("Set 1 - 2 Reps @ - LB")));
   }
 
   @Test
   public void givesErrorIfTryToAddSetWithRepsInputEmptyOrAtZero() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.add_set_button)).perform(click());
 
@@ -481,54 +337,22 @@ public class WorkoutTests {
 
   @Test
   public void setAndWeightInputIncrementAndDecrementProperly() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.decrease_rep_button)).perform(click());
 
-    ViewInteraction editText = onView(
-        allOf(withText("0"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.reps_text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText.check(matches(withText("0")));
+    onView(withId(R.id.reps_text_input_edit_text)).check(matches(withText("0")));
 
     onView(withId(R.id.increase_weight_button)).perform(click());
 
-    ViewInteraction editText2 = onView(
-        allOf(withText("1"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.weight_text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText2.check(matches(withText("1")));
+    onView(withId(R.id.weight_text_input_edit_text)).check(matches(withText("1")));
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
-    ViewInteraction editText3 = onView(
-        allOf(withText("1"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.reps_text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText3.check(matches(withText("1")));
+    onView(withId(R.id.reps_text_input_edit_text)).check(matches(withText("1")));
 
     onView(withId(R.id.decrease_weight_button)).perform(click());
 
-    ViewInteraction editText4 = onView(
-        allOf(withText("0"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.weight_text_input_layout),
-                    0),
-                0),
-            isDisplayed()));
-    editText4.check(matches(withText("0")));
+    onView(withId(R.id.weight_text_input_edit_text)).check(matches(withText("0")));
   }
 }
