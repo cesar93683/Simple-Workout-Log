@@ -14,6 +14,10 @@ class ViewHelper {
   static final String str_Yes = "Yes";
   static final String str_Strong5x5WorkoutA = "Strong 5x5 - Workout A";
   static final String str_Exercise = "Exercise";
+  static final String str_Back = "Back";
+  static final String str_BarbellRow = "Barbell Row";
+  static final String str_BarbellBackSquat = "Barbell Back Squat";
+  static final String str_BarbellBenchPress = "Barbell Bench Press";
 
   static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {

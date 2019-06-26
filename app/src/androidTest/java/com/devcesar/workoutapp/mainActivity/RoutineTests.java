@@ -217,16 +217,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -262,16 +253,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -341,16 +323,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -449,16 +422,7 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -574,16 +538,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -642,16 +597,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -749,16 +695,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -817,16 +754,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -953,16 +881,7 @@ public class RoutineTests {
             isDisplayed()));
     textView.check(matches(withText("A")));
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
@@ -979,16 +898,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -1076,16 +986,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -1174,16 +1075,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -1253,16 +1145,7 @@ public class RoutineTests {
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -1355,16 +1238,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -1453,16 +1327,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -1512,16 +1377,7 @@ public class RoutineTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText("A")).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
