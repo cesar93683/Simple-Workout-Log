@@ -15,6 +15,7 @@ import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDum
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Back;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBackSquat;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Biceps;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_History;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutA;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutB;
 import static org.hamcrest.Matchers.allOf;
@@ -141,7 +142,7 @@ public class SettingsTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    onView(withContentDescription("History")).perform(click());
+    onView(withContentDescription(str_History)).perform(click());
 
     onView(childAtPosition(withId(R.id.recycler_view), 0)).check(doesNotExist());
   }
