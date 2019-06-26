@@ -5,16 +5,15 @@ import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBackSquat;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Discard;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -22,7 +21,6 @@ import android.view.View;
 import android.widget.NumberPicker;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -46,7 +44,7 @@ public class TimerTests {
 
   @Test
   public void ifTimerStartedThenPausedThenRotatedTimerShouldKeepSameTimeAsBefore() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -79,7 +77,7 @@ public class TimerTests {
 
   @Test
   public void ifTimerRunningShouldContinueAfterRotate() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -94,61 +92,15 @@ public class TimerTests {
 
   @Test
   public void afterTimerIsDoneShouldReset() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(0);
-      }
+    onView(withId(R.id.minutesNumberPicker)).perform(setNumber(0));
 
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
+    onView(withId(R.id.secondsNumberPicker)).perform(setNumber(2));
 
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    ViewInteraction numberPicker2 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            2),
-            isDisplayed()));
-    numberPicker2.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(2);
-      }
-
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
-
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -162,18 +114,19 @@ public class TimerTests {
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker3 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker3.perform(new ViewAction() {
+    onView(withId(R.id.minutesNumberPicker)).perform(setNumber(2));
+
+    onView(withId(R.id.secondsNumberPicker)).perform(setNumber(0));
+
+    onView(ViewMatchers.withText(str_Save)).perform(click());
+  }
+
+  private ViewAction setNumber(int i) {
+    return new ViewAction() {
       @Override
       public void perform(UiController uiController, View view) {
         NumberPicker tp = (NumberPicker) view;
-        tp.setValue(2);
+        tp.setValue(i);
       }
 
       @Override
@@ -185,167 +138,39 @@ public class TimerTests {
       public Matcher<View> getConstraints() {
         return ViewMatchers.isAssignableFrom(NumberPicker.class);
       }
-    });
-
-    ViewInteraction numberPicker4 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            2),
-            isDisplayed()));
-    numberPicker4.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(0);
-      }
-
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
-
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    };
   }
 
   @Test
   public void ifTimerChangedShouldUpdateTimerForAllExercises() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(1);
-      }
+    onView(withId(R.id.minutesNumberPicker)).perform(setNumber(1));
 
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
+    onView(withId(R.id.secondsNumberPicker)).perform(setNumber(0));
 
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    ViewInteraction numberPicker2 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            2),
-            isDisplayed()));
-    numberPicker2.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(0);
-      }
-
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
-
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
     pressBack();
 
-    ViewInteraction appCompatTextView3 = onView(
-        allOf(withText("Barbell Back Squat"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                1),
-            isDisplayed()));
-    appCompatTextView3.perform(click());
+    onView(withText(str_BarbellBackSquat)).perform(click());
 
     onView(withId(R.id.timer_display)).check(matches(withText("1:00")));
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker3 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker3.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(2);
-      }
+    onView(withId(R.id.minutesNumberPicker)).perform(setNumber(2));
 
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
+    onView(withId(R.id.secondsNumberPicker)).perform(setNumber(0));
 
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    ViewInteraction numberPicker4 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            2),
-            isDisplayed()));
-    numberPicker4.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(0);
-      }
-
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
-
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    onView(withText("Save")).perform(click());
+    onView(withText(str_Save)).perform(click());
   }
 
   @Test
   public void canResetTimer() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -362,7 +187,7 @@ public class TimerTests {
 
   @Test
   public void canNotSetTimerWhileRunning() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -374,19 +199,12 @@ public class TimerTests {
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker.check(doesNotExist());
+    onView(withId(R.id.minutesNumberPicker)).check(doesNotExist());
   }
 
   @Test
   public void canPauseTimer() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -401,7 +219,7 @@ public class TimerTests {
 
   @Test
   public void timerIconChangesWhenStartedAndStopped() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -414,7 +232,7 @@ public class TimerTests {
 
   @Test
   public void canStartTimer() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_start_pause)).perform(click());
 
@@ -425,122 +243,30 @@ public class TimerTests {
 
   @Test
   public void canSetTimeInDialog() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(3);
-      }
+    onView(withId(R.id.minutesNumberPicker)).perform(setNumber(3));
 
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
+    onView(withId(R.id.secondsNumberPicker)).perform(setNumber(59));
 
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    ViewInteraction numberPicker2 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            2),
-            isDisplayed()));
-    numberPicker2.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(59);
-      }
-
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
-
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    onView(withText("Save")).perform(click());
+    onView(withText(str_Save)).perform(click());
 
     onView(withId(R.id.timer_display)).check(matches(withText("3:59")));
 
     onView(withId(R.id.timer_display)).perform(click());
 
-    ViewInteraction numberPicker3 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            0),
-            isDisplayed()));
-    numberPicker3.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(2);
-      }
+    onView(withId(R.id.minutesNumberPicker)).perform(setNumber(2));
 
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
+    onView(withId(R.id.secondsNumberPicker)).perform(setNumber(0));
 
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    ViewInteraction numberPicker4 = onView(
-        allOf(childAtPosition(
-            childAtPosition(
-                withId(R.id.custom),
-                0),
-            2),
-            isDisplayed()));
-    numberPicker4.perform(new ViewAction() {
-      @Override
-      public void perform(UiController uiController, View view) {
-        NumberPicker tp = (NumberPicker) view;
-        tp.setValue(0);
-      }
-
-      @Override
-      public String getDescription() {
-        return "Set the passed value into the NumberPicker";
-      }
-
-      @Override
-      public Matcher<View> getConstraints() {
-        return ViewMatchers.isAssignableFrom(NumberPicker.class);
-      }
-    });
-
-    onView(withText("Save")).perform(click());
+    onView(withText(str_Save)).perform(click());
   }
 
   @Test
   public void shouldSetTimeCorrectlyInDialog() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.timer_display)).perform(click());
 
@@ -551,7 +277,7 @@ public class TimerTests {
 
   @Test
   public void shouldNotAutoStartTimer() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -570,7 +296,7 @@ public class TimerTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
@@ -582,7 +308,7 @@ public class TimerTests {
 
     pressBack();
 
-    onView(withText("Discard")).perform(click());
+    onView(withText(str_Discard)).perform(click());
 
     sleepFor2Seconds();
 
@@ -592,7 +318,7 @@ public class TimerTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
     onView(withId(R.id.increase_rep_button)).perform(click());
 
