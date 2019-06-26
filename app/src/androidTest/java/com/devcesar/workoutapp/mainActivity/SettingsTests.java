@@ -11,15 +11,19 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Back;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_BarbellBackSquat;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Biceps;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutA;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Strong5x5WorkoutB;
 import static org.hamcrest.Matchers.allOf;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import com.devcesar.workoutapp.R;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,75 +46,28 @@ public class SettingsTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("Alternating Dumbbell Curl")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
+        .check(matches(withText(str_AlternatingDumbbellCurl)));
 
-    ViewInteraction textView2 = onView(
-        allOf(withText("Barbell Back Squat"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                1),
-            isDisplayed()));
-    textView2.check(matches(withText("Barbell Back Squat")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 1), isDisplayed()))
+        .check(matches(withText(str_BarbellBackSquat)));
 
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction textView3 = onView(
-        allOf(withText("Back"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView3.check(matches(withText("Back")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
+        .check(matches(withText(str_Back)));
 
-    ViewInteraction textView4 = onView(
-        allOf(withText("Biceps"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                1),
-            isDisplayed()));
-    textView4.check(matches(withText("Biceps")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 1), isDisplayed()))
+        .check(matches(withText(str_Biceps)));
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction textView5 = onView(
-        allOf(withText("Strong 5x5 - Workout A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView5.check(matches(withText("Strong 5x5 - Workout A")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
+        .check(matches(withText(str_Strong5x5WorkoutA)));
 
-    ViewInteraction textView6 = onView(
-        allOf(withText("Strong 5x5 - Workout B"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                1),
-            isDisplayed()));
-    textView6.check(matches(withText("Strong 5x5 - Workout B")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 1), isDisplayed()))
+        .check(matches(withText(str_Strong5x5WorkoutB)));
+
   }
 
   @Test
@@ -127,29 +84,11 @@ public class SettingsTests {
 
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction textView2 = onView(
-        allOf(withText("Back"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView2.check(doesNotExist());
+    onView(withText(str_Back)).check(doesNotExist());
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction textView3 = onView(
-        allOf(withText("Strong 5x5 - Workout A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView3.check(doesNotExist());
+    onView(withText(str_Strong5x5WorkoutA)).check(doesNotExist());
 
     onView(withId(R.id.nav_settings)).perform(click());
 
@@ -159,53 +98,25 @@ public class SettingsTests {
 
     onView(withId(R.id.nav_exercise)).perform(click());
 
-    ViewInteraction textView4 = onView(
-        allOf(withText("Alternating Dumbbell Curl"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView4.check(matches(withText("Alternating Dumbbell Curl")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
+        .check(matches(withText(str_AlternatingDumbbellCurl)));
 
     onView(withId(R.id.nav_category)).perform(click());
 
-    ViewInteraction textView5 = onView(
-        allOf(withText("Back"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView5.check(matches(withText("Back")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
+        .check(matches(withText(str_Back)));
 
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction textView6 = onView(
-        allOf(withText("Strong 5x5 - Workout A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.view.ViewGroup.class),
-                        1)),
-                0),
-            isDisplayed()));
-    textView6.check(matches(withText("Strong 5x5 - Workout A")));
+    onView(allOf(childAtPosition(withId(R.id.recycler_view), 0), isDisplayed()))
+        .check(matches(withText(str_Strong5x5WorkoutA)));
   }
 
   @Test
   public void canVisitSettingsTab() {
     onView(withId(R.id.nav_settings)).perform(click());
 
-    ViewInteraction textView = onView(
-        childAtPosition(
-            withId(R.id.action_bar),
-            0));
-    textView.check(matches(withText("Settings")));
+    onView(childAtPosition(withId(R.id.action_bar), 0)).check(matches(withText("Settings")));
   }
 
   @Test
@@ -230,25 +141,9 @@ public class SettingsTests {
 
     onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
 
-    ViewInteraction tabView = onView(
-        allOf(withContentDescription("History"),
-            childAtPosition(
-                childAtPosition(
-                    withId(R.id.tabs),
-                    0),
-                1),
-            isDisplayed()));
-    tabView.perform(click());
+    onView(withContentDescription("History")).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        allOf(childAtPosition(
-            allOf(withId(R.id.recycler_view),
-                childAtPosition(
-                    IsInstanceOf.instanceOf(android.widget.LinearLayout.class),
-                    0)),
-            0),
-            isDisplayed()));
-    linearLayout.check(doesNotExist());
+    onView(childAtPosition(withId(R.id.recycler_view), 0)).check(doesNotExist());
   }
 
 }
