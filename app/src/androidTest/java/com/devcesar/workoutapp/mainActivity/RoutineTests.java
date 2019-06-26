@@ -16,6 +16,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.sleepFor2Seconds;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -51,16 +52,7 @@ public class RoutineTests {
   public void shouldKeepNewExercisesAddedAfterAddingThemThenRotating() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("Strong 5x5 - Workout A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText(ViewHelper.str_Strong5x5WorkoutA)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
@@ -68,11 +60,7 @@ public class RoutineTests {
 
     onView(withId(R.id.fab_action1)).perform(click());
 
-    ViewInteraction linearLayout = onView(
-        childAtPosition(
-            withId(R.id.recycler_view),
-            0));
-    linearLayout.perform(click());
+    onView(withText(str_AlternatingDumbbellCurl)).perform(click());
 
     rotateLandscape();
 
@@ -81,13 +69,12 @@ public class RoutineTests {
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction textView = onView(
-        allOf(withId(R.id.text_view), withText("Alternating Dumbbell Curl"),
+        allOf(withId(R.id.text_view),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.recycler_view),
                     3),
-                1),
-            isDisplayed()));
+                1)));
     textView.check(matches(withText("Alternating Dumbbell Curl")));
   }
 
@@ -111,27 +98,17 @@ public class RoutineTests {
   public void shouldSaveNewOrderIfChangedOrderThenRotated() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("Strong 5x5 - Workout A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText(ViewHelper.str_Strong5x5WorkoutA)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction imageView = onView(
-        allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
+        allOf(withId(R.id.drag_image_view),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.recycler_view),
                     2),
-                0),
-            isDisplayed()));
+                0)));
     imageView.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
         view -> {
           float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
@@ -183,14 +160,12 @@ public class RoutineTests {
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 
     ViewInteraction imageView2 = onView(
-        allOf(withId(R.id.drag_image_view), withContentDescription("Drag Icon"),
+        allOf(withId(R.id.drag_image_view),
             childAtPosition(
                 childAtPosition(
                     withId(R.id.recycler_view),
                     0),
-                0),
-            isDisplayed()));
-
+                0)));
     imageView2.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
         view -> {
           float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
@@ -207,16 +182,7 @@ public class RoutineTests {
   public void shouldShowSaveChangesDialogIfModifiedThenRotatedThenPressBack() {
     onView(withId(R.id.nav_routine)).perform(click());
 
-    ViewInteraction appCompatTextView = onView(
-        allOf(withText("Strong 5x5 - Workout A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    appCompatTextView.perform(click());
+    onView(withText(ViewHelper.str_Strong5x5WorkoutA)).perform(click());
 
     onView(allOf(withId(R.id.fab), isDisplayed())).perform(click());
 

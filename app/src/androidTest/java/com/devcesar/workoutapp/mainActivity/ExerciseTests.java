@@ -8,14 +8,15 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.devcesar.workoutapp.mainActivity.ViewHelper.childAtPosition;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_AlternatingDumbbellCurl;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Exercise;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Save;
+import static com.devcesar.workoutapp.mainActivity.ViewHelper.str_Yes;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -35,19 +36,14 @@ public class ExerciseTests {
 
   @Test
   public void shouldGoToExerciseWhenClickingExercise() {
-    onView(ViewMatchers.withText(ViewHelper.str_AlternatingDumbbellCurl)).perform(click());
+    onView(ViewMatchers.withText(str_AlternatingDumbbellCurl)).perform(click());
 
-    onView(withId(R.id.title)).check(matches(withText(ViewHelper.str_AlternatingDumbbellCurl)));
+    onView(withId(R.id.title)).check(matches(withText(str_AlternatingDumbbellCurl)));
   }
 
   @Test
   public void shouldDefaultToExercise() {
-    ViewInteraction textView = onView(
-        childAtPosition(
-            withId(R.id.action_bar),
-            0)
-    );
-    textView.check(matches(withText("Exercise")));
+    onView(childAtPosition(withId(R.id.action_bar), 0)).check(matches(withText(str_Exercise)));
   }
 
   @Test
@@ -56,44 +52,17 @@ public class ExerciseTests {
 
     onView(withId(R.id.text_input_edit_text)).perform(replaceText("A"), closeSoftKeyboard());
 
-    onView(ViewMatchers.withText(ViewHelper.str_Save)).perform(click());
+    onView(ViewMatchers.withText(str_Save)).perform(click());
 
-    ViewInteraction textView = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView.check(matches(withText("A")));
+    onView(childAtPosition(withId(R.id.recycler_view), 0)).check(matches(withText("A")));
 
-    ViewInteraction textView2 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView2.perform(longClick());
+    onView(withText("A")).perform(longClick());
 
     onView(withId(R.id.delete_linear_layout)).perform(click());
 
-    onView(withText(ViewHelper.str_Yes)).perform(click());
+    onView(withText(str_Yes)).perform(click());
 
-    ViewInteraction textView3 = onView(
-        allOf(withText("A"),
-            childAtPosition(
-                allOf(withId(R.id.recycler_view),
-                    childAtPosition(
-                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                        1)),
-                0),
-            isDisplayed()));
-    textView3.check(doesNotExist());
+    onView(withText("A")).check(doesNotExist());
   }
 
 }

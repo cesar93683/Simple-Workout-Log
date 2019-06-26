@@ -1,18 +1,8 @@
 package com.devcesar.workoutapp.mainActivity;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import androidx.test.espresso.ViewInteraction;
-import com.devcesar.workoutapp.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -22,6 +12,8 @@ class ViewHelper {
   static final String str_AlternatingDumbbellCurl = "Alternating Dumbbell Curl";
   static final String str_Save = "Save";
   static final String str_Yes = "Yes";
+  static final String str_Strong5x5WorkoutA = "Strong 5x5 - Workout A";
+  static final String str_Exercise = "Exercise";
 
   static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {
