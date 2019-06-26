@@ -135,16 +135,20 @@ public class RoutineTests {
                     withId(R.id.recycler_view),
                     0),
                 0)));
-    imageView2.perform(new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-        view -> {
-          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
-          coordinates[1] = 1000;
-          return coordinates;
-        }, Press.FINGER));
+    imageView2.perform(dragDown());
 
     onView(withId(R.id.fab_expand_menu_button)).perform(click());
 
     onView(withId(R.id.fab_action2)).perform(click());
+  }
+
+  private GeneralSwipeAction dragDown() {
+    return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
+        view -> {
+          float[] coordinates = GeneralLocation.CENTER.calculateCoordinates(view);
+          coordinates[1] = 2000;
+          return coordinates;
+        }, Press.FINGER);
   }
 
   private GeneralSwipeAction dragUp() {
