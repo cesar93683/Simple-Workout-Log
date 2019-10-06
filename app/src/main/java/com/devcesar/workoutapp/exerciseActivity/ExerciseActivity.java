@@ -94,11 +94,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     timerStartPause = binding.timerStartPause;
     timerStartPause.setOnClickListener(view -> {
       if (timerHelper.isRunning()) {
-        timerHelper.cancel();
-        setIconToPlay();
+        pauseTimer();
       } else {
         startTimer();
-        setIconToStop();
       }
     });
 
@@ -138,6 +136,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
       }
     }
     updateTimeDisplay();
+  }
+
+  private void pauseTimer() {
+    timerHelper.pause();
+    setIconToPlay();
   }
 
   private void showSetTimeDialog() {
@@ -274,7 +277,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    timerHelper.cancel();
+    timerHelper.pause();
     cancelAllNotifications();
   }
 
@@ -345,11 +348,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     abstract public void onFinish();
 
     void resetTimer() {
-      cancel();
+      pause();
       timeLeft = startTime;
     }
 
-    void cancel() {
+    void pause() {
       if (countDownTimer != null) {
         countDownTimer.cancel();
         isTimerRunning = false;
