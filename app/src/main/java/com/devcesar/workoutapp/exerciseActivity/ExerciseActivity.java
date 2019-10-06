@@ -43,15 +43,12 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
   private static final String CHANNEL_ID = "Workout App";
   private static final String EXTRA_IS_TIMER_RUNNING = "EXTRA_IS_TIMER_RUNNING";
-  private static final String EXTRA_TIME_LEFT_IN_MILLIS = "EXTRA_TIME_LEFT_IN_MILLIS";
+  private static final String EXTRA_TIME_LEFT = "EXTRA_TIME_LEFT";
   private final int NOTIFICATION_TIMER_ID = 1;
-  private final int NOTIFICATION_TIMER_FINISHED_ID= 2;
+  private final int NOTIFICATION_TIMER_FINISHED_ID = 2;
   private final int EXERCISE_FRAGMENT_POSITION = 0;
+  private TimerHelper timerHelper;
   private boolean isShowingNotification;
-  private boolean isTimerRunning;
-  private int startTime;
-  private long timeLeftInMillis;
-  private CountDownTimer countDownTimer;
   private ImageView timerStartPause;
   private NamedEntity exercise;
   private NotificationCompat.Builder builder;
@@ -96,8 +93,8 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
     timerStartPause = binding.timerStartPause;
     timerStartPause.setOnClickListener(view -> {
-      if (isTimerRunning) {
-        pauseTimer();
+      if (timerHelper.isRunning()) {
+        timerHelper.cancel();
         setIconToPlay();
       } else {
         startTimer();
@@ -105,49 +102,15 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
       }
     });
 
-    startTime = PreferenceManager.getDefaultSharedPreferences(this)
+    int startTime = PreferenceManager.getDefaultSharedPreferences(this)
         .getInt(START_TIME, DEFAULT_START_TIME);
     isShowingNotification = false;
     notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
-    if (savedInstanceState == null) {
-      isTimerRunning = false;
-      timeLeftInMillis = startTime * 1000;
-    } else {
-      isTimerRunning = savedInstanceState.getBoolean(EXTRA_IS_TIMER_RUNNING);
-      timeLeftInMillis = savedInstanceState.getLong(EXTRA_TIME_LEFT_IN_MILLIS);
-      if (isTimerRunning) {
-        startTimer();
-      }
-    }
-    updateTimeDisplay();
-  }
+    timerHelper = new TimerHelper(startTime) {
 
-  private void resetTimer() {
-    if (countDownTimer == null) {
-      return;
-    }
-    timeLeftInMillis = startTime * 1000;
-    pauseTimer();
-    setIconToPlay();
-    updateTimeDisplay();
-  }
-
-  private void pauseTimer() {
-    countDownTimer.cancel();
-    isTimerRunning = false;
-  }
-
-  private void setIconToPlay() {
-    timerStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-    timerStartPause.setContentDescription(getString(R.string.play));
-  }
-
-  public void startTimer() {
-    countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
       @Override
-      public void onTick(long l) {
-        timeLeftInMillis = l;
+      public void onTick() {
         updateTimeDisplay();
         if (isShowingNotification) {
           builder.setContentText(getTimeString());
@@ -157,18 +120,91 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
       @Override
       public void onFinish() {
-        isTimerRunning = false;
         setIconToPlay();
-        timeLeftInMillis = startTime * 1000;
         updateTimeDisplay();
         if (isShowingNotification) {
           cancelAllNotifications();
           showTimerFinishedNotification();
         }
       }
-    }.start();
-    isTimerRunning = true;
+    };
+
+    if (savedInstanceState != null) {
+      boolean isTimerRunning = savedInstanceState.getBoolean(EXTRA_IS_TIMER_RUNNING);
+      int timeLeft = savedInstanceState.getInt(EXTRA_TIME_LEFT);
+      timerHelper.setTimeLeft(timeLeft);
+      if (isTimerRunning) {
+        startTimer();
+      }
+    }
+    updateTimeDisplay();
+  }
+
+  private void showSetTimeDialog() {
+    if (timerHelper.isTimerRunning) {
+      return;
+    }
+
+    final DialogSetTimerBinding dialogBinding = DataBindingUtil
+        .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
+
+    dialogBinding.secondsNumberPicker.setMinValue(0);
+    dialogBinding.minutesNumberPicker.setMinValue(0);
+    dialogBinding.secondsNumberPicker.setMaxValue(59);
+    dialogBinding.minutesNumberPicker.setMaxValue(59);
+
+    dialogBinding.secondsNumberPicker.setValue(timerHelper.startTime % 60);
+    dialogBinding.minutesNumberPicker.setValue(timerHelper.startTime / 60);
+
+    new Builder(this)
+        .setTitle(getString(R.string.set_timer))
+        .setNegativeButton(R.string.cancel, null)
+        .setPositiveButton(R.string.save, (dialogInterface, i) -> {
+          int seconds = dialogBinding.secondsNumberPicker.getValue();
+          int minutes = dialogBinding.minutesNumberPicker.getValue();
+          int startTime = minutes * 60 + seconds;
+          timerHelper.setStartTime(startTime);
+
+          PreferenceManager.getDefaultSharedPreferences(this)
+              .edit()
+              .putInt(START_TIME, startTime)
+              .apply();
+
+          updateTimeDisplay();
+        })
+        .setView(dialogBinding.getRoot())
+        .show();
+  }
+
+  private void resetTimer() {
+    timerHelper.resetTimer();
+    setIconToPlay();
+    updateTimeDisplay();
+  }
+
+  private void setIconToPlay() {
+    timerStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+    timerStartPause.setContentDescription(getString(R.string.play));
+  }
+
+  public void startTimer() {
+    timerHelper.startTimer();
     setIconToStop();
+  }
+
+  private void setIconToStop() {
+    timerStartPause.setImageResource(R.drawable.ic_stop_white_24dp);
+    timerStartPause.setContentDescription(getString(R.string.pause));
+  }
+
+  private void updateTimeDisplay() {
+    timerDisplay.setText(timerHelper.getTimeString());
+  }
+
+  private void cancelAllNotifications() {
+    NotificationManager notificationManager = (NotificationManager) getSystemService(
+        Context.NOTIFICATION_SERVICE);
+    notificationManager.cancelAll();
   }
 
   private void showTimerFinishedNotification() {
@@ -188,10 +224,22 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, timerFinishedBuilder.build());
   }
 
+  private void createNotificationChannel() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      CharSequence name = getString(R.string.channel_name);
+      String description = getString(R.string.channel_description);
+      int importance = NotificationManager.IMPORTANCE_LOW;
+      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+      channel.setDescription(description);
+      NotificationManager notificationManager = getSystemService(NotificationManager.class);
+      notificationManager.createNotificationChannel(channel);
+    }
+  }
+
   @Override
   protected void onStop() {
     super.onStop();
-    if (isTimerRunning) {
+    if (timerHelper.isRunning()) {
       showTimerNotification();
     }
   }
@@ -208,96 +256,26 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.time_left))
-        .setContentText(getTimeString())
+        .setContentText(timerHelper.getTimeString())
         .setContentIntent(pendingIntent);
 
     notificationManagerCompat.notify(NOTIFICATION_TIMER_ID, builder.build());
     isShowingNotification = true;
   }
 
-  private void createNotificationChannel() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = getString(R.string.channel_name);
-      String description = getString(R.string.channel_description);
-      int importance = NotificationManager.IMPORTANCE_LOW;
-      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-      channel.setDescription(description);
-      NotificationManager notificationManager = getSystemService(NotificationManager.class);
-      notificationManager.createNotificationChannel(channel);
-    }
-  }
-
-  private String getTimeString() {
-    int minutes = (int) (timeLeftInMillis / 1000) / 60;
-    int seconds = (int) (timeLeftInMillis / 1000) % 60;
-    return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
-  }
-
-  private void setIconToStop() {
-    timerStartPause.setImageResource(R.drawable.ic_stop_white_24dp);
-    timerStartPause.setContentDescription(getString(R.string.pause));
-  }
-
   @Override
   protected void onResume() {
     super.onResume();
+    updateTimeDisplay();
     cancelAllNotifications();
     isShowingNotification = false;
-  }
-
-  private void cancelAllNotifications() {
-    NotificationManager notificationManager = (NotificationManager) getSystemService(
-        Context.NOTIFICATION_SERVICE);
-    notificationManager.cancelAll();
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    if (countDownTimer != null) {
-      countDownTimer.cancel();
-    }
+    timerHelper.cancel();
     cancelAllNotifications();
-  }
-
-  private void showSetTimeDialog() {
-    if (isTimerRunning) {
-      return;
-    }
-
-    final DialogSetTimerBinding dialogBinding = DataBindingUtil
-        .inflate(LayoutInflater.from(this), R.layout.dialog_set_timer, null, false);
-
-    dialogBinding.secondsNumberPicker.setMinValue(0);
-    dialogBinding.minutesNumberPicker.setMinValue(0);
-    dialogBinding.secondsNumberPicker.setMaxValue(59);
-    dialogBinding.minutesNumberPicker.setMaxValue(59);
-
-    dialogBinding.secondsNumberPicker.setValue(startTime % 60);
-    dialogBinding.minutesNumberPicker.setValue(startTime / 60);
-
-    new Builder(this)
-        .setTitle(getString(R.string.set_timer))
-        .setNegativeButton(R.string.cancel, null)
-        .setPositiveButton(R.string.save, (dialogInterface, i) -> {
-          int seconds = dialogBinding.secondsNumberPicker.getValue();
-          int minutes = dialogBinding.minutesNumberPicker.getValue();
-          startTime = minutes * 60 + seconds;
-
-          PreferenceManager.getDefaultSharedPreferences(this)
-              .edit()
-              .putInt(START_TIME, startTime)
-              .apply();
-
-          timeLeftInMillis = startTime * 1000;
-          updateTimeDisplay();
-        })
-        .setView(dialogBinding.getRoot())
-        .show();
-  }
-
-  private void updateTimeDisplay() {
-    timerDisplay.setText(getTimeString());
   }
 
   @Override
@@ -318,8 +296,78 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putBoolean(EXTRA_IS_TIMER_RUNNING, isTimerRunning);
-    outState.putLong(EXTRA_TIME_LEFT_IN_MILLIS, timeLeftInMillis);
+    outState.putBoolean(EXTRA_IS_TIMER_RUNNING, timerHelper.isRunning());
+    outState.putInt(EXTRA_TIME_LEFT, timerHelper.getTimeLeft());
+  }
+
+  private abstract static class TimerHelper {
+
+    private boolean isTimerRunning = false;
+    private int startTime;
+    private int timeLeft;
+    private CountDownTimer countDownTimer;
+
+    TimerHelper(int startTime) {
+      this.startTime = startTime;
+      this.timeLeft = startTime;
+    }
+
+    String getTimeString() {
+      int minutes = timeLeft / 60;
+      int seconds = timeLeft % 60;
+      return String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
+    }
+
+    boolean isRunning() {
+      return isTimerRunning;
+    }
+
+    void startTimer() {
+      countDownTimer = new CountDownTimer(timeLeft * 1000, 1000) {
+        @Override
+        public void onTick(long l) {
+          timeLeft = (int) (l / 1000);
+          TimerHelper.this.onTick();
+        }
+
+        @Override
+        public void onFinish() {
+          timeLeft = startTime;
+          isTimerRunning = false;
+          TimerHelper.this.onFinish();
+        }
+      }.start();
+      isTimerRunning = true;
+    }
+
+    abstract public void onTick();
+
+    abstract public void onFinish();
+
+    void resetTimer() {
+      cancel();
+      timeLeft = startTime;
+    }
+
+    void cancel() {
+      if (countDownTimer != null) {
+        countDownTimer.cancel();
+        isTimerRunning = false;
+      }
+    }
+
+    int getTimeLeft() {
+      return timeLeft;
+    }
+
+    void setTimeLeft(int timeLeft) {
+      this.timeLeft = timeLeft;
+    }
+
+    void setStartTime(int startTime) {
+      this.startTime = startTime;
+      timeLeft = startTime;
+    }
   }
 
   class SectionsPagerAdapter extends FragmentPagerAdapter {

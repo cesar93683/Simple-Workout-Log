@@ -87,7 +87,7 @@ public class TimerTests {
 
     sleepFor2Seconds();
 
-    onView(withId(R.id.timer_display)).check(matches(withText("1:56")));
+    onView(withId(R.id.timer_display)).check(matches(withText("1:55")));
   }
 
   @Test
