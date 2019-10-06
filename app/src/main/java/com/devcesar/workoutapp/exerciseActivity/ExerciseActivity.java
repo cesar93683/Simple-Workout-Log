@@ -45,6 +45,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   private static final String EXTRA_IS_TIMER_RUNNING = "EXTRA_IS_TIMER_RUNNING";
   private static final String EXTRA_TIME_LEFT_IN_MILLIS = "EXTRA_TIME_LEFT_IN_MILLIS";
   private final int NOTIFICATION_TIMER_ID = 1;
+  private final int NOTIFICATION_TIMER_FINISHED_ID= 2;
   private final int EXERCISE_FRAGMENT_POSITION = 0;
   private boolean isShowingNotification;
   private boolean isTimerRunning;
@@ -174,21 +175,16 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     createNotificationChannel();
 
     Intent intent = new Intent(this, ExerciseActivity.class);
-    intent.setAction(Intent.ACTION_MAIN);
-    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
     NotificationCompat.Builder timerFinishedBuilder = new NotificationCompat.Builder(this,
         CHANNEL_ID)
-        .setVibrate(new long[]{0L})
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setContentTitle(getString(R.string.timer_finished))
-        .setContentIntent(pendingIntent)
-        .setAutoCancel(false);
+        .setContentIntent(pendingIntent);
 
-    int NOTIFICATION_TIMER_FINISHED_ID = 2;
     notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, timerFinishedBuilder.build());
   }
 
@@ -204,8 +200,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     createNotificationChannel();
 
     Intent intent = new Intent(this, ExerciseActivity.class);
-    intent.setAction(Intent.ACTION_MAIN);
-    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -214,8 +209,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.time_left))
         .setContentText(getTimeString())
-        .setContentIntent(pendingIntent)
-        .setOngoing(true);
+        .setContentIntent(pendingIntent);
 
     notificationManagerCompat.notify(NOTIFICATION_TIMER_ID, builder.build());
     isShowingNotification = true;
