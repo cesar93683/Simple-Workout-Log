@@ -179,7 +179,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
         .show();
   }
 
-  private void resetTimer() {
+  public void resetTimer() {
     timerHelper.resetTimer();
     setIconToPlay();
     updateTimeDisplay();

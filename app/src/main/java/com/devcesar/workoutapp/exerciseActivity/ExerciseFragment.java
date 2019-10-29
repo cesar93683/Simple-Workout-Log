@@ -181,6 +181,7 @@ public class ExerciseFragment extends Fragment {
     boolean shouldStartTimer = PreferenceManager.getDefaultSharedPreferences(getActivity())
         .getBoolean(SHOULD_AUTO_START_TIMER, false);
     if (!isEditing && shouldStartTimer) {
+      ((ExerciseActivity) (getActivity())).resetTimer();
       ((ExerciseActivity) (getActivity())).startTimer();
     }
     showSnackbar(getString(R.string.set_added));
