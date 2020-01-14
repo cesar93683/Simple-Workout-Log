@@ -3,6 +3,7 @@ package com.devcesar.workoutapp.exerciseActivity;
 import static com.devcesar.workoutapp.utils.Constants.DEFAULT_START_TIME;
 import static com.devcesar.workoutapp.utils.Constants.START_TIME;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -218,13 +219,15 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-    NotificationCompat.Builder timerFinishedBuilder = new NotificationCompat.Builder(this,
+    Notification timerFinishedNotification = new NotificationCompat.Builder(this,
         CHANNEL_ID)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.timer_finished))
-        .setContentIntent(pendingIntent);
+        .setContentIntent(pendingIntent)
+        .build();
 
-    notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, timerFinishedBuilder.build());
+    notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, timerFinishedNotification);
   }
 
   private void createNotificationChannel() {
