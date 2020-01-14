@@ -232,9 +232,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
   private void createNotificationChannel() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-          getString(R.string.channel_name), NotificationManager.IMPORTANCE_DEFAULT);
-      channel.setDescription(getString(R.string.channel_description));
+      CharSequence name = getString(R.string.channel_name);
+      String description = getString(R.string.channel_description);
+      int importance = NotificationManager.IMPORTANCE_DEFAULT;
+      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+      channel.setDescription(description);
 
       // next 2 lines disable vibration
       channel.setVibrationPattern(new long[]{0});
