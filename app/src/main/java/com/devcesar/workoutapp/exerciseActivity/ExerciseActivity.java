@@ -237,6 +237,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
       int importance = NotificationManager.IMPORTANCE_LOW;
       NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
       channel.setDescription(description);
+
+      // next 2 lines disable vibration
+      channel.setVibrationPattern(new long[]{0});
+      channel.enableVibration(true);
+
       NotificationManager notificationManager = getSystemService(NotificationManager.class);
       notificationManager.createNotificationChannel(channel);
     }
