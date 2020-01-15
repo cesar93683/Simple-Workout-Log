@@ -42,7 +42,8 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
 
   private static final String EXTRA_EXERCISE_NAME = "EXTRA_EXERCISE_NAME";
   private static final String EXTRA_EXERCISE_ID = "EXTRA_EXERCISE_ID";
-  private static final String CHANNEL_ID = "Workout App";
+  private static final String COUNTDOWN_TIMER_CHANNEL_ID = "Countdown Timer";
+  private static final String TIMER_FINISHED_CHANNEL_ID = "Timer Finished";
   private static final String EXTRA_IS_TIMER_RUNNING = "EXTRA_IS_TIMER_RUNNING";
   private static final String EXTRA_TIME_LEFT = "EXTRA_TIME_LEFT";
   private final int NOTIFICATION_TIMER_ID = 1;
@@ -212,7 +213,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
   }
 
   private void showTimerFinishedNotification() {
-    createNotificationChannel();
+    createNotificationChannels();
 
     Intent intent = new Intent(this, ExerciseActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -220,7 +221,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
     Notification timerFinishedNotification = new NotificationCompat.Builder(this,
-        CHANNEL_ID)
+        TIMER_FINISHED_CHANNEL_ID)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.timer_finished))
@@ -230,12 +231,18 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     notificationManagerCompat.notify(NOTIFICATION_TIMER_FINISHED_ID, timerFinishedNotification);
   }
 
-  private void createNotificationChannel() {
+  private void createNotificationChannels() {
+    createCountdownTimerNotificationChannel();
+    createTimerFinishedNotificationChannel();
+  }
+
+  private void createCountdownTimerNotificationChannel() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = getString(R.string.channel_name);
-      String description = getString(R.string.channel_description);
+      CharSequence name = getString(R.string.countdown_timer_channel_name);
+      String description = getString(R.string.countdown_timer_channel_description);
       int importance = NotificationManager.IMPORTANCE_DEFAULT;
-      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+      NotificationChannel channel = new NotificationChannel(COUNTDOWN_TIMER_CHANNEL_ID, name,
+          importance);
       channel.setDescription(description);
 
       // next 2 lines disable vibration
@@ -247,23 +254,37 @@ public class ExerciseActivity extends AppCompatActivity implements OnSaveSetsLis
     }
   }
 
+  private void createTimerFinishedNotificationChannel() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      CharSequence name = getString(R.string.timer_finished_channel_name);
+      String description = getString(R.string.timer_finished_channel_description);
+      int importance = NotificationManager.IMPORTANCE_DEFAULT;
+      NotificationChannel channel = new NotificationChannel(TIMER_FINISHED_CHANNEL_ID, name,
+          importance);
+      channel.setDescription(description);
+
+      NotificationManager notificationManager = getSystemService(NotificationManager.class);
+      notificationManager.createNotificationChannel(channel);
+    }
+  }
+
   @Override
   protected void onStop() {
     super.onStop();
     if (timerHelper.isRunning()) {
-      showTimerNotification();
+      showCountdownTimerNotification();
     }
   }
 
-  private void showTimerNotification() {
-    createNotificationChannel();
+  private void showCountdownTimerNotification() {
+    createNotificationChannels();
 
     Intent intent = new Intent(this, ExerciseActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-    builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+    builder = new NotificationCompat.Builder(this, COUNTDOWN_TIMER_CHANNEL_ID)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
         .setContentTitle(getString(R.string.time_left))
